@@ -1,0 +1,71 @@
+文件：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-230540-两种安装速用核对-主会话/日志/文档01-命令配置与交付摘要.log
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T23:07:34+0800
+命令：python3 '.harmony-build/速用文档/验证入口.py' static
+Shell/zsh 语法检查 18 段；TOML 解析 3 段；四份交付文件匹配，归档摘要正确。
+仅解析与文件摘要，不执行配置、认证、凭据读写或模型请求。
+
+结束时间：2026-10-02T23:07:34+0800
+退出码：0
+
+文件：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-230540-两种安装速用核对-主会话/日志/包装01-原文安装与命令路径.log
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T23:07:34+0800
+命令：python3 '.harmony-build/速用文档/验证入口.py' install
+
+鸿蒙Codex-0.0.0-harmony.bc1a10fa191c-未真机验证.tar.gz: OK
+bin/codex: OK
+codex-package.json: OK
+codex-path/rg: OK
+codex-resources/bwrap: OK
+安装.sh: OK
+安装说明.md: OK
+构建与签名记录.json: OK
+许可原文/搜索工具公共领域声明.txt: OK
+许可原文/搜索工具许可.txt: OK
+许可原文/搜索工具许可说明.txt: OK
+许可原文/权限库许可.txt: OK
+许可原文/沙箱工具许可.txt: OK
+许可原文/项目声明.txt: OK
+许可原文/项目许可.txt: OK
+bin/codex: OK
+codex-package.json: OK
+codex-path/rg: OK
+codex-resources/bwrap: OK
+安装.sh: OK
+安装说明.md: OK
+构建与签名记录.json: OK
+许可原文/搜索工具公共领域声明.txt: OK
+许可原文/搜索工具许可.txt: OK
+许可原文/搜索工具许可说明.txt: OK
+许可原文/权限库许可.txt: OK
+许可原文/沙箱工具许可.txt: OK
+许可原文/项目声明.txt: OK
+许可原文/项目许可.txt: OK
+
+文件安装与摘要检查完成；尚未验证鸿蒙设备的签名接受和运行能力。
+在当前终端执行以下命令，然后运行 codex --version：
+. '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-230540-两种安装速用核对-主会话/临时目录/用户 中文/应用工具/鸿蒙Codex/环境.sh'
+需要新终端也能找到 codex 时，将上面这一行添加到自己的 ~/.zshrc；不要覆盖已有内容。
+/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-230540-两种安装速用核对-主会话/临时目录/用户 中文/应用工具/鸿蒙Codex/bin/codex
+
+实际文档的共同安装与 PATH 段执行通过；清单中 14 个文件摘要及执行位一致。
+新 Shell 从模拟启动配置定位到： /Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-230540-两种安装速用核对-主会话/临时目录/用户 中文/应用工具/鸿蒙Codex/bin/codex
+没有执行鸿蒙 ELF、配置创建、登录或模型请求；HOME/CODEX_HOME 环境变量未修改。
+
+结束时间：2026-10-02T23:07:36+0800
+退出码：0
+
+文件：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-230540-两种安装速用核对-主会话/日志/文档02-全文链接与语法.log
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T23:07:36+0800
+命令：python3 'docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/证据/文档检查脚本.py'
+中文文档：86
+本地链接：702
+Shell 示例：58
+Python 示例：1
+TOML 示例：4
+文档静态检查通过；示例语法检查不会执行示例中的构建或安装命令。
+
+结束时间：2026-10-02T23:07:37+0800
+退出码：0
