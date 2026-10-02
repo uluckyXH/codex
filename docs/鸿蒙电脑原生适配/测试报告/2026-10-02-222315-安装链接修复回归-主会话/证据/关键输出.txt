@@ -1,3 +1,5 @@
+整理说明：摘录行尾空白已规范化；原始日志及摘要不变。
+
 脚本02-鸿蒙安装签名打包（节选；中间输出已省略，完整日志位置和摘要见执行摘要）
 1: 工作目录：/Volumes/MacSSD/Repositories/codex
 2: 开始时间：2026-10-02T22:23:15+0800
@@ -22,12 +24,12 @@
 29: test_manifest_rejects_escape_and_reserved_names_before_install (scripts.test_harmony_distribution.InstallerTests.test_manifest_rejects_escape_and_reserved_names_before_install) ... ok
 30: test_missing_resource_or_newline_prefix_is_rejected (scripts.test_harmony_distribution.InstallerTests.test_missing_resource_or_newline_prefix_is_rejected) ... ok
 31: test_unlisted_files_and_environment_symlink_are_not_copied (scripts.test_harmony_distribution.InstallerTests.test_unlisted_files_and_environment_symlink_are_not_copied) ... ok
-32: 
+32:
 33: ----------------------------------------------------------------------
 34: Ran 26 tests in 3.567s
-35: 
+35:
 36: OK
-37: 
+37:
 38: 结束时间：2026-10-02T22:23:19+0800
 39: 退出码：0
 
@@ -50,12 +52,12 @@
 29: test_verified_cache_needs_no_network (test_v8.FetchCodexV8ArtifactsTest.test_verified_cache_needs_no_network) ... ok
 30: test_uses_manifest_override (test_zsh.ResolveZshBinTest.test_uses_manifest_override) ... ok
 31: test_uses_prebuilt_executable_override (test_zsh.ResolveZshBinTest.test_uses_prebuilt_executable_override) ... ok
-32: 
+32:
 33: ----------------------------------------------------------------------
 34: Ran 28 tests in 0.057s
-35: 
+35:
 36: OK
-37: 
+37:
 38: 结束时间：2026-10-02T22:23:19+0800
 39: 退出码：0
 
@@ -64,7 +66,7 @@
 2: 开始时间：2026-10-02T22:23:19+0800
 3: 命令：'.harmony-build/工具/python/bin/ruff' check scripts/build_harmony.py scripts/build_harmony_helpers.py scripts/harmony_elf.py scripts/sign_harmony.py scripts/build_harmony_distribution.py scripts/test_harmony_distribution.py scripts/codex_package/cargo.py scripts/codex_package/layout.py scripts/codex_package/ripgrep.py scripts/codex_package/targets.py scripts/codex_package/zsh.py
 4: All checks passed!
-5: 
+5:
 6: 结束时间：2026-10-02T22:23:19+0800
 7: 退出码：0
 
@@ -73,7 +75,7 @@
 2: 开始时间：2026-10-02T22:23:19+0800
 3: 命令：'.harmony-build/工具/python/bin/ruff' format --check scripts/build_harmony.py scripts/build_harmony_helpers.py scripts/harmony_elf.py scripts/sign_harmony.py scripts/build_harmony_distribution.py scripts/test_harmony_distribution.py scripts/codex_package/cargo.py scripts/codex_package/layout.py scripts/codex_package/ripgrep.py scripts/codex_package/targets.py scripts/codex_package/zsh.py
 4: 11 files already formatted
-5: 
+5:
 6: 结束时间：2026-10-02T22:23:19+0800
 7: 退出码：0
 
@@ -81,6 +83,6 @@
 1: 工作目录：/Volumes/MacSSD/Repositories/codex
 2: 开始时间：2026-10-02T22:23:19+0800
 3: 命令：sh -n 'scripts/harmony/安装.sh'
-4: 
+4:
 5: 结束时间：2026-10-02T22:23:19+0800
 6: 退出码：0

@@ -1,3 +1,5 @@
+整理说明：摘录行尾空白已规范化；原始日志及摘要不变。
+
 交叉03-沙箱用例目标链接（节选；中间输出已省略，完整日志位置和摘要见执行摘要）
 1: 工作目录：/Volumes/MacSSD/Repositories/codex
 2: 开始时间：2026-10-02T21:45:17+0800
@@ -22,6 +24,6 @@
 8160:     Finished `test` profile [unoptimized + debuginfo] target(s) in 14m 15s
 8161:   Executable unittests src/lib.rs (.harmony-build/测试批次/2026-10-02-214408-沙箱目标用例链接补测-主会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/deps/codex_linux_sandbox-53e8d22b0263af27)
 8162:   Executable unittests src/lib.rs (.harmony-build/测试批次/2026-10-02-214408-沙箱目标用例链接补测-主会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/deps/codex_sandboxing-6e5836afd17802c0)
-8163: 
+8163:
 8164: 结束时间：2026-10-02T21:59:33+0800
 8165: 退出码：0

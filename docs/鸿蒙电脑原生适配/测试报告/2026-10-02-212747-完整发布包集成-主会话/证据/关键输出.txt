@@ -1,3 +1,5 @@
+整理说明：摘录行尾空白已规范化；原始日志及摘要不变。
+
 交叉02-最小原生探针（节选；中间输出已省略，完整日志位置和摘要见执行摘要）
 1: 工作目录：/Volumes/MacSSD/Repositories/codex
 2: 开始时间：2026-10-02T21:51:43+0800
@@ -22,7 +24,7 @@
 108:   0x0000000000000000 (NULL)         0x0
 109: probe 成功；产物与缓存目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/探针构建
 110: 此结果不代表已签名或通过鸿蒙 PC 真机验证。
-111: 
+111:
 112: 结束时间：2026-10-02T21:51:44+0800
 113: 退出码：0
 
@@ -31,7 +33,7 @@
 2: 开始时间：2026-10-02T21:51:44+0800
 3: 命令：python3 scripts/sign_harmony.py --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --java /opt/homebrew/opt/openjdk@17/bin/java --input '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/探针构建/harmony-rust-probe' --output '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/已签名最小原生探针' --record '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/最小探针签名记录.json'
 4: 签名与静态检查完成：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/已签名最小原生探针；商业 PC 加载待验证
-5: 
+5:
 6: 结束时间：2026-10-02T21:51:46+0800
 7: 退出码：0
 
@@ -53,7 +55,7 @@
 8403:    |
 8404: 17 | use codex_http_client::OutboundProxyPolicy;
 8405:    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-8406: 
+8406:
 8407: warning: `codex-cloud-tasks` (lib) generated 2 warnings (run `cargo fix --lib -p codex-cloud-tasks` to apply 2 suggestions)
 8408:    Compiling codex-tcp-tunnel v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/tcp-tunnel)
 8409:    Compiling codex-responses-api-proxy v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/responses-api-proxy)
@@ -67,6 +69,6 @@
 8417: 此结果不代表已签名或通过鸿蒙 PC 真机验证。
 8418: 执行：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-strip --strip-unneeded '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/target/aarch64-unknown-linux-ohos/release/codex' -o '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/发布产物/已签名/codex-未签名'
 8419: 候选包制作完成：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/发布产物/鸿蒙Codex-0.0.0-harmony.33af871558c7-未真机验证.tar.gz；商业鸿蒙 PC 运行待验收
-8420: 
+8420:
 8421: 结束时间：2026-10-02T22:21:46+0800
 8422: 退出码：0

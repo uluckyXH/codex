@@ -1,3 +1,5 @@
+整理说明：摘录行尾空白已规范化；原始日志及摘要不变。
+
 交叉05-完整发布包（节选；中间输出已省略，完整日志位置和摘要见执行摘要）
 1: 工作目录：/Volumes/MacSSD/Repositories/codex
 2: 开始时间：2026-10-02T22:25:16+0800
@@ -17,20 +19,20 @@
 7410:    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 7411:    |
 7412:    = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
-7413: 
+7413:
 7414: warning: unused import: `codex_http_client::OutboundProxyPolicy`
 7415:   --> cloud-tasks/src/lib.rs:17:5
 7416:    |
 7417: 17 | use codex_http_client::OutboundProxyPolicy;
 7418:    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-7419: 
+7419:
 7420: warning: `codex-cloud-tasks` (lib) generated 2 warnings (run `cargo fix --lib -p codex-cloud-tasks` to apply 2 suggestions)
 7421:     Finished `release` profile [optimized + debuginfo] target(s) in 2.83s
 7422: build 成功；产物与缓存目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译
 7423: 此结果不代表已签名或通过鸿蒙 PC 真机验证。
 7424: 执行：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-strip --strip-unneeded '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/target/aarch64-unknown-linux-ohos/release/codex' -o '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/发布产物/已签名/codex-未签名'
 7425: 候选包制作完成：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/发布产物/鸿蒙Codex-0.0.0-harmony.bc1a10fa191c-未真机验证.tar.gz；商业鸿蒙 PC 运行待验收
-7426: 
+7426:
 7427: 结束时间：2026-10-02T22:25:29+0800
 7428: 退出码：0
 
@@ -38,12 +40,12 @@
 1: 工作目录：/Volumes/MacSSD/Repositories/codex
 2: 开始时间：2026-10-02T22:26:22+0800
 3: 命令：python3 '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/验证目录包.py' '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话'
-4: 
+4:
 34: 文件安装与摘要检查完成；尚未验证鸿蒙设备的签名接受和运行能力。
 35: 在当前终端执行以下命令，然后运行 codex --version：
 36: . '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/模拟安装/中文 路径'\''字面$变量/环境.sh'
 37: 需要新终端也能找到 codex 时，将上面这一行添加到自己的 ~/.zshrc；不要覆盖已有内容。
-38: 
+38:
 39: {
 40:   "归档": {
 41:     "归档": "鸿蒙Codex-0.0.0-harmony.bc1a10fa191c-未真机验证.tar.gz",
@@ -58,6 +60,6 @@
 50:   "校验": "解包及安装前后所有清单文件摘要一致",
 51:   "边界": "仅 Mac 文件安装模拟、静态 ELF 与官方签名信息检查；未执行目标程序、CLI、设备探针或认证测试"
 52: }
-53: 
+53:
 54: 结束时间：2026-10-02T22:26:26+0800
 55: 退出码：0
