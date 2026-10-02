@@ -1,0 +1,26 @@
+{
+  "命令": [
+    "python3",
+    "scripts/build_harmony_distribution.py",
+    "helpers",
+    "--sdk",
+    "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native",
+    "--java",
+    "/opt/homebrew/opt/openjdk@17/bin/java",
+    "--source-cache",
+    ".harmony-build/第二阶段/源包",
+    "--output-dir",
+    ".harmony-build/七版发布/原生资源复测",
+    "--offline"
+  ],
+  "开始": "2026-10-03T03:01:12+08:00",
+  "结束": "2026-10-03T03:01:47+08:00",
+  "退出码": 0,
+  "主机": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "源码": "eebb6e99eb2b7021541ef3acb13666cd9521a43f",
+  "日志": ".harmony-build/七版发布/执行记录/辅助程序缓存定位后复测.log",
+  "日志字节数": 13952,
+  "日志摘要": "cb0bd950d25f00694671f2994d9dfbdf6858b884e310a01eea98ff2e78e5d118",
+  "并行编译数": 2,
+  "工具链与下载缓存": "外置盘 /Volumes/MacSSD/dev/rust；未运行目标程序"
+}
