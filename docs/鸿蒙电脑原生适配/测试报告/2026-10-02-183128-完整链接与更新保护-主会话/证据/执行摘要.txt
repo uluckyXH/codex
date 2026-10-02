@@ -1,0 +1,45 @@
+来源：本批原始日志。省略普通编译进度、重复依赖警告和长链接参数；没有改写结果。
+
+日志：.harmony-build/测试批次/2026-10-02-183128-完整链接与更新保护-主会话/日志/交叉02-完整程序.log
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T18:33:01+0800
+命令：python3 scripts/build_harmony.py build --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-183128-完整链接与更新保护-主会话/鸿蒙构建'
+error: linking with `/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-183128-完整链接与更新保护-主会话/鸿蒙构建/toolchain/ohos-clang` failed: exit status: 1
+  = note: ld.lld: error: undefined symbol: SSL_do_handshake
+          ld.lld: error: undefined symbol: SSL_read_ex
+          ld.lld: error: undefined symbol: SSL_set_bio
+          ld.lld: error: undefined symbol: SSL_connect
+          ld.lld: error: undefined symbol: SSL_shutdown
+          ld.lld: error: undefined symbol: SSL_write_ex
+          ld.lld: error: undefined symbol: BIO_meth_new
+          ld.lld: error: undefined symbol: BIO_meth_set_write
+          ld.lld: error: undefined symbol: BIO_meth_set_read
+          ld.lld: error: undefined symbol: BIO_meth_set_puts
+          ld.lld: error: undefined symbol: BIO_meth_set_ctrl
+          ld.lld: error: undefined symbol: BIO_meth_set_create
+          ld.lld: error: undefined symbol: BIO_meth_set_destroy
+          ld.lld: error: undefined symbol: BIO_new
+          ld.lld: error: undefined symbol: BIO_set_data
+          ld.lld: error: undefined symbol: BIO_set_init
+          ld.lld: error: undefined symbol: BIO_get_data
+          ld.lld: error: undefined symbol: SSL_CTX_use_PrivateKey
+          ld.lld: error: undefined symbol: SSL_free
+          ld.lld: error: undefined symbol: SSL_CTX_free
+          ld.lld: error: too many errors emitted, stopping now (use --error-limit=0 to see all errors)
+error: could not compile `codex-cli` (bin "codex") due to 1 previous error
+构建失败：Command '['/opt/homebrew/opt/rustup/bin/rustup', 'run', '1.95.0', 'cargo', 'build', '--locked', '--target', 'aarch64-unknown-linux-ohos', '--package', 'codex-cli']' returned non-zero exit status 101.
+结束时间：2026-10-02T18:40:38+0800
+退出码：1
+
+日志：.harmony-build/测试批次/2026-10-02-183128-完整链接与更新保护-主会话/日志/宿主01-安装平台识别.log
+工作目录：/Volumes/MacSSD/Repositories/codex/codex-rs
+开始时间：2026-10-02T18:33:01+0800
+命令：/opt/homebrew/opt/rustup/bin/rustup run 1.95.0 cargo test --locked -p codex-app-server-daemon --lib prepare_install::tests::packaged_target
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 6m 53s
+running 2 tests
+test prepare_install::tests::packaged_target_preserves_existing_platforms ... ok
+test prepare_install::tests::packaged_target_rejects_ohos_instead_of_selecting_linux_musl ... ok
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 77 filtered out; finished in 0.00s
+结束时间：2026-10-02T18:39:56+0800
+退出码：0
+

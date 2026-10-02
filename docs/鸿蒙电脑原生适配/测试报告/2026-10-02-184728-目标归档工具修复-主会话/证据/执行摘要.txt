@@ -1,0 +1,36 @@
+来源：本批日志；测试输出保留原始统计；目标只编译和链接，不执行。
+
+日志：.harmony-build/测试批次/2026-10-02-184728-目标归档工具修复-主会话/日志/交叉02-目标归档探针.log
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T18:48:22+0800
+命令：python3 '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-184728-目标归档工具修复-主会话/归档链接回归.py'
+执行：'/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-184728-目标归档工具修复-主会话/归档探针/toolchain/ohos-clang' -c '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-184728-目标归档工具修复-主会话/归档探针/库.c' -o '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-184728-目标归档工具修复-主会话/归档探针/库.o'
+执行：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-ar qc '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-184728-目标归档工具修复-主会话/归档探针/libprobe.a' '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-184728-目标归档工具修复-主会话/归档探针/库.o'
+执行：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-ranlib '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-184728-目标归档工具修复-主会话/归档探针/libprobe.a'
+执行：'/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-184728-目标归档工具修复-主会话/归档探针/toolchain/ohos-clang' '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-184728-目标归档工具修复-主会话/归档探针/入口.c' '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-184728-目标归档工具修复-主会话/归档探针/libprobe.a' -o '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-184728-目标归档工具修复-主会话/归档探针/归档链接探针'
+目标归档可用于 ELF64/AArch64 最终链接；未运行该探针。
+
+结束时间：2026-10-02T18:48:23+0800
+退出码：0
+
+日志：.harmony-build/测试批次/2026-10-02-184728-目标归档工具修复-主会话/日志/脚本01-构建环境.log
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T18:47:28+0800
+命令：python3 -m unittest discover -s scripts -p test_build_harmony.py -v
+test_accepts_sdk_version_and_native_directories (test_build_harmony.HarmonyBuildTests.test_accepts_sdk_version_and_native_directories) ... ok
+test_preserves_explicit_target_dependency_directories (test_build_harmony.HarmonyBuildTests.test_preserves_explicit_target_dependency_directories) ... ok
+test_preserves_host_compiler_and_isolates_target_pkg_config (test_build_harmony.HarmonyBuildTests.test_preserves_host_compiler_and_isolates_target_pkg_config) ... ok
+test_rejects_incomplete_sdk (test_build_harmony.HarmonyBuildTests.test_rejects_incomplete_sdk) ... ok
+test_rejects_sdk_without_target_archive_indexer (test_build_harmony.HarmonyBuildTests.test_rejects_sdk_without_target_archive_indexer) ... ok
+test_rejects_sdk_without_target_libraries (test_build_harmony.HarmonyBuildTests.test_rejects_sdk_without_target_libraries) ... ok
+test_uses_sdk_cmake_without_changing_host_toolchain (test_build_harmony.HarmonyBuildTests.test_uses_sdk_cmake_without_changing_host_toolchain) ... ok
+test_wrapper_preserves_arguments_and_quoted_paths (test_build_harmony.HarmonyBuildTests.test_wrapper_preserves_arguments_and_quoted_paths) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.683s
+
+OK
+
+结束时间：2026-10-02T18:47:29+0800
+退出码：0
+

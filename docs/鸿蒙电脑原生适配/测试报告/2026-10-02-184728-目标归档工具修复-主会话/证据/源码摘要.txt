@@ -1,0 +1,4 @@
+{
+  "scripts/build_harmony.py": "45c9280a0ecd5ff5d4d2598c2785ce28ee6aac50b5c674262fa7661cd147957b",
+  "scripts/test_build_harmony.py": "74bab30ca06b15062eedd87edfcc2a809cf5f2b2885fc48222d111a03eeacfe9"
+}

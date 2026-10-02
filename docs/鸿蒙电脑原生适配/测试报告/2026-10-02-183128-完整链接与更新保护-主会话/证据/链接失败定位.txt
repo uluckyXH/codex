@@ -1,0 +1,26 @@
+链接失败后的只读定位，未修改原构建缓存。
+cargo:rerun-if-env-changed=RANLIB_aarch64-unknown-linux-ohos
+RANLIB_aarch64-unknown-linux-ohos = None
+cargo:rerun-if-env-changed=RANLIB_aarch64_unknown_linux_ohos
+RANLIB_aarch64_unknown_linux_ohos = None
+cargo:rerun-if-env-changed=TARGET_RANLIB
+TARGET_RANLIB = None
+RANLIB = None
+cargo:rerun-if-env-changed=TARGET_RANLIBFLAGS
+TARGET_RANLIBFLAGS = None
+ranlib providers/liblegacy.a || echo Never mind.
+ranlib apps/libapps.a || echo Never mind.
+ranlib libssl.a || echo Never mind.
+ranlib providers/libcommon.a || echo Never mind.
+ranlib providers/libdefault.a || echo Never mind.
+ranlib providers/libtemplate.a || echo Never mind.
+ranlib libcrypto.a || echo Never mind.
+ranlib: warning: archive member '/' not a mach-o file
+ranlib: warning: archive member '/' not a mach-o file
+ranlib: warning: archive member '/' not a mach-o file
+ranlib: warning: archive member '/' not a mach-o file
+ranlib: warning: archive member '/' not a mach-o file
+ranlib: warning: archive member '/' not a mach-o file
+ranlib: warning: archive member '/' not a mach-o file
+libssl.a：96 字节；开头 b'!<arch>\n#1/20           1790937312  501   20    100644  28        `\n__.SYMDEF SORTED\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'
+libcrypto.a：96 字节；开头 b'!<arch>\n#1/20           1790937312  501   20    100644  28        `\n__.SYMDEF SORTED\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00'

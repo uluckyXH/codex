@@ -26,7 +26,7 @@ def native_sdk(path: Path) -> Path:
     for candidate in (path, path / "native", path / "openharmony/native"):
         if (candidate / "sysroot/usr/include/spawn.h").is_file():
             root = candidate.resolve()
-            for name in ("clang", "clang++", "llvm-ar", "llvm-readelf"):
+            for name in ("clang", "clang++", "llvm-ar", "llvm-ranlib", "llvm-readelf"):
                 tool = root / "llvm/bin" / name
                 if not tool.is_file() or not os.access(tool, os.X_OK):
                     raise ValueError(f"SDK 缺少可执行工具：{tool}")
@@ -57,7 +57,13 @@ def build_environment(sdk: Path, output: Path, base: dict[str, str]) -> dict[str
     write_wrapper(cxx, sdk / "llvm/bin/clang++", sdk)
     # 只设置目标专用变量，宿主的 build.rs、过程宏仍使用宿主编译器。
     env[f"CARGO_TARGET_{TARGET.replace('-', '_').upper()}_LINKER"] = str(cc)
-    for prefix, value in (("CC", cc), ("CXX", cxx), ("AR", sdk / "llvm/bin/llvm-ar")):
+    # OpenSSL 独立调用 ranlib；只指定 AR 会让 Mac ranlib 改写目标 ELF 归档。
+    for prefix, value in (
+        ("CC", cc),
+        ("CXX", cxx),
+        ("AR", sdk / "llvm/bin/llvm-ar"),
+        ("RANLIB", sdk / "llvm/bin/llvm-ranlib"),
+    ):
         for suffix in (TARGET, TARGET.replace("-", "_")):
             env[f"{prefix}_{suffix}"] = str(value)
     # aws-lc 等依赖把 OHOS_NDK_HOME 解释为含 native 的目录。

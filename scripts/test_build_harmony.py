@@ -22,7 +22,7 @@ class HarmonyBuildTests(unittest.TestCase):
         (self.sdk / "sysroot/usr/lib/aarch64-linux-ohos").mkdir(parents=True)
         (self.sdk / "sysroot/usr/lib/aarch64-linux-ohos/libc.so").touch()
         (self.sdk / "llvm/bin").mkdir(parents=True)
-        for name in ("clang", "clang++", "llvm-ar", "llvm-readelf"):
+        for name in ("clang", "clang++", "llvm-ar", "llvm-ranlib", "llvm-readelf"):
             path = self.sdk / "llvm/bin" / name
             path.write_text(
                 f"#!{sys.executable}\n"
@@ -43,6 +43,11 @@ class HarmonyBuildTests(unittest.TestCase):
     def test_rejects_sdk_without_target_libraries(self):
         (self.sdk / "sysroot/usr/lib/aarch64-linux-ohos/libc.so").unlink()
         with self.assertRaisesRegex(ValueError, "libc.so"):
+            native_sdk(self.sdk)
+
+    def test_rejects_sdk_without_target_archive_indexer(self):
+        (self.sdk / "llvm/bin/llvm-ranlib").unlink()
+        with self.assertRaisesRegex(ValueError, "llvm-ranlib"):
             native_sdk(self.sdk)
 
     def test_wrapper_preserves_arguments_and_quoted_paths(self):
@@ -67,6 +72,8 @@ class HarmonyBuildTests(unittest.TestCase):
         original = {
             "CC": "/host/clang",
             "CXX": "/host/clang++",
+            "AR": "/host/ar",
+            "RANLIB": "/host/ranlib",
             "PKG_CONFIG_PATH": "/host/packages",
             "PKG_CONFIG_LIBDIR": "/host/lib",
             "CARGO_TARGET_DIR": "/old/build",
@@ -75,6 +82,13 @@ class HarmonyBuildTests(unittest.TestCase):
         env = build_environment(self.sdk, output, original)
         self.assertEqual(env["CC"], "/host/clang")
         self.assertEqual(env["CXX"], "/host/clang++")
+        self.assertEqual(env["AR"], "/host/ar")
+        self.assertEqual(env["RANLIB"], "/host/ranlib")
+        for suffix in (TARGET, TARGET.replace("-", "_")):
+            self.assertEqual(env[f"AR_{suffix}"], str(self.sdk / "llvm/bin/llvm-ar"))
+            self.assertEqual(
+                env[f"RANLIB_{suffix}"], str(self.sdk / "llvm/bin/llvm-ranlib")
+            )
         self.assertEqual(env[f"PKG_CONFIG_PATH_{TARGET}"], "")
         self.assertNotIn("/host/", env[f"PKG_CONFIG_LIBDIR_{TARGET}"])
         self.assertEqual(env["CARGO_TARGET_DIR"], str(output / "target"))

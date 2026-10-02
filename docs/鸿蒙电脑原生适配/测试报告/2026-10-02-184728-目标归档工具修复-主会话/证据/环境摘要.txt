@@ -1,0 +1,9 @@
+{
+  "批次": "2026-10-02-184728-目标归档工具修复-主会话",
+  "被测HEAD": "a2577c41154fc3ba0e1ad186573b02a3c3d281b9",
+  "未提交源码": [
+    "scripts/build_harmony.py",
+    "scripts/test_build_harmony.py"
+  ],
+  "环境": "Python 3.14.7 / macOS arm64；模拟 SDK，临时文件位于外置盘；不执行登录"
+}
