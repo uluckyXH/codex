@@ -140,7 +140,7 @@ async fn detect() -> bool {
     rx.await.unwrap_or(false)
 }
 
-#[cfg(target_os = "linux")]
+#[cfg(all(target_os = "linux", not(target_env = "ohos")))]
 async fn detect() -> bool {
     let Ok(connection) = zbus::Connection::session().await else {
         return false;
@@ -179,7 +179,11 @@ async fn detect() -> bool {
     }
 }
 
-#[cfg(not(any(target_os = "macos", target_os = "linux", windows)))]
+#[cfg(not(any(
+    target_os = "macos",
+    all(target_os = "linux", not(target_env = "ohos")),
+    windows
+)))]
 async fn detect() -> bool {
     false
 }

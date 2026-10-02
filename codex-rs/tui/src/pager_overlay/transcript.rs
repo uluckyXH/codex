@@ -474,7 +474,7 @@ impl TranscriptOverlay {
                 });
             }
             ViewAction::OpenLink(url) => {
-                if let Err(error) = webbrowser::open(&url) {
+                if let Err(error) = crate::external_browser::open(&url) {
                     self.notice = Some(format!("Could not open link: {error}"));
                 }
             }

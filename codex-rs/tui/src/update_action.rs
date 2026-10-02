@@ -5,6 +5,13 @@ use codex_install_context::InstallMethod;
 #[cfg(any(not(debug_assertions), test))]
 use codex_install_context::StandalonePlatform;
 
+/// Upstream installers do not select a compatible HarmonyOS artifact.
+pub(crate) fn update_unavailable_reason() -> Option<&'static str> {
+    cfg!(target_env = "ohos").then_some(
+        "Updates are unavailable for this HarmonyOS build. Install a compatible HarmonyOS release manually.",
+    )
+}
+
 /// Update action the CLI should perform after the TUI exits.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum UpdateAction {
@@ -29,6 +36,20 @@ pub enum UpdateAction {
 impl UpdateAction {
     #[cfg(any(not(debug_assertions), test))]
     pub(crate) fn from_install_context(context: &InstallContext) -> Option<Self> {
+        Self::from_install_context_with_update_support(
+            context,
+            update_unavailable_reason().is_none(),
+        )
+    }
+
+    #[cfg(any(not(debug_assertions), test))]
+    fn from_install_context_with_update_support(
+        context: &InstallContext,
+        updates_supported: bool,
+    ) -> Option<Self> {
+        if !updates_supported {
+            return None;
+        }
         match &context.method {
             InstallMethod::Npm => Some(UpdateAction::NpmGlobalLatest),
             InstallMethod::Bun => Some(UpdateAction::BunGlobalLatest),
@@ -90,6 +111,7 @@ mod tests {
     use codex_utils_absolute_path::AbsolutePathBuf;
     use pretty_assertions::assert_eq;
 
+    #[cfg(not(target_env = "ohos"))]
     #[test]
     fn maps_install_context_to_update_action() {
         let native_release_dir =
@@ -153,6 +175,41 @@ mod tests {
             }),
             Some(UpdateAction::StandaloneWindows)
         );
+    }
+
+    #[test]
+    fn unsupported_platform_never_offers_an_upstream_installer() {
+        let release_dir = AbsolutePathBuf::from_absolute_path(std::env::temp_dir())
+            .expect("temp dir path should be absolute");
+        for method in [
+            InstallMethod::Npm,
+            InstallMethod::Bun,
+            InstallMethod::VitePlus,
+            InstallMethod::Pnpm,
+            InstallMethod::Brew,
+            InstallMethod::Standalone {
+                platform: StandalonePlatform::Unix,
+                release_dir: release_dir.clone(),
+                resources_dir: None,
+            },
+            InstallMethod::Standalone {
+                platform: StandalonePlatform::Windows,
+                release_dir,
+                resources_dir: None,
+            },
+            InstallMethod::Other,
+        ] {
+            assert_eq!(
+                UpdateAction::from_install_context_with_update_support(
+                    &InstallContext {
+                        method,
+                        package_layout: None,
+                    },
+                    /*updates_supported*/ false,
+                ),
+                None,
+            );
+        }
     }
 
     #[test]

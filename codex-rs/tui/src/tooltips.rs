@@ -112,7 +112,9 @@ fn linux_app_tooltip(session: LinuxDesktopSession) -> Option<&'static str> {
 }
 
 fn app_tooltip() -> Option<&'static str> {
-    if IS_MACOS {
+    if cfg!(target_env = "ohos") {
+        None
+    } else if IS_MACOS {
         Some(MACOS_APP_TOOLTIP)
     } else if IS_WINDOWS {
         Some(WINDOWS_APP_TOOLTIP)
@@ -240,6 +242,7 @@ pub(crate) mod announcement {
     #[derive(Debug, Deserialize, Copy, Clone, PartialEq, Eq)]
     #[serde(rename_all = "lowercase")]
     enum TargetOs {
+        Ohos,
         Linux,
         Macos,
         Windows,
@@ -249,7 +252,9 @@ pub(crate) mod announcement {
 
     impl TargetOs {
         const fn current() -> Self {
-            if cfg!(target_os = "macos") {
+            if cfg!(target_env = "ohos") {
+                Self::Ohos
+            } else if cfg!(target_os = "macos") {
                 Self::Macos
             } else if cfg!(target_os = "windows") {
                 Self::Windows
@@ -464,7 +469,10 @@ mod tests {
             .copied()
             .find(|tip| tip.contains("desktop app"));
 
-        if linux_app_tooltip(LinuxDesktopSession::current()).is_some() {
+        if cfg!(target_env = "ohos") {
+            assert_eq!(tooltip, None);
+            assert_eq!(app_tooltip(), None);
+        } else if linux_app_tooltip(LinuxDesktopSession::current()).is_some() {
             let tooltip = tooltip.expect("Linux should advertise the desktop app");
             assert_eq!(app_tooltip(), Some(tooltip));
         } else if IS_MACOS {
@@ -686,6 +694,10 @@ target_plan_types = ["prp"]
     fn announcement_tip_toml_matches_target_os() {
         let toml = r#"
 [[announcements]]
+content = "ohos announcement"
+target_oses = ["ohos"]
+
+[[announcements]]
 content = "linux announcement"
 target_oses = ["linux"]
 
@@ -698,7 +710,9 @@ content = "windows announcement"
 target_oses = ["windows"]
         "#;
 
-        let expected = if cfg!(target_os = "macos") {
+        let expected = if cfg!(target_env = "ohos") {
+            "ohos announcement"
+        } else if cfg!(target_os = "macos") {
             "macos announcement"
         } else if cfg!(target_os = "windows") {
             "windows announcement"

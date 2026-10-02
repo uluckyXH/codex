@@ -29,7 +29,10 @@ impl PasteEnvironment {
     pub(super) fn detect() -> Self {
         Self {
             primary: crate::clipboard_copy::primary::available(),
-            platform_default: cfg!(any(target_os = "windows", target_os = "linux")),
+            platform_default: cfg!(any(
+                target_os = "windows",
+                all(target_os = "linux", not(target_env = "ohos"))
+            )),
             ssh: crate::clipboard_copy::is_ssh_session(),
             wsl: crate::clipboard_copy::is_wsl_session(),
             vscode: tui::detect_vscode_terminal(),
@@ -42,7 +45,7 @@ impl PasteEnvironment {
         }
         match mode {
             RightClickPaste::Off => false,
-            RightClickPaste::On => !cfg!(target_os = "android"),
+            RightClickPaste::On => !cfg!(any(target_os = "android", target_env = "ohos")),
             RightClickPaste::Auto => {
                 self.platform_default && !(self.wsl && self.vscode == VscodeDetection::Unknown)
             }

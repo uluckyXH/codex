@@ -47,7 +47,7 @@ async fn detect() -> Option<MotionMode> {
     (success != 0).then(|| MotionMode::from_animations_enabled(enabled != 0))
 }
 
-#[cfg(target_os = "linux")]
+#[cfg(all(target_os = "linux", not(target_env = "ohos")))]
 async fn detect() -> Option<MotionMode> {
     // A missing or unresponsive session bus must not hold up terminal startup.
     tokio::time::timeout(std::time::Duration::from_millis(/*millis*/ 250), async {
@@ -77,7 +77,11 @@ async fn detect() -> Option<MotionMode> {
     .flatten()
 }
 
-#[cfg(not(any(target_os = "macos", target_os = "linux", windows)))]
+#[cfg(not(any(
+    target_os = "macos",
+    all(target_os = "linux", not(target_env = "ohos")),
+    windows
+)))]
 async fn detect() -> Option<MotionMode> {
     None
 }

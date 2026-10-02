@@ -39,6 +39,8 @@ impl App {
             Some(
                 "Manage this server on its host. Local daemon updates are unavailable for remote connections.",
             )
+        } else if let Some(reason) = crate::update_action::update_unavailable_reason() {
+            Some(reason)
         } else if self.daemon_cli_executable.is_none() {
             Some("Run the Codex CLI to manage the daemon from this menu.")
         } else {
@@ -86,6 +88,10 @@ impl App {
     }
 
     pub(super) fn confirm_daemon_update(&mut self, source: DaemonUpdateSource) {
+        if let Some(reason) = crate::update_action::update_unavailable_reason() {
+            self.chat_widget.add_error_message(reason.to_string());
+            return;
+        }
         let Some(executable) = &self.daemon_cli_executable else {
             return;
         };

@@ -95,10 +95,14 @@ fn copy_to_clipboard(
     begin_delivery: impl Fn() -> Result<(), String>,
     osc52: impl Fn(&str) -> Result<(), String>,
 ) -> Result<CopyOutcome, String> {
-    #[cfg(not(target_os = "android"))]
+    #[cfg(not(any(target_os = "android", target_env = "ohos")))]
     let native_copy = {
         let clipboard = arboard::Clipboard::new();
         move |text: &str, html: Option<&str>| arboard_copy(clipboard, text, html)
+    };
+    #[cfg(target_env = "ohos")]
+    let native_copy = |_text: &str, _html: Option<&str>| {
+        Err("native clipboard unavailable on HarmonyOS".to_string())
     };
     #[cfg(target_os = "android")]
     let native_copy = |_text: &str, _html: Option<&str>| {
@@ -131,12 +135,12 @@ fn copy_to_clipboard(
 /// paths the lease is `None` — those backends do not require process-lifetime
 /// ownership.
 pub(crate) struct ClipboardLease {
-    #[cfg(target_os = "linux")]
+    #[cfg(all(target_os = "linux", not(target_env = "ohos")))]
     _clipboard: Option<arboard::Clipboard>,
 }
 
 impl ClipboardLease {
-    #[cfg(target_os = "linux")]
+    #[cfg(all(target_os = "linux", not(target_env = "ohos")))]
     fn native_linux(clipboard: arboard::Clipboard) -> Self {
         Self {
             _clipboard: Some(clipboard),
@@ -146,7 +150,7 @@ impl ClipboardLease {
     #[cfg(test)]
     pub(crate) fn test() -> Self {
         Self {
-            #[cfg(target_os = "linux")]
+            #[cfg(all(target_os = "linux", not(target_env = "ohos")))]
             _clipboard: None,
         }
     }
@@ -232,18 +236,18 @@ fn is_tmux_session() -> bool {
     std::env::var_os("TMUX").is_some() || std::env::var_os("TMUX_PANE").is_some()
 }
 
-#[cfg(target_os = "linux")]
+#[cfg(all(target_os = "linux", not(target_env = "ohos")))]
 pub(crate) fn is_wsl_session() -> bool {
     crate::clipboard_paste::is_probably_wsl()
 }
 
-#[cfg(not(target_os = "linux"))]
+#[cfg(not(all(target_os = "linux", not(target_env = "ohos"))))]
 pub(crate) fn is_wsl_session() -> bool {
     false
 }
 
 /// Write to the native clipboard. The TUI owns any process-wide stderr redirection.
-#[cfg(not(target_os = "android"))]
+#[cfg(not(any(target_os = "android", target_env = "ohos")))]
 fn arboard_copy(
     clipboard: Result<arboard::Clipboard, arboard::Error>,
     text: &str,
@@ -258,18 +262,18 @@ fn arboard_copy(
     }
     .map_err(|e| format!("failed to set clipboard text: {e}"))?;
     // Linux clipboard owners must stay alive until the user pastes.
-    #[cfg(target_os = "linux")]
+    #[cfg(all(target_os = "linux", not(target_env = "ohos")))]
     {
         Ok(Some(ClipboardLease::native_linux(clipboard)))
     }
-    #[cfg(not(target_os = "linux"))]
+    #[cfg(not(all(target_os = "linux", not(target_env = "ohos"))))]
     {
         Ok(None)
     }
 }
 
 /// Copy text into the Windows clipboard from a WSL process.
-#[cfg(target_os = "linux")]
+#[cfg(all(target_os = "linux", not(target_env = "ohos")))]
 fn wsl_clipboard_copy(text: &str) -> Result<(), String> {
     let executable = codex_utils_path::system_executable("powershell.exe")
         .ok_or_else(|| "PowerShell is unavailable in the system PATH".to_string())?;
@@ -319,7 +323,7 @@ fn wsl_clipboard_copy(text: &str) -> Result<(), String> {
     }
 }
 
-#[cfg(not(target_os = "linux"))]
+#[cfg(not(all(target_os = "linux", not(target_env = "ohos"))))]
 fn wsl_clipboard_copy(_text: &str) -> Result<(), String> {
     Err("WSL clipboard fallback unavailable on this platform".to_string())
 }

@@ -62,6 +62,7 @@ async fn daemon_version_notice_preserves_manual_update_guidance() {
     ");
 }
 
+#[cfg(not(target_env = "ohos"))]
 #[tokio::test]
 async fn daemon_menu_is_read_only_and_confirmation_can_cancel_or_handoff() {
     let mut app = make_test_app().await;

@@ -6,7 +6,7 @@ fn policy_preserves_explicit_modes_and_terminal_ownership() {
     use VscodeDetection::Other;
     use VscodeDetection::Unknown;
     use VscodeDetection::VsCode;
-    for (platform_default, ssh, wsl, vscode, expected) in [
+    for (platform_default, ssh, wsl, vscode, mut expected) in [
         (true, false, false, Other, [false, true, true]),
         (false, false, false, Other, [false, true, false]),
         (true, true, false, Other, [false, false, false]),
@@ -14,6 +14,9 @@ fn policy_preserves_explicit_modes_and_terminal_ownership() {
         (true, false, true, Unknown, [false, true, false]),
         (true, false, true, Other, [false, true, true]),
     ] {
+        if cfg!(any(target_os = "android", target_env = "ohos")) {
+            expected[1] = false;
+        }
         let env = PasteEnvironment {
             primary: false,
             platform_default,

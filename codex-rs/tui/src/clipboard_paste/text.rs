@@ -8,7 +8,7 @@ pub(crate) fn read(deadline: Instant) -> Result<String, String> {
     if crate::clipboard_copy::is_ssh_session() {
         return Err("clipboard text is unavailable over SSH".into());
     }
-    #[cfg(target_os = "linux")]
+    #[cfg(all(target_os = "linux", not(target_env = "ohos")))]
     if super::is_probably_wsl() {
         let executable = codex_utils_path::system_executable("powershell.exe")
             .ok_or("Windows clipboard reader is unavailable")?;
@@ -21,12 +21,17 @@ pub(crate) fn read(deadline: Instant) -> Result<String, String> {
             .map_err(|_| "could not start clipboard reader")?
             .block_on(read_command(command, deadline));
     }
-    #[cfg(not(target_os = "android"))]
+    #[cfg(not(any(target_os = "android", target_env = "ohos")))]
     {
         native_result(
             arboard::Clipboard::new().and_then(|mut clipboard| clipboard.get_text()),
             deadline,
         )
+    }
+    #[cfg(target_env = "ohos")]
+    {
+        let _ = deadline;
+        Err("clipboard text is unavailable on HarmonyOS; use your terminal paste shortcut".into())
     }
     #[cfg(target_os = "android")]
     {
@@ -34,7 +39,7 @@ pub(crate) fn read(deadline: Instant) -> Result<String, String> {
     }
 }
 
-#[cfg(not(target_os = "android"))]
+#[cfg(not(any(target_os = "android", target_env = "ohos")))]
 pub(crate) fn native_result(
     result: Result<String, arboard::Error>,
     deadline: Instant,
@@ -57,7 +62,7 @@ fn validate(text: String, deadline: Instant) -> Result<String, String> {
     }
 }
 
-#[cfg(any(target_os = "linux", all(test, unix)))]
+#[cfg(any(all(target_os = "linux", not(target_env = "ohos")), all(test, unix)))]
 async fn read_command(
     mut command: tokio::process::Command,
     deadline: Instant,

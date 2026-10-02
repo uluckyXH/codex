@@ -4,6 +4,7 @@ pub(crate) mod text;
 
 use std::path::Path;
 use std::path::PathBuf;
+#[cfg(not(any(target_os = "android", target_env = "ohos")))]
 use tempfile::Builder;
 
 #[derive(Debug, Clone)]
@@ -51,7 +52,7 @@ pub struct PastedImageInfo {
 }
 
 /// Capture image from system clipboard, encode to PNG, and return bytes + info.
-#[cfg(not(target_os = "android"))]
+#[cfg(not(any(target_os = "android", target_env = "ohos")))]
 pub fn paste_image_as_png() -> Result<(Vec<u8>, PastedImageInfo), PasteImageError> {
     let _span = tracing::debug_span!("paste_image_as_png").entered();
     tracing::debug!("attempting clipboard image read");
@@ -120,8 +121,22 @@ pub fn paste_image_as_png() -> Result<(Vec<u8>, PastedImageInfo), PasteImageErro
     ))
 }
 
+#[cfg(target_env = "ohos")]
+pub fn paste_image_as_png() -> Result<(Vec<u8>, PastedImageInfo), PasteImageError> {
+    Err(PasteImageError::ClipboardUnavailable(
+        "clipboard image paste is unavailable on HarmonyOS; attach an image file by path".into(),
+    ))
+}
+
+#[cfg(target_env = "ohos")]
+pub fn paste_image_to_temp_png() -> Result<(PathBuf, PastedImageInfo), PasteImageError> {
+    Err(PasteImageError::ClipboardUnavailable(
+        "clipboard image paste is unavailable on HarmonyOS; attach an image file by path".into(),
+    ))
+}
+
 /// Convenience: write to a temp file and return its path + info.
-#[cfg(not(target_os = "android"))]
+#[cfg(not(any(target_os = "android", target_env = "ohos")))]
 pub fn paste_image_to_temp_png() -> Result<(PathBuf, PastedImageInfo), PasteImageError> {
     // First attempt: read image from system clipboard via arboard (native paths or image data).
     match paste_image_as_png() {
@@ -141,11 +156,11 @@ pub fn paste_image_to_temp_png() -> Result<(PathBuf, PastedImageInfo), PasteImag
             Ok((path, info))
         }
         Err(e) => {
-            #[cfg(target_os = "linux")]
+            #[cfg(all(target_os = "linux", not(target_env = "ohos")))]
             {
                 try_wsl_clipboard_fallback(&e).or(Err(e))
             }
-            #[cfg(not(target_os = "linux"))]
+            #[cfg(not(all(target_os = "linux", not(target_env = "ohos"))))]
             {
                 Err(e)
             }
@@ -159,7 +174,7 @@ pub fn paste_image_to_temp_png() -> Result<(PathBuf, PastedImageInfo), PasteImag
 /// the Windows clipboard), attempt a WSL fallback that calls PowerShell on the
 /// Windows side to write the clipboard image to a temporary file, then return
 /// the corresponding WSL path.
-#[cfg(target_os = "linux")]
+#[cfg(all(target_os = "linux", not(target_env = "ohos")))]
 fn try_wsl_clipboard_fallback(
     error: &PasteImageError,
 ) -> Result<(PathBuf, PastedImageInfo), PasteImageError> {
@@ -199,7 +214,7 @@ fn try_wsl_clipboard_fallback(
 /// Try to call a Windows PowerShell command (several common names) to save the
 /// clipboard image to a temporary PNG and return the Windows path to that file.
 /// Returns None if no command succeeded or no image was present.
-#[cfg(target_os = "linux")]
+#[cfg(all(target_os = "linux", not(target_env = "ohos")))]
 fn try_dump_windows_clipboard_image() -> Option<String> {
     // Powershell script: save image from clipboard to a temp png and print the path.
     // Force UTF-8 output to avoid encoding issues between powershell.exe (UTF-16LE default)
@@ -290,7 +305,12 @@ pub fn normalize_pasted_path(pasted: &str) -> Option<PathBuf> {
     None
 }
 
-#[cfg(target_os = "linux")]
+#[cfg(target_env = "ohos")]
+pub(crate) fn is_probably_wsl() -> bool {
+    false
+}
+
+#[cfg(all(target_os = "linux", not(target_env = "ohos")))]
 pub(crate) fn is_probably_wsl() -> bool {
     // Primary: Check /proc/version for "microsoft" or "WSL" (most reliable for standard WSL).
     if let Ok(version) = std::fs::read_to_string("/proc/version") {
@@ -306,7 +326,7 @@ pub(crate) fn is_probably_wsl() -> bool {
     std::env::var_os("WSL_DISTRO_NAME").is_some() || std::env::var_os("WSL_INTEROP").is_some()
 }
 
-#[cfg(target_os = "linux")]
+#[cfg(all(target_os = "linux", not(target_env = "ohos")))]
 fn convert_windows_path_to_wsl(input: &str) -> Option<PathBuf> {
     if input.starts_with("\\\\") {
         return None;
@@ -352,7 +372,7 @@ fn normalize_windows_path(input: &str) -> Option<PathBuf> {
         return None;
     }
 
-    #[cfg(target_os = "linux")]
+    #[cfg(all(target_os = "linux", not(target_env = "ohos")))]
     {
         if is_probably_wsl()
             && let Some(converted) = convert_windows_path_to_wsl(input)
@@ -407,7 +427,7 @@ mod pasted_paths_tests {
     fn normalize_file_url_windows() {
         let input = r"C:\Temp\example.png";
         let result = normalize_pasted_path(input).expect("should parse file URL");
-        #[cfg(target_os = "linux")]
+        #[cfg(all(target_os = "linux", not(target_env = "ohos")))]
         let expected = if is_probably_wsl()
             && let Some(converted) = convert_windows_path_to_wsl(input)
         {
@@ -415,7 +435,7 @@ mod pasted_paths_tests {
         } else {
             PathBuf::from(r"C:\Temp\example.png")
         };
-        #[cfg(not(target_os = "linux"))]
+        #[cfg(not(all(target_os = "linux", not(target_env = "ohos"))))]
         let expected = PathBuf::from(r"C:\Temp\example.png");
         assert_eq!(result, expected);
     }
@@ -479,7 +499,7 @@ mod pasted_paths_tests {
         let unquoted = r"C:\\Users\\Alice\\My File.jpeg";
         let result =
             normalize_pasted_path(input).expect("should trim single quotes on windows path");
-        #[cfg(target_os = "linux")]
+        #[cfg(all(target_os = "linux", not(target_env = "ohos")))]
         let expected = if is_probably_wsl()
             && let Some(converted) = convert_windows_path_to_wsl(unquoted)
         {
@@ -487,7 +507,7 @@ mod pasted_paths_tests {
         } else {
             PathBuf::from(unquoted)
         };
-        #[cfg(not(target_os = "linux"))]
+        #[cfg(not(all(target_os = "linux", not(target_env = "ohos"))))]
         let expected = PathBuf::from(unquoted);
         assert_eq!(result, expected);
     }
@@ -498,7 +518,7 @@ mod pasted_paths_tests {
         let unquoted = r"C:\\Users\\Alice\\My File.jpeg";
         let result =
             normalize_pasted_path(input).expect("should trim double quotes on windows path");
-        #[cfg(target_os = "linux")]
+        #[cfg(all(target_os = "linux", not(target_env = "ohos")))]
         let expected = if is_probably_wsl()
             && let Some(converted) = convert_windows_path_to_wsl(unquoted)
         {
@@ -506,7 +526,7 @@ mod pasted_paths_tests {
         } else {
             PathBuf::from(unquoted)
         };
-        #[cfg(not(target_os = "linux"))]
+        #[cfg(not(all(target_os = "linux", not(target_env = "ohos"))))]
         let expected = PathBuf::from(unquoted);
         assert_eq!(result, expected);
     }
@@ -515,7 +535,7 @@ mod pasted_paths_tests {
     fn normalize_unquoted_windows_path_with_spaces() {
         let input = r"C:\\Users\\Alice\\My Pictures\\example image.png";
         let result = normalize_pasted_path(input).expect("should accept unquoted windows path");
-        #[cfg(target_os = "linux")]
+        #[cfg(all(target_os = "linux", not(target_env = "ohos")))]
         let expected = if is_probably_wsl()
             && let Some(converted) = convert_windows_path_to_wsl(input)
         {
@@ -523,7 +543,7 @@ mod pasted_paths_tests {
         } else {
             PathBuf::from(r"C:\\Users\\Alice\\My Pictures\\example image.png")
         };
-        #[cfg(not(target_os = "linux"))]
+        #[cfg(not(all(target_os = "linux", not(target_env = "ohos"))))]
         let expected = PathBuf::from(r"C:\\Users\\Alice\\My Pictures\\example image.png");
         assert_eq!(result, expected);
     }
@@ -554,7 +574,7 @@ mod pasted_paths_tests {
         );
     }
 
-    #[cfg(target_os = "linux")]
+    #[cfg(all(target_os = "linux", not(target_env = "ohos")))]
     #[test]
     fn normalize_windows_path_in_wsl() {
         // This test only runs on actual WSL systems
