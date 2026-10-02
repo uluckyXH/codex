@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+"""仅缓存明确请求且 Cargo.lock 锁定的 crates.io 包；逐个核对 SHA256。"""
+from pathlib import Path
+import hashlib
+import json
+import os
+import subprocess
+import sys
+import tarfile
+import tomllib
+
+root=Path(__file__).resolve().parents[1]
+lock=tomllib.loads((root/'codex-rs/Cargo.lock').read_text())
+registry=Path('/Volumes/MacSSD/dev/rust/cargo/registry')
+index='index.crates.io-1949cf8c6b5b557f'
+output=root/'.harmony-build/锁定依赖补齐';output.mkdir(exist_ok=True)
+for requested in sys.argv[1:]:
+    name,version=requested.split('@')
+    entry=next(p for p in lock['package'] if p['name']==name and p['version']==version)
+    assert entry['source']=='registry+https://github.com/rust-lang/crates.io-index'
+    filename=f'{name}-{version}.crate';archive=output/filename
+    url=f'https://static.crates.io/crates/{name}/{filename}'
+    if not archive.exists():
+        subprocess.run(['curl','--fail','--location','--retry','2','--max-time','60','--output',str(archive),url],check=True)
+    digest=hashlib.sha256(archive.read_bytes()).hexdigest()
+    assert digest==entry['checksum'],(name,digest)
+    cache=registry/'cache'/index/filename
+    if cache.exists(): assert hashlib.sha256(cache.read_bytes()).hexdigest()==digest
+    else:
+        temporary=cache.with_suffix('.crate.codex-pc7-part')
+        temporary.write_bytes(archive.read_bytes());os.replace(temporary,cache)
+    source=registry/'src'/index/f'{name}-{version}'
+    if not (source/'.cargo-ok').exists():
+        # Equivalent registry source cache; reject links and paths outside this one package.
+        with tarfile.open(archive) as package:
+            for member in package.getmembers():
+                parts=Path(member.name).parts
+                assert parts and parts[0]==source.name and '..' not in parts and not Path(member.name).is_absolute()
+                assert member.isfile() or member.isdir(),member.name
+            package.extractall(source.parent,filter='data')
+        (source/'.cargo-checksum.json').write_text(json.dumps({'files':{},'package':digest}))
+        (source/'.cargo-ok').write_text('{"v":1}')
+    line=f'{requested}\t{url}\t{archive.stat().st_size}\t{digest}\n'
+    with (output/'下载记录.tsv').open('a') as stream:stream.write(line)
+    print(line,end='')
