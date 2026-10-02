@@ -102,6 +102,11 @@ pub enum RouteAwareRequestError {
 }
 
 impl RouteAwareRequestError {
+    /// Adds typed I/O and TLS causes without exposing URLs, headers or arbitrary error text.
+    pub fn connection_diagnostic_suffix(&self) -> String {
+        crate::connection_diagnostics::diagnostic_suffix(self)
+    }
+
     /// Classifies transport, proxy, and certificate failures without exposing request details.
     pub fn failure_class(&self) -> Option<RouteFailureClass> {
         if self.is_timeout() {

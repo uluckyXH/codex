@@ -22,7 +22,7 @@ pub enum TransportError {
     RetryLimit,
     #[error("timeout")]
     Timeout,
-    #[error("connection failed: {0}")]
+    #[error("connection failed: {0}{details}", details = .0.connection_diagnostic_suffix())]
     Connection(#[source] HttpError),
     #[error("network error: {0}")]
     Network(String),

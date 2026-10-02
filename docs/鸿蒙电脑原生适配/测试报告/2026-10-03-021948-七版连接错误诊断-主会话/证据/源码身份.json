@@ -1,0 +1,12 @@
+{
+  "基线": "6a2b889e71625dcea550587374640cea75a5f13e",
+  "范围": "连接错误类型与 errno 诊断；无凭据、登录或请求内容",
+  "文件摘要": {
+    "codex-rs/http-client/src/connection_diagnostics.rs": "257d89d54745cf4b919f71a1a622cac77987e8d37d2ade1d265a5705d356e5e8",
+    "codex-rs/http-client/src/route_aware_client_pool.rs": "939ce4894d6db5de733e2b876a3a2eaabdbc7a1f2c308ff41545f406a8a97b07",
+    "codex-rs/http-client/src/client.rs": "ac9152a06376f1ba50e74b510becf82a2b08facd832f0ce90df510b563360b74",
+    "codex-rs/http-client/src/error.rs": "24f2dc4cb218f558bc0d5a11b282745225068d49dab8df254cf1704b48608c04",
+    "codex-rs/http-client/src/lib.rs": "0f3ab984026a8c9f4e0de19725bd8f74a5616a25e50db15a686b3e6fb101ed65",
+    "codex-rs/response-debug-context/src/lib.rs": "c266256328b5ec1efa33b7e5a1b0a8284028085a23fdefd8fc7b8fec89351325"
+  }
+}

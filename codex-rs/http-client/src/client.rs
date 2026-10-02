@@ -189,6 +189,7 @@ impl TransportClient {
                 url = %url,
                 status = error.status().map(|status| status.as_u16()),
                 error = %error,
+                connection_details = %crate::connection_diagnostics::diagnostic_suffix(error),
                 "Request failed"
             );
         }
@@ -201,6 +202,7 @@ impl TransportClient {
                 status = error.status().map(|status| status.as_u16()),
                 is_timeout = error.is_timeout(),
                 is_connect = error.is_connect(),
+                connection_details = %crate::connection_diagnostics::diagnostic_suffix(error),
                 "Request failed"
             );
         }

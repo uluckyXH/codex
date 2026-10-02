@@ -63,7 +63,7 @@ pub fn telemetry_transport_error_message(error: &TransportError) -> String {
         TransportError::RetryLimit => "retry limit reached".to_string(),
         TransportError::ResponseTooLarge { .. } => "response body too large".to_string(),
         TransportError::Timeout => "timeout".to_string(),
-        TransportError::Connection(err) => err.to_string(),
+        TransportError::Connection(err) => format!("{err}{}", err.connection_diagnostic_suffix()),
         TransportError::Network(err) => err.to_string(),
         TransportError::Build(err) => err.to_string(),
         TransportError::Policy(denied) => denied.to_string(),

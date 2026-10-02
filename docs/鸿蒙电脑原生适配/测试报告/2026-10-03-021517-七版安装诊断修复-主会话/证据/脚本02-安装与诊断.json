@@ -1,0 +1,21 @@
+{
+  "命令": [
+    "python3",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "scripts",
+    "-p",
+    "test_harmony_distribution.py",
+    "-v"
+  ],
+  "开始": "2026-10-03T02:15:17+08:00",
+  "结束": "2026-10-03T02:15:20+08:00",
+  "退出码": 0,
+  "系统": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "编译缓存": "/Volumes/MacSSD/Repositories/codex/.harmony-build/target",
+  "缓存来源": "主会话既有缓存；与两个子工作副本分离",
+  "原始日志": ".harmony-build/测试批次/2026-10-03-021517-七版安装诊断修复-主会话/日志/脚本02-安装与诊断.log",
+  "日志摘要": "b6735d7ba3d10eec031fe3f843217dbe52536a0ceb675dadcee352fcb8433078"
+}

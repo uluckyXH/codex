@@ -1,0 +1,11 @@
+{
+  "基线": "6a2b889e71625dcea550587374640cea75a5f13e",
+  "范围": "含安装、终端配置与诊断包装补丁；用临时文件模拟安装，不执行 OHOS 程序或认证",
+  "文件摘要": {
+    "scripts/harmony/安装.sh": "f0f60e0cf91cb51d0dc00828e77c689e901ef90147380a772fecff88c5354d97",
+    "scripts/harmony/启用终端.sh": "963774c44f76e7e3f2ed16a53c2805e7b48c3f1d03e3a22a23ad08fc2cea5b31",
+    "scripts/harmony/诊断.sh": "431824bc8ee3eca2db31980ff59b84b3e9602d9f2d8f1cc5f1c587c1f8742345",
+    "scripts/build_harmony_distribution.py": "1de781e2219d5d49c15383c81a1c8790de8059b1e3e4277c3eb1b237b46453ac",
+    "scripts/test_harmony_distribution.py": "3fa0827a58f4834ac484a2f84bbce99bf14b0beaf59090a58c27c05435b16b34"
+  }
+}

@@ -206,17 +206,22 @@ def assemble(directory: Path, *, cli: Path, helpers: Path, version: str) -> None
     shutil.copytree(helpers / "许可原文", directory / "许可原文")
     shutil.copyfile(REPO_ROOT / "LICENSE", directory / "许可原文/项目许可.txt")
     shutil.copyfile(REPO_ROOT / "NOTICE", directory / "许可原文/项目声明.txt")
-    shutil.copyfile(REPO_ROOT / "scripts/harmony/安装.sh", directory / "安装.sh")
-    (directory / "安装.sh").chmod(0o755)
+    for script in ("安装.sh", "启用终端.sh", "诊断.sh"):
+        shutil.copyfile(REPO_ROOT / "scripts/harmony" / script, directory / script)
+        (directory / script).chmod(0o755)
     (directory / "安装说明.md").write_text(
         "# 鸿蒙 PC 原生候选包\n\n"
-        "本包为 ARM64 OHOS ELF，已用 SDK 官方工具自签名。尚无商业鸿蒙 PC 的运行验收；"
-        "Mac 的构建、签名和文件安装测试不代表设备可以加载。\n\n"
+        "本包为 ARM64 OHOS ELF，已用 SDK 官方工具自签名。旧包已有 PC 7.0 启动和显式 CA 后请求成功的用户反馈；"
+        "本次修复包的沙箱与编码闭环仍须真机验收。\n\n"
         "解压到新目录后执行：\n\n```sh\n"
         f'sh 安装.sh --prefix "$HOME/应用工具/鸿蒙Codex-{version}"\n'
         "```\n\n按安装输出加载环境.sh，再执行 `codex --version`、`codex --help`、"
-        "`codex doctor --capabilities`。永久 PATH 配置需要把输出的加载行添加到 ~/.zshrc。"
-        "安装脚本不修改用户配置、不运行 Codex。\n\n"
+        "`codex doctor --capabilities`。在安装目录执行 `sh 启用终端.sh`，"
+        "即可备份 ~/.zshrc 并更新专用启动块；重复执行不叠加，升级时更新为新版路径。"
+        "撤销用 `sh 启用终端.sh --remove`。安装脚本本身不修改用户配置、不运行 Codex。\n\n"
+        "默认读取鸿蒙系统 CA，仍支持 CODEX_CA_CERTIFICATE 和 SSL_CERT_FILE 覆盖。"
+        "遇到启动或工具问题，在安装目录运行 `sh 诊断.sh --sandbox`，"
+        "将生成本机检查摘要和受限 pwd 的实际退出码；不会调用模型或导出账号配置。\n\n"
         "保留整个目录：bin/codex、codex-path/rg、codex-resources/bwrap。"
         "任何 ELF 修改或重新签名都可能使摘要失效，必须重新制作整个包。\n\n"
         "Codex 使用原生 Shell；Git 和项目工具链由设备环境提供。"
@@ -250,6 +255,7 @@ def build_package(
     bwrap_digest = helper_record["程序"]["bwrap"]["输出"]["SHA-256"]
     env["CODEX_BWRAP_SHA256"] = bwrap_digest
     identity = source_identity()
+    env["CODEX_HARMONY_BUILD_ID"] = identity["提交"]
     build_dir = args.build_dir.resolve() if args.build_dir else output / "主程序编译"
     write_record(
         output / "构建输入.json",

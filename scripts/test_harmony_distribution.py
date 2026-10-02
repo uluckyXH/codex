@@ -272,7 +272,8 @@ class InstallerTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         self.package = self.root / "候选 包"
         self.package.mkdir()
-        shutil.copyfile(REPO_ROOT / "scripts/harmony/安装.sh", self.package / "安装.sh")
+        for name in ("安装.sh", "启用终端.sh", "诊断.sh"):
+            shutil.copyfile(REPO_ROOT / "scripts/harmony" / name, self.package / name)
         for name in ("bin/codex", "codex-path/rg", "codex-resources/bwrap"):
             path = self.package / name
             path.parent.mkdir()
@@ -319,6 +320,135 @@ class InstallerTests(unittest.TestCase):
         self.assertNotEqual(result.returncode, 0)
         self.assertEqual((prefix / "保留").read_text(), "original")
         self.assertEqual(len(list(prefix.iterdir())), 1)
+
+    def test_environment_can_be_sourced_repeatedly_without_path_growth(self):
+        prefix = self.root / "installed"
+        self.assertEqual(self.install(prefix).returncode, 0)
+        script = '. "$1"; first=$PATH; . "$1"; test "$first" = "$PATH"'
+        subprocess.run(["sh", "-c", script, "sh", str(prefix / "环境.sh")], check=True)
+
+    def activate(self, prefix: Path, rc_file: Path, *options: str):
+        return subprocess.run(
+            ["sh", str(prefix / "启用终端.sh"), "--rc-file", str(rc_file), *options],
+            text=True,
+            capture_output=True,
+        )
+
+    def test_activation_preserves_zsh_content_and_is_idempotent_and_reversible(self):
+        prefix = self.root / "中文 '$() 安装"
+        self.assertEqual(self.install(prefix).returncode, 0)
+        rc_file = self.root / "测试终端配置"
+        original = "# 原有配置\narray=(one two)\nsetopt INTERACTIVE_COMMENTS\n"
+        rc_file.write_text(original)
+        first = self.activate(prefix, rc_file)
+        self.assertEqual(first.returncode, 0, first.stderr)
+        activated = rc_file.read_text()
+        self.assertTrue(activated.startswith(original))
+        backups = list(self.root.glob("测试终端配置.鸿蒙Codex-*.bak"))
+        self.assertEqual(len(backups), 1)
+        self.assertEqual(backups[0].read_text(), original)
+        second = self.activate(prefix, rc_file)
+        self.assertEqual(second.returncode, 0, second.stderr)
+        self.assertEqual(rc_file.read_text(), activated)
+        self.assertEqual(len(list(self.root.glob("测试终端配置.鸿蒙Codex-*.bak"))), 1)
+        self.assertEqual(self.activate(prefix, rc_file, "--remove").returncode, 0)
+        self.assertEqual(rc_file.read_text(), original)
+
+    def test_activation_updates_to_new_install_and_does_not_duplicate_block(self):
+        old = self.root / "old-version"
+        new = self.root / "new-version"
+        self.assertEqual(self.install(old).returncode, 0)
+        self.assertEqual(self.install(new).returncode, 0)
+        rc_file = self.root / "测试终端配置"
+        self.assertEqual(self.activate(old, rc_file).returncode, 0)
+        self.assertEqual(self.activate(new, rc_file).returncode, 0)
+        content = rc_file.read_text()
+        self.assertNotIn(str(old), content)
+        self.assertIn(str(new), content)
+        self.assertEqual(content.count("# >>> 鸿蒙 Codex 环境 >>>"), 1)
+        path = subprocess.check_output(
+            ["zsh", "-f", "-c", '. "$1"; command -v codex', "zsh", str(rc_file)],
+            text=True,
+        ).strip()
+        self.assertEqual(path, str(new / "bin/codex"))
+
+    def test_activation_rejects_symlink_or_broken_markers_without_changing_original(self):
+        prefix = self.root / "installed"
+        self.assertEqual(self.install(prefix).returncode, 0)
+        original = self.root / "原文件"
+        original.write_text("# keep\n")
+        rc_file = self.root / "测试终端配置"
+        rc_file.symlink_to(original)
+        self.assertNotEqual(self.activate(prefix, rc_file).returncode, 0)
+        self.assertEqual(original.read_text(), "# keep\n")
+        rc_file.unlink()
+        for content in (
+            "# >>> 鸿蒙 Codex 环境 >>>\n# unfinished\n",
+            "# <<< 鸿蒙 Codex 环境 <<<\n",
+            "# >>> 鸿蒙 Codex 环境 >>>\n# <<< 鸿蒙 Codex 环境 <<<\n" * 2,
+            "unfinished=(\n",
+        ):
+            rc_file.write_text(content)
+            self.assertNotEqual(self.activate(prefix, rc_file).returncode, 0)
+            self.assertEqual(rc_file.read_text(), content)
+
+    def test_diagnostic_retains_failures_without_dumping_environment(self):
+        prefix = self.root / "installed"
+        self.assertEqual(self.install(prefix).returncode, 0)
+        output = self.root / "诊断输出"
+        env = dict(os.environ, HARMONY_TEST_PRIVATE="private-sentinel-do-not-export")
+        result = subprocess.run(
+            ["sh", str(prefix / "诊断.sh"), "--output-dir", str(output)],
+            env=env,
+            text=True,
+            capture_output=True,
+        )
+        self.assertNotEqual(result.returncode, 0)
+        summary = (output / "检查摘要.txt").read_text()
+        self.assertIn("版本：退出码 97", summary)
+        self.assertIn("包内沙箱版本：退出码 97", summary)
+        texts = "".join(p.read_text() for p in output.glob("*.txt"))
+        self.assertNotIn("private-sentinel-do-not-export", texts)
+        self.assertFalse((output / "受限终端.txt").exists())
+        again = subprocess.run(
+            ["sh", str(prefix / "诊断.sh"), "--output-dir", str(output)],
+            text=True,
+            capture_output=True,
+        )
+        self.assertNotEqual(again.returncode, 0)
+        self.assertEqual((output / "检查摘要.txt").read_text(), summary)
+
+    def test_diagnostic_sandbox_probe_preserves_policy_and_exit_159(self):
+        prefix = self.root / "installed"
+        self.assertEqual(self.install(prefix).returncode, 0)
+        # Executable fixture only; no real Codex, model or operating-system sandbox runs.
+        (prefix / "bin/codex").write_text("""#!/bin/sh
+case "$1" in
+    --version|doctor) exit 0 ;;
+    -c)
+        [ "$2" = 'sandbox_mode="read-only"' ] || exit 91
+        [ "$3" = sandbox ] && [ "$4" = -- ] || exit 92
+        case "$5" in /usr/bin/sh|/bin/sh) ;; *) exit 93 ;; esac
+        [ "$6" = -c ] && [ "$7" = pwd ] || exit 93
+        [ "$CODEX_HARMONY_PROCESS_DIAGNOSTICS" = 1 ] || exit 94
+        printf 'simulated exit 159\\n'
+        exit 159 ;;
+    *) exit 95 ;;
+esac
+""")
+        (prefix / "codex-resources/bwrap").write_text("#!/bin/sh\nexit 0\n")
+        write_checksums(prefix)
+        output = self.root / "沙箱诊断输出"
+        result = subprocess.run(
+            ["sh", str(prefix / "诊断.sh"), "--sandbox", "--output-dir", str(output)],
+            text=True,
+            capture_output=True,
+        )
+        self.assertNotEqual(result.returncode, 0)
+        summary = (output / "检查摘要.txt").read_text()
+        self.assertIn("普通终端：退出码 0", summary)
+        self.assertIn("受限终端：退出码 159", summary)
+        self.assertIn("simulated exit 159", (output / "受限终端.txt").read_text())
 
     def test_corrupted_package_never_creates_install_directory(self):
         (self.package / "codex-resources/bwrap").write_text("changed")

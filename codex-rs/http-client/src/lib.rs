@@ -3,6 +3,7 @@ mod chatgpt_hosts;
 mod client;
 mod client_builder;
 mod client_tls;
+mod connection_diagnostics;
 mod custom_ca;
 mod error;
 mod network_policy;
