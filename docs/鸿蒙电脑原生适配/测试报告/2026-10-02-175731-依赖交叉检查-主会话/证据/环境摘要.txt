@@ -1,0 +1,17 @@
+{
+  "批次": "2026-10-02-175731-依赖交叉检查-主会话",
+  "基线": "c699f82a4b4710248a2c1730d025ea711928a64d",
+  "工作区": "含未提交的 nix 0.28 OHOS ioctl 补丁与 Cargo 清单/锁变更",
+  "缓存": "从此前 .harmony-build/target 使用 APFS clone 建立独立写入副本",
+  "登录测试": "遵从用户要求未执行",
+  "Rust": "1.95.0 (59807616e 2026-04-14)",
+  "目标": "aarch64-unknown-linux-ohos",
+  "宿主测试目标": "aarch64-apple-darwin",
+  "SDK": "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native",
+  "SDK版本": "6.1.1.125 / API 24",
+  "并发": 2,
+  "Cargo网络": "离线",
+  "配置": "check 使用 dev；宿主使用 test；均为 --locked，默认包功能，不执行登录测试",
+  "宿主系统": "macOS 27.0.1",
+  "宿主架构": "arm64"
+}

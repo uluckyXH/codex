@@ -1,0 +1,14 @@
+SHA-256；源码基线 c699f82a4b4710248a2c1730d025ea711928a64d 加下列未提交文件。
+d9e69c9234e433f82d2b58362a4416b177ce15c996da79a40a73a8bd592dd2e0  codex-rs/Cargo.toml
+67fdc4222df94e6a43381f9fba9522d244560d2b44668df25cff6d45123431a7  codex-rs/Cargo.lock
+a7fa7e39cca58c58226f1c0bb91781faad4322af377f730f0dbd001834a267be  third_party/rust/nix-0.28.0/src/sys/ioctl/linux.rs
+4dcd5a56129f7ccaa0185add9fd4410a8ef9d58b78439be83eaf10411b349055  third_party/rust/nix-0.28.0/鸿蒙适配说明.md
+5a46da7a2166ec6cc61ce8551026df951f398898cabef1f32937fdcbc1c2c49a  scripts/build_harmony.py
+
+原始 nix 发布包 SHA-256：ab2156c4fce2f8df6c499cc1c763e4394b7482525bf2a9701c9d79d215f519e4
+复制的其他上游源文件已与本地注册表包逐字节核对一致；仅省略缓存元数据。
+
+原始日志摘要：
+3572a374c125d83c5f75e4ce02d9208683b16433adde92e5901c72c63d1d80bf  日志/交叉01-完整程序.log
+7e9a94dcb1bdc01fa4b06a6aafdef2b4cf96b37774157963a84e7ea18f4d4e41  日志/宿主01-执行策略.log
+ad2841dd9227743928c0614c7c8d9508aacba23e1f5e50d33c9d13a92a679d2a  日志/交叉01-执行策略依赖.log

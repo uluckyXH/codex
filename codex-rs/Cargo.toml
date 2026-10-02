@@ -641,6 +641,8 @@ inherits = "test"
 opt-level = 0
 
 [patch.crates-io]
+# nix 0.28 predates OHOS ioctl request typing; keep the compatibility fix local.
+nix_0_28 = { package = "nix", path = "../third_party/rust/nix-0.28.0" }
 # Uncomment to debug local changes.
 # ratatui = { path = "../../ratatui" }
 crossterm = { git = "https://github.com/openai-oss-forks/crossterm", rev = "efa177859fd9623d57b9fe7ae9bf491ae1ac6ec4" }

@@ -1,0 +1,140 @@
+本次实际执行摘要。原始日志在同批次 .harmony-build/测试批次 目录，仅本机可用。
+中间重复编译进度和旧依赖警告正文已省略，保留命令、结果和警告汇总。
+
+【交叉01-完整程序】
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T17:58:26+0800
+命令：python3 scripts/build_harmony.py check --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-175731-依赖交叉检查-主会话/鸿蒙构建'
+执行：/opt/homebrew/opt/rustup/bin/rustup run 1.95.0 rustc --version
+rustc 1.95.0 (59807616e 2026-04-14)
+执行：/opt/homebrew/opt/rustup/bin/rustup run 1.95.0 rustc --print cfg --target aarch64-unknown-linux-ohos
+SDK：{"apiVersion": "24", "displayName": "Native", "meta": {"metaVersion": "3.0.0"}, "path": "native", "releaseType": "Release", "version": "6.1.1.125"}
+执行：/opt/homebrew/opt/rustup/bin/rustup run 1.95.0 cargo check --locked --target aarch64-unknown-linux-ohos --package codex-cli
+warning: `nix` (lib) generated 580 warnings (run `cargo fix --lib -p nix` to apply 15 suggestions)
+    Checking rustyline v14.0.0
+    Checking codex-execpolicy v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/execpolicy)
+    Checking codex-login v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/login)
+    Checking tree_magic_mini v3.2.2
+    Checking async-lock v3.4.2
+   Compiling quinn v0.11.9
+    Checking tracing-error v0.2.1
+    Checking polling v3.11.0
+    Checking bincode v1.3.3
+    Checking os_pipe v1.2.3
+    Checking simdutf8 v0.1.5
+    Checking x11rb-protocol v0.13.2
+    Checking lru-slab v0.1.2
+    Checking rustc-demangle v0.1.27
+    Checking backtrace v0.3.76
+    Checking quinn-proto v0.11.15
+    Checking x11rb v0.13.2
+    Checking ansi-to-tui v8.0.1
+    Checking wl-clipboard-rs v0.9.3
+    Checking syntect v5.3.0
+    Checking async-fs v2.2.0
+    Checking ratatui v0.30.2
+    Checking codex-utils-oss v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/utils/oss)
+error[E0308]: mismatched types
+    --> /Volumes/MacSSD/dev/rust/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/nix-0.29.0/src/sys/socket/mod.rs:1415:32
+     |
+1415 |             (*cmsg).cmsg_len = self.cmsg_len();
+     |             ----------------   ^^^^^^^^^^^^^^^ expected `u32`, found `usize`
+     |             |
+     |             expected due to the type of this binding
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `nix` (lib) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+构建失败：Command '['/opt/homebrew/opt/rustup/bin/rustup', 'run', '1.95.0', 'cargo', 'check', '--locked', '--target', 'aarch64-unknown-linux-ohos', '--package', 'codex-cli']' returned non-zero exit status 101.
+
+结束时间：2026-10-02T18:02:02+0800
+退出码：1
+
+【宿主01-执行策略】
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T18:03:25+0800
+命令：env 'CARGO_TARGET_DIR=/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-175731-依赖交叉检查-主会话/宿主产物' 'TMPDIR=/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-175731-依赖交叉检查-主会话/鸿蒙构建/tmp' rustup run 1.95.0 cargo test --manifest-path codex-rs/Cargo.toml --locked --target aarch64-apple-darwin -p codex-execpolicy --lib
+warning: `nix` (lib) generated 553 warnings (run `cargo fix --lib -p nix` to apply 14 suggestions)
+   Compiling erased-serde v0.3.31
+   Compiling tokio-macros v2.7.0
+   Compiling diff v0.1.13
+   Compiling yansi v1.0.1
+   Compiling pin-project-lite v0.2.16
+   Compiling maplit v1.0.2
+   Compiling strsim v0.10.0
+   Compiling dunce v1.0.5
+   Compiling fastrand v2.3.0
+   Compiling bytes v1.12.1
+   Compiling cmp_any v0.8.1
+   Compiling tokio v1.52.3
+   Compiling tempfile v3.27.0
+   Compiling codex-utils-absolute-path v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/utils/absolute-path)
+   Compiling pretty_assertions v1.4.1
+   Compiling clap v4.5.58
+   Compiling multimap v0.10.1
+   Compiling codex-execpolicy v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/execpolicy)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 49.14s
+     Running unittests src/lib.rs (.harmony-build/测试批次/2026-10-02-175731-依赖交叉检查-主会话/宿主产物/aarch64-apple-darwin/debug/deps/codex_execpolicy-85e074758c742280)
+
+running 7 tests
+test amend::tests::rejects_wildcard_network_rule_host ... ok
+test amend::tests::appends_rule_and_creates_directories ... ok
+test amend::tests::appends_rule_without_duplicate_newline ... ok
+test amend::tests::inserts_newline_when_missing_before_append ... ok
+test amend::tests::appends_network_rule ... ok
+test amend::tests::appends_prefix_and_network_rules ... ok
+test sandbox_migration::tests::removes_banned_allow_rules_once ... ok
+
+test result: ok. 7 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+结束时间：2026-10-02T18:04:15+0800
+退出码：0
+
+【交叉01-执行策略依赖】
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T18:07:08+0800
+命令：python3 scripts/build_harmony.py check --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-175731-依赖交叉检查-主会话/鸿蒙构建' --package codex-execpolicy
+执行：/opt/homebrew/opt/rustup/bin/rustup run 1.95.0 rustc --version
+rustc 1.95.0 (59807616e 2026-04-14)
+执行：/opt/homebrew/opt/rustup/bin/rustup run 1.95.0 rustc --print cfg --target aarch64-unknown-linux-ohos
+SDK：{"apiVersion": "24", "displayName": "Native", "meta": {"metaVersion": "3.0.0"}, "path": "native", "releaseType": "Release", "version": "6.1.1.125"}
+执行：/opt/homebrew/opt/rustup/bin/rustup run 1.95.0 cargo check --locked --target aarch64-unknown-linux-ohos --package codex-execpolicy
+warning: `nix` (lib) generated 580 warnings (run `cargo fix --lib -p nix` to apply 15 suggestions)
+    Checking rustyline v14.0.0
+    Checking codex-execpolicy v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/execpolicy)
+    |                                    the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+    |
+181 |     pub(crate) fn get_libc_termios(&self) -> Ref<'_, libc::termios> {
+    |                                                  +++
+
+    Checking fd-lock v4.0.4
+   Compiling clap_derive v4.5.55
+    Checking schemars v0.8.22
+    Checking clap_builder v4.5.58
+    Checking display_container v0.9.0
+   Compiling starlark_derive v0.14.2
+    Checking starlark_syntax v0.14.2
+    Checking debugserver-types v0.5.0
+    Checking ts-rs v11.1.0
+    Checking erased-serde v0.3.31
+   Compiling tokio-macros v2.7.0
+    Checking fastrand v2.3.0
+    Checking tokio v1.52.3
+    Checking starlark v0.14.2
+    Checking tempfile v3.27.0
+    Checking codex-utils-absolute-path v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/utils/absolute-path)
+    Checking clap v4.5.58
+    Checking multimap v0.10.1
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 24.82s
+check 成功；产物与缓存目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-175731-依赖交叉检查-主会话/鸿蒙构建
+此结果不代表已签名或通过鸿蒙 PC 真机验证。
+
+结束时间：2026-10-02T18:07:33+0800
+退出码：0
+
+依赖定位命令：在 codex-rs 目录执行 rustup run 1.95.0 cargo tree --locked --target aarch64-unknown-linux-ohos -p codex-cli -i nix@0.29.0 -e normal,build（退出 0）。
+依赖链：nix 0.29.0 <- zbus 4.4.0 <- codex-tui <- codex-cli / codex-cloud-tasks。
