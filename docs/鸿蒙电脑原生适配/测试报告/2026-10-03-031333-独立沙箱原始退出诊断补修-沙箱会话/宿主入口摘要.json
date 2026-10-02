@@ -1,0 +1,33 @@
+{
+  "生产函数来源": "codex-rs/cli/src/debug_sandbox.rs",
+  "生产函数SHA256": "043c3592d8fea6eacb04f0cbff6c9e3bae5b60867ee0ceaad6ee6948cfda2b5f",
+  "源文件引用": {
+    "codex-rs/cli/src/exit_status.rs": "f2344dd67618220e6bddb780c4173009a4f8b0504ed12fc86d55edb4fc697e3c",
+    "codex-rs/utils/pty/src/diagnostics.rs": "ddea993beedfb310953c3e016140a910b311bb61e6f2091ff611099c6d17073e",
+    "codex-rs/cli/src/debug_sandbox/exit_status_tests.rs": "e89227ff1887b13e37eb67698110348f9620a74f1d66638c0ef5ca8dd23e5ed1"
+  },
+  "入口SHA256": "b38d00e253988e61ee00e7f870ae00b796954ef10aa0a403d6d909372b1ceb96",
+  "产物SHA256": "9d3dae8f86b9d4b486cd853ff32efa63861a29279742e7f113a4ec749da5f10c",
+  "命令": [
+    [
+      "rustup",
+      "run",
+      "1.95.0",
+      "rustc",
+      "--edition",
+      "2024",
+      "--test",
+      "--crate-name",
+      "sandbox_exit_regression",
+      "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-031333-独立沙箱原始退出诊断补修-沙箱会话/宿主产物/退出状态回归.rs",
+      "-o",
+      "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-031333-独立沙箱原始退出诊断补修-沙箱会话/宿主产物/退出状态回归"
+    ],
+    [
+      "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-031333-独立沙箱原始退出诊断补修-沙箱会话/宿主产物/退出状态回归",
+      "standalone_sandbox_exit_diagnostics_keep_native_status_and_redact_payloads",
+      "--nocapture"
+    ]
+  ],
+  "边界": "复用生产源码与仓库测试模块的独立宿主 harness；不执行完整 CLI、配置加载、认证或实际沙箱"
+}

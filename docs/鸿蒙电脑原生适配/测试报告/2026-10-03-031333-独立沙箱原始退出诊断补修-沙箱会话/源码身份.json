@@ -1,0 +1,16 @@
+{
+  "工作副本": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱",
+  "会话": "01a0fbd4-190e-7e72-bd10-9a6a73b235cc",
+  "HEAD": "eebb6e99eb2b7021541ef3acb13666cd9521a43f",
+  "分支": "codex/harmony-pc7-sandbox",
+  "状态": "含本轮尚未提交的3个产品/测试文件改动",
+  "文件SHA256": {
+    "codex-rs/cli/Cargo.toml": "c449a97b8104f846bd8430c073b7db529128feca83f5ae7e9f1e6c86da3395ee",
+    "codex-rs/cli/src/debug_sandbox.rs": "bb36aa25abc16b0f8ffa93e53afd601780864bbef7239a487f50f5c87a18b309",
+    "codex-rs/cli/src/debug_sandbox/exit_status_tests.rs": "e89227ff1887b13e37eb67698110348f9620a74f1d66638c0ef5ca8dd23e5ed1",
+    "codex-rs/cli/src/exit_status.rs": "f2344dd67618220e6bddb780c4173009a4f8b0504ed12fc86d55edb4fc697e3c",
+    "codex-rs/utils/pty/src/diagnostics.rs": "ddea993beedfb310953c3e016140a910b311bb61e6f2091ff611099c6d17073e",
+    "codex-rs/Cargo.toml": "d9e69c9234e433f82d2b58362a4416b177ce15c996da79a40a73a8bd592dd2e0",
+    "codex-rs/Cargo.lock": "440546ed535f3c725f7bcf8057eaa6ee7fbe30b4c2b60440ee8e9d7a3ac62259"
+  }
+}

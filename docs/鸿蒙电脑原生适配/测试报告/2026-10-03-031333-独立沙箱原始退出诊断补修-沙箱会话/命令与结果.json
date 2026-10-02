@@ -1,0 +1,91 @@
+[
+  {
+    "case": "文档00-Rust格式",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "rustfmt",
+      "--edition",
+      "2024",
+      "codex-rs/cli/src/debug_sandbox.rs",
+      "codex-rs/cli/src/debug_sandbox/exit_status_tests.rs"
+    ],
+    "ohos": false,
+    "started": "2026-10-03T03:14:20.980831+08:00",
+    "finished": "2026-10-03T03:14:21.049470+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-031333-独立沙箱原始退出诊断补修-沙箱会话/日志/文档00-Rust格式.log",
+    "日志SHA256": "f98cbac0b6ddb2d81088088b165bb29c873d09448f4a62dad4f7a32f6fe4ae84"
+  },
+  {
+    "case": "宿主01-实际退出与信号诊断",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱",
+    "command": [
+      "python3",
+      "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-031333-独立沙箱原始退出诊断补修-沙箱会话/独立宿主入口.py"
+    ],
+    "ohos": false,
+    "started": "2026-10-03T03:14:21.126687+08:00",
+    "finished": "2026-10-03T03:14:23.578977+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-031333-独立沙箱原始退出诊断补修-沙箱会话/日志/宿主01-实际退出与信号诊断.log",
+    "日志SHA256": "3101c55fd949fac071fb306f016e871b980ea0bae4b0207783e133a15e53dc9d"
+  },
+  {
+    "case": "交叉01-CLI退出诊断定向检查",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "cargo",
+      "check",
+      "--manifest-path",
+      "codex-rs/Cargo.toml",
+      "--locked",
+      "--offline",
+      "--target",
+      "aarch64-unknown-linux-ohos",
+      "-p",
+      "codex-cli",
+      "--lib"
+    ],
+    "ohos": true,
+    "started": "2026-10-03T03:14:48.180945+08:00",
+    "finished": "2026-10-03T03:19:13.171546+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-031333-独立沙箱原始退出诊断补修-沙箱会话/日志/交叉01-CLI退出诊断定向检查.log",
+    "日志SHA256": "d68a4018c4e0964cc992033d7c34fe1b97a135ebdfba7b82facbd7d0c72e3d7a"
+  },
+  {
+    "case": "文档01-中文文档与链接",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱",
+    "command": [
+      "python3",
+      "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/证据/文档检查脚本.py"
+    ],
+    "ohos": false,
+    "started": "2026-10-03T03:22:54.352152+08:00",
+    "finished": "2026-10-03T03:22:54.606721+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-031333-独立沙箱原始退出诊断补修-沙箱会话/日志/文档01-中文文档与链接.log",
+    "日志SHA256": "dd0130ac8029f6e0bf329e4104528620b9cfa13b2bce87de8ec01764b854bf2e"
+  },
+  {
+    "case": "文档01-差异格式",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱",
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "ohos": false,
+    "started": "2026-10-03T03:22:54.640836+08:00",
+    "finished": "2026-10-03T03:22:55.858760+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-031333-独立沙箱原始退出诊断补修-沙箱会话/日志/文档01-差异格式.log",
+    "日志SHA256": "21bc649539f8be3a8ecd04a496a18f88dfc2f18d66d32460148d9882d78942ee"
+  }
+]
