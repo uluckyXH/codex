@@ -38,6 +38,20 @@ pub fn system_bwrap_warning(permission_profile: &PermissionProfile) -> Option<St
     }
 
     let system_bwrap_path = find_system_bwrap_in_path();
+    #[cfg(target_env = "ohos")]
+    {
+        let bundled = packaged_bwrap_candidate(
+            codex_install_context::InstallContext::current(),
+            std::env::current_exe().ok().as_deref(),
+        );
+        harmony_bwrap_warning(
+            system_bwrap_path.as_deref(),
+            bundled.as_deref(),
+            |path| crate::probe::run(Command::new(path).arg("--help"), SYSTEM_BWRAP_PROBE_TIMEOUT),
+            |path| system_bwrap_user_namespace_probe(path, SYSTEM_BWRAP_PROBE_TIMEOUT),
+        )
+    }
+    #[cfg(not(target_env = "ohos"))]
     system_bwrap_warning_for_path(system_bwrap_path.as_deref())
 }
 
@@ -155,3 +169,96 @@ fn find_system_bwrap_in_search_paths(
 #[cfg(test)]
 #[path = "bwrap_tests.rs"]
 mod tests;
+
+/// Inspect candidates only. This never executes a package resource or bypasses
+/// the launcher's digest verification. Presence is not proof of usable sandboxing.
+#[cfg(target_os = "linux")]
+pub fn bwrap_resource_diagnostics() -> Vec<String> {
+    let system = find_system_bwrap_in_path();
+    let packaged = packaged_bwrap_candidate(
+        codex_install_context::InstallContext::current(),
+        std::env::current_exe().ok().as_deref(),
+    );
+    vec![
+        format!("bubblewrap PATH candidate: {}", candidate_label(system.as_deref())),
+        format!("bubblewrap packaged candidate: {}", candidate_label(packaged.as_deref())),
+        "bubblewrap selection: PATH candidate supporting --as-pid-1 and --perms first, otherwise packaged candidate; launcher checks packaged digest when configured".to_owned(),
+        "bubblewrap readiness: candidates inspected only; loading, namespaces, seccomp and package digest not verified by this report".to_owned(),
+    ]
+}
+
+fn candidate_label(path: Option<&Path>) -> String {
+    path.map(|path| path.display().to_string())
+        .unwrap_or_else(|| "not found".to_owned())
+}
+
+fn packaged_bwrap_candidate(
+    context: &codex_install_context::InstallContext,
+    exe: Option<&Path>,
+) -> Option<PathBuf> {
+    use std::os::unix::fs::PermissionsExt;
+    let package = context
+        .bundled_resource("bwrap")
+        .map(|path| path.into_path_buf());
+    // Match the ordinary on-disk launcher's package and legacy path order. Bazel
+    // runfiles are a build-system path, not part of the HarmonyOS install layout.
+    let mut candidates = package.into_iter().collect::<Vec<_>>();
+    if let Some(directory) = exe.and_then(Path::parent) {
+        candidates.push(directory.join("codex-resources/bwrap"));
+        if let Some(parent) = directory.parent() {
+            candidates.push(parent.join("codex-resources/bwrap"));
+        }
+        candidates.push(directory.join("bwrap"));
+    }
+    candidates.into_iter().find(|path| {
+        path.metadata()
+            .is_ok_and(|metadata| metadata.is_file() && metadata.permissions().mode() & 0o111 != 0)
+    })
+}
+
+#[cfg(any(target_env = "ohos", test))]
+fn harmony_bwrap_warning(
+    system: Option<&Path>,
+    packaged: Option<&Path>,
+    help_probe: impl FnOnce(&Path) -> std::io::Result<Output>,
+    namespace_probe: impl FnOnce(&Path) -> std::io::Result<Output>,
+) -> Option<String> {
+    let Some(system) = system else {
+        return packaged.is_none().then(|| "HarmonyOS sandbox: no executable bubblewrap candidate was found on PATH or in the Codex package. Repair the signed Codex package; restricted commands remain blocked until the sandbox works.".to_owned());
+    };
+    let capability_failure = match help_probe(system) {
+        Ok(output) if output.status.success() => {
+            let stdout = String::from_utf8_lossy(&output.stdout);
+            let stderr = String::from_utf8_lossy(&output.stderr);
+            ["--as-pid-1", "--perms"]
+                .iter()
+                .find(|flag| !stdout.contains(**flag) && !stderr.contains(**flag))
+                .map(|flag| format!("missing required capability {flag}"))
+        }
+        Ok(output) => Some(format!(
+            "capability probe failed: {}",
+            codex_utils_pty::describe_exit_status(output.status)
+        )),
+        Err(error) => Some(format!("capability probe could not run: {error}")),
+    };
+    if let Some(failure) = capability_failure {
+        return Some(format!(
+            "HarmonyOS sandbox: PATH bubblewrap {}: {failure}. Packaged candidate: {} (loading, digest and namespace support unverified). Restricted execution still requires a working sandbox.",
+            system.display(),
+            candidate_label(packaged)
+        ));
+    }
+    match namespace_probe(system) {
+        Ok(output) if output.status.success() => None,
+        Ok(output) => Some(format!(
+            "HarmonyOS sandbox: selected PATH bubblewrap {} passed the capability probe but its namespace probe failed: {}; {}. Restricted execution still requires a working sandbox.",
+            system.display(),
+            codex_utils_pty::describe_exit_status(output.status),
+            String::from_utf8_lossy(&output.stderr).trim()
+        )),
+        Err(error) => Some(format!(
+            "HarmonyOS sandbox: selected PATH bubblewrap {} passed the capability probe but its namespace probe could not run: {error}. Restricted execution still requires a working sandbox.",
+            system.display()
+        )),
+    }
+}

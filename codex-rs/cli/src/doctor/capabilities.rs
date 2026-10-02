@@ -13,6 +13,8 @@ pub(super) fn capabilities_check() -> DoctorCheck {
             details.push(format!("features.{}: unavailable; {reason}", spec.key));
         }
     }
+    #[cfg(target_env = "ohos")]
+    details.extend(codex_sandboxing::bwrap_resource_diagnostics());
     if cfg!(target_env = "ohos") {
         let shell = codex_core::shell::default_user_shell();
         details.push(format!(
@@ -57,7 +59,7 @@ pub(super) fn report() -> DoctorReport {
             .map(|check| check.status)
             .max()
             .unwrap_or(CheckStatus::Ok),
-        codex_version: env!("CARGO_PKG_VERSION").to_owned(),
+        codex_version: crate::harmony_build::cli_version().to_owned(),
         checks,
     }
 }

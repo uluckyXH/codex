@@ -23,19 +23,38 @@ use super::push_path_detail;
 pub(super) fn runtime_check() -> DoctorCheck {
     let current_exe = env::current_exe().ok();
     let install_context = doctor_install_context(current_exe.as_deref());
-    let os = env::consts::OS;
+    let os = if cfg!(target_env = "ohos") {
+        "harmonyos"
+    } else {
+        env::consts::OS
+    };
     let arch = env::consts::ARCH;
     let platform = format!("{os}-{arch}");
     let install_method = install_method_name(&install_context);
     let mut details = vec![
         format!("version: {}", env!("CARGO_PKG_VERSION")),
         format!("platform: {platform}"),
+        format!("build target: {}", crate::harmony_build::target()),
         format!(
             "install method: {}",
             describe_install_context(&install_context)
         ),
         format!("commit: {}", build_commit()),
     ];
+    if cfg!(target_env = "ohos") {
+        details.push(format!(
+            "HarmonyOS build ID: {}",
+            crate::harmony_build::build_id()
+        ));
+        details.push(format!(
+            "package version: {}",
+            install_context
+                .package_manifest()
+                .map(|manifest| manifest.version.to_string())
+                .unwrap_or_else(|| "unknown".to_owned())
+        ));
+        details.push("process diagnostics: set CODEX_HARMONY_PROCESS_DIAGNOSTICS=1; collect stderr; stages and native wait status only".to_owned());
+    }
     push_path_detail(&mut details, "current executable", current_exe.as_deref());
 
     DoctorCheck::new(

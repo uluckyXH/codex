@@ -218,3 +218,95 @@ fn successful_system_bwrap_probe_has_no_warning() {
         None
     );
 }
+
+#[test]
+fn harmony_packaged_candidate_does_not_trigger_path_install_advice_or_execution() {
+    assert_eq!(
+        harmony_bwrap_warning(
+            None,
+            Some(Path::new("/package/bwrap")),
+            |_| panic!("must not execute packaged resource"),
+            |_| panic!("must not probe namespaces")
+        ),
+        None
+    );
+    let missing =
+        harmony_bwrap_warning(None, None, |_| unreachable!(), |_| unreachable!()).unwrap();
+    assert!(missing.contains("Repair the signed Codex package"));
+    assert!(!missing.contains("OS package manager"));
+}
+
+#[test]
+fn harmony_capability_failure_names_both_sources_without_claiming_package_readiness() {
+    let warning = harmony_bwrap_warning(
+        Some(Path::new("/system/bwrap")),
+        Some(Path::new("/package/bwrap")),
+        |_| {
+            Ok(Output {
+                status: ExitStatus::from_raw(0),
+                stdout: b"--as-pid-1".to_vec(),
+                stderr: Vec::new(),
+            })
+        },
+        |_| panic!("incompatible PATH resource must not get a namespace probe"),
+    )
+    .unwrap();
+    assert!(warning.contains("missing required capability --perms"));
+    assert!(warning.contains("/system/bwrap"));
+    assert!(warning.contains("/package/bwrap"));
+    assert!(warning.contains("unverified"));
+}
+
+#[test]
+fn harmony_namespace_failure_keeps_native_status_and_selected_source() {
+    let warning = harmony_bwrap_warning(
+        Some(Path::new("/system/bwrap")),
+        Some(Path::new("/package/bwrap")),
+        |_| {
+            Ok(Output {
+                status: ExitStatus::from_raw(0),
+                stdout: b"--as-pid-1 --perms".to_vec(),
+                stderr: Vec::new(),
+            })
+        },
+        |_| {
+            Ok(Output {
+                status: ExitStatus::from_raw(159 << 8),
+                stdout: Vec::new(),
+                stderr: b"namespace denied".to_vec(),
+            })
+        },
+    )
+    .unwrap();
+    assert!(warning.contains("selected PATH bubblewrap /system/bwrap"));
+    assert!(warning.contains("exit_code=Some(159) signal=None raw_wait_status=40704"));
+    assert!(warning.contains("namespace denied"));
+}
+
+#[test]
+fn packaged_lookup_matches_legacy_order_and_requires_executable_files() {
+    use std::os::unix::fs::PermissionsExt;
+    let root = tempdir().unwrap();
+    let exe = root.path().join("bin/codex");
+    let adjacent = root.path().join("bin/bwrap");
+    let resource = root.path().join("codex-resources/bwrap");
+    std::fs::create_dir_all(adjacent.parent().unwrap()).unwrap();
+    std::fs::create_dir_all(resource.parent().unwrap()).unwrap();
+    for path in [&adjacent, &resource] {
+        std::fs::write(path, "resource presence only; never execute this fixture").unwrap();
+        std::fs::set_permissions(path, std::fs::Permissions::from_mode(0o755)).unwrap();
+    }
+    let context = codex_install_context::InstallContext {
+        method: codex_install_context::InstallMethod::Other,
+        package_layout: None,
+    };
+    assert_eq!(
+        packaged_bwrap_candidate(&context, Some(&exe)),
+        Some(resource.clone())
+    );
+    std::fs::set_permissions(&resource, std::fs::Permissions::from_mode(0o644)).unwrap();
+    assert_eq!(
+        packaged_bwrap_candidate(&context, Some(&exe)),
+        Some(adjacent)
+    );
+}
