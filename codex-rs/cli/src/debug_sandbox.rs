@@ -311,7 +311,7 @@ async fn run_command_under_sandbox(
                 |_| {},
             )
             .await?;
-            handle_exit_status(child.wait().await?);
+            handle_debug_sandbox_exit_status(child.wait().await?);
         }
     }
 
@@ -541,8 +541,23 @@ async fn run_command_under_sandbox(
         }
     }
 
+    handle_debug_sandbox_exit_status(status);
+}
+
+fn handle_debug_sandbox_exit_status(status: std::process::ExitStatus) -> ! {
+    if std::env::var_os("CODEX_HARMONY_PROCESS_DIAGNOSTICS").is_some_and(|value| value == "1") {
+        eprintln!(
+            "[codex-process] pid={} stage=debug-sandbox-wait {}",
+            std::process::id(),
+            codex_utils_pty::describe_exit_status(status)
+        );
+    }
     handle_exit_status(status);
 }
+
+#[cfg(all(test, unix))]
+#[path = "debug_sandbox/exit_status_tests.rs"]
+mod exit_status_tests;
 
 #[cfg(target_os = "windows")]
 async fn run_command_under_windows_session(

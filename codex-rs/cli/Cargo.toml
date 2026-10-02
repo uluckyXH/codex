@@ -76,6 +76,7 @@ codex-tui = { workspace = true }
 codex-utils-absolute-path = { workspace = true }
 codex-utils-path = { workspace = true }
 codex-utils-path-uri = { workspace = true }
+codex-utils-pty = { workspace = true }
 codex-utils-redacted-string = { workspace = true }
 codex-websocket-auth = { workspace = true }
 crossterm = { workspace = true, features = ["event-stream"] }
@@ -125,7 +126,6 @@ assert_cmd = { workspace = true }
 assert_matches = { workspace = true }
 codex-app-server-client = { workspace = true }
 codex-utils-cargo-bin = { workspace = true }
-codex-utils-pty = { workspace = true }
 flate2 = { workspace = true }
 insta = { workspace = true }
 jsonwebtoken = { workspace = true }
