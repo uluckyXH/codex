@@ -42,4 +42,3 @@ test prepare_install::tests::packaged_target_rejects_ohos_instead_of_selecting_l
 test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 77 filtered out; finished in 0.00s
 结束时间：2026-10-02T18:39:56+0800
 退出码：0
-

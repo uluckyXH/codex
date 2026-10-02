@@ -1,0 +1,13 @@
+{
+  "批次": "2026-10-02-185101-完整链接复测-主会话",
+  "被测HEAD": "341b0d5cd1592d94f04df1bf3986b675bee8d39e",
+  "工作区": "源码干净；测试期间冻结 HEAD 和被测源码",
+  "配置": "codex-cli --locked 默认 features，dev；离线 Cargo、2 并发",
+  "修复": "目标 RANLIB 明确使用 SDK llvm-ranlib；源码提交 8fb5f4e95",
+  "登录": "不执行真实或模拟登录测试",
+  "缓存": "从上批已结束的 target 使用 APFS clone 独立复制",
+  "宿主系统": "macOS 27.0.1 / arm64",
+  "工具": "Rust 1.95.0；Cargo 1.95.0；Python 3.14.7",
+  "SDK": "DevEco Native 6.1.1.125 / API 24 / Clang 15.0.4",
+  "工作区补充": "执行期间只更新说明文档；被测源码及 HEAD 未变。静态检查结束后才合入新启动修复。"
+}

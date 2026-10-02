@@ -1,0 +1,36 @@
+来源：本批原始日志；省略常规编译进度和重复旧版依赖警告，保留命令、时间及结果。
+
+日志：.harmony-build/测试批次/2026-10-02-185101-完整链接复测-主会话/日志/交叉02-完整程序.log
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T18:52:02+0800
+命令：python3 scripts/build_harmony.py build --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-185101-完整链接复测-主会话/鸿蒙构建'
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `nix` (lib) generated 580 warnings (run `cargo fix --lib -p nix` to apply 15 suggestions)
+warning: `codex-tui` (lib) generated 3 warnings
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 5m 38s
+build 成功；产物与缓存目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-185101-完整链接复测-主会话/鸿蒙构建
+此结果不代表已签名或通过鸿蒙 PC 真机验证。
+结束时间：2026-10-02T18:57:40+0800
+退出码：0
+
+日志：.harmony-build/测试批次/2026-10-02-185101-完整链接复测-主会话/日志/静态01-完整程序.log
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T18:58:24+0800
+命令：python3 '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-185101-完整链接复测-主会话/静态产物检查.py'
+结束时间：2026-10-02T18:58:25+0800
+退出码：0
+
+重建后的目标 OpenSSL 归档：libcrypto.a，42199808 字节
+重建后的目标 OpenSSL 归档：libssl.a，10814382 字节
+RANLIB_aarch64-unknown-linux-ohos = Some(/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-ranlib)

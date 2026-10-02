@@ -1,0 +1,61 @@
+原始日志的脱敏摘录。省略中间编译进度；未改写结果。日志只保存在本机外置盘。
+
+交叉02-完整开发构建
+日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-192224-最终源码集成验证-主会话/日志/交叉02-完整开发构建.log
+日志 SHA-256：6e5cccad42cf8b66c65fa532bf9b0dfdd8bac9223da316beb7e6d1047c098dab
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T19:23:35+0800
+命令：python3 scripts/build_harmony.py build --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-192224-最终源码集成验证-主会话/鸿蒙构建'
+……中间内容已省略……
+warning: `codex-tui` (lib) generated 3 warnings
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 5m 55s
+build 成功；产物与缓存目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-192224-最终源码集成验证-主会话/鸿蒙构建
+此结果不代表已签名或通过鸿蒙 PC 真机验证。
+
+结束时间：2026-10-02T19:29:30+0800
+退出码：0
+
+静态01-最终程序
+日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-192224-最终源码集成验证-主会话/日志/静态01-最终程序.log
+日志 SHA-256：f7b81e32324fc99c0cd101a30205e1ba4c0d2c66f9460da4382e22535307c5b0
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T19:30:44+0800
+命令：python3 '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-192224-最终源码集成验证-主会话/静态产物检查.py'
+……中间内容已省略……
+  "RPATH或RUNPATH": [],
+  "OHOS标识节": true,
+  "签名与执行": "未签名，未执行；不代表商业鸿蒙 PC 接受加载器或 SDK 动态库"
+}
+
+结束时间：2026-10-02T19:30:46+0800
+退出码：0
+
+交叉01-完整发布检查
+日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-192224-最终源码集成验证-主会话/日志/交叉01-完整发布检查.log
+日志 SHA-256：8146ea5b1e1cddc13883902d8d5aa03a17198e1655708fe9487c1c867e22e946
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T19:23:33+0800
+命令：python3 scripts/build_harmony.py check --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-192224-最终源码集成验证-主会话/发布检查' --release
+……中间内容已省略……
+    Checking codex-agent-graph-store v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/agent-graph-store)
+    Checking codex-memories-read v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/memories/read)
+    Checking codex-agent-roles v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/agent-roles)
+    Checking codex-utils-git-discovery v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/utils/git-discovery)
+    Checking codex-attachment-store v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/attachment-store)
+    Checking whoami v1.6.1
+    Checking codex-core v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/core)
+error: queries overflow the depth limit!
+  |
+  = help: consider increasing the recursion limit by adding a `#![recursion_limit = "256"]` attribute to your crate (`codex_core`)
+  = note: query depth increased by 130 when computing layout of `{async fn body of tools::handlers::request_plugin_install::<impl at core/src/tools/handlers/request_plugin_install.rs:93:1: 93:33>::handle_call()}`
+
+error: could not compile `codex-core` (lib) due to 1 previous error
+构建失败：Command '['/opt/homebrew/opt/rustup/bin/rustup', 'run', '1.95.0', 'cargo', 'check', '--locked', '--target', 'aarch64-unknown-linux-ohos', '--package', 'codex-cli', '--release']' returned non-zero exit status 101.
+
+结束时间：2026-10-02T19:32:09+0800
+退出码：1
+
+执行结果原表：
+交叉02-完整开发构建	2026-10-02T19:23:35+0800	2026-10-02T19:29:30+0800	0
+静态01-最终程序	2026-10-02T19:30:44+0800	2026-10-02T19:30:46+0800	0
+交叉01-完整发布检查	2026-10-02T19:23:33+0800	2026-10-02T19:32:09+0800	1

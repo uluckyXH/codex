@@ -1,0 +1,22 @@
+{
+  "批次": "2026-10-02-193607-发布模式修复集成复测-主会话",
+  "被测HEAD": "6f8952ac85ea29ead3bf551ecc959cc9fd8fbcc7",
+  "相对前批": "只增加 OHOS recursion_limit=256 编译属性和平台会话报告；其他产品源码不变",
+  "工作区": "产品源码和构建脚本已提交；仅中文文档及报告未提交；执行期间冻结 HEAD 和产品源码",
+  "环境": {
+    "RUSTUP_HOME": "/Volumes/MacSSD/dev/rust/rustup",
+    "CARGO_HOME": "/Volumes/MacSSD/dev/rust/cargo",
+    "PATH": "/opt/homebrew/opt/rustup/bin:/Volumes/MacSSD/dev/rust/cargo/bin:/opt/homebrew/bin:/usr/bin:/bin",
+    "RUSTUP_AUTO_INSTALL": "0",
+    "CARGO_NET_OFFLINE": "true",
+    "PYTHONDONTWRITEBYTECODE": "1",
+    "TMPDIR": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-193607-发布模式修复集成复测-主会话/临时目录"
+  },
+  "SDK": "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native",
+  "构建输入": "Rust/Cargo 1.95.0，codex-cli --locked 默认 features；dev 构建链接，release cargo check；分别 2 / 1 并发",
+  "缓存": "由上一已结束批次对应 target 使用 APFS clone 独立复制，不共享可变 target，不改原批次",
+  "认证与运行": "不执行真实或模拟认证，不读凭据、不执行 CLI、不请求模型；目标未签名、未运行",
+  "宿主": "macOS 27.0.1 / arm64",
+  "工具": "rustc 1.95.0 (59807616e 2026-04-14)；cargo 1.95.0 (f2d3ce0bd 2026-03-21)；Python 3.14.7",
+  "SDK版本": "Native 6.1.1.125 / API 24 / Clang 15.0.4"
+}

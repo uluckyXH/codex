@@ -1,0 +1,11 @@
+来源：本批原始日志；省略依赖编译进度，保留精确命令、时刻和测试结果。
+
+工作目录：/Volumes/MacSSD/Repositories/codex/codex-rs
+开始时间：2026-10-02T19:14:12+0800
+命令：/opt/homebrew/opt/rustup/bin/rustup run 1.95.0 cargo test --locked -p codex-features --lib local_daemon_default_respects_platform_support
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1m 07s
+running 1 test
+test tests::local_daemon_default_respects_platform_support ... ok
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 42 filtered out; finished in 0.00s
+结束时间：2026-10-02T19:15:20+0800
+退出码：0

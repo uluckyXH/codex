@@ -1,0 +1,84 @@
+原始日志的脱敏摘录。省略中间编译进度；未改写结果。完整日志与 ELF 留在本机外置盘。
+
+交叉02-完整开发构建
+原始日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-193607-发布模式修复集成复测-主会话/日志/交叉02-完整开发构建.log
+日志 SHA-256：ee8412ceec1bf6406ceb049e42b78d8360b449f09efe039b331de366cc9a8ade
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T19:38:32+0800
+命令：python3 scripts/build_harmony.py build --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-193607-发布模式修复集成复测-主会话/鸿蒙构建'
+……中间内容已省略……
+warning: `codex-tui` (lib) generated 3 warnings
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 6m 22s
+build 成功；产物与缓存目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-193607-发布模式修复集成复测-主会话/鸿蒙构建
+此结果不代表已签名或通过鸿蒙 PC 真机验证。
+
+结束时间：2026-10-02T19:44:55+0800
+退出码：0
+
+静态01-最终程序
+原始日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-193607-发布模式修复集成复测-主会话/日志/静态01-最终程序.log
+日志 SHA-256：ecc46ccfcb149f7f2475d08e292f832c9fd9307a930e6b82e05b94036a09a94c
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T19:45:38+0800
+命令：python3 '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-193607-发布模式修复集成复测-主会话/静态产物检查.py'
+……中间内容已省略……
+  "RPATH或RUNPATH": [],
+  "OHOS标识节": true,
+  "签名与执行": "未签名，未执行；不代表商业鸿蒙 PC 接受加载器或 SDK 动态库"
+}
+
+结束时间：2026-10-02T19:45:39+0800
+退出码：0
+
+交叉01-完整发布检查
+原始日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-193607-发布模式修复集成复测-主会话/日志/交叉01-完整发布检查.log
+日志 SHA-256：b38a34923f7f2a428b7fe260c41a0f53f2dce21d0830d830d5129e64346b420d
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T19:38:32+0800
+命令：python3 scripts/build_harmony.py check --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-193607-发布模式修复集成复测-主会话/发布检查' --release
+……中间内容已省略……
+    Checking clap_complete v4.5.65
+    Finished `release` profile [optimized + debuginfo] target(s) in 7m 41s
+check 成功；产物与缓存目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-193607-发布模式修复集成复测-主会话/发布检查
+此结果不代表已签名或通过鸿蒙 PC 真机验证。
+
+结束时间：2026-10-02T19:46:14+0800
+退出码：0
+
+执行结果原表：
+交叉02-完整开发构建	2026-10-02T19:38:32+0800	2026-10-02T19:44:55+0800	0
+静态01-最终程序	2026-10-02T19:45:38+0800	2026-10-02T19:45:39+0800	0
+交叉01-完整发布检查	2026-10-02T19:38:32+0800	2026-10-02T19:46:14+0800	0
+
+补充源码格式检查：core/src/lib.rs 使用 rustfmt --check --edition 2024 --config skip_children=true；退出 0，stable 提示 imports_granularity 需要 nightly。此项未使用批次日志包装，不补造精确执行时间。
+
+文档交付检查：
+日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-193607-发布模式修复集成复测-主会话/日志/文档01-最终文档静态检查.log
+日志 SHA-256：11594e7eb24f316394996c0ae8e7e99926d467cce45eabf1026586c125253a53
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T19:51:08+0800
+命令：python3 '/Volumes/MacSSD/Repositories/codex/docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/证据/文档检查脚本.py'
+中文文档：48
+本地链接：553
+Shell 示例：42
+Python 示例：1
+TOML 示例：3
+文档静态检查通过；示例语法检查不会执行示例中的构建或安装命令。
+
+结束时间：2026-10-02T19:51:08+0800
+退出码：0
+
+本轮差异格式检查：
+日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-193607-发布模式修复集成复测-主会话/日志/文档01-本轮差异格式.log
+日志 SHA-256：ceb6bde67937fbaac91a732ca29bfb446a96bbd4455dcbf795cd8ed2e0f7fb91
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T19:54:24+0800
+命令：/bin/sh '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-193607-发布模式修复集成复测-主会话/差异检查.sh'
+
+结束时间：2026-10-02T19:54:24+0800
+退出码：0
+实际脚本：
+set -e
+git diff --cached --check
+git diff origin/codex/harmony-native --check -- . ':(exclude)third_party/rust/nix-0.28.0'
+git diff origin/codex/harmony-native --check -- third_party/rust/nix-0.28.0/src/sys/ioctl/linux.rs 'third_party/rust/nix-0.28.0/鸿蒙适配说明.md'

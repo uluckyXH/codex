@@ -1,0 +1,14 @@
+{
+  "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-185101-完整链接复测-主会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/codex",
+  "字节数": 1035832544,
+  "SHA-256": "3b6337f76cbbea1aff7371b62c5d6899625eae77cfb4ef9d7fb1f4c96c4b943f",
+  "file输出": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-185101-完整链接复测-主会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/codex: ELF 64-bit LSB pie executable, ARM aarch64, version 1 (SYSV), dynamically linked, interpreter /lib/ld-musl-aarch64.so.1, with debug_info, not stripped",
+  "解释器": "/lib/ld-musl-aarch64.so.1",
+  "动态依赖": [
+    "libtime_service_ndk.so",
+    "libc.so"
+  ],
+  "RPATH或RUNPATH": [],
+  "OHOS标识节": true,
+  "签名与执行": "未签名，未执行；不代表商业鸿蒙 PC 接受加载器或 SDK 动态库"
+}
