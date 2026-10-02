@@ -27,6 +27,11 @@ tracing = { workspace = true }
 tracing-opentelemetry = { workspace = true }
 zstd = { workspace = true }
 
+# OHOS cannot use the build host's OpenSSL installation. Build the locked
+# OpenSSL sources with the target SDK while preserving native-tls behavior.
+[target.'cfg(target_env = "ohos")'.dependencies]
+native-tls = { version = "0.2", features = ["vendored"] }
+
 [target.'cfg(target_os = "macos")'.dependencies]
 system-configuration = { workspace = true }
 

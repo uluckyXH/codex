@@ -110,7 +110,9 @@ impl NativeChild {
             ChildDropPolicy::ReapOnly => Some(reaper::sender()?),
         };
 
-        #[cfg(all(target_os = "linux", target_env = "gnu"))]
+        // OHOS SDKs may omit this extension. Resolve it at runtime, as with
+        // older glibc, and retain Command's compatibility backend when absent.
+        #[cfg(all(target_os = "linux", any(target_env = "gnu", target_env = "ohos")))]
         let addchdir = {
             // SAFETY: dlsym returns the documented function signature when present.
             let symbol = unsafe {

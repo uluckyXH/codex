@@ -1,9 +1,16 @@
+#[cfg(not(target_env = "ohos"))]
 use keyring::Entry;
 use keyring::Error as KeyringError;
 use std::error::Error;
 use std::fmt;
 use std::fmt::Debug;
+#[cfg(not(target_env = "ohos"))]
 use tracing::trace;
+
+#[cfg(any(target_env = "ohos", test))]
+mod unsupported;
+#[cfg(target_env = "ohos")]
+pub use unsupported::UnsupportedKeyringStore as DefaultKeyringStore;
 
 pub enum CredentialStoreError {
     Other(KeyringError),
@@ -72,8 +79,10 @@ pub trait KeyringStore: Debug + Send + Sync {
 }
 
 #[derive(Debug, Clone, Copy)]
+#[cfg(not(target_env = "ohos"))]
 pub struct DefaultKeyringStore;
 
+#[cfg(not(target_env = "ohos"))]
 impl KeyringStore for DefaultKeyringStore {
     fn load(&self, service: &str, account: &str) -> Result<Option<String>, CredentialStoreError> {
         trace!("keyring.load start");

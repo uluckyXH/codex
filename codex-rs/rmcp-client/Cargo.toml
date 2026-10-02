@@ -82,7 +82,7 @@ wiremock = { workspace = true }
 [target.'cfg(unix)'.dependencies]
 libc = { workspace = true }
 
-[target.'cfg(target_os = "linux")'.dependencies]
+[target.'cfg(all(target_os = "linux", not(target_env = "ohos")))'.dependencies]
 keyring = { workspace = true, features = ["linux-native-async-persistent"] }
 
 [target.'cfg(target_os = "macos")'.dependencies]

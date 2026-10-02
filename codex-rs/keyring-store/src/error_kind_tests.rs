@@ -45,6 +45,7 @@ fn preserves_typed_causes_without_guessing_from_messages() {
 }
 
 #[test]
+#[cfg(not(target_env = "ohos"))]
 fn classifies_native_backend_errors() {
     #[cfg(target_os = "macos")]
     let native: Box<dyn Error + Send + Sync> = Box::new(
@@ -67,7 +68,7 @@ fn classifies_native_backend_errors() {
     );
 }
 
-#[cfg(target_os = "linux")]
+#[cfg(all(target_os = "linux", not(target_env = "ohos")))]
 #[test]
 fn unavailable_secret_service_is_not_connected() {
     let error = CredentialStoreError::new(keyring::Error::PlatformFailure(Box::new(
@@ -76,7 +77,7 @@ fn unavailable_secret_service_is_not_connected() {
     assert_eq!(std::io::Error::from(error).kind(), ErrorKind::NotConnected);
 }
 
-#[cfg(target_os = "linux")]
+#[cfg(all(target_os = "linux", not(target_env = "ohos")))]
 #[test]
 fn secret_service_dbus_io_error_preserves_its_kind() {
     let error = secret_service::Error::Zbus(

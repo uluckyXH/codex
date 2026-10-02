@@ -23,7 +23,7 @@ pub(super) fn classify(error: &CredentialStoreError) -> ErrorKind {
                 _ => ErrorKind::Other,
             };
         }
-        #[cfg(target_os = "linux")]
+        #[cfg(all(target_os = "linux", not(target_env = "ohos")))]
         if let Some(error) = error.downcast_ref::<secret_service::Error>() {
             match error {
                 secret_service::Error::Locked => return ErrorKind::WouldBlock,
