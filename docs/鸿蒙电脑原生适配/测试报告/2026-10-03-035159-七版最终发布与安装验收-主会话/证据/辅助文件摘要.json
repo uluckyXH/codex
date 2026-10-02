@@ -1,0 +1,8 @@
+{
+  "源码": "eebb6e99eb2b7021541ef3acb13666cd9521a43f",
+  "目标": "aarch64-unknown-linux-ohos",
+  "签名后文件": {
+    "rg": "7272d96c1c584807cc4f0cf99bf830f381be2d35bd1ffd93842f054514953b02",
+    "bwrap": "b4df52de80db80b47e0aa8fe28d69c5f63aa27bc7bb57e6f9eba603d28cf3314"
+  }
+}

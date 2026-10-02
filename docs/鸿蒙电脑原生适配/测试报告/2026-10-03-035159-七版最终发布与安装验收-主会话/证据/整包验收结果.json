@@ -1,0 +1,61 @@
+{
+  "归档": "鸿蒙Codex-0.0.0-harmony.79935ce7419e-未真机验证.tar.gz",
+  "压缩包摘要": "af89cd3204c6278f26b751954602a99d301419b1ea213dbd302953a1e5d246bc",
+  "清单文件数": 16,
+  "源码": "79935ce7419e708d22d5585d96f9b52c6bb8ecfe",
+  "版本": "0.0.0-harmony.79935ce7419e",
+  "程序": {
+    "bin/codex": {
+      "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/七版发布/独立包验收/鸿蒙Codex/bin/codex",
+      "字节数": 250414848,
+      "SHA-256": "b3210e75a8073314c592ad1ae90a61dab1c3e4c08a59d541f953d0982e40533e",
+      "架构": "AArch64",
+      "解释器": "/lib/ld-musl-aarch64.so.1",
+      "动态依赖": [
+        "libtime_service_ndk.so",
+        "libc.so"
+      ],
+      "OHOS标识": true,
+      "签名节存在": true,
+      "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+    },
+    "codex-path/rg": {
+      "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/七版发布/独立包验收/鸿蒙Codex/codex-path/rg",
+      "字节数": 4638464,
+      "SHA-256": "7272d96c1c584807cc4f0cf99bf830f381be2d35bd1ffd93842f054514953b02",
+      "架构": "AArch64",
+      "解释器": "/lib/ld-musl-aarch64.so.1",
+      "动态依赖": [
+        "libc.so"
+      ],
+      "OHOS标识": true,
+      "签名节存在": true,
+      "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+    },
+    "codex-resources/bwrap": {
+      "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/七版发布/独立包验收/鸿蒙Codex/codex-resources/bwrap",
+      "字节数": 423680,
+      "SHA-256": "b4df52de80db80b47e0aa8fe28d69c5f63aa27bc7bb57e6f9eba603d28cf3314",
+      "架构": "AArch64",
+      "解释器": "/lib/ld-musl-aarch64.so.1",
+      "动态依赖": [
+        "libc.so"
+      ],
+      "OHOS标识": true,
+      "签名节存在": true,
+      "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+    }
+  },
+  "结果": [
+    "归档路径与普通文件校验通过",
+    "完整清单逐项 SHA256 通过",
+    "三个 OHOS ELF 与 SDK 签名信息检查通过",
+    "CLI 含冻结源码身份",
+    "包内 bwrap 与编入摘要一致",
+    "实际包安装到中文/空格/单引号路径通过",
+    "现有目录拒绝覆盖",
+    "终端启用幂等与撤销通过",
+    "Shell 路径解析通过"
+  ],
+  "设备运行": "未执行；没有运行登录、模型调用、目标 ELF 或用户认证文件测试"
+}
