@@ -1,0 +1,14 @@
+[
+  {
+    "用例": "交叉04-提交版资源构建签名",
+    "开始": "2026-10-02T21:25:19+0800",
+    "结束": "2026-10-02T21:25:57+0800",
+    "退出码": 0,
+    "命令": [
+      "命令：python3 scripts/build_harmony_distribution.py helpers --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --java /opt/homebrew/opt/openjdk@17/bin/java --source-cache '/Volumes/MacSSD/Repositories/codex/.harmony-build/第二阶段/源包' --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212512-提交版原生资源复测-主会话/原生资源' --offline"
+    ],
+    "日志": ".harmony-build/测试批次/2026-10-02-212512-提交版原生资源复测-主会话/日志/交叉04-提交版资源构建签名.log",
+    "字节数": 16419,
+    "SHA-256": "bb28fe0226fd7d09c0ddf764fe89310096978da45a4af7e2ffd186e2c8bf2196"
+  }
+]

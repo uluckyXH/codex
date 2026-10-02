@@ -1,0 +1,34 @@
+
+交叉04-提交版资源构建签名（原始日志节选；中间编译输出已省略）
+1: 工作目录：/Volumes/MacSSD/Repositories/codex
+2: 开始时间：2026-10-02T21:25:19+0800
+3: 命令：python3 scripts/build_harmony_distribution.py helpers --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --java /opt/homebrew/opt/openjdk@17/bin/java --source-cache '/Volumes/MacSSD/Repositories/codex/.harmony-build/第二阶段/源包' --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212512-提交版原生资源复测-主会话/原生资源' --offline
+4: openjdk version "17.0.20.1" 2026-08-18
+52:    Compiling lexopt v0.3.2
+53:     Finished `release` profile [optimized + debuginfo] target(s) in 29.52s
+54: 执行：/opt/homebrew/opt/python@3.14/bin/python3.14 /Volumes/MacSSD/Repositories/codex/scripts/build_harmony.py build --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212512-提交版原生资源复测-主会话/原生资源/沙箱编译' --native-deps '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212512-提交版原生资源复测-主会话/原生资源/辅助编译/原生依赖' --package codex-bwrap --release
+55: 执行：/opt/homebrew/opt/rustup/bin/rustup run 1.95.0 rustc --version
+82:    Compiling libc v0.2.186
+83:    Compiling codex-bwrap v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/bwrap)
+84: warning: codex-bwrap@0.0.0: /Volumes/MacSSD/Repositories/codex/codex-rs/bwrap/../vendor/bubblewrap/network.c:53:49: warning: missing field 'nl_pid' initializer [-Wmissing-field-initializers]
+85: warning: codex-bwrap@0.0.0:   struct sockaddr_nl dst_addr = { AF_NETLINK, 0 };
+86: warning: codex-bwrap@0.0.0:                                                 ^
+87: warning: codex-bwrap@0.0.0: /Volumes/MacSSD/Repositories/codex/codex-rs/bwrap/../vendor/bubblewrap/network.c:142:49: warning: missing field 'nl_pid' initializer [-Wmissing-field-initializers]
+88: warning: codex-bwrap@0.0.0:   struct sockaddr_nl src_addr = { AF_NETLINK, 0 };
+89: warning: codex-bwrap@0.0.0:                                                 ^
+90: warning: codex-bwrap@0.0.0: 2 warnings generated.
+91: warning: codex-bwrap@0.0.0: /Volumes/MacSSD/Repositories/codex/codex-rs/bwrap/../vendor/bubblewrap/utils.c:823:49: warning: comparison of integers of different signs: 'unsigned long' and 'long' [-Wsign-compare]
+92: warning: codex-bwrap@0.0.0:   for (cmsg = CMSG_FIRSTHDR(&msg); cmsg; cmsg = CMSG_NXTHDR(&msg, cmsg))
+93: warning: codex-bwrap@0.0.0:                                                 ^~~~~~~~~~~~~~~~~~~~~~~
+94: warning: codex-bwrap@0.0.0: /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/sys/socket.h:360:44: note: expanded from macro 'CMSG_NXTHDR'
+95: warning: codex-bwrap@0.0.0:         __CMSG_LEN(cmsg) + sizeof(struct cmsghdr) >= __MHDR_END(mhdr) - (unsigned char *)(cmsg) \
+96: warning: codex-bwrap@0.0.0:         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+97: warning: codex-bwrap@0.0.0: 1 warning generated.
+98:     Finished `release` profile [optimized + debuginfo] target(s) in 4.35s
+99: build 成功；产物与缓存目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212512-提交版原生资源复测-主会话/原生资源/沙箱编译
+100: 此结果不代表已签名或通过鸿蒙 PC 真机验证。
+101: 执行：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-strip --strip-unneeded '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212512-提交版原生资源复测-主会话/原生资源/辅助编译/target/aarch64-unknown-linux-ohos/release/rg' -o '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212512-提交版原生资源复测-主会话/原生资源/已签名/rg-未签名'
+102: 执行：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-strip --strip-unneeded '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212512-提交版原生资源复测-主会话/原生资源/沙箱编译/target/aarch64-unknown-linux-ohos/release/bwrap' -o '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212512-提交版原生资源复测-主会话/原生资源/已签名/bwrap-未签名'
+103: 
+104: 结束时间：2026-10-02T21:25:57+0800
+105: 退出码：0
