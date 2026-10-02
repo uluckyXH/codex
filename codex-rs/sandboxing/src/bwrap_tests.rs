@@ -1,7 +1,9 @@
 use super::*;
 use pretty_assertions::assert_eq;
+use std::os::unix::process::ExitStatusExt;
 use std::path::Path;
 use std::path::PathBuf;
+use std::process::ExitStatus;
 use std::time::Duration;
 use std::time::Instant;
 use tempfile::tempdir;
@@ -17,16 +19,14 @@ fn system_bwrap_warning_reports_missing_system_bwrap() {
 #[test]
 fn system_bwrap_warning_reports_user_namespace_failures() {
     for failure in USER_NAMESPACE_FAILURES {
-        let fake_bwrap = write_fake_bwrap(&format!(
-            r#"#!/bin/sh
-echo '{failure}' >&2
-exit 1
-"#
-        ));
-        let fake_bwrap_path: &Path = fake_bwrap.as_ref();
+        let output = Output {
+            status: ExitStatus::from_raw(1 << 8),
+            stdout: Vec::new(),
+            stderr: failure.as_bytes().to_vec(),
+        };
 
         assert_eq!(
-            system_bwrap_warning_for_path(Some(fake_bwrap_path)),
+            warning_for_probe_result(Ok(output)),
             Some(USER_NAMESPACE_WARNING.to_string()),
             "{failure}",
         );
@@ -34,7 +34,7 @@ exit 1
 }
 
 #[test]
-fn system_bwrap_warning_skips_unrelated_bwrap_failures() {
+fn system_bwrap_warning_reports_unclassified_bwrap_failures() {
     let fake_bwrap = write_fake_bwrap(
         r#"#!/bin/sh
 echo 'bwrap: Unknown option --argv0' >&2
@@ -43,11 +43,14 @@ exit 1
     );
     let fake_bwrap_path: &Path = fake_bwrap.as_ref();
 
-    assert_eq!(system_bwrap_warning_for_path(Some(fake_bwrap_path)), None);
+    assert!(
+        system_bwrap_warning_for_path(Some(fake_bwrap_path))
+            .is_some_and(|warning| warning.contains("could not verify"))
+    );
 }
 
 #[test]
-fn system_bwrap_probe_times_out_without_reporting_a_warning() {
+fn system_bwrap_probe_reports_timeout() {
     let fake_bwrap = write_fake_bwrap(
         r#"#!/bin/sh
 sleep 1
@@ -57,10 +60,9 @@ exit 0
     let fake_bwrap_path: &Path = fake_bwrap.as_ref();
     let started_at = Instant::now();
 
-    assert!(system_bwrap_has_user_namespace_access(
-        fake_bwrap_path,
-        Duration::from_millis(10),
-    ));
+    let error = system_bwrap_user_namespace_probe(fake_bwrap_path, Duration::from_millis(10))
+        .expect_err("timeout is not evidence of namespace support");
+    assert_eq!(error.kind(), std::io::ErrorKind::TimedOut);
     assert!(started_at.elapsed() < Duration::from_millis(500));
 }
 
@@ -76,10 +78,16 @@ exit 1
     let fake_bwrap_path: &Path = fake_bwrap.as_ref();
     let started_at = Instant::now();
 
-    assert!(!system_bwrap_has_user_namespace_access(
-        fake_bwrap_path,
+    // Run the fixture through the already-installed interpreter. Classification
+    // must not depend on first execution of a newly created script finishing
+    // within a short deadline on the host OS.
+    let output = crate::probe::run(
+        Command::new("/bin/sh").arg(fake_bwrap_path),
         Duration::from_millis(100),
-    ));
+    )
+    .expect("finished probe");
+    assert!(!output.status.success());
+    assert!(is_user_namespace_failure(&output));
     assert!(started_at.elapsed() < Duration::from_millis(500));
 }
 
@@ -193,4 +201,20 @@ fn write_named_fake_bwrap_in(dir: &Path) -> PathBuf {
     let path = dir.join("bwrap");
     codex_utils_cargo_bin::write_executable(&path, "#!/bin/sh\n").expect("write fake bwrap");
     fs::canonicalize(path).expect("canonicalize fake bwrap")
+}
+
+#[test]
+fn system_bwrap_warning_reports_startup_failure() {
+    let warning = system_bwrap_warning_for_path(Some(Path::new("/missing/bwrap")))
+        .expect("startup failure must remain unknown");
+    assert!(warning.contains("could not verify"));
+}
+
+#[test]
+fn successful_system_bwrap_probe_has_no_warning() {
+    let fake_bwrap = write_fake_bwrap("#!/bin/sh\nexit 0\n");
+    assert_eq!(
+        system_bwrap_warning_for_path(Some(fake_bwrap.as_ref())),
+        None
+    );
 }

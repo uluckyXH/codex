@@ -4,8 +4,9 @@ use std::ffi::OsString;
 #[cfg(unix)]
 use std::os::unix::ffi::OsStrExt;
 
-/// This is designed to be called pre-main() (using `#[ctor::ctor]`) to perform
-/// various process hardening steps, such as
+/// Call before creating threads, after dispatching re-exec helpers and loading
+/// any main-process environment files. A constructor is suitable only when no
+/// later initialization can restore loader variables. This performs steps such as
 /// - disabling core dumps
 /// - disabling ptrace attach on Linux and macOS.
 /// - removing dangerous environment variables such as LD_PRELOAD and DYLD_*
@@ -55,8 +56,8 @@ pub(crate) fn pre_main_hardening_linux() {
     // For "defense in depth," set the core file size limit to 0.
     set_core_file_size_limit_to_zero();
 
-    // Official Codex releases are MUSL-linked, which means that variables such
-    // as LD_PRELOAD are ignored anyway, but just to be sure, clear them here.
+    // Remove loader variables before later child launches. OHOS uses a dynamic
+    // loader, so this cleanup also applies after loading the main process's .env.
     remove_env_vars_with_prefix(b"LD_");
 }
 

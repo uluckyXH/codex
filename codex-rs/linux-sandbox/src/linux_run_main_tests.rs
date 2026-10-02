@@ -773,3 +773,56 @@ fn valid_inner_stage_modes_do_not_panic() {
         /*apply_seccomp_then_exec*/ true, /*use_legacy_landlock*/ false,
     );
 }
+
+#[test]
+fn ohos_preflight_requires_success_and_never_accepts_unknown_failure() {
+    for (status, stderr) in [
+        (127, "loader could not load helper"),
+        (1, "namespace setup rejected"),
+        (1, ""),
+    ] {
+        let output = Output {
+            status: ExitStatus::from_raw(status << 8),
+            stdout: Vec::new(),
+            stderr: stderr.as_bytes().to_vec(),
+        };
+        let error = classify_preflight_output(&output, true).expect_err("failed OHOS preflight");
+        assert!(
+            error
+                .to_string()
+                .contains("sandbox capability probe failed")
+        );
+        assert!(classify_preflight_output(&output, false).expect("legacy Linux behavior"));
+    }
+    let success = Output {
+        status: ExitStatus::from_raw(0),
+        stdout: Vec::new(),
+        stderr: Vec::new(),
+    };
+    assert!(classify_preflight_output(&success, true).expect("successful preflight"));
+}
+
+#[test]
+fn preflight_proc_denial_is_not_capability_success() {
+    let output = Output {
+        status: ExitStatus::from_raw(1 << 8),
+        stdout: Vec::new(),
+        stderr: b"bwrap: Can't mount proc on /newroot/proc: Permission denied".to_vec(),
+    };
+    assert!(!classify_preflight_output(&output, true).expect("known proc denial"));
+}
+
+#[cfg(target_env = "ohos")]
+#[test]
+fn ohos_preflight_preserves_explicit_no_proc_and_pid_inheritance() {
+    let argv = build_preflight_bwrap_argv(BwrapOptions {
+        mount_proc: false,
+        inherit_pid_namespace: true,
+        ..Default::default()
+    })
+    .expect("probe exact requested isolation")
+    .args;
+    assert!(!argv.iter().any(|arg| arg == "--proc"));
+    assert!(!argv.iter().any(|arg| arg == "--unshare-pid"));
+    assert!(argv.iter().any(|arg| arg == "--unshare-user"));
+}

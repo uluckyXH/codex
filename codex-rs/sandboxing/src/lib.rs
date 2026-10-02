@@ -1,10 +1,12 @@
-#[cfg(target_os = "linux")]
+#[cfg(any(target_os = "linux", all(test, unix)))]
 mod bwrap;
 mod denial;
 pub mod landlock;
 mod linux_pid_namespace;
 mod manager;
 pub mod policy_transforms;
+#[cfg(unix)]
+pub mod probe;
 #[cfg(target_os = "macos")]
 pub mod seatbelt;
 mod spawn;

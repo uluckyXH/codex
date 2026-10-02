@@ -6,6 +6,7 @@ use std::os::unix::ffi::OsStrExt;
 use std::path::Path;
 use std::process::Command;
 use std::sync::OnceLock;
+use std::time::Duration;
 
 use crate::bundled_bwrap;
 use crate::bundled_bwrap::BundledBwrapLauncher;
@@ -55,7 +56,7 @@ pub(crate) fn exec_bwrap(mut argv: Vec<String>, preserved_files: Vec<File>) -> !
         BubblewrapLauncher::Bundled(launcher) => launcher.exec(argv, preserved_files),
         BubblewrapLauncher::Unavailable => {
             panic!(
-                "bubblewrap is unavailable: no system bwrap was found on PATH and no bundled \
+                "bubblewrap is unavailable: no usable system bwrap was found on PATH and no bundled \
                  codex-resources/bwrap binary was found next to the Codex executable"
             )
         }
@@ -184,7 +185,8 @@ fn system_bwrap_launcher_for_path_with_probe(
 pub(crate) fn preferred_bwrap_supports_argv0() -> bool {
     match preferred_bwrap_launcher() {
         BubblewrapLauncher::System(launcher) => launcher.supports_argv0,
-        BubblewrapLauncher::Bundled(_) | BubblewrapLauncher::Unavailable => true,
+        BubblewrapLauncher::Bundled(_) => true,
+        BubblewrapLauncher::Unavailable => false,
     }
 }
 
@@ -194,10 +196,32 @@ fn system_bwrap_capabilities(system_bwrap_path: &Path) -> Option<SystemBwrapCapa
     // Older distro packages (for example Ubuntu 20.04/22.04) ship builds that
     // reject `--argv0`, so use the system binary's no-argv0 compatibility path
     // in that case.
-    let output = match Command::new(system_bwrap_path).arg("--help").output() {
+    let output = match codex_sandboxing::probe::run(
+        Command::new(system_bwrap_path).arg("--help"),
+        Duration::from_millis(500),
+    ) {
         Ok(output) => output,
-        Err(_) => return None,
+        Err(error) => {
+            #[cfg(target_env = "ohos")]
+            eprintln!(
+                "system bubblewrap capability probe failed for {}: {error}",
+                system_bwrap_path.display()
+            );
+            #[cfg(not(target_env = "ohos"))]
+            let _ = error;
+            return None;
+        }
     };
+    if !output.status.success() {
+        #[cfg(target_env = "ohos")]
+        eprintln!(
+            "system bubblewrap capability probe failed for {} ({}): {}",
+            system_bwrap_path.display(),
+            output.status,
+            String::from_utf8_lossy(&output.stderr).trim()
+        );
+        return None;
+    }
     let stdout = String::from_utf8_lossy(&output.stdout);
     let stderr = String::from_utf8_lossy(&output.stderr);
     if !stdout.contains("--as-pid-1") && !stderr.contains("--as-pid-1") {
@@ -243,6 +267,18 @@ mod tests {
     use super::*;
     use pretty_assertions::assert_eq;
     use tempfile::NamedTempFile;
+
+    #[test]
+    fn rejects_capabilities_from_unsuccessful_help_process() {
+        let temp_dir = tempfile::tempdir().expect("temporary directory");
+        let path = temp_dir.path().join("bwrap");
+        codex_utils_cargo_bin::write_executable(
+            &path,
+            "#!/bin/sh\nprintf '%s\\n' '--as-pid-1' '--perms' '--argv0'\nexit 1\n",
+        )
+        .expect("write failed help fixture");
+        assert_eq!(system_bwrap_capabilities(&path), None);
+    }
 
     #[test]
     fn prefers_system_bwrap_when_help_lists_argv0() {

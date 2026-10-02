@@ -163,6 +163,13 @@ pub fn arg0_dispatch() -> Option<Arg0PathEntryGuard> {
     // before creating any threads/the Tokio runtime.
     load_dotenv();
 
+    // Helpers above must dispatch before main-process hardening: they carry
+    // explicitly requested child environments and may still set up namespaces.
+    // Harden after dotenv so it cannot reintroduce loader variables, and before
+    // aliases or runtime threads are created. A hardening failure exits here.
+    #[cfg(target_env = "ohos")]
+    codex_linux_sandbox::pre_main_hardening();
+
     let (path_entry_guard, updated_path_env_var) = prepare_path_env_var_with_aliases(
         InstallContext::current(),
         std::env::var_os("PATH"),
@@ -208,13 +215,15 @@ fn prepare_path_env_var_with_aliases(
 /// [`codex_linux_sandbox::run_main`] (which never returns). Otherwise we:
 ///
 /// 1.  Load `.env` values from `~/.codex/.env` before creating any threads.
-/// 2.  Spawn a main runtime thread with a controlled stack size.
-/// 3.  Construct a Tokio multi-thread runtime.
-/// 4.  Capture the current executable path and derive the
+/// 2.  On OHOS, harden the main process after loading its environment, before
+///     creating any threads. Helper invocations dispatch before this step.
+/// 3.  Spawn a main runtime thread with a controlled stack size.
+/// 4.  Construct a Tokio multi-thread runtime.
+/// 5.  Capture the current executable path and derive the
 ///     `codex-linux-sandbox` helper path (falling back to the current
 ///     executable if needed) so children can re-invoke the sandbox when running
 ///     on Linux.
-/// 5.  Execute the provided async `main_fn` inside that runtime, forwarding any
+/// 6.  Execute the provided async `main_fn` inside that runtime, forwarding any
 ///     error. Note that `main_fn` receives [`Arg0DispatchPaths`], which
 ///     contains the helper executable paths needed to construct
 ///     [`codex_core::config::Config`].

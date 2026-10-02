@@ -28,6 +28,12 @@ mod proxy_routing;
 #[cfg(target_os = "linux")]
 mod wslg;
 
+// The OHOS main entry shares this crate's existing platform dependency. Keep
+// helper dispatch separate: re-executed helpers must retain their target's
+// environment and must not become non-dumpable before namespace setup.
+#[cfg(target_env = "ohos")]
+pub use codex_process_hardening::pre_main_hardening;
+
 /// Exit status returned when bundled bubblewrap fails digest verification.
 #[cfg(target_os = "linux")]
 pub const BUNDLED_BWRAP_DIGEST_VERIFICATION_FAILURE_EXIT_CODE: i32 = 8;

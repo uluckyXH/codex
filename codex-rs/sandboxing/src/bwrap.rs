@@ -1,16 +1,12 @@
+#[cfg(target_os = "linux")]
 use crate::policy_transforms::should_require_platform_sandbox;
+#[cfg(target_os = "linux")]
 use codex_protocol::models::PermissionProfile;
-use std::io::ErrorKind;
-use std::io::Read;
-use std::os::fd::AsRawFd;
 use std::path::Path;
 use std::path::PathBuf;
 use std::process::Command;
 use std::process::Output;
-use std::process::Stdio;
-use std::thread;
 use std::time::Duration;
-use std::time::Instant;
 
 const SYSTEM_BWRAP_PROGRAM: &str = "bwrap";
 const MISSING_BWRAP_WARNING: &str = concat!(
@@ -18,7 +14,7 @@ const MISSING_BWRAP_WARNING: &str = concat!(
     "Install bubblewrap with your OS package manager. ",
     "See the sandbox prerequisites: ",
     "https://developers.openai.com/codex/concepts/sandboxing#prerequisites. ",
-    "Codex will use the bundled bubblewrap in the meantime.",
+    "Codex will try packaged bubblewrap if available; restricted commands cannot run without a working sandbox.",
 );
 const USER_NAMESPACE_WARNING: &str =
     "Codex's Linux sandbox uses bubblewrap and needs access to create user namespaces.";
@@ -34,9 +30,8 @@ const USER_NAMESPACE_FAILURES: [&str; 4] = [
     "No permissions to create a new namespace",
 ];
 const SYSTEM_BWRAP_PROBE_TIMEOUT: Duration = Duration::from_millis(500);
-const SYSTEM_BWRAP_PROBE_POLL_INTERVAL: Duration = Duration::from_millis(50);
-const SYSTEM_BWRAP_PROBE_STDERR_LIMIT_BYTES: u64 = 64 * 1024;
 
+#[cfg(target_os = "linux")]
 pub fn system_bwrap_warning(permission_profile: &PermissionProfile) -> Option<String> {
     if !should_warn_about_system_bwrap(permission_profile) {
         return None;
@@ -46,6 +41,7 @@ pub fn system_bwrap_warning(permission_profile: &PermissionProfile) -> Option<St
     system_bwrap_warning_for_path(system_bwrap_path.as_deref())
 }
 
+#[cfg(target_os = "linux")]
 fn should_warn_about_system_bwrap(permission_profile: &PermissionProfile) -> bool {
     let (file_system_policy, network_policy) = permission_profile.to_runtime_permissions();
     should_require_platform_sandbox(
@@ -64,75 +60,40 @@ fn system_bwrap_warning_for_path(system_bwrap_path: Option<&Path>) -> Option<Str
         return Some(MISSING_BWRAP_WARNING.to_string());
     };
 
-    if !system_bwrap_has_user_namespace_access(system_bwrap_path, SYSTEM_BWRAP_PROBE_TIMEOUT) {
-        return Some(USER_NAMESPACE_WARNING.to_string());
-    }
-
-    None
+    warning_for_probe_result(system_bwrap_user_namespace_probe(
+        system_bwrap_path,
+        SYSTEM_BWRAP_PROBE_TIMEOUT,
+    ))
 }
 
-fn system_bwrap_has_user_namespace_access(system_bwrap_path: &Path, timeout: Duration) -> bool {
-    let mut child = match Command::new(system_bwrap_path)
-        .args([
-            "--unshare-user",
-            "--unshare-net",
-            "--ro-bind",
-            "/",
-            "/",
-            "/bin/true",
-        ])
-        .stdout(Stdio::null())
-        .stderr(Stdio::piped())
-        .spawn()
-    {
-        Ok(child) => child,
-        Err(_) => return true,
-    };
-
-    let deadline = Instant::now() + timeout;
-    loop {
-        match child.try_wait() {
-            Ok(Some(status)) => {
-                let stderr = child.stderr.take().map_or_else(Vec::new, |stderr| {
-                    let fd = stderr.as_raw_fd();
-                    let flags = unsafe { libc::fcntl(fd, libc::F_GETFL) };
-                    if flags < 0
-                        || unsafe { libc::fcntl(fd, libc::F_SETFL, flags | libc::O_NONBLOCK) } < 0
-                    {
-                        return Vec::new();
-                    }
-
-                    let mut bytes = Vec::new();
-                    let mut stderr = stderr.take(SYSTEM_BWRAP_PROBE_STDERR_LIMIT_BYTES);
-                    if let Err(err) = stderr.read_to_end(&mut bytes)
-                        && err.kind() != ErrorKind::WouldBlock
-                    {
-                        return bytes;
-                    }
-                    bytes
-                });
-                let output = Output {
-                    status,
-                    stdout: Vec::new(),
-                    stderr,
-                };
-                return output.status.success() || !is_user_namespace_failure(&output);
-            }
-            Ok(None) => {
-                if Instant::now() >= deadline {
-                    let _ = child.kill();
-                    let _ = child.wait();
-                    return true;
-                }
-                thread::sleep(SYSTEM_BWRAP_PROBE_POLL_INTERVAL);
-            }
-            Err(_) => {
-                let _ = child.kill();
-                let _ = child.wait();
-                return true;
-            }
+fn warning_for_probe_result(result: std::io::Result<Output>) -> Option<String> {
+    match result {
+        Ok(output) if output.status.success() => None,
+        Ok(output) if is_user_namespace_failure(&output) => {
+            Some(USER_NAMESPACE_WARNING.to_string())
         }
+        Ok(output) => Some(format!(
+            "Codex could not verify bubblewrap namespace support: probe exited with {}: {}. Restricted execution still requires a working sandbox.",
+            output.status,
+            String::from_utf8_lossy(&output.stderr).trim()
+        )),
+        Err(error) => Some(format!(
+            "Codex could not verify bubblewrap namespace support: {error}. Restricted execution still requires a working sandbox."
+        )),
     }
+}
+
+fn system_bwrap_user_namespace_probe(
+    system_bwrap_path: &Path,
+    timeout: Duration,
+) -> std::io::Result<Output> {
+    let probe_command = crate::probe::resolve_true_command()?;
+    crate::probe::run(
+        Command::new(system_bwrap_path)
+            .args(["--unshare-user", "--unshare-net", "--ro-bind", "/", "/"])
+            .arg(probe_command),
+        timeout,
+    )
 }
 
 pub(crate) fn is_wsl1() -> bool {
@@ -165,6 +126,7 @@ fn is_user_namespace_failure(output: &Output) -> bool {
         .any(|failure| stderr.contains(failure))
 }
 
+#[cfg(target_os = "linux")]
 pub fn find_system_bwrap_in_path() -> Option<PathBuf> {
     let search_path = std::env::var_os("PATH")?;
     let cwd = std::env::current_dir().ok()?;

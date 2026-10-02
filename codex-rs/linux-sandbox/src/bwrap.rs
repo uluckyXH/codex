@@ -56,6 +56,21 @@ const LINUX_PLATFORM_DEFAULT_READ_ROOTS: &[&str] = &[
     "/lib64",
     "/nix/store",
     "/run/current-system/sw",
+    // OpenHarmony toybox and musl's documented system/NDK library layout.
+    // Add only native system roots, using the same read-only bind and deny
+    // carveout handling below. Never expose /data or the user's home implicitly.
+    #[cfg(target_env = "ohos")]
+    "/system/bin",
+    #[cfg(target_env = "ohos")]
+    "/system/lib",
+    #[cfg(target_env = "ohos")]
+    "/system/lib64",
+    #[cfg(target_env = "ohos")]
+    "/system/etc",
+    #[cfg(target_env = "ohos")]
+    "/vendor/lib",
+    #[cfg(target_env = "ohos")]
+    "/vendor/lib64",
 ];
 
 const MAX_UNREADABLE_GLOB_MATCHES: usize = 8192;
@@ -2477,6 +2492,58 @@ mod tests {
                     .any(|window| window == ["--ro-bind", "/usr", "/usr"])
             );
         }
+    }
+
+    #[cfg(target_env = "ohos")]
+    #[test]
+    fn ohos_minimal_native_tools_stay_read_only_and_explicit_denials_win() {
+        let system_bin = Path::new("/system/bin");
+        assert!(
+            system_bin.is_dir(),
+            "device must expose its native tool directory"
+        );
+        let policy = FileSystemSandboxPolicy::restricted(vec![
+            FileSystemSandboxEntry {
+                path: FileSystemPath::Special {
+                    value: FileSystemSpecialPath::Minimal,
+                },
+                access: FileSystemAccessMode::Read,
+                missing_path_behavior: None,
+            },
+            FileSystemSandboxEntry {
+                path: AbsolutePathBuf::try_from(system_bin)
+                    .expect("absolute system path")
+                    .into(),
+                access: FileSystemAccessMode::Deny,
+                missing_path_behavior: None,
+            },
+        ]);
+        let args = create_filesystem_args(&policy, Path::new("/"), BwrapOptions::default())
+            .expect("filesystem arguments")
+            .args;
+        let bind = args
+            .windows(3)
+            .position(|w| w == ["--ro-bind", "/system/bin", "/system/bin"])
+            .expect("native tools read-only bind");
+        let mask = args
+            .windows(6)
+            .position(|w| {
+                w == [
+                    "--perms",
+                    "000",
+                    "--tmpfs",
+                    "/system/bin",
+                    "--remount-ro",
+                    "/system/bin",
+                ]
+            })
+            .expect("explicit deny mask");
+        assert!(
+            mask > bind,
+            "explicit denial must override the platform default"
+        );
+        assert!(!args.iter().any(|arg| arg == "--bind"));
+        assert!(!args.iter().any(|arg| arg == "/data" || arg == "/home"));
     }
 
     #[test]

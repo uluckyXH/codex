@@ -4,14 +4,16 @@ use std::fmt;
 use std::fs;
 use std::fs::File;
 use std::fs::OpenOptions;
-use std::io::Read;
 use std::os::fd::AsRawFd;
 use std::os::fd::FromRawFd;
 use std::os::unix::ffi::OsStrExt;
 use std::os::unix::fs::OpenOptionsExt;
 use std::os::unix::fs::PermissionsExt;
+use std::os::unix::process::ExitStatusExt;
 use std::path::Path;
 use std::path::PathBuf;
+use std::process::ExitStatus;
+use std::process::Output;
 use std::sync::Arc;
 use std::sync::OnceLock;
 use std::sync::atomic::AtomicBool;
@@ -428,12 +430,18 @@ fn run_bwrap_with_proc_fallback(
 ) -> ! {
     let command_cwd = command_cwd.unwrap_or(sandbox_policy_cwd);
 
-    if options.mount_proc
+    if (cfg!(target_env = "ohos") || options.mount_proc)
         && !preflight_proc_mount_support(options)
             .unwrap_or_else(|err| exit_with_bwrap_build_error(err))
     {
-        // Keep the retry silent so sandbox-internal diagnostics do not leak into the
-        // child process stderr stream.
+        // OHOS requires the requested sandbox to succeed as specified. Keep
+        // the existing proc-only compatibility retry on other Linux targets.
+        if cfg!(target_env = "ohos") {
+            exit_with_bwrap_build_error(std::io::Error::new(
+                std::io::ErrorKind::Unsupported,
+                "OHOS sandbox probe could not mount the requested proc filesystem; refusing to reduce isolation",
+            ).into());
+        }
         options.mount_proc = false;
     }
 
@@ -535,8 +543,8 @@ fn current_process_argv0() -> String {
 
 fn preflight_proc_mount_support(options: BwrapOptions) -> CodexResult<bool> {
     let preflight_argv = build_preflight_bwrap_argv(options)?;
-    let stderr = run_bwrap_in_child_capture_stderr(preflight_argv);
-    Ok(!is_proc_mount_failure(stderr.as_str()))
+    let output = run_bwrap_probe(preflight_argv)?;
+    classify_preflight_output(&output, cfg!(target_env = "ohos")).map_err(Into::into)
 }
 
 fn build_preflight_bwrap_argv(options: BwrapOptions) -> CodexResult<crate::bwrap::BwrapArgs> {
@@ -548,27 +556,34 @@ fn build_preflight_bwrap_argv(options: BwrapOptions) -> CodexResult<crate::bwrap
             access: FileSystemAccessMode::Read,
             missing_path_behavior: None,
         }]);
-    let preflight_command = vec![resolve_true_command()];
+    let preflight_command = vec![
+        codex_sandboxing::probe::resolve_true_command()?
+            .into_os_string()
+            .into_string()
+            .map_err(|_| {
+                std::io::Error::new(
+                    std::io::ErrorKind::InvalidData,
+                    "sandbox probe command path is not valid UTF-8",
+                )
+            })?,
+    ];
     build_bwrap_argv(
         preflight_command,
         &file_system_sandbox_policy,
         Path::new("/"),
         Path::new("/"),
         BwrapOptions {
-            mount_proc: true,
+            // OHOS probes the exact requested proc mode, including explicit
+            // no-proc/PID-inheritance requests. Other Linux keeps its proc test.
+            mount_proc: if cfg!(target_env = "ohos") {
+                options.mount_proc
+            } else {
+                true
+            },
             // The alias check must see the same WSL masks as the main sandbox.
             ..options
         },
     )
-}
-
-fn resolve_true_command() -> String {
-    for candidate in ["/usr/bin/true", "/bin/true"] {
-        if Path::new(candidate).exists() {
-            return candidate.to_string();
-        }
-    }
-    "true".to_string()
 }
 
 fn run_or_exec_bwrap(bwrap_args: crate::bwrap::BwrapArgs) -> ! {
@@ -1417,96 +1432,128 @@ fn exit_with_wait_status_or_policy_violation(
 /// Run a short-lived bubblewrap preflight in a child process and capture stderr.
 ///
 /// Strategy:
-/// - This is used only by `preflight_proc_mount_support`, which runs `/bin/true`
-///   under bubblewrap with `--proc /proc`.
-/// - The goal is to detect environments where mounting `/proc` fails (for
-///   example, restricted containers), so we can retry the real run with
-///   `--no-proc`.
-/// - We capture stderr from that preflight to match known mount-failure text.
-///   We do not stream it because this is a one-shot probe with a trivial
-///   command, and reads are bounded to a fixed max size.
-fn run_bwrap_in_child_capture_stderr(bwrap_args: crate::bwrap::BwrapArgs) -> String {
-    const MAX_PREFLIGHT_STDERR_BYTES: u64 = 64 * 1024;
+/// - `preflight_proc_mount_support` runs a resolved executable `true` under
+///   bubblewrap. OHOS uses the requested proc mode and rejects any failure;
+///   other Linux targets retain their proc-only compatibility retry.
+/// - Capture stderr and the actual exit status, with a two-second deadline.
+///   Unknown failures cannot establish OHOS sandbox support. Output is bounded
+///   and descendants retaining stderr cannot make the probe wait for EOF.
+fn run_bwrap_probe(bwrap_args: crate::bwrap::BwrapArgs) -> std::io::Result<Output> {
     let crate::bwrap::BwrapArgs {
         args,
         preserved_files,
         synthetic_mount_targets,
         protected_create_targets,
     } = bwrap_args;
+    let mut pipe_fds = [0; 2];
+    if unsafe { libc::pipe2(pipe_fds.as_mut_ptr(), libc::O_CLOEXEC) } < 0 {
+        return Err(std::io::Error::last_os_error());
+    }
+    // SAFETY: pipe2 returned two fresh descriptors owned by this invocation.
+    let read_file = unsafe { File::from_raw_fd(pipe_fds[0]) };
+    let write_file = unsafe { File::from_raw_fd(pipe_fds[1]) };
     let setup_signal_mask = ForwardedSignalMask::block();
     let synthetic_mount_registrations = register_synthetic_mount_targets(&synthetic_mount_targets);
     let protected_create_registrations =
         register_protected_create_targets(&protected_create_targets);
-
-    let mut pipe_fds = [0; 2];
-    let pipe_res = unsafe { libc::pipe2(pipe_fds.as_mut_ptr(), libc::O_CLOEXEC) };
-    if pipe_res < 0 {
-        let err = std::io::Error::last_os_error();
-        panic!("failed to create stderr pipe for bubblewrap: {err}");
-    }
-    let read_fd = pipe_fds[0];
-    let write_fd = pipe_fds[1];
-
     let pid = unsafe { libc::fork() };
     if pid < 0 {
-        let err = std::io::Error::last_os_error();
-        panic!("failed to fork for bubblewrap: {err}");
+        let error = std::io::Error::last_os_error();
+        cleanup_synthetic_mount_targets(&synthetic_mount_registrations);
+        cleanup_protected_create_targets(&protected_create_registrations);
+        setup_signal_mask.restore();
+        return Err(error);
     }
-
     if pid == 0 {
         reset_forwarded_signal_handlers_to_default();
         setup_signal_mask.restore();
-        // Child: redirect stderr to the pipe, then run bubblewrap.
-        unsafe {
-            close_fd_or_panic(read_fd, "close read end in bubblewrap child");
-            if libc::dup2(write_fd, libc::STDERR_FILENO) < 0 {
-                let err = std::io::Error::last_os_error();
-                panic!("failed to redirect stderr for bubblewrap: {err}");
-            }
-            close_fd_or_panic(write_fd, "close write end in bubblewrap child");
+        drop(read_file);
+        if unsafe { libc::dup2(write_file.as_raw_fd(), libc::STDERR_FILENO) } < 0 {
+            panic!(
+                "failed to redirect sandbox probe stderr: {}",
+                std::io::Error::last_os_error()
+            );
         }
-
+        drop(write_file);
+        if unsafe { libc::setpgid(0, 0) } < 0 {
+            panic!(
+                "failed to create sandbox probe process group: {}",
+                std::io::Error::last_os_error()
+            );
+        }
+        // Preserve the existing selected launcher, including bundled digest
+        // verification and execution through its already-open descriptor.
         exec_bwrap(args, preserved_files);
     }
-
+    drop(write_file);
+    drop(preserved_files);
     let signal_forwarders = install_bwrap_signal_forwarders(pid);
     setup_signal_mask.restore();
-    // Parent: close the write end and read stderr while the child runs.
-    close_fd_or_panic(write_fd, "close write end in bubblewrap parent");
-
-    // SAFETY: `read_fd` is a valid owned fd in the parent.
-    let mut read_file = unsafe { File::from_raw_fd(read_fd) };
-    let mut stderr_bytes = Vec::new();
-    let mut limited_reader = (&mut read_file).take(MAX_PREFLIGHT_STDERR_BYTES);
-    if let Err(err) = limited_reader.read_to_end(&mut stderr_bytes) {
-        panic!("failed to read bubblewrap stderr: {err}");
+    let mut reaped = false;
+    let output = codex_sandboxing::probe::collect_output(
+        None::<File>,
+        Some(read_file),
+        Duration::from_secs(2),
+        || {
+            let mut status = 0;
+            let result = unsafe { libc::waitpid(pid, &mut status, libc::WNOHANG) };
+            if result == pid {
+                reaped = true;
+                Ok(Some(ExitStatus::from_raw(status)))
+            } else if result == 0 {
+                Ok(None)
+            } else {
+                let error = std::io::Error::last_os_error();
+                if error.raw_os_error() == Some(libc::ECHILD) {
+                    reaped = true;
+                }
+                if error.kind() == std::io::ErrorKind::Interrupted {
+                    Ok(None)
+                } else {
+                    Err(error)
+                }
+            }
+        },
+    );
+    if !reaped {
+        // The child is still ours and unreaped, so its PID/group cannot be
+        // reused. Kill the PID too in case failure preceded setpgid in the child.
+        unsafe {
+            libc::kill(-pid, libc::SIGKILL);
+            libc::kill(pid, libc::SIGKILL);
+        }
+        wait_for_bwrap_child(pid);
     }
-
-    let status = wait_for_bwrap_child(pid);
     let cleanup_signal_mask = ForwardedSignalMask::block();
     BWRAP_CHILD_PID.store(0, Ordering::SeqCst);
     cleanup_synthetic_mount_targets(&synthetic_mount_registrations);
     cleanup_protected_create_targets(&protected_create_registrations);
     signal_forwarders.restore();
     cleanup_signal_mask.restore();
-    if libc::WIFSIGNALED(status) {
-        exit_with_wait_status(status);
+    if let Ok(output) = &output
+        && output.status.signal().is_some()
+    {
+        exit_with_wait_status(output.status.into_raw());
     }
-
-    String::from_utf8_lossy(&stderr_bytes).into_owned()
+    output
 }
 
-/// Close an owned file descriptor and panic with context on failure.
-///
-/// We use explicit close() checks here (instead of ignoring return codes)
-/// because this code runs in low-level sandbox setup paths where fd leaks or
-/// close errors can mask the root cause of later failures.
-fn close_fd_or_panic(fd: libc::c_int, context: &str) {
-    let close_res = unsafe { libc::close(fd) };
-    if close_res < 0 {
-        let err = std::io::Error::last_os_error();
-        panic!("{context}: {err}");
+fn classify_preflight_output(output: &Output, strict: bool) -> std::io::Result<bool> {
+    if output.status.success() {
+        return Ok(true);
     }
+    let stderr = String::from_utf8_lossy(&output.stderr);
+    if is_proc_mount_failure(&stderr) {
+        return Ok(false);
+    }
+    if strict {
+        return Err(std::io::Error::other(format!(
+            "OHOS sandbox capability probe failed ({}): {}",
+            output.status,
+            stderr.trim()
+        )));
+    }
+    Ok(true)
 }
 
 fn is_proc_mount_failure(stderr: &str) -> bool {
