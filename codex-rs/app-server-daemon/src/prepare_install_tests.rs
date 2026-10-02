@@ -8,6 +8,39 @@ use pretty_assertions::assert_eq;
 use std::path::Path;
 use std::path::PathBuf;
 
+#[test]
+fn packaged_target_rejects_ohos_instead_of_selecting_linux_musl() {
+    for arch in ["aarch64", "x86_64"] {
+        let error = super::platform_target_for("linux", arch, "ohos")
+            .expect_err("OHOS must not select a Linux daemon package");
+        assert!(
+            error
+                .to_string()
+                .contains("native HarmonyOS package layout")
+        );
+    }
+}
+
+#[test]
+fn packaged_target_preserves_existing_platforms() {
+    for (os, arch, env, expected) in [
+        ("macos", "aarch64", "", "aarch64-apple-darwin"),
+        ("macos", "x86_64", "", "x86_64-apple-darwin"),
+        ("linux", "aarch64", "gnu", "aarch64-unknown-linux-gnu"),
+        ("linux", "aarch64", "musl", "aarch64-unknown-linux-musl"),
+        ("linux", "x86_64", "gnu", "x86_64-unknown-linux-gnu"),
+        ("linux", "x86_64", "musl", "x86_64-unknown-linux-musl"),
+        ("windows", "aarch64", "msvc", "aarch64-pc-windows-msvc"),
+        ("windows", "x86_64", "msvc", "x86_64-pc-windows-msvc"),
+    ] {
+        assert_eq!(
+            super::platform_target_for(os, arch, env).expect("supported package"),
+            expected
+        );
+    }
+    assert!(super::platform_target_for("freebsd", "aarch64", "").is_err());
+}
+
 fn daemon(home: &std::path::Path) -> crate::Daemon {
     let state = home.join("app-server-daemon");
     crate::Daemon {

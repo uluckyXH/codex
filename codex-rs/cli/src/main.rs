@@ -776,6 +776,10 @@ fn run_update_action(
     action: UpdateAction,
     cli_executable: Option<&std::path::Path>,
 ) -> anyhow::Result<()> {
+    anyhow::ensure!(
+        !cfg!(target_env = "ohos"),
+        "Updates are unavailable for this HarmonyOS build. Install a compatible HarmonyOS release manually."
+    );
     if let UpdateAction::Daemon(source) = action {
         let executable = cli_executable
             .ok_or_else(|| anyhow::anyhow!("Cannot locate the launching Codex CLI"))?;

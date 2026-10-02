@@ -1,0 +1,17 @@
+{
+  "批次": "2026-10-02-181404-终端集成交叉检查-主会话",
+  "基线": "87d9cfe8d3ce75dccbcdc1548c172cd51d96fdda",
+  "工作区": "被测代码已提交；仅新建本批报告",
+  "缓存": "从前一批已结束的 target 使用 APFS clone 建立独立输出",
+  "登录测试": "遵从用户要求未执行",
+  "Rust": "1.95.0 (59807616e 2026-04-14)",
+  "目标": "aarch64-unknown-linux-ohos",
+  "SDK": "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native",
+  "SDK版本": "6.1.1.125 / API 24",
+  "并发": 2,
+  "Cargo网络": "离线",
+  "配置": "完整 codex-cli，dev，--locked，默认包功能；没有执行登录测试",
+  "宿主系统": "macOS 27.0.1",
+  "宿主架构": "arm64",
+  "前次批次": "2026-10-02-175731-依赖交叉检查-主会话"
+}

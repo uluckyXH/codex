@@ -46,6 +46,7 @@ pub async fn update_from_cli(
     confirm: impl FnOnce(&InstallRequest) -> Result<bool>,
 ) -> Result<Option<crate::UpdateOutput>> {
     crate::ensure_supported_platform()?;
+    crate::ensure_update_supported()?;
     #[cfg(windows)]
     crate::backend::windows::ensure_not_elevated()?;
     let daemon = Daemon::from_environment()?;
@@ -471,12 +472,27 @@ fn validate_package(root: &Path) -> Result<()> {
 }
 
 fn platform_target() -> Result<&'static str> {
-    match (std::env::consts::OS, std::env::consts::ARCH) {
+    let env = if cfg!(target_env = "ohos") {
+        "ohos"
+    } else if cfg!(target_env = "gnu") {
+        "gnu"
+    } else {
+        ""
+    };
+    platform_target_for(std::env::consts::OS, std::env::consts::ARCH, env)
+}
+
+fn platform_target_for(os: &str, arch: &str, env: &str) -> Result<&'static str> {
+    anyhow::ensure!(
+        env != "ohos",
+        "Packaged daemon installation is unavailable for this HarmonyOS build; a native HarmonyOS package layout is required."
+    );
+    match (os, arch) {
         ("macos", "aarch64") => Ok("aarch64-apple-darwin"),
         ("macos", "x86_64") => Ok("x86_64-apple-darwin"),
-        ("linux", "aarch64") if cfg!(target_env = "gnu") => Ok("aarch64-unknown-linux-gnu"),
+        ("linux", "aarch64") if env == "gnu" => Ok("aarch64-unknown-linux-gnu"),
         ("linux", "aarch64") => Ok("aarch64-unknown-linux-musl"),
-        ("linux", "x86_64") if cfg!(target_env = "gnu") => Ok("x86_64-unknown-linux-gnu"),
+        ("linux", "x86_64") if env == "gnu" => Ok("x86_64-unknown-linux-gnu"),
         ("linux", "x86_64") => Ok("x86_64-unknown-linux-musl"),
         ("windows", "aarch64") => Ok("aarch64-pc-windows-msvc"),
         ("windows", "x86_64") => Ok("x86_64-pc-windows-msvc"),

@@ -1,0 +1,27 @@
+来源：本批原始日志。保留命令、时间、退出码和编译结果；省略重复的依赖构建与旧版依赖警告，没有改写结果。
+
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T18:14:55+0800
+命令：python3 scripts/build_harmony.py check --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-181404-终端集成交叉检查-主会话/鸿蒙构建'
+执行：/opt/homebrew/opt/rustup/bin/rustup run 1.95.0 rustc --version
+执行：/opt/homebrew/opt/rustup/bin/rustup run 1.95.0 rustc --print cfg --target aarch64-unknown-linux-ohos
+执行：/opt/homebrew/opt/rustup/bin/rustup run 1.95.0 cargo check --locked --target aarch64-unknown-linux-ohos --package codex-cli
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `extern` declarations without an explicit ABI are deprecated
+warning: `nix` (lib) generated 580 warnings (run `cargo fix --lib -p nix` to apply 15 suggestions)
+warning: `codex-tui` (lib) generated 3 warnings
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3m 30s
+check 成功；产物与缓存目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-181404-终端集成交叉检查-主会话/鸿蒙构建
+此结果不代表已签名或通过鸿蒙 PC 真机验证。
+结束时间：2026-10-02T18:18:25+0800
+退出码：0

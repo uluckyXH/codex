@@ -1,9 +1,31 @@
 use super::*;
 use codex_tui::DaemonUpdateSource;
+#[cfg(not(target_env = "ohos"))]
 use pretty_assertions::assert_eq;
+#[cfg(not(target_env = "ohos"))]
 use std::os::unix::fs::PermissionsExt;
 
 #[test]
+#[cfg(target_env = "ohos")]
+fn harmony_updates_fail_before_launching_any_command() {
+    for action in [
+        UpdateAction::Daemon(DaemonUpdateSource::PublicStable),
+        UpdateAction::Daemon(DaemonUpdateSource::ThisCli),
+        UpdateAction::NpmGlobalLatest,
+        UpdateAction::BunGlobalLatest,
+        UpdateAction::VitePlusGlobalLatest,
+        UpdateAction::PnpmGlobalLatest,
+        UpdateAction::BrewUpgrade,
+        UpdateAction::StandaloneUnix,
+        UpdateAction::StandaloneWindows,
+    ] {
+        let error = run_update_action(action, None).expect_err("unsupported updater");
+        assert!(error.to_string().contains("HarmonyOS"));
+    }
+}
+
+#[test]
+#[cfg(not(target_env = "ohos"))]
 fn daemon_handoff_uses_selected_executable_and_propagates_failure() -> anyhow::Result<()> {
     let dir = tempfile::tempdir()?;
     let executable = dir.path().join("launching CLI");

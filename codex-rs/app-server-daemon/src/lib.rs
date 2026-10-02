@@ -282,6 +282,7 @@ pub async fn run_pid_update_loop(
     restore_release: Option<String>,
 ) -> Result<()> {
     ensure_supported_platform()?;
+    ensure_update_supported()?;
     #[cfg(windows)]
     backend::windows::ensure_not_elevated()?;
     update_loop::run(http_client_factory, restore_release).await
@@ -291,9 +292,18 @@ pub async fn update(
     http_client_factory: codex_http_client::HttpClientFactory,
 ) -> Result<UpdateOutput> {
     ensure_supported_platform()?;
+    ensure_update_supported()?;
     #[cfg(windows)]
     backend::windows::ensure_not_elevated()?;
     update_loop::request_manual_update(&Daemon::from_environment()?, http_client_factory).await
+}
+
+fn ensure_update_supported() -> Result<()> {
+    anyhow::ensure!(
+        !cfg!(target_env = "ohos"),
+        "Daemon updates are unavailable for this HarmonyOS build. Install a compatible HarmonyOS release manually."
+    );
+    Ok(())
 }
 
 #[cfg(any(unix, windows))]
