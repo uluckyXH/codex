@@ -111,7 +111,8 @@ impl NativeChild {
         };
 
         // OHOS SDKs may omit this extension. Resolve it at runtime, as with
-        // older glibc, and retain Command's compatibility backend when absent.
+        // older glibc, and require it only when changing the working directory.
+        // The process-setup helper inherits cwd and can change it after exec.
         #[cfg(all(target_os = "linux", any(target_env = "gnu", target_env = "ohos")))]
         let addchdir = {
             // SAFETY: dlsym returns the documented function signature when present.
@@ -122,20 +123,24 @@ impl NativeChild {
                 )
             };
             if symbol.is_null() {
-                return Ok(None);
-            }
-            unsafe {
-                std::mem::transmute::<
-                    *mut libc::c_void,
-                    unsafe extern "C" fn(
-                        *mut libc::posix_spawn_file_actions_t,
-                        *const libc::c_char,
-                    ) -> libc::c_int,
-                >(symbol)
+                if cwd.is_some() {
+                    return Ok(None);
+                }
+                None
+            } else {
+                Some(unsafe {
+                    std::mem::transmute::<
+                        *mut libc::c_void,
+                        unsafe extern "C" fn(
+                            *mut libc::posix_spawn_file_actions_t,
+                            *const libc::c_char,
+                        ) -> libc::c_int,
+                    >(symbol)
+                })
             }
         };
         #[cfg(any(target_os = "macos", target_env = "musl"))]
-        let addchdir = posix_spawn_file_actions_addchdir_np;
+        let addchdir = Some(posix_spawn_file_actions_addchdir_np);
 
         // Subscribe before spawning so a child that exits immediately cannot be missed.
         let sigchld = signal(SignalKind::child())?;
@@ -176,7 +181,7 @@ impl NativeChild {
         // SAFETY: All C strings and pipe descriptors outlive this synchronous
         // spawn. The initialized action/attribute objects are destroyed by RAII.
         let result = unsafe {
-            if let Some(cwd) = &cwd {
+            if let (Some(cwd), Some(addchdir)) = (&cwd, addchdir) {
                 cvt(addchdir(&mut actions.0, cwd.as_ptr()))?;
             }
             for (target, source) in child_fds.iter().enumerate() {

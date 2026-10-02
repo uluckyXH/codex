@@ -14,6 +14,23 @@ use tokio::io::AsyncWriteExt;
 use crate::Command;
 use crate::ProcessMode;
 
+#[cfg(any(target_os = "macos", target_os = "linux"))]
+#[tokio::test]
+async fn native_spawn_without_cwd_does_not_require_addchdir() -> anyhow::Result<()> {
+    let root = tempfile::tempdir()?;
+    let command = Command::new(root.path().join("missing-program"));
+    let result = super::posix::NativeChild::spawn(&command);
+    match result {
+        Err(error) => assert_eq!(error.raw_os_error(), Some(libc::ENOENT)),
+        Ok(None) => anyhow::bail!("native spawn declined despite not needing a cwd action"),
+        Ok(Some(mut child)) => {
+            child.kill().await?;
+            anyhow::bail!("missing program unexpectedly started");
+        }
+    }
+    Ok(())
+}
+
 #[tokio::test]
 async fn wait_with_output_keeps_eof_pipes_open_until_exit() -> anyhow::Result<()> {
     let mut command = Command::new("/bin/sh");

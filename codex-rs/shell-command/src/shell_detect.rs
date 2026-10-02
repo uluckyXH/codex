@@ -60,6 +60,16 @@ pub fn detect_shell_type(shell_path: impl AsRef<std::path::Path>) -> Option<Shel
 
 #[cfg(unix)]
 fn get_user_shell_path() -> Option<PathBuf> {
+    // HarmonyOS terminals can provide their shell outside the traditional
+    // /bin layout. Prefer a validated terminal setting to the passwd entry.
+    #[cfg(target_env = "ohos")]
+    if let Some(path) = std::env::var_os("SHELL")
+        .as_deref()
+        .and_then(harmony_shell_from_env)
+    {
+        return Some(path);
+    }
+
     let uid = unsafe { libc::getuid() };
     use std::ffi::CStr;
     use std::mem::MaybeUninit;
@@ -117,6 +127,22 @@ fn get_user_shell_path() -> Option<PathBuf> {
         }
         buffer.resize(new_len, 0);
     }
+}
+
+#[cfg(any(target_env = "ohos", all(test, unix)))]
+fn harmony_shell_from_env(value: &std::ffi::OsStr) -> Option<PathBuf> {
+    let path = std::path::Path::new(value);
+    if !path.is_absolute()
+        || !matches!(
+            detect_shell_type(path),
+            Some(ShellType::Zsh | ShellType::Bash | ShellType::Sh)
+        )
+    {
+        return None;
+    }
+    // Check executability as well as existence. Do not interpret SHELL as a
+    // command line or resolve a relative value against a project directory.
+    which::which(path).ok()
 }
 
 #[cfg(not(unix))]
@@ -313,6 +339,15 @@ fn get_cmd_shell() -> Option<DetectedShell> {
 }
 
 pub fn ultimate_fallback_shell() -> DetectedShell {
+    #[cfg(target_env = "ohos")]
+    return get_sh_shell().unwrap_or_else(|| DetectedShell {
+        shell_type: ShellType::Sh,
+        // Let the process launcher report a missing shell using its actual
+        // PATH, instead of assuming that HarmonyOS provides /bin/sh.
+        shell_path: PathBuf::from("sh"),
+    });
+
+    #[cfg(not(target_env = "ohos"))]
     if cfg!(windows) {
         DetectedShell {
             shell_type: ShellType::Cmd,
@@ -355,7 +390,7 @@ pub fn default_user_shell_from_path(user_shell_path: Option<PathBuf>) -> Detecte
             .and_then(|shell| detect_shell_type(&shell))
             .and_then(get_shell);
 
-        let shell_with_fallback = if cfg!(target_os = "macos") {
+        let shell_with_fallback = if cfg!(any(target_os = "macos", target_env = "ohos")) {
             user_default_shell
                 .or_else(|| get_shell(ShellType::Zsh))
                 .or_else(|| get_shell(ShellType::Bash))
@@ -373,6 +408,41 @@ pub fn default_user_shell_from_path(user_shell_path: Option<PathBuf>) -> Detecte
 mod tests {
     use super::*;
     use pretty_assertions::assert_eq;
+
+    #[cfg(unix)]
+    #[test]
+    fn harmony_shell_accepts_executable_in_nonstandard_directory() -> anyhow::Result<()> {
+        use std::os::unix::fs::PermissionsExt;
+
+        let root = tempfile::tempdir()?;
+        let directory = root.path().join("终端 工具");
+        std::fs::create_dir(&directory)?;
+        let shell = directory.join("zsh");
+        std::fs::write(&shell, "#!/bin/sh\n")?;
+        std::fs::set_permissions(&shell, std::fs::Permissions::from_mode(0o755))?;
+        assert_eq!(harmony_shell_from_env(shell.as_os_str()), Some(shell));
+        Ok(())
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn harmony_shell_rejects_invalid_or_nonexecutable_settings() -> anyhow::Result<()> {
+        use std::os::unix::fs::PermissionsExt;
+
+        let root = tempfile::tempdir()?;
+        let shell = root.path().join("zsh");
+        assert_eq!(harmony_shell_from_env(shell.as_os_str()), None);
+        std::fs::create_dir(&shell)?;
+        assert_eq!(harmony_shell_from_env(shell.as_os_str()), None);
+        std::fs::remove_dir(&shell)?;
+        std::fs::write(&shell, "#!/bin/sh\n")?;
+        std::fs::set_permissions(&shell, std::fs::Permissions::from_mode(0o644))?;
+        assert_eq!(harmony_shell_from_env(shell.as_os_str()), None);
+        for value in ["", "zsh", "./zsh", "/bin/zsh -c", "/bin/fish"] {
+            assert_eq!(harmony_shell_from_env(std::ffi::OsStr::new(value)), None);
+        }
+        Ok(())
+    }
 
     #[test]
     fn elevated_sandbox_filter_rejects_store_and_script_powershell_paths() {
