@@ -24,6 +24,11 @@ pub(super) fn dispatch(mut args: impl Iterator<Item = std::ffi::OsString>) -> ! 
     };
     // The parent passes ownership of this descriptor through posix_spawn.
     let mut control = unsafe { File::from_raw_fd(control_fd) };
+    // The helper intentionally has an empty environment; opt-in travels as a
+    // nonsecret protocol flag rather than copying the parent's environment.
+    let diagnostics = args.next().as_deref() == Some(std::ffi::OsStr::new("diagnostics"));
+    let mut stage = "helper-arguments";
+    crate::diagnostics::stage(diagnostics, stage);
     let mut reported = false;
     let result = (|| -> io::Result<()> {
         let parent_pid = args
@@ -62,19 +67,33 @@ pub(super) fn dispatch(mut args: impl Iterator<Item = std::ffi::OsString>) -> ! 
             .ok_or_else(|| io::Error::from_raw_os_error(libc::EINVAL))?;
         let mut command = Command::new(program);
         command.current_dir(cwd).arg0(arg0).args(args).env_clear();
+        stage = "helper-control-cloexec";
+        crate::diagnostics::stage(diagnostics, stage);
         if unsafe { libc::fcntl(control_fd, libc::F_SETFD, libc::FD_CLOEXEC) } == -1 {
             return Err(io::Error::last_os_error());
         }
         match setup {
             crate::spawn_helper::Setup::Pipe => {
+                stage = "helper-detach-terminal";
+                crate::diagnostics::stage(diagnostics, stage);
                 crate::process_group::detach_from_tty()?;
+                stage = "helper-parent-death-signal";
+                crate::diagnostics::stage(diagnostics, stage);
                 crate::process_group::set_parent_death_signal(parent_pid)?;
             }
-            crate::spawn_helper::Setup::Pty => crate::pty::configure_child_terminal()?,
+            crate::spawn_helper::Setup::Pty => {
+                stage = "helper-configure-pty";
+                crate::diagnostics::stage(diagnostics, stage);
+                crate::pty::configure_child_terminal()?;
+            }
         }
         // Allocation is safe in this fresh, single-threaded image. CLOEXEC
         // leaves the report socket open until the target actually execs.
+        stage = "helper-descriptor-cleanup";
+        crate::diagnostics::stage(diagnostics, stage);
         crate::pty::close_inherited_fds_except(&inherited_fds)?;
+        stage = "helper-environment-transfer";
+        crate::diagnostics::stage(diagnostics, stage);
         #[cfg(test)]
         crate::spawn_helper_tests::pause_handshake("environment")?;
         let mut size = [0; 4];
@@ -100,6 +119,8 @@ pub(super) fn dispatch(mut args: impl Iterator<Item = std::ffi::OsString>) -> ! 
         }
         #[cfg(test)]
         crate::spawn_helper_tests::pause_handshake("report")?;
+        stage = "helper-target-exec";
+        crate::diagnostics::stage(diagnostics, stage);
         control.write_all(&[REPORT_PREFIX])?;
         reported = true;
         #[cfg(test)]
@@ -109,11 +130,10 @@ pub(super) fn dispatch(mut args: impl Iterator<Item = std::ffi::OsString>) -> ! 
     if !reported {
         let _ = control.write_all(&[REPORT_PREFIX]);
     }
-    let errno = result
-        .err()
-        .and_then(|error| error.raw_os_error())
-        .unwrap_or(libc::EIO);
+    let error = result.expect_err("target exec only returns on failure");
+    crate::diagnostics::failure(diagnostics, stage, &error);
+    let errno = error.raw_os_error().unwrap_or(libc::EIO);
     let _ = control.write_all(&errno.to_le_bytes());
-    // No diagnostics: program arguments and environment may contain secrets.
+    // Diagnostic stages never include program arguments or environment values.
     std::process::exit(127);
 }

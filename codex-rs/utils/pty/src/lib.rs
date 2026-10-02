@@ -1,3 +1,5 @@
+mod diagnostics;
+pub use diagnostics::describe_exit_status;
 mod child;
 pub use child::Child;
 mod child_command;

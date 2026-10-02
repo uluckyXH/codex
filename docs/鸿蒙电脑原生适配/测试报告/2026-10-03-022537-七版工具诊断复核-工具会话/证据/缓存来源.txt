@@ -1,0 +1,1 @@
+只读 APFS 克隆自：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/.harmony-build/测试批次/2026-10-03-022036-七版工具退出与阶段诊断-工具会话

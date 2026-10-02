@@ -43,6 +43,16 @@ const SET_RLIMIT_CORE_FAILED_EXIT_CODE: i32 = 7;
 
 #[cfg(any(target_os = "linux", target_os = "android"))]
 pub(crate) fn pre_main_hardening_linux() {
+    #[cfg(target_env = "ohos")]
+    let diagnostics =
+        std::env::var_os("CODEX_HARMONY_PROCESS_DIAGNOSTICS").is_some_and(|value| value == "1");
+    #[cfg(target_env = "ohos")]
+    if diagnostics {
+        eprintln!(
+            "[codex-process] pid={} stage=main-hardening-dumpable",
+            std::process::id()
+        );
+    }
     // Disable ptrace attach / mark process non-dumpable.
     let ret_code = unsafe { libc::prctl(libc::PR_SET_DUMPABLE, 0, 0, 0, 0) };
     if ret_code != 0 {
@@ -53,12 +63,26 @@ pub(crate) fn pre_main_hardening_linux() {
         std::process::exit(PRCTL_FAILED_EXIT_CODE);
     }
 
+    #[cfg(target_env = "ohos")]
+    if diagnostics {
+        eprintln!(
+            "[codex-process] pid={} stage=main-hardening-core-limit",
+            std::process::id()
+        );
+    }
     // For "defense in depth," set the core file size limit to 0.
     set_core_file_size_limit_to_zero();
 
     // Remove loader variables before later child launches. OHOS uses a dynamic
     // loader, so this cleanup also applies after loading the main process's .env.
     remove_env_vars_with_prefix(b"LD_");
+    #[cfg(target_env = "ohos")]
+    if diagnostics {
+        eprintln!(
+            "[codex-process] pid={} stage=main-hardening-complete",
+            std::process::id()
+        );
+    }
 }
 
 /// Mark the current Linux process non-dumpable so same-user processes cannot attach with ptrace.

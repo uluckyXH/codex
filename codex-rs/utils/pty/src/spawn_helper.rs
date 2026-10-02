@@ -76,6 +76,7 @@ pub(crate) async fn spawn(
     setup: Setup,
 ) -> io::Result<Option<crate::Child>> {
     target.validate()?;
+    let diagnostics = crate::diagnostics::enabled();
     if !is_available() {
         return Ok(None);
     }
@@ -102,6 +103,7 @@ pub(crate) async fn spawn(
         helper
             .arg(HELPER_ARG)
             .arg(fd.to_string())
+            .arg(if diagnostics { "diagnostics" } else { "quiet" })
             .arg(std::process::id().to_string())
             .arg(match setup {
                 Setup::Pipe => "pipe",
@@ -141,13 +143,23 @@ pub(crate) async fn spawn(
     })();
     let (mut control, helper, helper_control) = match prepared {
         Ok(prepared) => prepared,
-        Err(_) => return Ok(None),
+        Err(error) => {
+            crate::diagnostics::failure(diagnostics, "helper-resources", &error);
+            return Ok(None);
+        }
     };
     // Call the shared native backend directly: the helper needs no child callbacks.
     // Unsupported libc/platform setup falls back at the original target boundary.
     let child = match crate::child::posix::NativeChild::spawn(&helper) {
         Ok(Some(child)) => child,
-        Ok(None) | Err(_) => return Ok(None),
+        Ok(None) => {
+            crate::diagnostics::stage(diagnostics, "helper-native-spawn-unavailable");
+            return Ok(None);
+        }
+        Err(error) => {
+            crate::diagnostics::failure(diagnostics, "helper-native-spawn", &error);
+            return Ok(None);
+        }
     };
     drop(helper);
     drop(helper_control);
@@ -164,6 +176,16 @@ pub(crate) async fn spawn(
     let mut report = Vec::new();
     let received = control.take(/*limit*/ 6).read_to_end(&mut report).await;
     if report.is_empty() {
+        crate::diagnostics::stage(diagnostics, "helper-no-exec-acknowledgement");
+        if diagnostics && let Some(child) = starting.0.as_mut() {
+            match tokio::time::timeout(std::time::Duration::from_millis(500), child.wait()).await {
+                Ok(Ok(status)) => crate::diagnostics::wait_status("helper-bootstrap-wait", status),
+                Ok(Err(error)) => {
+                    crate::diagnostics::failure(diagnostics, "helper-bootstrap-wait", &error)
+                }
+                Err(_) => crate::diagnostics::stage(diagnostics, "helper-bootstrap-wait-timeout"),
+            }
+        }
         // Bootstrap can fail before dispatch (for example in the dynamic loader).
         // No prefix means the target never ran. Kill and reap the incomplete
         // helper before falling back, including when its socket was reset.

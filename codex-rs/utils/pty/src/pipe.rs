@@ -279,9 +279,13 @@ async fn spawn_process_with_stdin_mode(
                         "Windows pipe failed to preserve descendants after root exit: {err}"
                     );
                 }
+                crate::diagnostics::wait_status("pipe-wait", status);
                 exit_code_from_status(status)
             }
-            Err(_) => -1,
+            Err(error) => {
+                crate::diagnostics::failure(crate::diagnostics::enabled(), "pipe-wait", &error);
+                -1
+            }
         };
         wait_exit_status.store(true, std::sync::atomic::Ordering::SeqCst);
         if let Ok(mut guard) = wait_exit_code.lock() {

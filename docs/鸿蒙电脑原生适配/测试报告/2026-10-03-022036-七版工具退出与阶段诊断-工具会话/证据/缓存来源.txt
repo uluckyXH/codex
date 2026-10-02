@@ -1,0 +1,2 @@
+只读 APFS 克隆自：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/.harmony-build/测试批次/2026-10-03-015922-七版临时目录与别名边界-工具会话
+宿主产物和鸿蒙检查/target，未修改来源。

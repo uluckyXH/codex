@@ -1396,9 +1396,13 @@ async fn pty_spawn_can_preserve_inherited_fds() -> anyhow::Result<()> {
         write_end.as_raw_fd().to_string(),
     );
 
-    let script = "printf __preserved__ >\"/dev/fd/$PRESERVED_FD\"";
+    // Write the inherited descriptor itself: reopening /dev/fd also tests the
+    // host's path access policy, which can reject an otherwise valid pipe.
+    let python = find_python()
+        .ok_or_else(|| anyhow::anyhow!("Python is required for the inherited-FD fixture"))?;
+    let script = "import os; os.write(int(os.environ['PRESERVED_FD']), b'__preserved__')";
     let spawned = spawn_pty_process(
-        "/bin/sh",
+        &python,
         &["-c".to_string(), script.to_string()],
         Path::new("."),
         &env_map,
@@ -1411,8 +1415,13 @@ async fn pty_spawn_can_preserve_inherited_fds() -> anyhow::Result<()> {
     drop(write_end);
 
     let (_session, output_rx, exit_rx) = combine_spawned_output(spawned);
-    let (_, code) = collect_output_until_exit(output_rx, exit_rx, /*timeout_ms*/ 2_000).await;
-    assert_eq!(code, 0, "expected preserved-fd PTY child to exit cleanly");
+    let (output, code) = collect_output_until_exit(output_rx, exit_rx, /*timeout_ms*/ 2_000).await;
+    assert_eq!(
+        code,
+        0,
+        "expected preserved-fd PTY child to exit cleanly: {}",
+        String::from_utf8_lossy(&output)
+    );
 
     let mut pipe_output = String::new();
     read_end.read_to_string(&mut pipe_output)?;
@@ -1634,9 +1643,13 @@ async fn pipe_spawn_no_stdin_can_preserve_inherited_fds() -> anyhow::Result<()> 
         write_end.as_raw_fd().to_string(),
     );
 
-    let script = "printf __pipe_preserved__ >\"/dev/fd/$PRESERVED_FD\"";
+    // Write the inherited descriptor itself: reopening /dev/fd also tests the
+    // host's path access policy, which can reject an otherwise valid pipe.
+    let python = find_python()
+        .ok_or_else(|| anyhow::anyhow!("Python is required for the inherited-FD fixture"))?;
+    let script = "import os; os.write(int(os.environ['PRESERVED_FD']), b'__pipe_preserved__')";
     let spawned = spawn_pipe_process_no_stdin(
-        "/bin/sh",
+        &python,
         &["-c".to_string(), script.to_string()],
         Path::new("."),
         &env_map,
@@ -1648,12 +1661,100 @@ async fn pipe_spawn_no_stdin_can_preserve_inherited_fds() -> anyhow::Result<()> 
     drop(write_end);
 
     let (_session, output_rx, exit_rx) = combine_spawned_output(spawned);
-    let (_, code) = collect_output_until_exit(output_rx, exit_rx, /*timeout_ms*/ 2_000).await;
-    assert_eq!(code, 0, "expected preserved-fd pipe child to exit cleanly");
+    let (output, code) = collect_output_until_exit(output_rx, exit_rx, /*timeout_ms*/ 2_000).await;
+    assert_eq!(
+        code,
+        0,
+        "expected preserved-fd pipe child to exit cleanly: {}",
+        String::from_utf8_lossy(&output)
+    );
 
     let mut pipe_output = String::new();
     read_end.read_to_string(&mut pipe_output)?;
     assert_eq!(pipe_output, "__pipe_preserved__");
 
+    Ok(())
+}
+
+#[cfg(unix)]
+#[test]
+fn process_diagnostics_preserve_native_status_without_payloads() -> anyhow::Result<()> {
+    const WORKER: &str = "CODEX_TEST_PROCESS_DIAGNOSTICS_WORKER";
+    if std::env::var_os(WORKER).is_some() {
+        let runtime = tokio::runtime::Runtime::new()?;
+        return runtime.block_on(async {
+            let spawned = spawn_pipe_process(
+                "/bin/sh",
+                &[
+                    "-c".into(),
+                    "exit 159".into(),
+                    "private-argument-canary".into(),
+                ],
+                Path::new("/"),
+                &HashMap::from([("PRIVATE_VALUE".into(), "private-environment-canary".into())]),
+                &None,
+                &[],
+            )
+            .await?;
+            assert_eq!(spawned.exit_rx.await?, 159);
+            Ok(())
+        });
+    }
+    for enabled in [false, true] {
+        let output = std::process::Command::new(std::env::current_exe()?)
+            .args([
+                "--exact",
+                "tests::process_diagnostics_preserve_native_status_without_payloads",
+                "--nocapture",
+            ])
+            .env(WORKER, "1")
+            .env(crate::diagnostics::ENV_VAR, if enabled { "1" } else { "0" })
+            .output()?;
+        assert!(output.status.success(), "{output:?}");
+        let stderr = String::from_utf8(output.stderr)?;
+        assert!(!stderr.contains("private-argument-canary"));
+        assert!(!stderr.contains("private-environment-canary"));
+        assert_eq!(stderr.contains("stage=pipe-wait"), enabled);
+        if enabled {
+            assert!(
+                stderr.contains("exit_code=Some(159) signal=None raw_wait_status=40704"),
+                "{stderr}"
+            );
+        }
+    }
+    Ok(())
+}
+
+#[cfg(unix)]
+#[tokio::test]
+async fn pipe_and_pty_can_write_read_and_run_in_a_private_directory() -> anyhow::Result<()> {
+    let directory = tempfile::tempdir()?;
+    for pty in [false, true] {
+        let args = vec!["-c".into(), "pwd; printf 'exit 0\n' > tool-check.sh; /bin/sh tool-check.sh; test \"$(cat tool-check.sh)\" = 'exit 0'".into()];
+        let env = HashMap::from([("PATH".into(), "/usr/bin:/bin".into())]);
+        let spawned = if pty {
+            spawn_pty_process(
+                "/bin/sh",
+                &args,
+                directory.path(),
+                &env,
+                &None,
+                TerminalSize::default(),
+                crate::ChildFds::Inherited(&[]),
+            )
+            .await?
+        } else {
+            spawn_pipe_process("/bin/sh", &args, directory.path(), &env, &None, &[]).await?
+        };
+        let (_session, output_rx, exit_rx) = combine_spawned_output(spawned);
+        let (output, code) = collect_output_until_exit(output_rx, exit_rx, 5_000).await;
+        assert_eq!(code, 0);
+        assert!(!output.is_empty());
+        assert_eq!(
+            std::fs::read_to_string(directory.path().join("tool-check.sh"))?,
+            "exit 0\n"
+        );
+        std::fs::remove_file(directory.path().join("tool-check.sh"))?;
+    }
     Ok(())
 }

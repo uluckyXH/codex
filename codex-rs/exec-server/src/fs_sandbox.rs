@@ -496,7 +496,8 @@ pub(crate) async fn reap_helper_after_response(
     }
 
     Err(internal_error(format!(
-        "fs sandbox helper failed with status {status}: {stderr}",
+        "fs sandbox helper failed at wait: {detail}: {stderr}",
+        detail = codex_utils_pty::describe_exit_status(status),
         stderr = String::from_utf8_lossy(&stderr).trim()
     )))
 }
@@ -508,8 +509,8 @@ pub(crate) async fn wait_for_helper_output(
     let output = child.wait_with_output().await.map_err(io_error)?;
     if !output.status.success() {
         return Err(internal_error(format!(
-            "fs sandbox helper failed with status {status}: {stderr}",
-            status = output.status,
+            "fs sandbox helper failed at wait: {detail}: {stderr}",
+            detail = codex_utils_pty::describe_exit_status(output.status),
             stderr = String::from_utf8_lossy(&output.stderr).trim()
         )));
     }
@@ -1082,4 +1083,23 @@ mod tests {
             missing_path_behavior: None,
         }
     }
+}
+
+#[cfg(all(test, unix))]
+#[tokio::test]
+async fn fs_helper_failure_distinguishes_explicit_exit_from_signal() -> anyhow::Result<()> {
+    for (command, expected) in [
+        (
+            "exit 159",
+            "exit_code=Some(159) signal=None raw_wait_status=40704",
+        ),
+        ("kill -TERM $$", "exit_code=None signal=Some(15)"),
+    ] {
+        let mut child = codex_utils_pty::Command::new("/bin/sh");
+        child.args(["-c", command]);
+        let error = wait_for_helper_output(child.spawn()?).await.unwrap_err();
+        assert!(error.message.contains(expected), "{}", error.message);
+        assert!(error.message.contains("failed at wait"));
+    }
+    Ok(())
 }

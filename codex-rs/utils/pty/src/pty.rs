@@ -276,8 +276,23 @@ async fn spawn_process_portable(
     let wait_exit_code = Arc::clone(&exit_code);
     let wait_handle: JoinHandle<()> = tokio::task::spawn_blocking(move || {
         let code = match child.wait() {
-            Ok(status) => status.exit_code() as i32,
-            Err(_) => -1,
+            Ok(status) => {
+                if crate::diagnostics::enabled() {
+                    eprintln!(
+                        "[codex-process] pid={} stage=portable-pty-wait status={status} raw_wait_status=unavailable",
+                        std::process::id()
+                    );
+                }
+                status.exit_code() as i32
+            }
+            Err(error) => {
+                crate::diagnostics::failure(
+                    crate::diagnostics::enabled(),
+                    "portable-pty-wait",
+                    &error,
+                );
+                -1
+            }
         };
         wait_exit_status.store(true, std::sync::atomic::Ordering::SeqCst);
         if let Ok(mut guard) = wait_exit_code.lock() {
@@ -433,6 +448,12 @@ async fn spawn_process_preserving_fds(
     let exit_code = Arc::new(StdMutex::new(None));
     let wait_exit_code = Arc::clone(&exit_code);
     let on_exit = move |status: std::io::Result<std::process::ExitStatus>| {
+        match &status {
+            Ok(status) => crate::diagnostics::wait_status("pty-wait", *status),
+            Err(error) => {
+                crate::diagnostics::failure(crate::diagnostics::enabled(), "pty-wait", error)
+            }
+        }
         let code = match status {
             Ok(status) if uses_portable_status => {
                 portable_pty::ExitStatus::from(status).exit_code() as i32
