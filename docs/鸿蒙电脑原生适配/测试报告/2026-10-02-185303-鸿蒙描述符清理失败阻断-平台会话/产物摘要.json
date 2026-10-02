@@ -1,0 +1,44 @@
+[
+  {
+    "文件": ".harmony-build/测试批次/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/deps/codex_utils_pty-7c568099d7ab260f",
+    "SHA256": "4b7d26300d2ca58f9017b1d1125ad01644b8c5e9745da3428a70cfeb65018c5f",
+    "字节数": 23940472,
+    "架构": "ELF64 / AArch64",
+    "解释器": [
+      "/lib/ld-musl-aarch64.so.1"
+    ],
+    "动态依赖": [
+      "libc.so"
+    ],
+    "RPATH或RUNPATH": [],
+    "实际运行": false
+  },
+  {
+    "文件": ".harmony-build/测试批次/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/deps/conpty_search_path-ce82373a5829a2d9",
+    "SHA256": "60e34daaff7dec7b61b5d89e376a985cd0ca47a6d7f962d6ab41dd69a0d87a30",
+    "字节数": 7150048,
+    "架构": "ELF64 / AArch64",
+    "解释器": [
+      "/lib/ld-musl-aarch64.so.1"
+    ],
+    "动态依赖": [
+      "libc.so"
+    ],
+    "RPATH或RUNPATH": [],
+    "实际运行": false
+  },
+  {
+    "文件": ".harmony-build/测试批次/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/deps/macos_pipe_spawn-70165b79ad6505d7",
+    "SHA256": "313bd1b9baa1bad9be542ef83811e0974fcaedf28a4bb51a8b5e75a80623a144",
+    "字节数": 7150032,
+    "架构": "ELF64 / AArch64",
+    "解释器": [
+      "/lib/ld-musl-aarch64.so.1"
+    ],
+    "动态依赖": [
+      "libc.so"
+    ],
+    "RPATH或RUNPATH": [],
+    "实际运行": false
+  }
+]

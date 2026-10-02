@@ -1,0 +1,24 @@
+{
+  "工作目录": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+  "分支": "codex/harmony-platform",
+  "被测HEAD": "60b3b68f98da928895546fdd61f24fa3f46823c8",
+  "测试前状态": " M codex-rs/utils/pty/src/child_command.rs\n M codex-rs/utils/pty/src/lib.rs\n M codex-rs/utils/pty/src/linux_fds.rs\n M codex-rs/utils/pty/src/linux_fds_tests.rs\n M codex-rs/utils/pty/src/pty.rs\n M codex-rs/utils/pty/src/spawn_helper_main.rs\n?? codex-rs/utils/pty/src/fd_cleanup_tests.rs\n?? docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/\n",
+  "文件SHA256": {
+    "codex-rs/utils/pty/src/child_command.rs": "fbf86d1eba076268bff16bb6503dd6e920d46eb8358b06f4bf10ac91d87ca353",
+    "codex-rs/utils/pty/src/lib.rs": "31e0b37aa6817c9df4dedd42bac83fecec21963d88b07c5e47d97ad7e7f4e264",
+    "codex-rs/utils/pty/src/linux_fds.rs": "0aadf7740df979b459f3f96fbc4a499c36875fe7c7e30d58641e39958fb9857d",
+    "codex-rs/utils/pty/src/linux_fds_tests.rs": "ca56d3158aa36d9fca27b809e3903d11e285358d83f09109bd714c560259d6a4",
+    "codex-rs/utils/pty/src/pty.rs": "7105d950060d7bebb64e3683829f8c4cce03472f33c58c0f8581a0776a691e32",
+    "codex-rs/utils/pty/src/spawn_helper_main.rs": "32d4843bbc2b3e36abac47f82d7ae53b689548f58b7efe3c7d06a9831cca636d",
+    "codex-rs/utils/pty/src/fd_cleanup_tests.rs": "3dea048029557113b78155ed854625e2b5531c643726691f59adfd96917f74a3",
+    "codex-rs/Cargo.toml": "f420330dd2cd50bb5fc6684e88c99d0c49e91b3f21b626ed655c856507c72870",
+    "codex-rs/Cargo.lock": "c2f0d1ea752d9f1fa310145f9f3403774451c3fa72a94e3f0602e0a46b3dafef"
+  },
+  "最终对应代码提交": "55e9dda8c12d48293f72546972542a76b2e6e76a",
+  "测试期间源码一致性": "静态01 按全部文件摘要核对一致；代码提交后未修改源码",
+  "复现辅助文件SHA256": {
+    "scripts/build_harmony.py": "5a46da7a2166ec6cc61ce8551026df951f398898cabef1f32937fdcbc1c2c49a",
+    "codex-rs/rust-toolchain.toml": "570656042681cfd8795403a455baf9a33035331a07db0645e866bbcea89a3d64",
+    "codex-rs/utils/pty/Cargo.toml": "bacf71d7afedb321054493d7353ea3c2f04eb0ba609e567fef4b7fec9906a2c4"
+  }
+}

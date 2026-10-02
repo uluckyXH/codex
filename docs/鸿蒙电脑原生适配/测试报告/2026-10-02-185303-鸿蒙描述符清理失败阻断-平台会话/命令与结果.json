@@ -1,0 +1,125 @@
+[
+  {
+    "case": "文档01-源码格式",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "rustfmt",
+      "--edition",
+      "2024",
+      "codex-rs/utils/pty/src/linux_fds.rs",
+      "codex-rs/utils/pty/src/fd_cleanup_tests.rs",
+      "codex-rs/utils/pty/src/lib.rs",
+      "codex-rs/utils/pty/src/child_command.rs",
+      "codex-rs/utils/pty/src/spawn_helper_main.rs",
+      "codex-rs/utils/pty/src/pty.rs",
+      "codex-rs/utils/pty/src/linux_fds_tests.rs"
+    ],
+    "ohos": false,
+    "started": "2026-10-02T18:53:24.576206+08:00",
+    "finished": "2026-10-02T18:53:24.663790+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/日志/文档01-源码格式.log",
+    "log_sha256": "35c4d4b24d5a75767d82ce2fcdca78f46b05e87e2e4a9e572bf66e2c94df80b7"
+  },
+  {
+    "case": "宿主01-描述符与进程回归",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "codex-rs/Cargo.toml",
+      "--locked",
+      "--target",
+      "aarch64-apple-darwin",
+      "-p",
+      "codex-utils-pty"
+    ],
+    "ohos": false,
+    "started": "2026-10-02T18:58:08.817508+08:00",
+    "finished": "2026-10-02T18:58:23.444853+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/日志/宿主01-描述符与进程回归.log",
+    "log_sha256": "d506ac20744f82998c03fbd6942a4e292a99775b14728d2fba6c46fac8b04ebf"
+  },
+  {
+    "case": "交叉01-描述符清理目标检查",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "python3",
+      "scripts/build_harmony.py",
+      "check",
+      "--sdk",
+      "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native",
+      "--output-dir",
+      "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/鸿蒙构建",
+      "--package",
+      "codex-utils-pty"
+    ],
+    "ohos": false,
+    "started": "2026-10-02T18:59:51.296579+08:00",
+    "finished": "2026-10-02T18:59:56.989117+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/日志/交叉01-描述符清理目标检查.log",
+    "log_sha256": "c41b334a4f0a6cf263d53444568a0e74000a871d0f95825eb2637b82eea33c0d"
+  },
+  {
+    "case": "交叉03-描述符目标测试链接",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "codex-rs/Cargo.toml",
+      "--locked",
+      "--no-run",
+      "--target",
+      "aarch64-unknown-linux-ohos",
+      "-p",
+      "codex-utils-pty"
+    ],
+    "ohos": true,
+    "started": "2026-10-02T19:00:45.141741+08:00",
+    "finished": "2026-10-02T19:00:53.491475+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/日志/交叉03-描述符目标测试链接.log",
+    "log_sha256": "da1f5676c0777ccf1dbecf66eab3bbc082e19a387a9428d1877687c1fbc555ac"
+  },
+  {
+    "case": "静态01-描述符测试产物",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "python3",
+      "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/静态与交付检查.py"
+    ],
+    "ohos": false,
+    "started": "2026-10-02T19:02:53.507042+08:00",
+    "finished": "2026-10-02T19:02:53.760661+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/日志/静态01-描述符测试产物.log",
+    "log_sha256": "70e13465f01bc6a52718a0c19215deb6987fe1a3c755ff1f2cac4666d4ba1e70"
+  },
+  {
+    "case": "文档01-报告交付检查",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "python3",
+      "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/报告检查.py"
+    ],
+    "ohos": false,
+    "started": "2026-10-02T19:11:31.144548+08:00",
+    "finished": "2026-10-02T19:11:32.974757+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/日志/文档01-报告交付检查.log",
+    "log_sha256": "cab7ec5a859b8fd3085edfd0779403edcc8ad9e5c8afbf0bb04cc242920a637e"
+  }
+]
