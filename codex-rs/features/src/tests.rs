@@ -15,6 +15,14 @@ use toml::Table;
 use toml::Value as TomlValue;
 
 #[test]
+fn local_daemon_default_respects_platform_support() {
+    assert_eq!(
+        Features::with_defaults().enabled(Feature::DaemonAutoStart),
+        !cfg!(target_env = "ohos"),
+    );
+}
+
+#[test]
 fn sleep_tool_config_rejects_unknown_mode() {
     assert!(toml::from_str::<FeaturesToml>("[sleep_tool]\nmode = 'off'").is_err());
 }

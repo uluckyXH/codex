@@ -7,6 +7,8 @@
 use super::*;
 use std::collections::BTreeMap;
 
+pub(super) mod platform;
+
 const SERVER_FEATURES: [Feature; 4] = [
     Feature::ApiKeyModelDiscovery,
     Feature::CodeModeHost,
@@ -35,6 +37,8 @@ pub(super) fn exclusion(
 ) -> Option<&'static str> {
     if cli.no_daemon {
         Some("--no-daemon")
+    } else if !platform::local_daemon_supported() {
+        Some("local daemon is unavailable on HarmonyOS")
     } else if cli.oss {
         Some("--oss")
     } else if workload_identity_selected {

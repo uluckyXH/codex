@@ -51,6 +51,17 @@ const DESKTOP_UPDATE_URL: &str =
 /// warning instead of failing doctor outright; update freshness is useful
 /// support context but should not mask more direct install/config failures.
 pub(super) async fn updates_check(config: &Config) -> DoctorCheck {
+    if cfg!(target_env = "ohos") {
+        return DoctorCheck::new(
+            "updates.status",
+            "updates",
+            CheckStatus::Warning,
+            "Updates are unavailable for this HarmonyOS build.",
+        )
+        .detail("update action: unavailable on HarmonyOS")
+        .detail("upstream version probe: skipped (no compatible HarmonyOS update channel)")
+        .remediation("Install a compatible HarmonyOS release manually.");
+    }
     let current_exe = std::env::current_exe().ok();
     let install_context = doctor_install_context(current_exe.as_deref());
     let mut details = vec![

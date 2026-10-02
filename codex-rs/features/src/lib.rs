@@ -969,7 +969,7 @@ pub const FEATURES: &[FeatureSpec] = &[
         id: Feature::DaemonAutoStart,
         key: "daemon_auto_start",
         stage: Stage::Stable,
-        default_enabled: true,
+        default_enabled: !cfg!(target_env = "ohos"),
     },
     FeatureSpec {
         id: Feature::TranscriptV2,

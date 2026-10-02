@@ -23,6 +23,13 @@ pub(super) async fn run_main_inner(
             "--add-dir is not supported with --remote. Configure additional workspace roots on the server.",
         ));
     }
+    daemon_startup::platform::validate_request(
+        daemon_startup::platform::local_daemon_supported(),
+        cli.agents_overview,
+        /*auto_start_enabled*/ false,
+        cli.no_daemon,
+        explicit_remote_endpoint.is_some(),
+    )?;
     #[cfg(windows)]
     let elevated_warning = if explicit_remote_endpoint.is_none()
         && !cli.no_daemon
@@ -506,6 +513,13 @@ pub(super) async fn run_main_inner(
     } else {
         None
     };
+    daemon_startup::platform::validate_request(
+        daemon_startup::platform::local_daemon_supported(),
+        cli.agents_overview,
+        config.features.enabled(Feature::DaemonAutoStart),
+        cli.no_daemon,
+        app_server_target.uses_remote_workspace(),
+    )?;
     let auto_start_daemon = config.features.enabled(Feature::DaemonAutoStart)
         && !cli.agents_overview
         && !cli.no_daemon

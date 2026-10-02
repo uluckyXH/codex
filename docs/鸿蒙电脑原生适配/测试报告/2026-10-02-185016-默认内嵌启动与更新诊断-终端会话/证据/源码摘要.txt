@@ -1,0 +1,9 @@
+被测 HEAD：28a548691a051703db4c2c75ddd0441020b3b343
+工作区：含未提交修改；仅以下功能与测试源文件。
+3758f914b8565a092574ef0588b227b59f45edecee704da9179150e7a85b95c5  codex-rs/cli/src/doctor/updates.rs
+10d255cde855ad19b45dd80aaca8ece77de1ecc27c83367debb89c02974963b2  codex-rs/features/src/lib.rs
+e2b31f09660edb21fec0d1988b2b65bd5703b4e92350337e177f7582a9d52bfe  codex-rs/features/src/tests.rs
+719f3437e2fafa9267c40f474906c549e1ea29770b0d2f6f7be00defdae5b33a  codex-rs/tui/src/daemon_startup.rs
+7d1636aed7fb8bdb11af6ca098cf23b2ad4d172d493972ed3f3028ad24aac74d  codex-rs/tui/src/daemon_startup_tests.rs
+987b4abf911f6670283bde65775842ff0f9439f25c60c85080f124ef10a415dc  codex-rs/tui/src/startup_orchestration.rs
+f43c9fd5a37070b4f4615b116fe669433bbd7d6a47f17b2ce79e6fc546874c4d  codex-rs/tui/src/daemon_startup/platform.rs

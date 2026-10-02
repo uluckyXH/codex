@@ -1,0 +1,74 @@
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T18:50:44+08:00
+命令：rustup run 1.95.0 rustc --edition 2024 --test --crate-name harmony_daemon_policy --target aarch64-unknown-linux-ohos -C debug-assertions=no --emit metadata '/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-185016-默认内嵌启动与更新诊断-终端会话/策略入口.rs' -o '/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-185016-默认内嵌启动与更新诊断-终端会话/harmony-daemon-policy.rmeta'
+
+结束时间：2026-10-02T18:50:44+08:00
+退出码：0
+
+
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T18:50:44+08:00
+命令：rustup run 1.95.0 rustc --edition 2024 --test --crate-name harmony_daemon_policy --target aarch64-apple-darwin '/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-185016-默认内嵌启动与更新诊断-终端会话/策略入口.rs' -o '/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-185016-默认内嵌启动与更新诊断-终端会话/harmony-daemon-policy-tests'
+warning: output of `xcrun` while finding MacOSX.sdk
+  |
+  = note: 2026-10-02 18:50:45.833 xcodebuild[98238:3980459]  DVTFilePathFSEvents: Failed to start fs event stream.
+          2026-10-02 18:50:46.043 xcodebuild[98238:3980458] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+          2026-10-02 18:50:46.515 xcodebuild[98243:3980501]  DVTFilePathFSEvents: Failed to start fs event stream.
+          2026-10-02 18:50:46.617 xcodebuild[98243:3980499] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+
+warning: 1 warning emitted
+
+
+结束时间：2026-10-02T18:50:47+08:00
+退出码：0
+
+
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T18:50:47+08:00
+命令：'/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-185016-默认内嵌启动与更新诊断-终端会话/harmony-daemon-policy-tests'
+
+running 4 tests
+test platform::tests::existing_remote_and_other_platform_launches_are_preserved ... ok
+test platform::tests::harmony_default_and_no_daemon_use_embedded_sessions ... ok
+test platform::tests::harmony_explicit_auto_start_reports_the_setting_and_recovery ... ok
+test platform::tests::harmony_local_agents_overview_requires_a_supported_daemon ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+结束时间：2026-10-02T18:50:47+08:00
+退出码：0
+
+
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T18:52:22+08:00
+命令：rustup run 1.95.0 rustc --version
+rustc 1.95.0 (59807616e 2026-04-14)
+
+结束时间：2026-10-02T18:52:22+08:00
+退出码：0
+
+
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T18:52:22+08:00
+命令：rustup run 1.95.0 rustfmt --edition 2024 --config skip_children=true --check codex-rs/features/src/lib.rs codex-rs/features/src/tests.rs codex-rs/tui/src/daemon_startup.rs codex-rs/tui/src/daemon_startup/platform.rs codex-rs/tui/src/daemon_startup_tests.rs codex-rs/tui/src/startup_orchestration.rs codex-rs/cli/src/doctor/updates.rs
+Warning: can't set `imports_granularity = Item`, unstable features are only available in nightly channel.
+Warning: can't set `imports_granularity = Item`, unstable features are only available in nightly channel.
+Warning: can't set `imports_granularity = Item`, unstable features are only available in nightly channel.
+Warning: can't set `imports_granularity = Item`, unstable features are only available in nightly channel.
+Warning: can't set `imports_granularity = Item`, unstable features are only available in nightly channel.
+Warning: can't set `imports_granularity = Item`, unstable features are only available in nightly channel.
+Warning: can't set `imports_granularity = Item`, unstable features are only available in nightly channel.
+
+结束时间：2026-10-02T18:52:22+08:00
+退出码：0
+
+
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T18:52:22+08:00
+命令：git diff --check
+2026-10-02 18:52:22.721 xcodebuild[98719:3984940]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-10-02 18:52:22.853 xcodebuild[98719:3984932] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+
+结束时间：2026-10-02T18:52:23+08:00
+退出码：0

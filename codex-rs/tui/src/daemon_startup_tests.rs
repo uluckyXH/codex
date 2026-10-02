@@ -346,6 +346,7 @@ async fn daemon_startup_falls_back_only_for_implicit_endpoints() -> color_eyre::
 }
 
 #[test]
+#[cfg(not(target_env = "ohos"))]
 fn daemon_eligibility_preserves_launch_options_and_explains_exclusions() {
     use clap::Parser;
     for (args, expected) in [
@@ -423,6 +424,31 @@ fn daemon_eligibility_preserves_launch_options_and_explains_exclusions() {
         ),
         None
     );
+}
+
+#[test]
+#[cfg(target_env = "ohos")]
+fn harmony_never_discovers_an_implicit_local_daemon() {
+    use clap::Parser;
+    for args in [vec!["codex"], vec!["codex", "--no-daemon"]] {
+        let cli = Cli::parse_from(args);
+        let reason = daemon_startup::exclusion(
+            &cli,
+            &[],
+            &LoaderOverrides::default(),
+            /*workload_identity_selected*/ false,
+            /*exec_server_url*/ None,
+        )
+        .expect("HarmonyOS should use an embedded session");
+        assert_eq!(
+            reason,
+            if cli.no_daemon {
+                "--no-daemon"
+            } else {
+                "local daemon is unavailable on HarmonyOS"
+            },
+        );
+    }
 }
 
 #[test]
