@@ -128,6 +128,8 @@ mod config_update;
 pub(crate) mod custom_terminal;
 mod daybreak;
 mod experimental_features;
+#[cfg(any(target_env = "ohos", all(test, unix)))]
+mod harmony_clipboard;
 mod markdown_copy;
 mod permission_discovery;
 mod pets;

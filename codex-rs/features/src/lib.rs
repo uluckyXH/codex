@@ -16,6 +16,7 @@ use toml::Table;
 
 mod feature_configs;
 mod legacy;
+pub mod platform;
 pub use feature_configs::CodeModeConfigToml;
 pub use feature_configs::CodeModeHostConfigToml;
 pub use feature_configs::ContextManagementConfigToml;
@@ -537,7 +538,14 @@ impl Features {
     }
 
     pub fn enabled(&self, f: Feature) -> bool {
-        self.enabled.contains(&f)
+        self.enabled.contains(&f) && platform::unavailable_reason(f).is_none()
+    }
+
+    /// Retain explicit requests for validation even when this target cannot run them.
+    pub fn unavailable_enabled_feature(&self) -> Option<(Feature, &'static str)> {
+        self.enabled.iter().find_map(|feature| {
+            platform::unavailable_reason(*feature).map(|reason| (*feature, reason))
+        })
     }
 
     /// Returns whether persistent execution is enabled for the selected effort.
@@ -716,7 +724,11 @@ impl Features {
     }
 
     pub fn enabled_features(&self) -> Vec<Feature> {
-        self.enabled.iter().copied().collect()
+        self.enabled
+            .iter()
+            .copied()
+            .filter(|feature| self.enabled(*feature))
+            .collect()
     }
 
     pub fn normalize_dependencies(&mut self) {
@@ -1030,7 +1042,7 @@ pub const FEATURES: &[FeatureSpec] = &[
         id: Feature::UnifiedExecZshFork,
         key: "unified_exec_zsh_fork",
         stage: Stage::Removed,
-        default_enabled: true,
+        default_enabled: !cfg!(target_env = "ohos"),
     },
     FeatureSpec {
         id: Feature::ShellSnapshot,
@@ -1106,7 +1118,7 @@ pub const FEATURES: &[FeatureSpec] = &[
         id: Feature::CodeModeHost,
         key: "code_mode_host",
         stage: Stage::Stable,
-        default_enabled: true,
+        default_enabled: !cfg!(target_env = "ohos"),
     },
     FeatureSpec {
         id: Feature::CodeModePrewarm,
@@ -1530,13 +1542,13 @@ pub const FEATURES: &[FeatureSpec] = &[
         id: Feature::InAppBrowser,
         key: "in_app_browser",
         stage: Stage::Stable,
-        default_enabled: true,
+        default_enabled: !cfg!(target_env = "ohos"),
     },
     FeatureSpec {
         id: Feature::BrowserAnnotationApi,
         key: "browser_annotation_api",
         stage: Stage::Stable,
-        default_enabled: true,
+        default_enabled: !cfg!(target_env = "ohos"),
     },
     FeatureSpec {
         id: Feature::InAppChat,
@@ -1548,19 +1560,19 @@ pub const FEATURES: &[FeatureSpec] = &[
         id: Feature::InAppDictation,
         key: "in_app_dictation",
         stage: Stage::Stable,
-        default_enabled: true,
+        default_enabled: !cfg!(target_env = "ohos"),
     },
     FeatureSpec {
         id: Feature::InAppVoice,
         key: "in_app_voice",
         stage: Stage::Stable,
-        default_enabled: true,
+        default_enabled: !cfg!(target_env = "ohos"),
     },
     FeatureSpec {
         id: Feature::InAppLocalAutomation,
         key: "in_app_local_automation",
         stage: Stage::Stable,
-        default_enabled: true,
+        default_enabled: !cfg!(target_env = "ohos"),
     },
     FeatureSpec {
         id: Feature::InAppUpdates,
@@ -1572,25 +1584,25 @@ pub const FEATURES: &[FeatureSpec] = &[
         id: Feature::BrowserUse,
         key: "browser_use",
         stage: Stage::Stable,
-        default_enabled: true,
+        default_enabled: !cfg!(target_env = "ohos"),
     },
     FeatureSpec {
         id: Feature::BrowserUseFullCdpAccess,
         key: "browser_use_full_cdp_access",
         stage: Stage::Stable,
-        default_enabled: true,
+        default_enabled: !cfg!(target_env = "ohos"),
     },
     FeatureSpec {
         id: Feature::BrowserUseExternal,
         key: "browser_use_external",
         stage: Stage::Stable,
-        default_enabled: true,
+        default_enabled: !cfg!(target_env = "ohos"),
     },
     FeatureSpec {
         id: Feature::ComputerUse,
         key: "computer_use",
         stage: Stage::Stable,
-        default_enabled: true,
+        default_enabled: !cfg!(target_env = "ohos"),
     },
     FeatureSpec {
         id: Feature::RemotePlugin,
@@ -1860,7 +1872,7 @@ pub const FEATURES: &[FeatureSpec] = &[
         id: Feature::RealtimeConversation,
         key: "realtime_conversation",
         stage: Stage::Stable,
-        default_enabled: true,
+        default_enabled: !cfg!(target_env = "ohos"),
     },
     FeatureSpec {
         id: Feature::RemoteControl,

@@ -563,8 +563,9 @@ impl ThreadManager {
             codex_apps_tools_cache,
         ));
         let code_mode_session_provider: Arc<dyn CodeModeSessionProvider> =
-            if config.features.enabled(Feature::CodeModeHost)
-                || config.code_mode.disable_in_process_fallback
+            if codex_features::platform::unavailable_reason(Feature::CodeModeHost).is_none()
+                && (config.features.enabled(Feature::CodeModeHost)
+                    || config.code_mode.disable_in_process_fallback)
             {
                 Arc::new(ProcessOwnedCodeModeSessionProvider::default())
             } else {

@@ -69,6 +69,7 @@ impl ManagedFeatures {
         feature_requirements: Option<Sourced<FeatureRequirementsToml>>,
         startup_warnings: Option<&mut Vec<String>>,
     ) -> std::io::Result<Self> {
+        validate_platform_features(&configured_features)?;
         let (pinned_features, source) = match feature_requirements {
             Some(Sourced {
                 value: feature_requirements,
@@ -81,6 +82,7 @@ impl ManagedFeatures {
         };
 
         let normalized_features = normalize_candidate(configured_features, &pinned_features);
+        validate_platform_features(&normalized_features)?;
         validate_pinned_features(&normalized_features, &pinned_features, source.as_ref())?;
         Ok(Self {
             value: ConstrainedWithSource::new(Constrained::allow_any(normalized_features), source),
@@ -93,7 +95,9 @@ impl ManagedFeatures {
     }
 
     fn normalize_and_validate(&self, candidate: Features) -> ConstraintResult<Features> {
+        validate_platform_features(&candidate)?;
         let normalized = normalize_candidate(candidate, &self.pinned_features);
+        validate_platform_features(&normalized)?;
         self.value.can_set(&normalized)?;
         validate_pinned_features_constraint(
             &normalized,
@@ -147,6 +151,16 @@ impl ManagedFeatures {
     pub fn disable(&mut self, feature: Feature) -> ConstraintResult<()> {
         self.set_enabled(feature, /*enabled*/ false)
     }
+}
+
+fn validate_platform_features(features: &Features) -> ConstraintResult<()> {
+    if let Some((feature, reason)) = features.unavailable_enabled_feature() {
+        return Err(ConstraintError::UnsupportedFeature {
+            feature: feature.key().to_owned(),
+            reason,
+        });
+    }
+    Ok(())
 }
 
 /// Only available for tests to ensure `ManagedFeatures` is constructed with
@@ -368,4 +382,31 @@ pub(crate) fn validate_feature_requirements_in_config_toml(
         FeatureOverrides::default(),
     );
     ManagedFeatures::from_configured(configured_features, feature_requirements.cloned()).map(|_| ())
+}
+
+#[cfg(all(test, target_env = "ohos"))]
+mod platform_tests {
+    use super::*;
+
+    #[test]
+    fn unsupported_features_fail_at_load_and_runtime_mutation() {
+        let mut requested = Features::with_defaults();
+        requested.enable(Feature::CodeModeHost);
+        let error = ManagedFeatures::from_configured(requested, None).unwrap_err();
+        assert!(error.to_string().contains("features.code_mode_host=true"));
+
+        let mut managed =
+            ManagedFeatures::from_configured(Features::with_defaults(), None).unwrap();
+        assert!(managed.enable(Feature::RealtimeConversation).is_err());
+        assert!(!managed.enabled(Feature::RealtimeConversation));
+        assert!(managed.enabled(Feature::UnifiedExec));
+    }
+
+    #[test]
+    fn managed_requirement_cannot_supply_a_missing_native_host() {
+        let requested = Features::with_defaults();
+        let pins = BTreeMap::from([(Feature::CodeModeHost, true)]);
+        let normalized = normalize_candidate(requested, &pins);
+        assert!(validate_platform_features(&normalized).is_err());
+    }
 }

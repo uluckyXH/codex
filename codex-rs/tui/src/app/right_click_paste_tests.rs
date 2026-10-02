@@ -14,7 +14,7 @@ fn policy_preserves_explicit_modes_and_terminal_ownership() {
         (true, false, true, Unknown, [false, true, false]),
         (true, false, true, Other, [false, true, true]),
     ] {
-        if cfg!(any(target_os = "android", target_env = "ohos")) {
+        if cfg!(target_os = "android") {
             expected[1] = false;
         }
         let env = PasteEnvironment {

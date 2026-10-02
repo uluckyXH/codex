@@ -2730,7 +2730,7 @@ fn resolve_feature_enabled(feature: Option<&codex_config::config_toml::FeatureTo
     feature.and_then(|feature| feature.enabled).unwrap_or(true)
 }
 
-fn resolve_code_mode_config(config_toml: &ConfigToml) -> CodeModeConfig {
+fn resolve_code_mode_config(config_toml: &ConfigToml) -> std::io::Result<CodeModeConfig> {
     let base = code_mode_toml_config(config_toml.features.as_ref());
     let host = config_toml
         .features
@@ -2741,7 +2741,17 @@ fn resolve_code_mode_config(config_toml: &ConfigToml) -> CodeModeConfig {
             FeatureToml::Config(config) => Some(config),
         });
 
-    CodeModeConfig {
+    if host.and_then(|config| config.disable_in_process_fallback) == Some(true)
+        && let Some(reason) = codex_features::platform::unavailable_reason(Feature::CodeModeHost)
+    {
+        return Err(std::io::Error::new(
+            std::io::ErrorKind::Unsupported,
+            format!(
+                "features.code_mode_host.disable_in_process_fallback=true is unavailable on HarmonyOS: {reason}"
+            ),
+        ));
+    }
+    Ok(CodeModeConfig {
         default_exec_yield_time_ms: base
             .and_then(|config| config.default_exec_yield_time_ms)
             .unwrap_or(DEFAULT_CODE_MODE_EXEC_YIELD_TIME_MS),
@@ -2762,7 +2772,7 @@ fn resolve_code_mode_config(config_toml: &ConfigToml) -> CodeModeConfig {
         disable_in_process_fallback: host
             .and_then(|config| config.disable_in_process_fallback)
             .unwrap_or_default(),
-    }
+    })
 }
 
 fn resolve_multi_agent_v2_config(config_toml: &ConfigToml) -> MultiAgentV2Config {
@@ -3795,7 +3805,7 @@ impl Config {
                 .and_then(|config| config.turn_metadata_includes_tool_info)
                 .unwrap_or_default(),
         };
-        let code_mode = resolve_code_mode_config(&cfg);
+        let code_mode = resolve_code_mode_config(&cfg)?;
         let multi_agent_v2 = resolve_multi_agent_v2_config(&cfg);
         let token_budget = resolve_token_budget_config(&cfg, &features)?;
         let rollout_budget = resolve_rollout_budget_config(&cfg, &features)?;

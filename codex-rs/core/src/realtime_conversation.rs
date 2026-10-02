@@ -1316,6 +1316,13 @@ async fn prepare_realtime_start(
     sess: &Arc<Session>,
     params: ConversationStartParams,
 ) -> CodexResult<PreparedRealtimeConversationStart> {
+    if let Some(reason) =
+        codex_features::platform::unavailable_reason(codex_features::Feature::RealtimeConversation)
+    {
+        return Err(CodexErr::InvalidRequest(format!(
+            "Realtime conversation is unavailable on HarmonyOS: {reason}"
+        )));
+    }
     let provider = sess.provider().await;
     let auth_manager = sess
         .services

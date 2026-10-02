@@ -6,6 +6,20 @@ pub(super) fn unsupported_code_mode_warning(
     model_info: &ModelInfo,
     features: &Features,
 ) -> Option<String> {
+    if let Some(reason) = codex_features::platform::unavailable_reason(Feature::CodeMode)
+        && matches!(
+            model_info.tool_mode,
+            Some(
+                codex_protocol::openai_models::ToolMode::CodeMode
+                    | codex_protocol::openai_models::ToolMode::CodeModeOnly
+            )
+        )
+    {
+        return Some(format!(
+            "Model `{}` advertises Code Mode, but {reason}. Direct tools will be used.",
+            model_info.slug
+        ));
+    }
     let code_mode_enabled =
         features.enabled(Feature::CodeMode) || features.enabled(Feature::CodeModeOnly);
     if !code_mode_enabled

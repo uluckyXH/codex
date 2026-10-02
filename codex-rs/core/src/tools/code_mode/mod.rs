@@ -89,7 +89,11 @@ impl CodeModeService {
         executed_tool_calls: ExecutedToolCalls,
     ) -> Self {
         let dispatch_broker = Arc::new(CodeModeDispatchBroker::new(thread_id, executed_tool_calls));
-        let availability = session_provider.availability();
+        let availability =
+            match codex_features::platform::unavailable_reason(codex_features::Feature::CodeMode) {
+                Some(reason) => Err(reason.to_owned()),
+                None => session_provider.availability(),
+            };
         Self {
             session: OnceCell::new(),
             session_provider,
@@ -107,6 +111,12 @@ impl CodeModeService {
 
     pub(crate) fn take_unavailable_warning(&self, tool_mode: ToolMode) -> Option<String> {
         let error = self.availability.as_ref().err()?;
+        if cfg!(target_env = "ohos") {
+            return (!self
+                .unavailable_warning_emitted
+                .swap(true, Ordering::Relaxed))
+            .then(|| format!("Code Mode is unavailable: {error}. Direct tools remain available."));
+        }
         let behavior = match tool_mode {
             ToolMode::Direct => "Falling back to direct tools",
             ToolMode::CodeMode | ToolMode::CodeModeOnly => "Code mode will fail closed",
@@ -230,6 +240,11 @@ impl CodeModeService {
     }
 
     pub(crate) async fn session(&self) -> Result<Arc<dyn CodeModeSession>, String> {
+        if let Some(reason) =
+            codex_features::platform::unavailable_reason(codex_features::Feature::CodeMode)
+        {
+            return Err(reason.to_owned());
+        }
         if self.shutdown_token.is_cancelled() {
             return Err("code mode session is shutting down".to_string());
         }

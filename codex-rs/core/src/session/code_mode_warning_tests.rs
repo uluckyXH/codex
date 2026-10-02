@@ -16,6 +16,7 @@ fn known_model_info() -> ModelInfo {
 }
 
 #[test]
+#[cfg(not(target_env = "ohos"))]
 fn warns_when_code_mode_is_enabled_without_model_selector() {
     let mut features = Features::with_defaults();
     features.enable(Feature::CodeMode);
@@ -29,6 +30,7 @@ fn warns_when_code_mode_is_enabled_without_model_selector() {
 }
 
 #[test]
+#[cfg(not(target_env = "ohos"))]
 fn warns_when_code_mode_only_is_enabled_without_model_selector() {
     let mut features = Features::with_defaults();
     features.enable(Feature::CodeModeOnly);
@@ -45,6 +47,7 @@ fn does_not_warn_when_code_mode_is_disabled() {
 }
 
 #[test]
+#[cfg(not(target_env = "ohos"))]
 fn does_not_warn_when_model_has_tool_mode_selector() {
     let mut features = Features::with_defaults();
     features.enable(Feature::CodeModeOnly);
@@ -55,6 +58,21 @@ fn does_not_warn_when_model_has_tool_mode_selector() {
             ..known_model_info()
         };
         assert_eq!(unsupported_code_mode_warning(&model_info, &features), None);
+    }
+}
+
+#[cfg(target_env = "ohos")]
+#[test]
+fn harmony_explains_direct_tools_for_code_mode_model_metadata() {
+    for tool_mode in [ToolMode::CodeMode, ToolMode::CodeModeOnly] {
+        let model_info = ModelInfo {
+            tool_mode: Some(tool_mode),
+            ..known_model_info()
+        };
+        let warning =
+            unsupported_code_mode_warning(&model_info, &Features::with_defaults()).unwrap();
+        assert!(warning.contains("Direct tools will be used"));
+        assert!(warning.contains("HarmonyOS"));
     }
 }
 

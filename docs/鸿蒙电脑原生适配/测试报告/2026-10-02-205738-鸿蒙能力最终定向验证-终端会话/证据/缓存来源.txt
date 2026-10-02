@@ -1,0 +1,7 @@
+APFS 写时复制，独立目标：
+来源：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/鸿蒙检查/target
+本批：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/鸿蒙检查/target
+APFS 写时复制，独立目标：
+来源：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-202646-鸿蒙能力约束与原生剪贴板-终端会话/宿主产物
+本批：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/宿主产物
+没有将来源批次的测试结论当作本批执行结果。

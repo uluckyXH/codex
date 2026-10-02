@@ -45,7 +45,7 @@ impl PasteEnvironment {
         }
         match mode {
             RightClickPaste::Off => false,
-            RightClickPaste::On => !cfg!(any(target_os = "android", target_env = "ohos")),
+            RightClickPaste::On => !cfg!(target_os = "android"),
             RightClickPaste::Auto => {
                 self.platform_default && !(self.wsl && self.vscode == VscodeDetection::Unknown)
             }

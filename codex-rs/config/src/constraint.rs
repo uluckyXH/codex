@@ -6,6 +6,11 @@ use thiserror::Error;
 
 #[derive(Debug, Error, PartialEq, Eq)]
 pub enum ConstraintError {
+    #[error("features.{feature}=true is unavailable on this platform: {reason}")]
+    UnsupportedFeature {
+        feature: String,
+        reason: &'static str,
+    },
     #[error(
         "invalid value for `{field_name}`: `{candidate}` is not in the allowed set {allowed} (set by {requirement_source})"
     )]

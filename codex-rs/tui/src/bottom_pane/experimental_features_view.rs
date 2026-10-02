@@ -326,6 +326,9 @@ impl BottomPaneView for ExperimentalFeaturesView {
                 let mut count = 0;
                 for feature in features {
                     if feature.stage != ExperimentalFeatureStage::Beta
+                        || codex_features::feature_for_key(&feature.name).is_some_and(|feature| {
+                            codex_features::platform::unavailable_reason(feature).is_some()
+                        })
                         || (feature.name == Feature::RealtimeConversation.key()
                             && !self.voice_supported)
                     {

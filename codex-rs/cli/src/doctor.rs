@@ -73,6 +73,7 @@ use serde::Serialize;
 use supports_color::Stream;
 
 mod background;
+mod capabilities;
 mod desktop;
 mod disk;
 mod filesystem_paths;
@@ -157,6 +158,10 @@ const NARROW_TERMINAL_ROWS: u16 = 24;
 /// detailed diagnostics by default; --summary keeps the terminal output compact.
 #[derive(Debug, Parser)]
 pub struct DoctorCommand {
+    /// Inspect compiled capabilities and local tool paths without configuration,
+    /// credentials, clipboard/audio access, network requests, or child processes.
+    #[arg(long, default_value_t = false)]
+    capabilities: bool,
     /// Internal isolated filesystem probe; exits before loading configuration.
     #[arg(long, hide = true)]
     probe_filesystem_path: Option<PathBuf>,
@@ -329,7 +334,11 @@ pub async fn run_doctor(
     if let Some(path) = &command.probe_filesystem_path {
         std::process::exit(filesystem_paths::probe_exit_code(path));
     }
-    let report = build_report(&command, root_config_overrides, interactive, arg0_paths).await;
+    let report = if command.capabilities {
+        capabilities::report()
+    } else {
+        build_report(&command, root_config_overrides, interactive, arg0_paths).await
+    };
 
     if command.json {
         println!(
@@ -365,6 +374,7 @@ async fn build_report(
     }));
     checks.push(run_sync_check("runtime", progress.clone(), runtime_check));
     checks.push(run_sync_check("search", progress.clone(), search_check));
+    checks.push(capabilities::capabilities_check());
 
     progress.begin("config");
     let config_started = Instant::now();

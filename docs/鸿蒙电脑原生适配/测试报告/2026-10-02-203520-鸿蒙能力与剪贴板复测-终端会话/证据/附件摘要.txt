@@ -1,0 +1,15 @@
+SHA-256；绝对路径的原始日志/产物保存在外置盘，未上传二进制。
+f88ba45515ecfde3072bd036edc900d6c359b968469fd1e1553fcf100d5016fe  /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/日志/交叉01-剪贴板Rust接口.log
+9d0d3dc886f285518eeaf8c49b74458c565f23cf20a0ec6260a97237569708ff  /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/日志/交叉01-受影响完整CLI.log
+3bc95d20ab952bc55c7fa28827aaf932eadc85932c41c5bba94f6517c6769f75  /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/日志/交叉02-剪贴板公开ABI.log
+500bc648d55c2a75b1f659357e33db805188d4a3398b904130c2c4131deb9221  /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/日志/宿主01-剪贴板接口.log
+29766c6538027483ecc7195cfe9fa4f2d98cf556fe22b983c20adee1bca0ef11  /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/日志/静态01-剪贴板探针ELF.log
+425c83c7d2dceb9651172adf21306a9b6556c0fb72ab225a8f3f77587546473a  /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/剪贴板ABI检查
+73b64abdf3b1add06ba64cec894239fc0be9d77fabeaf6b3a3ea91bd7794301b  证据/剪贴板ABI检查.c
+42ac301f3291bf11b459edd8e925a764dec89655e13bf0dd1c198072ae600e62  证据/剪贴板定向清单.toml
+8ceb1c7159b5abb4ecf3696521bc3d8a17e1917447851200476a024d4cb32ec8  证据/剪贴板测试入口.rs
+d566c551f25be16d88ccb1325039c335c88c6356ea6bd5f4ca666f5b2a42b7ee  证据/剪贴板目标检查.py
+9d1dc1f6c617bdda807ebf97d1610e8fe939012c34a496fe90a5cb62ff16317e  证据/执行摘要.txt
+ade80f020b80ebdd96c234f9e26017551d98a335e8bb7e5c6da29519bdd27c5a  证据/执行用例.py
+b29fa1aba1e337e85901fef852cba074d5afca9c4b1fdcfae1edafa5c9b6e1e5  证据/执行结果.tsv
+3309d4cec1510ba07ed4024a2201f4f96cef93ef855ee4dd69fe83dea8f723b7  证据/源码摘要.txt

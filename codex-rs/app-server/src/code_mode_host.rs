@@ -62,6 +62,13 @@ impl TypedValueParser for RedactedHostUrlParser {
 }
 
 fn parse_host_url(value: &str) -> Result<Url, String> {
+    if let Some(reason) =
+        codex_features::platform::unavailable_reason(codex_features::Feature::CodeModeHost)
+    {
+        return Err(format!(
+            "--code-mode-host is unavailable on HarmonyOS: {reason}"
+        ));
+    }
     let url = Url::parse(value).map_err(|error| format!("invalid code-mode host URL: {error}"))?;
     if !matches!(url.scheme(), "http" | "https") || url.host_str().is_none() {
         return Err("code-mode host URL must use http:// or https:// with a host".to_string());

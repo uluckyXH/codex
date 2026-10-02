@@ -1,0 +1,3753 @@
+归档说明：仅移除了日志摘录的行末空格，原始日志未修改。
+来源：本批原始日志。保留命令、时间、退出码、测试名称、关键错误和产物属性；重复依赖编译行已省略。没有凭据或完整环境转储。
+
+
+===== 交叉01-剪贴板Rust接口.log =====
+[中间输出已省略]
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T20:46:58+08:00
+命令：python3 '/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/docs/鸿蒙电脑原生适配/测试报告/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/证据/剪贴板目标检查.py' '/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/剪贴板目标检查' '/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/剪贴板定向测试/Cargo.toml'
+[中间输出已省略]
+    Checking harmony-clipboard-policy-tests v0.1.0 (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/剪贴板定向测试)
+warning: function `read_text` is never used
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/tui/src/harmony_clipboard.rs:191:15
+    |
+191 | pub(crate) fn read_text(max_bytes: usize) -> Result<String, String> {
+    |               ^^^^^^^^^
+    |
+    = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: `harmony-clipboard-policy-tests` (lib test) generated 1 warning
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 3.17s
+
+结束时间：2026-10-02T20:47:01+08:00
+退出码：0
+
+
+===== 交叉01-受影响完整CLI.log =====
+[中间输出已省略]
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T20:35:47+08:00
+命令：python3 scripts/build_harmony.py check --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/鸿蒙检查' --package codex-cli --release
+[中间输出已省略]
+   Compiling nix v0.28.0 (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0)
+warning: output of `xcrun` while finding MacOSX.sdk
+  |
+  = note: 2026-10-02 20:36:39.660 xcodebuild[8343:4426887]  DVTFilePathFSEvents: Failed to start fs event stream.
+          2026-10-02 20:36:39.764 xcodebuild[8343:4426886] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+[中间输出已省略]
+
+warning: `nix` (build script) generated 1 warning
+    Checking ref-cast v1.0.25
+    Checking rand v0.10.1
+    Checking env_filter v1.0.0
+[中间输出已省略]
+    Checking hickory-proto v0.25.2
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/lib.rs:134:7
+    |
+134 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/lib.rs:143:11
+    |
+143 | #[cfg(any(freebsdlike, target_os = "linux", target_os = "netbsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `fbsd14`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:1104:12
+     |
+1104 | #[cfg_attr(fbsd14, doc = " ```")]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `fbsd14`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:1105:16
+     |
+1105 | #[cfg_attr(not(fbsd14), doc = " ```no_run")]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `fbsd14`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:1156:12
+     |
+1156 | #[cfg_attr(fbsd14, doc = " ```")]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `fbsd14`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:1157:16
+     |
+1157 | #[cfg_attr(not(fbsd14), doc = " ```no_run")]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:88:13
+   |
+88 | #![cfg_attr(bsd, doc = " ```rust,ignore")]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:89:17
+   |
+89 | #![cfg_attr(not(bsd), doc = " ```rust")]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:101:13
+    |
+101 | #![cfg_attr(bsd, doc = " ```rust")]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:102:17
+    |
+102 | #![cfg_attr(not(bsd), doc = " ```rust,ignore")]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:114:13
+    |
+114 | #![cfg_attr(bsd, doc = " ```rust")]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:115:17
+    |
+115 | #![cfg_attr(not(bsd), doc = " ```rust,ignore")]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:128:13
+    |
+128 | #![cfg_attr(bsd, doc = " ```rust")]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:129:17
+    |
+129 | #![cfg_attr(not(bsd), doc = " ```rust,ignore")]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:264:20
+    |
+264 |     #[cfg_attr(all(apple_targets, target_pointer_width = "64"), repr(u64))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:266:17
+    |
+266 |         not(all(apple_targets, target_pointer_width = "64")),
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:835:11
+    |
+835 | #[cfg(any(linux_android, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:1129:7
+     |
+1129 | #[cfg(apple_targets)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:2441:7
+     |
+2441 | #[cfg(solarish)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:23:18
+   |
+23 |                  apple_targets,))] {
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `netbsdlike`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:27:48
+   |
+27 |     } else if #[cfg(any(target_os = "android", netbsdlike))] {
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:39:21
+   |
+39 |     } else if #[cfg(solarish)] {
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:277:13
+    |
+277 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:278:13
+    |
+278 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:285:13
+    |
+285 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:286:13
+    |
+286 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:293:13
+    |
+293 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:294:13
+    |
+294 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:301:13
+    |
+301 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:302:13
+    |
+302 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:309:13
+    |
+309 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:310:13
+    |
+310 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:317:13
+    |
+317 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:318:13
+    |
+318 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:325:13
+    |
+325 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:326:13
+    |
+326 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:333:13
+    |
+333 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:334:13
+    |
+334 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:340:19
+    |
+340 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:340:34
+    |
+340 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:343:19
+    |
+343 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:343:34
+    |
+343 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:346:19
+    |
+346 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:346:34
+    |
+346 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:349:19
+    |
+349 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:349:34
+    |
+349 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:352:19
+    |
+352 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:352:34
+    |
+352 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:355:19
+    |
+355 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:355:34
+    |
+355 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:358:19
+    |
+358 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:358:34
+    |
+358 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:362:13
+    |
+362 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:363:13
+    |
+363 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:370:13
+    |
+370 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:371:13
+    |
+371 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:378:13
+    |
+378 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:379:13
+    |
+379 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:386:13
+    |
+386 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:387:13
+    |
+387 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:393:19
+    |
+393 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:393:34
+    |
+393 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:396:19
+    |
+396 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:396:34
+    |
+396 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:400:13
+    |
+400 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:401:13
+    |
+401 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:408:13
+    |
+408 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:409:13
+    |
+409 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:415:19
+    |
+415 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:415:34
+    |
+415 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:418:19
+    |
+418 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:418:34
+    |
+418 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:421:19
+    |
+421 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:421:34
+    |
+421 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:425:13
+    |
+425 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:426:13
+    |
+426 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:433:13
+    |
+433 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:434:13
+    |
+434 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:440:19
+    |
+440 |         #[cfg(any(linux_android, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:443:19
+    |
+443 |         #[cfg(any(linux_android, target_os = "aix", target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:446:15
+    |
+446 |         #[cfg(solarish)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:450:13
+    |
+450 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:458:19
+    |
+458 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:458:34
+    |
+458 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:461:19
+    |
+461 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:461:34
+    |
+461 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:464:19
+    |
+464 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:464:34
+    |
+464 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:467:19
+    |
+467 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:467:34
+    |
+467 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:470:19
+    |
+470 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:470:34
+    |
+470 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:473:19
+    |
+473 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:473:34
+    |
+473 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:476:19
+    |
+476 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:476:34
+    |
+476 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:480:13
+    |
+480 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:481:13
+    |
+481 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:488:13
+    |
+488 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:489:13
+    |
+489 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:497:13
+    |
+497 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:498:13
+    |
+498 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:504:19
+    |
+504 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:504:34
+    |
+504 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:507:19
+    |
+507 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:507:34
+    |
+507 |         #[cfg(any(linux_android, solarish, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:511:13
+    |
+511 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:518:19
+    |
+518 |         #[cfg(any(linux_android, target_os = "fuchsia", target_os = "hurd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:521:19
+    |
+521 |         #[cfg(any(linux_android, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:524:19
+    |
+524 |         #[cfg(any(linux_android, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:527:19
+    |
+527 |         #[cfg(any(linux_android, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:530:19
+    |
+530 |         #[cfg(any(linux_android, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:533:19
+    |
+533 |         #[cfg(any(linux_android, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:536:19
+    |
+536 |         #[cfg(any(linux_android, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:540:13
+    |
+540 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:548:13
+    |
+548 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:555:13
+    |
+555 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:556:13
+    |
+556 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:562:19
+    |
+562 |         #[cfg(any(linux_android, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:565:19
+    |
+565 |         #[cfg(any(linux_android, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:568:19
+    |
+568 |         #[cfg(any(linux_android, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:571:19
+    |
+571 |         #[cfg(any(linux_android, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:575:13
+    |
+575 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:582:15
+    |
+582 |         #[cfg(solarish)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:585:19
+    |
+585 |         #[cfg(any(linux_android, target_os = "aix", target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:588:15
+    |
+588 |         #[cfg(solarish)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:603:15
+    |
+603 |         #[cfg(freebsdlike)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:606:19
+    |
+606 |         #[cfg(any(freebsdlike, target_os = "hurd", target_os = "redox"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:609:19
+    |
+609 |         #[cfg(any(freebsdlike, target_os = "hurd", target_os = "redox"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:618:19
+    |
+618 |         #[cfg(any(bsd, target_os = "hurd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:621:19
+    |
+621 |         #[cfg(any(bsd, target_os = "redox", solarish))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:621:45
+    |
+621 |         #[cfg(any(bsd, target_os = "redox", solarish))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:625:13
+    |
+625 |             freebsdlike,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:626:13
+    |
+626 |             apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:634:19
+    |
+634 |         #[cfg(any(bsd, target_os = "haiku"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:638:13
+    |
+638 |             bsd,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:646:13
+    |
+646 |             bsd,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:654:13
+    |
+654 |             freebsdlike,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:655:13
+    |
+655 |             apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:661:19
+    |
+661 |         #[cfg(any(freebsdlike, apple_targets, target_os = "openbsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:661:32
+    |
+661 |         #[cfg(any(freebsdlike, apple_targets, target_os = "openbsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:665:13
+    |
+665 |             bsd,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:667:13
+    |
+667 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:673:19
+    |
+673 |         #[cfg(any(bsd, target_os = "aix", target_os = "hurd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:677:13
+    |
+677 |             bsd,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:685:13
+    |
+685 |             bsd,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:686:13
+    |
+686 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:695:13
+    |
+695 |             bsd,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:696:13
+    |
+696 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:703:19
+    |
+703 |         #[cfg(any(bsd, target_os = "aix", target_os = "redox"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:706:19
+    |
+706 |         #[cfg(any(bsd, target_os = "hurd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:709:19
+    |
+709 |         #[cfg(any(bsd, target_os = "hurd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:712:19
+    |
+712 |         #[cfg(any(bsd, target_os = "hurd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:715:19
+    |
+715 |         #[cfg(any(bsd, target_os = "hurd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:718:19
+    |
+718 |         #[cfg(any(bsd, target_os = "hurd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:721:19
+    |
+721 |         #[cfg(any(bsd, target_os = "hurd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:724:19
+    |
+724 |         #[cfg(any(bsd, target_os = "hurd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:728:13
+    |
+728 |             bsd,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:735:15
+    |
+735 |         #[cfg(apple_targets)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:738:15
+    |
+738 |         #[cfg(apple_targets)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:741:15
+    |
+741 |         #[cfg(apple_targets)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:744:15
+    |
+744 |         #[cfg(apple_targets)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:747:15
+    |
+747 |         #[cfg(apple_targets)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:750:15
+    |
+750 |         #[cfg(apple_targets)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:753:19
+    |
+753 |         #[cfg(any(apple_targets, target_os = "netbsd", target_os = "haiku"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:757:13
+    |
+757 |             apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:764:19
+    |
+764 |         #[cfg(any(apple_targets, target_os = "netbsd", target_os = "haiku"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:768:13
+    |
+768 |             apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:776:13
+    |
+776 |             apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:784:13
+    |
+784 |             apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:791:19
+    |
+791 |         #[cfg(any(apple_targets, solarish, target_os = "aix"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:791:34
+    |
+791 |         #[cfg(any(apple_targets, solarish, target_os = "aix"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:794:15
+    |
+794 |         #[cfg(apple_targets)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:797:15
+    |
+797 |         #[cfg(apple_targets)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:809:15
+    |
+809 |         #[cfg(solarish)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:812:15
+    |
+812 |         #[cfg(solarish)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/errno.rs:815:15
+    |
+815 |         #[cfg(solarish)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+ --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:8:5
+  |
+8 |     apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:24:5
+   |
+24 |     apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:29:11
+   |
+29 | #[cfg(any(linux_android, target_os = "freebsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:36:5
+   |
+36 |     linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:194:30
+    |
+194 |     all(feature = "process", linux_android),
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:466:11
+    |
+466 | #[cfg(any(linux_android, target_os = "freebsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:846:7
+    |
+846 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:525:11
+    |
+525 |     #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:529:11
+    |
+529 |     #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:533:11
+    |
+533 |     #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:537:9
+    |
+537 |         linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:543:9
+    |
+543 |         linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:548:11
+    |
+548 |     #[cfg(apple_targets)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:551:11
+    |
+551 |     #[cfg(apple_targets)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:554:11
+    |
+554 |     #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:557:11
+    |
+557 |     #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:563:9
+    |
+563 |         apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:570:11
+    |
+570 |     #[cfg(apple_targets)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:1198:5
+     |
+1198 |     linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:1262:5
+     |
+1262 |     linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:1263:5
+     |
+1263 |     freebsdlike,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:64:15
+   |
+64 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:68:19
+   |
+68 |         #[cfg(any(linux_android, target_os = "freebsd", target_os = "hurd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:95:13
+   |
+95 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:108:13
+    |
+108 |             freebsdlike,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:109:13
+    |
+109 |             linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:110:13
+    |
+110 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:117:19
+    |
+117 |         #[cfg(any(linux_android, apple_targets, netbsdlike))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:117:34
+    |
+117 |         #[cfg(any(linux_android, apple_targets, netbsdlike))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `netbsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:117:49
+    |
+117 |         #[cfg(any(linux_android, apple_targets, netbsdlike))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:125:19
+    |
+125 |         #[cfg(any(bsd, target_os = "redox"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:128:19
+    |
+128 |         #[cfg(any(bsd,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:133:15
+    |
+133 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:136:15
+    |
+136 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:154:19
+    |
+154 |         #[cfg(any(linux_android, target_os = "redox"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `netbsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:165:40
+    |
+165 |         #[cfg(any(target_os = "linux", netbsdlike))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:171:19
+    |
+171 |         #[cfg(any(bsd, target_os = "redox"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:177:15
+    |
+177 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:380:23
+    |
+380 |             #[cfg(any(linux_android, target_os = "freebsd", target_os = "hurd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:394:17
+    |
+394 |                 linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:482:15
+    |
+482 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:617:19
+    |
+617 |             #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:619:19
+    |
+619 |             #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:621:19
+    |
+621 |             #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:624:17
+    |
+624 |                 linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:631:17
+    |
+631 |                 linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:635:19
+    |
+635 |             #[cfg(apple_targets)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:637:19
+    |
+637 |             #[cfg(apple_targets)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:639:19
+    |
+639 |             #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:641:19
+    |
+641 |             #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:646:17
+    |
+646 |                 apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/fcntl.rs:668:19
+    |
+668 |             #[cfg(apple_targets)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/poll.rs:227:11
+    |
+227 | #[cfg(any(linux_android, freebsdlike))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/poll.rs:227:26
+    |
+227 | #[cfg(any(linux_android, freebsdlike))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/pty.rs:190:7
+    |
+190 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+ --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:3:5
+  |
+3 |     freebsdlike,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+ --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:5:5
+  |
+5 |     apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:34:11
+   |
+34 | #[cfg(any(bsd, linux_android, target_os = "redox", solarish))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:34:16
+   |
+34 | #[cfg(any(bsd, linux_android, target_os = "redox", solarish))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:34:52
+   |
+34 | #[cfg(any(bsd, linux_android, target_os = "redox", solarish))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:40:11
+   |
+40 | #[cfg(any(linux_android, target_os = "freebsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:69:11
+   |
+69 | #[cfg(any(linux_android, bsd))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:69:26
+   |
+69 | #[cfg(any(linux_android, bsd))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `netbsdlike`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:82:32
+   |
+82 | #[cfg(any(target_os = "linux", netbsdlike))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:91:5
+   |
+91 |     solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:104:11
+    |
+104 | #[cfg(any(linux_android, freebsdlike, apple_targets, solarish))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:104:26
+    |
+104 | #[cfg(any(linux_android, freebsdlike, apple_targets, solarish))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:104:39
+    |
+104 | #[cfg(any(linux_android, freebsdlike, apple_targets, solarish))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:104:54
+    |
+104 | #[cfg(any(linux_android, freebsdlike, apple_targets, solarish))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:112:7
+    |
+112 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:131:11
+    |
+131 | #[cfg(any(linux_android, freebsdlike, apple_targets, target_os = "openbsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:131:26
+    |
+131 | #[cfg(any(linux_android, freebsdlike, apple_targets, target_os = "openbsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:131:39
+    |
+131 | #[cfg(any(linux_android, freebsdlike, apple_targets, target_os = "openbsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:142:7
+    |
+142 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:170:7
+    |
+170 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:176:7
+    |
+176 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/mod.rs:185:9
+    |
+185 |         solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/ioctl/mod.rs:230:11
+    |
+230 | #[cfg(any(linux_android, target_os = "redox"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/ioctl/mod.rs:234:11
+    |
+234 | #[cfg(any(linux_android, target_os = "redox"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/ioctl/mod.rs:237:11
+    |
+237 | #[cfg(any(bsd, solarish, target_os = "haiku",))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/ioctl/mod.rs:237:16
+    |
+237 | #[cfg(any(bsd, solarish, target_os = "haiku",))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/ioctl/mod.rs:241:11
+    |
+241 | #[cfg(any(bsd, solarish, target_os = "haiku",))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/ioctl/mod.rs:241:16
+    |
+241 | #[cfg(any(bsd, solarish, target_os = "haiku",))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/ioctl/mod.rs:495:14
+    |
+495 |     if #[cfg(freebsdlike)] {
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/memfd.rs:39:15
+   |
+39 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/memfd.rs:46:15
+   |
+46 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/memfd.rs:49:15
+   |
+49 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/memfd.rs:52:15
+   |
+52 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/memfd.rs:55:15
+   |
+55 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/memfd.rs:58:15
+   |
+58 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/memfd.rs:61:15
+   |
+61 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/memfd.rs:64:15
+   |
+64 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/memfd.rs:67:15
+   |
+67 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/memfd.rs:70:15
+   |
+70 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/memfd.rs:73:15
+   |
+73 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:13:7
+   |
+13 | #[cfg(freebsdlike)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:318:9
+    |
+318 |     any(linux_android, target_os = "emscripten", target_os = "fuchsia"),
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:335:9
+    |
+335 |     any(linux_android, target_os = "emscripten", target_os = "fuchsia"),
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:360:5
+    |
+360 |     linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:69:23
+   |
+69 |         #[cfg(all(any(linux_android, target_os = "emscripten",
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:104:19
+    |
+104 |         #[cfg(any(linux_android, target_os = "emscripten",
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:110:23
+    |
+110 |         #[cfg(not(any(linux_android, target_os = "emscripten",
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:115:23
+    |
+115 |         #[cfg(not(any(linux_android, target_os = "emscripten",
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:1124:11
+     |
+1124 |     #[cfg(freebsdlike)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:146:21
+    |
+146 |                     linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:174:17
+    |
+174 |                 linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:181:17
+    |
+181 |                 linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:189:17
+    |
+189 |                 linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:228:21
+    |
+228 |                     linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:256:17
+    |
+256 |                 linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:264:17
+    |
+264 |                 linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:272:17
+    |
+272 |                 linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:594:9
+    |
+594 |         bsd,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:595:9
+    |
+595 |         linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:596:9
+    |
+596 |         solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition value: `fushsia`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:600:9
+    |
+600 |         target_os = "fushsia"
+[中间输出已省略]
+
+warning: `extern` declarations without an explicit ABI are deprecated
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:748:13
+    |
+748 |     Handler(extern fn(libc::c_int)),
+[中间输出已省略]
+
+warning: `extern` declarations without an explicit ABI are deprecated
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:752:15
+    |
+752 |     SigAction(extern fn(libc::c_int, *mut libc::siginfo_t, *mut libc::c_void))
+[中间输出已省略]
+
+warning: `extern` declarations without an explicit ABI are deprecated
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:774:59
+    |
+774 |                     SigHandler::Handler(f) => f as *const extern fn(libc::c_int) as usize,
+[中间输出已省略]
+
+warning: `extern` declarations without an explicit ABI are deprecated
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:776:61
+    |
+776 |                     SigHandler::SigAction(f) => f as *const extern fn(libc::c_int, *mut libc::siginfo_t, *mut libc::c_void) as usize,
+[中间输出已省略]
+
+warning: `extern` declarations without an explicit ABI are deprecated
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:836:36
+    |
+836 |                          as *const extern fn(_, _, _))
+[中间输出已省略]
+
+warning: `extern` declarations without an explicit ABI are deprecated
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:838:20
+    |
+838 |                 as extern fn(_, _, _)),
+[中间输出已省略]
+
+warning: `extern` declarations without an explicit ABI are deprecated
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:848:36
+    |
+848 |                          as *const extern fn(libc::c_int))
+[中间输出已省略]
+
+warning: `extern` declarations without an explicit ABI are deprecated
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:850:20
+    |
+850 |                 as extern fn(libc::c_int)),
+[中间输出已省略]
+
+warning: `extern` declarations without an explicit ABI are deprecated
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:968:57
+    |
+968 |                 unsafe { *(&p as *const usize as *const extern fn(libc::c_int)) } as extern fn(libc::c_int)),
+[中间输出已省略]
+
+warning: `extern` declarations without an explicit ABI are deprecated
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:968:86
+    |
+968 |                 unsafe { *(&p as *const usize as *const extern fn(libc::c_int)) } as extern fn(libc::c_int)),
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:1331:23
+     |
+1331 |                 #[cfg(freebsdlike)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+ --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/stat.rs:1:11
+  |
+1 | #[cfg(any(apple_targets, target_os = "openbsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+ --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/stat.rs:3:33
+  |
+3 | #[cfg(any(target_os = "netbsd", freebsdlike))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/stat.rs:64:11
+   |
+64 | #[cfg(any(apple_targets, target_os = "openbsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/stat.rs:66:11
+   |
+66 | #[cfg(any(freebsdlike, target_os = "netbsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/stat.rs:69:7
+   |
+69 | #[cfg(bsd)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/stat.rs:170:15
+    |
+170 | #[cfg(not(any(apple_targets, target_os = "redox", target_os = "haiku")))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/stat.rs:360:5
+    |
+360 |     apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+ --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:4:11
+  |
+4 | #[cfg(not(linux_android))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:12:30
+   |
+12 | #[cfg(all(feature = "mount", bsd))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:90:7
+   |
+90 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:94:7
+   |
+94 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:98:7
+   |
+98 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:101:7
+    |
+101 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:105:7
+    |
+105 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:108:7
+    |
+108 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:112:7
+    |
+112 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:116:7
+    |
+116 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:120:7
+    |
+120 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:124:7
+    |
+124 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:127:7
+    |
+127 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:130:7
+    |
+130 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:134:7
+    |
+134 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:138:7
+    |
+138 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:141:7
+    |
+141 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:145:7
+    |
+145 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:149:7
+    |
+149 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:153:7
+    |
+153 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:157:7
+    |
+157 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:161:7
+    |
+161 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:165:7
+    |
+165 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:169:7
+    |
+169 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:173:7
+    |
+173 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:176:7
+    |
+176 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:180:7
+    |
+180 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:184:7
+    |
+184 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:188:7
+    |
+188 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:192:7
+    |
+192 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:196:7
+    |
+196 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:200:7
+    |
+200 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:204:7
+    |
+204 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:208:7
+    |
+208 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:211:7
+    |
+211 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:214:7
+    |
+214 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:218:7
+    |
+218 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:222:7
+    |
+222 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:226:7
+    |
+226 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:230:7
+    |
+230 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:234:7
+    |
+234 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:238:7
+    |
+238 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:242:7
+    |
+242 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:246:7
+    |
+246 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:250:7
+    |
+250 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:254:7
+    |
+254 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:257:7
+    |
+257 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:260:7
+    |
+260 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:263:7
+    |
+263 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:266:7
+    |
+266 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:269:7
+    |
+269 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:272:7
+    |
+272 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:275:7
+    |
+275 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:279:7
+    |
+279 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:283:7
+    |
+283 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:286:11
+    |
+286 | #[cfg(all(linux_android, not(target_env = "musl"), not(target_env = "ohos")))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:26:18
+   |
+26 |     if #[cfg(any(linux_android, target_os = "fuchsia"))] {
+[中间输出已省略]
+
+warning: `extern` declarations without an explicit ABI are deprecated
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:28:36
+   |
+28 |         const LIBC_FSTATFS: unsafe extern fn
+[中间输出已省略]
+
+warning: `extern` declarations without an explicit ABI are deprecated
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:31:35
+   |
+31 |         const LIBC_STATFS: unsafe extern fn
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:295:9
+    |
+295 |         apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:302:15
+    |
+302 |     #[cfg(not(linux_android))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:309:11
+    |
+309 |     #[cfg(apple_targets)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:369:15
+    |
+369 |     #[cfg(any(apple_targets, target_os = "openbsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:436:34
+    |
+436 |     #[cfg(all(feature = "mount", bsd))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:496:9
+    |
+496 |         apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:497:9
+    |
+497 |         linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:520:9
+    |
+520 |         apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:521:9
+    |
+521 |         linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:543:15
+    |
+543 |     #[cfg(any(apple_targets, linux_android, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:543:30
+    |
+543 |     #[cfg(any(apple_targets, linux_android, target_os = "fuchsia"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:568:9
+    |
+568 |         apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:569:9
+    |
+569 |         linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:592:9
+    |
+592 |         apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:593:9
+    |
+593 |         linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statfs.rs:636:38
+    |
+636 |         #[cfg(all(feature = "mount", bsd))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statvfs.rs:24:15
+   |
+24 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statvfs.rs:27:15
+   |
+27 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statvfs.rs:30:15
+   |
+30 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statvfs.rs:33:15
+   |
+33 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statvfs.rs:45:15
+   |
+45 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/statvfs.rs:48:15
+   |
+48 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:340:7
+    |
+340 | #[cfg(bsd)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:454:5
+    |
+454 |     solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:464:11
+    |
+464 | #[cfg(any(linux_android, target_os = "aix", bsd))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:464:45
+    |
+464 | #[cfg(any(linux_android, target_os = "aix", bsd))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:169:11
+    |
+169 |     #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:285:15
+    |
+285 |         #[cfg(bsd)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:288:15
+    |
+288 |         #[cfg(bsd)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:291:15
+    |
+291 |         #[cfg(bsd)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:296:15
+    |
+296 |         #[cfg(bsd)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:300:15
+    |
+300 |         #[cfg(solarish)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:304:15
+    |
+304 |         #[cfg(solarish)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:306:19
+    |
+306 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:307:19
+    |
+307 |                   solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:311:15
+    |
+311 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:313:15
+    |
+313 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:315:19
+    |
+315 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:316:19
+    |
+316 |                   solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:320:15
+    |
+320 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:322:15
+    |
+322 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:324:15
+    |
+324 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:326:15
+    |
+326 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:413:19
+    |
+413 |         #[cfg(any(bsd,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:414:17
+    |
+414 |                 solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:421:19
+    |
+421 |         #[cfg(any(freebsdlike, solarish))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:421:32
+    |
+421 |         #[cfg(any(freebsdlike, solarish))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:428:17
+    |
+428 |                 solarish, target_os = "aix", target_os = "haiku")))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:434:19
+    |
+434 |         #[cfg(any(bsd, solarish))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:434:24
+    |
+434 |         #[cfg(any(bsd, solarish))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:440:19
+    |
+440 |         #[cfg(any(solarish, target_os = "haiku"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:443:17
+    |
+443 |                 solarish, target_os = "aix", target_os = "haiku")))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:693:14
+    |
+693 |     if #[cfg(bsd)] {
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:189:23
+    |
+189 |             #[cfg(any(linux_android, target_os = "haiku"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:211:23
+    |
+211 |             #[cfg(any(linux_android, target_os = "haiku"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:227:19
+    |
+227 |         #[cfg(any(linux_android, target_os = "haiku"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:243:23
+    |
+243 |             #[cfg(any(linux_android, target_os = "haiku"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:485:19
+    |
+485 |         #[cfg(any(linux_android, apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:485:34
+    |
+485 |         #[cfg(any(linux_android, apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:494:19
+    |
+494 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:502:19
+    |
+502 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:504:19
+    |
+504 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:506:19
+    |
+506 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:508:19
+    |
+508 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:510:19
+    |
+510 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:512:19
+    |
+512 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:514:19
+    |
+514 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:516:19
+    |
+516 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:518:19
+    |
+518 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:520:19
+    |
+520 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:522:19
+    |
+522 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:524:19
+    |
+524 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:526:19
+    |
+526 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:528:19
+    |
+528 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:530:19
+    |
+530 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:533:19
+    |
+533 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:535:19
+    |
+535 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:537:19
+    |
+537 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:539:19
+    |
+539 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:541:19
+    |
+541 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:543:19
+    |
+543 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:546:19
+    |
+546 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:548:15
+    |
+548 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:550:19
+    |
+550 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:552:19
+    |
+552 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:554:19
+    |
+554 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:556:19
+    |
+556 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:558:19
+    |
+558 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:560:19
+    |
+560 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:562:19
+    |
+562 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:564:19
+    |
+564 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:566:19
+    |
+566 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:568:19
+    |
+568 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:570:19
+    |
+570 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:572:19
+    |
+572 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:574:15
+    |
+574 |         #[cfg(bsd)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:576:15
+    |
+576 |         #[cfg(bsd)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:583:19
+    |
+583 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:585:19
+    |
+585 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:587:19
+    |
+587 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:589:19
+    |
+589 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:591:19
+    |
+591 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:594:19
+    |
+594 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:596:19
+    |
+596 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:598:19
+    |
+598 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:600:19
+    |
+600 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:602:19
+    |
+602 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:604:19
+    |
+604 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:606:19
+    |
+606 |                   apple_targets))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:614:15
+    |
+614 |         #[cfg(bsd)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:628:15
+    |
+628 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:636:15
+    |
+636 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:638:15
+    |
+638 |         #[cfg(bsd)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `netbsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:640:15
+    |
+640 |         #[cfg(netbsdlike)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:642:19
+    |
+642 |         #[cfg(any(freebsdlike, netbsdlike))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `netbsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:642:32
+    |
+642 |         #[cfg(any(freebsdlike, netbsdlike))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:644:19
+    |
+644 |         #[cfg(any(freebsdlike, netbsdlike))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `netbsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:644:32
+    |
+644 |         #[cfg(any(freebsdlike, netbsdlike))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:646:15
+    |
+646 |         #[cfg(freebsdlike)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:648:15
+    |
+648 |         #[cfg(freebsdlike)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:650:15
+    |
+650 |         #[cfg(freebsdlike)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:676:15
+    |
+676 |         #[cfg(bsd)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:684:15
+    |
+684 |         #[cfg(bsd)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/time.rs:20:13
+   |
+20 |             solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/wait.rs:162:7
+    |
+162 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/wait.rs:171:7
+    |
+171 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/wait.rs:98:11
+   |
+98 |     #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/wait.rs:105:11
+    |
+105 |     #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/wait.rs:343:11
+    |
+343 |     #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/wait.rs:27:19
+   |
+27 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/wait.rs:28:19
+   |
+28 |                   apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/wait.rs:39:19
+   |
+39 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/wait.rs:40:19
+   |
+40 |                   apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/wait.rs:47:19
+   |
+47 |         #[cfg(any(linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/wait.rs:48:19
+   |
+48 |                   apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/wait.rs:55:19
+   |
+55 |         #[cfg(any(linux_android, target_os = "redox"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/wait.rs:58:19
+   |
+58 |         #[cfg(any(linux_android, target_os = "redox"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/wait.rs:61:19
+   |
+61 |         #[cfg(any(linux_android, target_os = "redox"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/wait.rs:128:19
+    |
+128 |             #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/wait.rs:205:26
+    |
+205 |                 if #[cfg(linux_android)] {
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/wait.rs:269:19
+    |
+269 |             #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/wait.rs:365:15
+    |
+365 |         #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+ --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:7:30
+  |
+7 |     all(feature = "process", linux_android)
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:16:5
+   |
+16 |     linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:17:5
+   |
+17 |     freebsdlike,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:18:5
+   |
+18 |     solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `netbsdlike`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:19:5
+   |
+19 |     netbsdlike,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:26:27
+   |
+26 | #[cfg(all(feature = "fs", bsd))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:51:11
+   |
+51 | #[cfg(any(freebsdlike, linux_android, target_os = "openbsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:51:24
+   |
+51 | #[cfg(any(freebsdlike, linux_android, target_os = "openbsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:54:11
+   |
+54 | #[cfg(any(freebsdlike, linux_android, target_os = "openbsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:54:24
+   |
+54 | #[cfg(any(freebsdlike, linux_android, target_os = "openbsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:2849:7
+     |
+2849 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:2876:11
+     |
+2876 | #[cfg(any(linux_android, freebsdlike, target_os = "openbsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:2876:26
+     |
+2876 | #[cfg(any(linux_android, freebsdlike, target_os = "openbsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:2921:11
+     |
+2921 | #[cfg(any(linux_android, freebsdlike, target_os = "openbsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:2921:26
+     |
+2921 | #[cfg(any(linux_android, freebsdlike, target_os = "openbsd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:47:11
+   |
+47 |     #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:406:7
+    |
+406 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `netbsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:451:5
+    |
+451 |     netbsdlike,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:452:5
+    |
+452 |     solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `apple_targets`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:577:5
+    |
+577 |     apple_targets,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:911:11
+    |
+911 | #[cfg(any(linux_android, freebsdlike, target_os = "hurd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:911:26
+    |
+911 | #[cfg(any(linux_android, freebsdlike, target_os = "hurd"))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:936:7
+    |
+936 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:989:9
+    |
+989 |         linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:990:9
+    |
+990 |         freebsdlike,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:991:9
+    |
+991 |         solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `netbsdlike`
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:992:9
+    |
+992 |         netbsdlike
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:1168:7
+     |
+1168 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:1137:9
+     |
+1137 |         freebsdlike,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:1138:9
+     |
+1138 |         solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:1148:9
+     |
+1148 |         freebsdlike,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:1149:9
+     |
+1149 |         solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:1214:5
+     |
+1214 |     linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:1215:5
+     |
+1215 |     freebsdlike,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:1216:5
+     |
+1216 |     solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `netbsdlike`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:1220:5
+     |
+1220 |     netbsdlike,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:1380:11
+     |
+1380 | #[cfg(any(freebsdlike, linux_android, netbsdlike))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:1380:24
+     |
+1380 | #[cfg(any(freebsdlike, linux_android, netbsdlike))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `netbsdlike`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:1380:39
+     |
+1380 | #[cfg(any(freebsdlike, linux_android, netbsdlike))]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:1389:7
+     |
+1389 | #[cfg(linux_android)]
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `linux_android`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:1411:5
+     |
+1411 |     linux_android,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `solarish`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:1412:5
+     |
+1412 |     solarish,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `netbsdlike`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:1413:5
+     |
+1413 |     netbsdlike,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:3120:5
+     |
+3120 |     freebsdlike,
+[中间输出已省略]
+
+warning: unexpected `cfg` condition name: `bsd`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/unistd.rs:3642:7
+     |
+3642 | #[cfg(bsd)]
+[中间输出已省略]
+
+warning: use of deprecated type alias `libc::suseconds_t`: This type is changed to 64-bit in musl 1.2.0, we'll follow that change in the future release. See #1848 for more info.
+ --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/time.rs:3:16
+  |
+3 | pub use libc::{suseconds_t, time_t};
+[中间输出已省略]
+
+warning: use of deprecated type alias `libc::time_t`: This type is changed to 64-bit in musl 1.2.0, we'll follow that change in the future release. See #1848 for more info.
+ --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/time.rs:3:29
+  |
+3 | pub use libc::{suseconds_t, time_t};
+[中间输出已省略]
+
+warning: use of deprecated type alias `libc::time_t`: This type is changed to 64-bit in musl 1.2.0, we'll follow that change in the future release. See #1848 for more info.
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/time.rs:264:32
+    |
+264 |         ts.tv_sec = seconds as time_t;
+[中间输出已省略]
+
+warning: use of deprecated type alias `libc::time_t`: This type is changed to 64-bit in musl 1.2.0, we'll follow that change in the future release. See #1848 for more info.
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/time.rs:298:29
+    |
+298 |         ts.tv_sec = secs as time_t;
+[中间输出已省略]
+
+warning: use of deprecated type alias `libc::time_t`: This type is changed to 64-bit in musl 1.2.0, we'll follow that change in the future release. See #1848 for more info.
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/time.rs:344:31
+    |
+344 |     pub const fn new(seconds: time_t, nanoseconds: timespec_tv_nsec_t) -> Self {
+[中间输出已省略]
+
+warning: use of deprecated type alias `libc::time_t`: This type is changed to 64-bit in musl 1.2.0, we'll follow that change in the future release. See #1848 for more info.
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/time.rs:360:35
+    |
+360 |     pub const fn tv_sec(&self) -> time_t {
+[中间输出已省略]
+
+warning: use of deprecated type alias `libc::time_t`: This type is changed to 64-bit in musl 1.2.0, we'll follow that change in the future release. See #1848 for more info.
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/time.rs:372:43
+    |
+372 |         ts.tv_sec = duration.as_secs() as time_t;
+[中间输出已省略]
+
+warning: use of deprecated type alias `libc::time_t`: This type is changed to 64-bit in musl 1.2.0, we'll follow that change in the future release. See #1848 for more info.
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/time.rs:512:32
+    |
+512 |             tv_sec: seconds as time_t,
+[中间输出已省略]
+
+warning: use of deprecated type alias `libc::time_t`: This type is changed to 64-bit in musl 1.2.0, we'll follow that change in the future release. See #1848 for more info.
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/time.rs:537:29
+    |
+537 |             tv_sec: secs as time_t,
+[中间输出已省略]
+
+warning: use of deprecated type alias `libc::suseconds_t`: This type is changed to 64-bit in musl 1.2.0, we'll follow that change in the future release. See #1848 for more info.
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/time.rs:538:32
+    |
+538 |             tv_usec: micros as suseconds_t,
+[中间输出已省略]
+
+warning: use of deprecated type alias `libc::time_t`: This type is changed to 64-bit in musl 1.2.0, we'll follow that change in the future release. See #1848 for more info.
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/time.rs:555:29
+    |
+555 |             tv_sec: secs as time_t,
+[中间输出已省略]
+
+warning: use of deprecated type alias `libc::suseconds_t`: This type is changed to 64-bit in musl 1.2.0, we'll follow that change in the future release. See #1848 for more info.
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/time.rs:556:32
+    |
+556 |             tv_usec: micros as suseconds_t,
+[中间输出已省略]
+
+warning: use of deprecated type alias `libc::time_t`: This type is changed to 64-bit in musl 1.2.0, we'll follow that change in the future release. See #1848 for more info.
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/time.rs:590:31
+    |
+590 |     pub const fn new(seconds: time_t, microseconds: suseconds_t) -> Self {
+[中间输出已省略]
+
+warning: use of deprecated type alias `libc::suseconds_t`: This type is changed to 64-bit in musl 1.2.0, we'll follow that change in the future release. See #1848 for more info.
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/time.rs:590:53
+    |
+590 |     pub const fn new(seconds: time_t, microseconds: suseconds_t) -> Self {
+[中间输出已省略]
+
+warning: use of deprecated type alias `libc::suseconds_t`: This type is changed to 64-bit in musl 1.2.0, we'll follow that change in the future release. See #1848 for more info.
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/time.rs:597:33
+    |
+597 |     fn micros_mod_sec(&self) -> suseconds_t {
+[中间输出已省略]
+
+warning: use of deprecated type alias `libc::suseconds_t`: This type is changed to 64-bit in musl 1.2.0, we'll follow that change in the future release. See #1848 for more info.
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/time.rs:599:48
+    |
+599 |             self.tv_usec() - MICROS_PER_SEC as suseconds_t
+[中间输出已省略]
+
+warning: use of deprecated type alias `libc::time_t`: This type is changed to 64-bit in musl 1.2.0, we'll follow that change in the future release. See #1848 for more info.
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/time.rs:606:35
+    |
+606 |     pub const fn tv_sec(&self) -> time_t {
+[中间输出已省略]
+
+warning: use of deprecated type alias `libc::suseconds_t`: This type is changed to 64-bit in musl 1.2.0, we'll follow that change in the future release. See #1848 for more info.
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/time.rs:610:36
+    |
+610 |     pub const fn tv_usec(&self) -> suseconds_t {
+[中间输出已省略]
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/select.rs:110:16
+    |
+110 |     pub fn fds(&self, highest: Option<RawFd>) -> Fds {
+[中间输出已省略]
+
+warning: function pointer comparisons do not produce meaningful results since their addresses are not guaranteed to be unique
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:748:13
+    |
+741 | #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+[中间输出已省略]
+
+warning: function pointer comparisons do not produce meaningful results since their addresses are not guaranteed to be unique
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signal.rs:752:15
+    |
+741 | #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+[中间输出已省略]
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/signalfd.rs:138:14
+    |
+138 |     fn as_fd(&self) -> BorrowedFd {
+[中间输出已省略]
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/third_party/rust/nix-0.28.0/src/sys/termios.rs:181:36
+    |
+181 |     pub(crate) fn get_libc_termios(&self) -> Ref<libc::termios> {
+[中间输出已省略]
+
+warning: `nix` (lib) generated 580 warnings (run `cargo fix --lib -p nix` to apply 15 suggestions)
+    Checking zstd v0.13.3
+    Checking quickcheck v1.1.0
+    Checking typeid v1.0.3
+[中间输出已省略]
+    Checking codex-app-server-test-client v0.0.0 (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/app-server-test-client)
+warning: variable does not need to be mutable
+    --> app-server/src/lib.rs:1503:5
+     |
+1503 |     mut loader_overrides: LoaderOverrides,
+[中间输出已省略]
+
+warning: `codex-app-server` (lib) generated 1 warning (run `cargo fix --lib -p codex-app-server` to apply 1 suggestion)
+    Checking codex-app-server-client v0.0.0 (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/app-server-client)
+    Checking codex-tui v0.0.0 (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/tui)
+    Checking codex-exec v0.0.0 (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/exec)
+warning: variants `NoImage`, `EncodeFailed`, and `IoError` are never constructed
+  --> tui/src/clipboard_paste.rs:13:5
+   |
+11 | pub enum PasteImageError {
+[中间输出已省略]
+
+warning: function `paste_image_as_png` is never used
+   --> tui/src/clipboard_paste.rs:125:8
+    |
+125 | pub fn paste_image_as_png() -> Result<(Vec<u8>, PastedImageInfo), PasteImageError> {
+[中间输出已省略]
+
+warning: `codex-tui` (lib) generated 2 warnings
+    Checking codex-cloud-tasks v0.0.0 (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/cloud-tasks)
+warning: unused import: `codex_http_client::HttpClientFactory`
+  --> cloud-tasks/src/lib.rs:16:5
+   |
+16 | use codex_http_client::HttpClientFactory;
+[中间输出已省略]
+
+warning: unused import: `codex_http_client::OutboundProxyPolicy`
+  --> cloud-tasks/src/lib.rs:17:5
+   |
+17 | use codex_http_client::OutboundProxyPolicy;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `codex-cloud-tasks` (lib) generated 2 warnings (run `cargo fix --lib -p codex-cloud-tasks` to apply 2 suggestions)
+    Finished `release` profile [optimized + debuginfo] target(s) in 3m 54s
+check 成功；产物与缓存目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/鸿蒙检查
+此结果不代表已签名或通过鸿蒙 PC 真机验证。
+
+结束时间：2026-10-02T20:39:41+08:00
+退出码：0
+
+
+===== 交叉02-剪贴板公开ABI.log =====
+[中间输出已省略]
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T20:36:55+08:00
+命令：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/clang --target=aarch64-linux-ohos --sysroot=/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot -D__MUSL__ -std=c11 -Wall -Wextra -Werror '/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/docs/鸿蒙电脑原生适配/测试报告/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/证据/剪贴板ABI检查.c' -lpasteboard -ludmf -o '/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/剪贴板ABI检查'
+
+结束时间：2026-10-02T20:36:55+08:00
+退出码：0
+
+
+===== 宿主01-剪贴板接口.log =====
+[中间输出已省略]
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T20:35:47+08:00
+命令：cargo test --offline --manifest-path '/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/剪贴板定向测试/Cargo.toml' -- --nocapture
+[中间输出已省略]
+   Compiling harmony-clipboard-policy-tests v0.1.0 (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/剪贴板定向测试)
+warning: struct `Pasteboard` is never constructed
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/tui/src/harmony_clipboard.rs:13:8
+   |
+13 | struct Pasteboard {
+[中间输出已省略]
+
+warning: struct `Data` is never constructed
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/tui/src/harmony_clipboard.rs:17:8
+   |
+17 | struct Data {
+[中间输出已省略]
+
+warning: struct `Record` is never constructed
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/tui/src/harmony_clipboard.rs:21:8
+   |
+21 | struct Record {
+[中间输出已省略]
+
+warning: struct `PlainText` is never constructed
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/tui/src/harmony_clipboard.rs:25:8
+   |
+25 | struct PlainText {
+[中间输出已省略]
+
+warning: struct `Library` is never constructed
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/tui/src/harmony_clipboard.rs:29:8
+   |
+29 | struct Library(NonNull<c_void>);
+[中间输出已省略]
+
+warning: associated items `open` and `symbol` are never used
+  --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/tui/src/harmony_clipboard.rs:32:8
+   |
+31 | impl Library {
+[中间输出已省略]
+
+warning: struct `Api` is never constructed
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/tui/src/harmony_clipboard.rs:72:16
+    |
+ 72 |           struct Api {
+[中间输出已省略]
+
+warning: associated function `load` is never used
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/tui/src/harmony_clipboard.rs:78:16
+    |
+ 77 |           impl Api {
+[中间输出已省略]
+
+warning: struct `Object` is never constructed
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/tui/src/harmony_clipboard.rs:115:8
+    |
+115 | struct Object<T> {
+[中间输出已省略]
+
+warning: associated items `new` and `raw` are never used
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/tui/src/harmony_clipboard.rs:121:8
+    |
+120 | impl<T> Object<T> {
+[中间输出已省略]
+
+warning: function `status` is never used
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/tui/src/harmony_clipboard.rs:141:4
+    |
+141 | fn status(operation: &str, code: c_int) -> Result<(), String> {
+[中间输出已省略]
+
+warning: function `write_text` is never used
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/tui/src/harmony_clipboard.rs:158:15
+    |
+158 | pub(crate) fn write_text(text: &str) -> Result<(), String> {
+[中间输出已省略]
+
+warning: function `write_with_api` is never used
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/tui/src/harmony_clipboard.rs:164:4
+    |
+164 | fn write_with_api(api: &Api, text: &CStr) -> Result<(), String> {
+[中间输出已省略]
+
+warning: function `read_text` is never used
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/tui/src/harmony_clipboard.rs:191:15
+    |
+191 | pub(crate) fn read_text(max_bytes: usize) -> Result<String, String> {
+[中间输出已省略]
+
+warning: function `read_with_api` is never used
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/tui/src/harmony_clipboard.rs:196:4
+    |
+196 | fn read_with_api(api: &Api, max_bytes: usize) -> Result<String, String> {
+[中间输出已省略]
+
+warning: `harmony-clipboard-policy-tests` (lib) generated 15 warnings
+warning: function `read_text` is never used
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/tui/src/harmony_clipboard.rs:191:15
+    |
+191 | pub(crate) fn read_text(max_bytes: usize) -> Result<String, String> {
+[中间输出已省略]
+
+warning: `harmony-clipboard-policy-tests` (lib test) generated 1 warning
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 2.80s
+     Running unittests src/lib.rs (.harmony-build/测试批次/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/宿主产物/debug/deps/harmony_clipboard_policy_tests-a53c65b3f3174c85)
+
+running 3 tests
+test harmony_clipboard::tests::nul_text_is_rejected_before_loading_any_library ... ok
+test harmony_clipboard::tests::native_calls_release_objects_on_success_and_permission_failure ... ok
+test harmony_clipboard::tests::native_errors_keep_codes_and_permission_diagnostics ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests harmony_clipboard_policy_tests
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+结束时间：2026-10-02T20:35:50+08:00
+退出码：0
+
+
+===== 静态01-剪贴板探针ELF.log =====
+[中间输出已省略]
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T20:46:57+08:00
+命令：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-readelf -h -l -d '/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/剪贴板ABI检查'
+[中间输出已省略]
+  Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00
+  Class:                             ELF64
+  Data:                              2's complement, little endian
+  Version:                           1 (current)
+  OS/ABI:                            UNIX - System V
+[中间输出已省略]
+  Type:                              DYN (Shared object file)
+  Machine:                           AArch64
+  Version:                           0x1
+  Entry point address:               0x1B9C
+  Start of program headers:          64 (bytes into file)
+[中间输出已省略]
+  INTERP         0x0002a8 0x00000000000002a8 0x00000000000002a8 0x00001a 0x00001a R   0x1
+      [Requesting program interpreter: /lib/ld-musl-aarch64.so.1]
+  LOAD           0x000000 0x0000000000000000 0x0000000000000000 0x000b9c 0x000b9c R   0x1000
+  LOAD           0x000b9c 0x0000000000001b9c 0x0000000000001b9c 0x000474 0x000474 R E 0x1000
+  LOAD           0x001010 0x0000000000003010 0x0000000000003010 0x000240 0x000240 RW  0x1000
+[中间输出已省略]
+  Tag                Type           Name/Value
+  0x0000000000000001 (NEEDED)       Shared library: [libpasteboard.so]
+  0x0000000000000001 (NEEDED)       Shared library: [libudmf.so]
+  0x0000000000000001 (NEEDED)       Shared library: [libc.so]
+  0x000000000000001e (FLAGS)        BIND_NOW
+  0x000000006ffffffb (FLAGS_1)      NOW PIE
+  0x0000000000000015 (DEBUG)        0x0
+[中间输出已省略]
+  0x000000000000001b (INIT_ARRAYSZ) 8 (bytes)
+  0x000000000000001a (FINI_ARRAY)   0x3018
+  0x000000000000001c (FINI_ARRAYSZ) 16 (bytes)
+  0x000000000000000c (INIT)         0x1f6c
+  0x000000000000000d (FINI)         0x1f80
+  0x0000000000000000 (NULL)         0x0
+
+结束时间：2026-10-02T20:46:57+08:00
+退出码：0

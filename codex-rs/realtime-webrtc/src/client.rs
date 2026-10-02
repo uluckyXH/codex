@@ -171,6 +171,7 @@ impl VoiceHost {
     }
 
     pub async fn connect(package: &CodexPackageLayout, build_commit: &str) -> Result<Self> {
+        crate::ensure_native_voice_supported()?;
         let root = package.package_dir.as_path().canonicalize()?;
         let name = if cfg!(windows) {
             "codex-voice-host.exe"

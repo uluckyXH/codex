@@ -7,12 +7,13 @@ pub(crate) fn open(url: &str) -> std::io::Result<()> {
 
 #[cfg(target_env = "ohos")]
 pub(crate) fn open(url: &str) -> std::io::Result<()> {
-    // The Linux launcher probes xdg-open and desktop-specific commands. A native
-    // HarmonyOS launcher has not been integrated, so keep the URL visible instead.
+    // API 24's public C Ability surface starts self UIAbilities with application
+    // context. A standalone CLI has no such context or general open-URL API.
     Err(std::io::Error::new(
         std::io::ErrorKind::Unsupported,
         format!(
-            "automatic browser opening is unavailable on HarmonyOS; open this URL manually: {url}"
+            "automatic browser opening is unavailable on HarmonyOS: {}; open this URL manually: {url}",
+            codex_features::platform::BROWSER_OPEN_UNAVAILABLE
         ),
     ))
 }

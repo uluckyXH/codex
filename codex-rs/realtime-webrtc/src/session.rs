@@ -83,14 +83,16 @@ impl RealtimeWebrtcSession {
     /// Check package availability without loading native code or touching any audio device.
     /// Linux packages may pair a musl application with a GNU helper; startup checks host loading.
     pub fn is_supported() -> bool {
-        cfg!(any(
-            target_os = "macos",
-            target_os = "linux",
-            all(windows, target_env = "msvc")
-        )) && codex_install_context::InstallContext::current()
-            .package_layout
-            .as_ref()
-            .is_some_and(|package| package_has_runtime(package.package_dir.as_path()))
+        !cfg!(target_env = "ohos")
+            && cfg!(any(
+                target_os = "macos",
+                target_os = "linux",
+                all(windows, target_env = "msvc")
+            ))
+            && codex_install_context::InstallContext::current()
+                .package_layout
+                .as_ref()
+                .is_some_and(|package| package_has_runtime(package.package_dir.as_path()))
     }
 
     /// Called off the UI thread. Cancellation also owns startup before a handle is returned.
@@ -98,6 +100,7 @@ impl RealtimeWebrtcSession {
         abort: AbortRegistration,
         selection: AudioDeviceSelection,
     ) -> Result<StartedRealtimeWebrtcSession> {
+        crate::ensure_native_voice_supported()?;
         let package = codex_install_context::InstallContext::current()
             .package_layout
             .clone()

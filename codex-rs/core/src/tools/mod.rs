@@ -15,6 +15,7 @@ mod multi_agent_tool;
 pub(crate) mod network_approval;
 pub(crate) mod orchestrator;
 pub(crate) mod parallel;
+mod platform_tool_mode;
 pub(crate) mod registry;
 pub(crate) mod router;
 pub(crate) mod runtimes;
@@ -73,15 +74,12 @@ pub(crate) fn tool_user_shell_type(
 }
 
 pub(crate) fn requested_tool_mode(turn_context: &TurnContext, model_info: &ModelInfo) -> ToolMode {
-    model_info.tool_mode.unwrap_or_else(|| {
-        if turn_context.config.features.enabled(Feature::CodeModeOnly) {
-            ToolMode::CodeModeOnly
-        } else if turn_context.config.features.enabled(Feature::CodeMode) {
-            ToolMode::CodeMode
-        } else {
-            ToolMode::Direct
-        }
-    })
+    platform_tool_mode::resolve_requested_tool_mode(
+        model_info.tool_mode,
+        turn_context.config.features.enabled(Feature::CodeModeOnly),
+        turn_context.config.features.enabled(Feature::CodeMode),
+        codex_features::platform::unavailable_reason(Feature::CodeMode).is_none(),
+    )
 }
 
 pub(crate) fn effective_tool_mode(turn_context: &TurnContext, model_info: &ModelInfo) -> ToolMode {

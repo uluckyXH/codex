@@ -157,8 +157,14 @@ fn code_mode_only_requires_code_mode() {
     features.enable(Feature::CodeModeOnly);
     features.normalize_dependencies();
 
-    assert_eq!(features.enabled(Feature::CodeModeOnly), true);
-    assert_eq!(features.enabled(Feature::CodeMode), true);
+    assert_eq!(
+        features.enabled(Feature::CodeModeOnly),
+        !cfg!(target_env = "ohos")
+    );
+    assert_eq!(
+        features.enabled(Feature::CodeMode),
+        !cfg!(target_env = "ohos")
+    );
 }
 
 #[test]
@@ -544,8 +550,14 @@ fn from_sources_applies_base_profile_and_overrides() {
     );
 
     assert_eq!(features.enabled(Feature::Plugins), true);
-    assert_eq!(features.enabled(Feature::CodeModeOnly), true);
-    assert_eq!(features.enabled(Feature::CodeMode), true);
+    assert_eq!(
+        features.enabled(Feature::CodeModeOnly),
+        !cfg!(target_env = "ohos")
+    );
+    assert_eq!(
+        features.enabled(Feature::CodeMode),
+        !cfg!(target_env = "ohos")
+    );
     assert_eq!(features.enabled(Feature::ApplyPatchFreeform), false);
     assert_eq!(features.enabled(Feature::WebSearchRequest), false);
 }

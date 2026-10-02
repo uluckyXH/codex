@@ -30,8 +30,13 @@ pub(crate) fn read(deadline: Instant) -> Result<String, String> {
     }
     #[cfg(target_env = "ohos")]
     {
-        let _ = deadline;
-        Err("clipboard text is unavailable on HarmonyOS; use your terminal paste shortcut".into())
+        if Instant::now() >= deadline {
+            return Err("clipboard read timed out".into());
+        }
+        validate(
+            crate::harmony_clipboard::read_text(MAX_USER_INPUT_TEXT_CHARS * 4)?,
+            deadline,
+        )
     }
     #[cfg(target_os = "android")]
     {

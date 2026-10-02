@@ -101,8 +101,9 @@ fn copy_to_clipboard(
         move |text: &str, html: Option<&str>| arboard_copy(clipboard, text, html)
     };
     #[cfg(target_env = "ohos")]
-    let native_copy = |_text: &str, _html: Option<&str>| {
-        Err("native clipboard unavailable on HarmonyOS".to_string())
+    let native_copy = |text: &str, _html: Option<&str>| {
+        // API 13 plain text needs no ownership lease. HTML remains a future capability.
+        crate::harmony_clipboard::write_text(text).map(|()| None)
     };
     #[cfg(target_os = "android")]
     let native_copy = |_text: &str, _html: Option<&str>| {

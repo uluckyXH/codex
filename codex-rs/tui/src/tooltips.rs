@@ -52,6 +52,7 @@ fn experimental_tooltips(
 ) -> Vec<&'static str> {
     features
         .iter()
+        .filter(|spec| codex_features::platform::unavailable_reason(spec.id).is_none())
         .filter(|spec| spec.id != Feature::RealtimeConversation || voice_supported())
         .filter_map(|spec| spec.stage.experimental_announcement())
         .collect()
