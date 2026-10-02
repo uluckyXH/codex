@@ -9,6 +9,7 @@ node_modules
 
 # build
 .harmony-build/
+/releases/
 dist/
 bazel-*
 user.bazelrc
