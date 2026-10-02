@@ -1,0 +1,26 @@
+[
+  {
+    "用例": "交叉05-完整发布包",
+    "开始": "2026-10-02T22:25:16+0800",
+    "结束": "2026-10-02T22:25:29+0800",
+    "退出码": 0,
+    "命令": [
+      "命令：python3 scripts/build_harmony_distribution.py package --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --java /opt/homebrew/opt/openjdk@17/bin/java --helpers-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212512-提交版原生资源复测-主会话/原生资源' --build-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译' --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/发布产物' --offline"
+    ],
+    "原始日志": ".harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/日志/交叉05-完整发布包.log",
+    "字节数": 430186,
+    "SHA-256": "bb68b289b14bc7d791ca6b5878e6b43fe987806e48e6f03c12fe8e5e965d31d6"
+  },
+  {
+    "用例": "交叉06-解包签名与文件安装",
+    "开始": "2026-10-02T22:26:22+0800",
+    "结束": "2026-10-02T22:26:26+0800",
+    "退出码": 0,
+    "命令": [
+      "命令：python3 '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/验证目录包.py' '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话'"
+    ],
+    "原始日志": ".harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/日志/交叉06-解包签名与文件安装.log",
+    "字节数": 2485,
+    "SHA-256": "9ceda968a63a8f4c6aa8eb01f2da119585c6eb87daff56ed7da48fa16b7c8653"
+  }
+]

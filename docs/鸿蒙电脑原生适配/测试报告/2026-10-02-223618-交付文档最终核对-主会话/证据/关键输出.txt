@@ -1,0 +1,21 @@
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T22:36:18+0800
+命令：python3 'docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/证据/文档检查脚本.py'
+中文文档：81
+本地链接：685
+Shell 示例：46
+Python 示例：1
+TOML 示例：4
+文档静态检查通过；示例语法检查不会执行示例中的构建或安装命令。
+
+结束时间：2026-10-02T22:36:18+0800
+退出码：0
+
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T22:36:18+0800
+命令：git diff --check
+2026-10-02 22:36:19.592 xcodebuild[40392:4915411]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-10-02 22:36:19.784 xcodebuild[40392:4915409] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+
+结束时间：2026-10-02T22:36:20+0800
+退出码：0

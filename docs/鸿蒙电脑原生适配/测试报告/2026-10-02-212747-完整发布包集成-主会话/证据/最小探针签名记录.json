@@ -1,0 +1,33 @@
+{
+  "方式": "官方 binary-sign-tool.jar 自签名",
+  "工具": "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/lib/binary-sign-tool.jar",
+  "输入": {
+    "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/探针构建/harmony-rust-probe",
+    "字节数": 4574840,
+    "SHA-256": "c21a53d04a151dcced1250c00ef7289143955e064be1520ce29a3fbedf9606d4",
+    "架构": "AArch64",
+    "解释器": "/lib/ld-musl-aarch64.so.1",
+    "动态依赖": [
+      "libc.so"
+    ],
+    "OHOS标识": true,
+    "签名节存在": false,
+    "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+  },
+  "输出": {
+    "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/已签名最小原生探针",
+    "字节数": 4582016,
+    "SHA-256": "99c052409c02771571c9c417a3adaaab2c1e6e71c025afbaa63875a5d7a925da",
+    "架构": "AArch64",
+    "解释器": "/lib/ld-musl-aarch64.so.1",
+    "动态依赖": [
+      "libc.so"
+    ],
+    "OHOS标识": true,
+    "签名节存在": true,
+    "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+  },
+  "签名日志": "10-02 21:51:45.579  INFO - Start sign\n10-02 21:51:45.591  INFO - Using SelfSignSignProvider\n10-02 21:51:45.592  INFO - Start signing ELF file...\n10-02 21:51:45.601  INFO - Self-sign mode enabled, skip writing .profile and .permission sections\n10-02 21:51:45.601  INFO - Added .codesign section placeholder, offset: 4575232, size: 4096 bytes\n10-02 21:51:45.613  INFO - Start to sign elf code.\n10-02 21:51:45.613  INFO - Self-sign mode enabled, setting FLAG_SELF_SIGN\n10-02 21:51:45.661  INFO - Self-sign mode: using descriptor digest as signature, size: 32 bytes\n10-02 21:51:45.662  INFO - Sign elf successfully, code sign block size: 296 bytes\n10-02 21:51:45.662  INFO - Generate code sign block successfully, size: 296 bytes\n10-02 21:51:45.662  INFO - Replace code sign data at offset: 4575232, size: 296\n10-02 21:51:45.662  INFO - Self-sign elf success\n10-02 21:51:45.662  INFO - sign success\n",
+  "签名信息检查": "10-02 21:51:45.984  INFO - Start display-sign\n10-02 21:51:46.010  INFO - ELF verification started for file: /Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/已签名最小原生探针\n10-02 21:51:46.020  INFO - permission is not found\n10-02 21:51:46.020  INFO - code signature is self-sign\n10-02 21:51:46.020  INFO - verify: Self-sign signature\n10-02 21:51:46.020  INFO - display-sign success\n",
+  "真机状态": "未验证；本机签名检查不代表商业鸿蒙 PC 接受加载"
+}

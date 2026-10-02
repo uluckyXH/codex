@@ -1,0 +1,29 @@
+[
+  {
+    "文件": ".harmony-build/测试批次/2026-10-02-214408-沙箱目标用例链接补测-主会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/deps/codex_linux_sandbox-53e8d22b0263af27",
+    "字节数": 174513328,
+    "SHA-256": "9f3e734eaa3220292d513b7b52ac904204080337f0259538e096207550c9f324",
+    "架构": "AArch64",
+    "解释器": "/lib/ld-musl-aarch64.so.1",
+    "动态依赖": [
+      "libtime_service_ndk.so",
+      "libc.so"
+    ],
+    "OHOS标识": true,
+    "签名节存在": false,
+    "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+  },
+  {
+    "文件": ".harmony-build/测试批次/2026-10-02-214408-沙箱目标用例链接补测-主会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/deps/codex_sandboxing-6e5836afd17802c0",
+    "字节数": 205482976,
+    "SHA-256": "526d496217d0fa6cc26e8823a733702ddb5097e0509c417205a50e3a3780db94",
+    "架构": "AArch64",
+    "解释器": "/lib/ld-musl-aarch64.so.1",
+    "动态依赖": [
+      "libc.so"
+    ],
+    "OHOS标识": true,
+    "签名节存在": false,
+    "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+  }
+]

@@ -1,0 +1,27 @@
+交叉03-沙箱用例目标链接（节选；中间输出已省略，完整日志位置和摘要见执行摘要）
+1: 工作目录：/Volumes/MacSSD/Repositories/codex
+2: 开始时间：2026-10-02T21:45:17+0800
+3: 命令：python3 '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-214408-沙箱目标用例链接补测-主会话/目标测试链接.py' '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-214408-沙箱目标用例链接补测-主会话/鸿蒙构建'
+4:  Downloading crates ...
+8144:    Compiling codex-agent-message-board-client v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/agent-message-board-client)
+8145:    Compiling codex-guardian-reviewer v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/ext/guardian-reviewer)
+8146:    Compiling codex-skills-extension v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/ext/skills)
+8147:    Compiling codex-rollout-trace v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/rollout-trace)
+8148:    Compiling codex-agent-graph-store v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/agent-graph-store)
+8149:    Compiling codex-apply-patch v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/apply-patch)
+8150:    Compiling codex-memories-read v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/memories/read)
+8151:    Compiling codex-agent-roles v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/agent-roles)
+8152:    Compiling codex-utils-git-discovery v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/utils/git-discovery)
+8153:    Compiling codex-shell-escalation v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/shell-escalation)
+8154:    Compiling codex-attachment-store v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/attachment-store)
+8155:    Compiling whoami v1.6.1
+8156:    Compiling codex-core v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/core)
+8157:    Compiling test-case v3.3.1
+8158:    Compiling codex-process-hardening v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/process-hardening)
+8159:    Compiling codex-linux-sandbox v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/linux-sandbox)
+8160:     Finished `test` profile [unoptimized + debuginfo] target(s) in 14m 15s
+8161:   Executable unittests src/lib.rs (.harmony-build/测试批次/2026-10-02-214408-沙箱目标用例链接补测-主会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/deps/codex_linux_sandbox-53e8d22b0263af27)
+8162:   Executable unittests src/lib.rs (.harmony-build/测试批次/2026-10-02-214408-沙箱目标用例链接补测-主会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/deps/codex_sandboxing-6e5836afd17802c0)
+8163: 
+8164: 结束时间：2026-10-02T21:59:33+0800
+8165: 退出码：0

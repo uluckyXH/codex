@@ -1,0 +1,11 @@
+{
+  "提交": "ed13c2aaa8408ce8ee311a15b0326cc462ccac7d",
+  "工作区状态": "M \"scripts/harmony/\\345\\256\\211\\350\\243\\205.sh\"\n M scripts/test_harmony_distribution.py",
+  "工作区补丁摘要": "25b21ad25690193c978d233f27fec4fde0685e487d3e815b98bba2c477dbd137",
+  "新增文件摘要": {},
+  "时间": "2026-10-02T14:23:15.594055+00:00",
+  "被测改动摘要": {
+    "scripts/harmony/安装.sh": "fe3df32116345d67039cc27111ae2c593ff8bbb1b208909d038a66e8add379c4",
+    "scripts/test_harmony_distribution.py": "e21249b1c996ce5741607fa1386ede4e0dad0b553913b8a4929f1c81de1f62fb"
+  }
+}

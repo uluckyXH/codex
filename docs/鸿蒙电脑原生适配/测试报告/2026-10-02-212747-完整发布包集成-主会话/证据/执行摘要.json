@@ -1,0 +1,38 @@
+[
+  {
+    "用例": "交叉02-最小原生探针",
+    "开始": "2026-10-02T21:51:43+0800",
+    "结束": "2026-10-02T21:51:44+0800",
+    "退出码": 0,
+    "命令": [
+      "命令：python3 scripts/build_harmony.py probe --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/探针构建'"
+    ],
+    "原始日志": ".harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/日志/交叉02-最小原生探针.log",
+    "字节数": 6321,
+    "SHA-256": "851834b80d4aa642cc19c702400cbf57b3c1aaa268cc2ef7e64e4416c8abaf7e"
+  },
+  {
+    "用例": "交叉04-最小探针签名",
+    "开始": "2026-10-02T21:51:44+0800",
+    "结束": "2026-10-02T21:51:46+0800",
+    "退出码": 0,
+    "命令": [
+      "命令：python3 scripts/sign_harmony.py --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --java /opt/homebrew/opt/openjdk@17/bin/java --input '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/探针构建/harmony-rust-probe' --output '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/已签名最小原生探针' --record '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/最小探针签名记录.json'"
+    ],
+    "原始日志": ".harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/日志/交叉04-最小探针签名.log",
+    "字节数": 984,
+    "SHA-256": "8ca8d782dc5b3732e0da525b46cd51a6d71be4dda699b456fdcf534b50f2b881"
+  },
+  {
+    "用例": "交叉05-完整发布包",
+    "开始": "2026-10-02T21:38:57+0800",
+    "结束": "2026-10-02T22:21:46+0800",
+    "退出码": 0,
+    "命令": [
+      "命令：python3 scripts/build_harmony_distribution.py package --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --java /opt/homebrew/opt/openjdk@17/bin/java --helpers-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212512-提交版原生资源复测-主会话/原生资源' --build-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译' --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/发布产物' --offline"
+    ],
+    "原始日志": ".harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/日志/交叉05-完整发布包.log",
+    "字节数": 473191,
+    "SHA-256": "2fb6ccf80fe2edad899c118b09502fabe57f660869aec74e3e51aa86fe498a47"
+  }
+]

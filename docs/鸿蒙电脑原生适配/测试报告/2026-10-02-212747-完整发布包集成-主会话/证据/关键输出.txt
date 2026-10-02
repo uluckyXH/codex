@@ -1,0 +1,72 @@
+交叉02-最小原生探针（节选；中间输出已省略，完整日志位置和摘要见执行摘要）
+1: 工作目录：/Volumes/MacSSD/Repositories/codex
+2: 开始时间：2026-10-02T21:51:43+0800
+3: 命令：python3 scripts/build_harmony.py probe --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/探针构建'
+4: 执行：/opt/homebrew/opt/rustup/bin/rustup run 1.95.0 rustc --version
+92:   0x0000000000000017 (JMPREL)       0x3960
+93:   0x0000000000000002 (PLTRELSZ)     1560 (bytes)
+94:   0x0000000000000003 (PLTGOT)       0x5a310
+95:   0x0000000000000014 (PLTREL)       RELA
+96:   0x0000000000000006 (SYMTAB)       0x2e8
+97:   0x000000000000000b (SYMENT)       24 (bytes)
+98:   0x0000000000000005 (STRTAB)       0xbd4
+99:   0x000000000000000a (STRSZ)        764 (bytes)
+100:   0x000000006ffffef5 (GNU_HASH)     0x978
+101:   0x0000000000000004 (HASH)         0x99c
+102:   0x0000000000000019 (INIT_ARRAY)   0x58200
+103:   0x000000000000001b (INIT_ARRAYSZ) 8 (bytes)
+104:   0x000000000000001a (FINI_ARRAY)   0x58208
+105:   0x000000000000001c (FINI_ARRAYSZ) 16 (bytes)
+106:   0x000000000000000c (INIT)         0x56da0
+107:   0x000000000000000d (FINI)         0x56db4
+108:   0x0000000000000000 (NULL)         0x0
+109: probe 成功；产物与缓存目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/探针构建
+110: 此结果不代表已签名或通过鸿蒙 PC 真机验证。
+111: 
+112: 结束时间：2026-10-02T21:51:44+0800
+113: 退出码：0
+
+交叉04-最小探针签名（节选；中间输出已省略，完整日志位置和摘要见执行摘要）
+1: 工作目录：/Volumes/MacSSD/Repositories/codex
+2: 开始时间：2026-10-02T21:51:44+0800
+3: 命令：python3 scripts/sign_harmony.py --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --java /opt/homebrew/opt/openjdk@17/bin/java --input '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/探针构建/harmony-rust-probe' --output '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/已签名最小原生探针' --record '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/最小探针签名记录.json'
+4: 签名与静态检查完成：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/已签名最小原生探针；商业 PC 加载待验证
+5: 
+6: 结束时间：2026-10-02T21:51:46+0800
+7: 退出码：0
+
+交叉05-完整发布包（节选；中间输出已省略，完整日志位置和摘要见执行摘要）
+1: 工作目录：/Volumes/MacSSD/Repositories/codex
+2: 开始时间：2026-10-02T21:38:57+0800
+3: 命令：python3 scripts/build_harmony_distribution.py package --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --java /opt/homebrew/opt/openjdk@17/bin/java --helpers-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212512-提交版原生资源复测-主会话/原生资源' --build-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译' --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/发布产物' --offline
+4: openjdk version "17.0.20.1" 2026-08-18
+8364:    Compiling codex-tui v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/tui)
+8365: warning: variants `NoImage`, `EncodeFailed`, and `IoError` are never constructed
+8366:   --> tui/src/clipboard_paste.rs:13:5
+8367:    |
+8372:    |     ^^^^^^^
+8373: 14 |     EncodeFailed(String),
+8374:    |     ^^^^^^^^^^^^
+8375: 15 |     IoError(String),
+8401: warning: unused import: `codex_http_client::OutboundProxyPolicy`
+8402:   --> cloud-tasks/src/lib.rs:17:5
+8403:    |
+8404: 17 | use codex_http_client::OutboundProxyPolicy;
+8405:    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+8406: 
+8407: warning: `codex-cloud-tasks` (lib) generated 2 warnings (run `cargo fix --lib -p codex-cloud-tasks` to apply 2 suggestions)
+8408:    Compiling codex-tcp-tunnel v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/tcp-tunnel)
+8409:    Compiling codex-responses-api-proxy v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/responses-api-proxy)
+8410:    Compiling codex-exec v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/exec)
+8411: warning: `codex-tui` (lib) generated 2 warnings
+8412:    Compiling codex-app-server-test-client v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/app-server-test-client)
+8413:    Compiling codex-stdio-to-uds v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/stdio-to-uds)
+8414:    Compiling clap_complete v4.5.65
+8415:     Finished `release` profile [optimized + debuginfo] target(s) in 42m 38s
+8416: build 成功；产物与缓存目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译
+8417: 此结果不代表已签名或通过鸿蒙 PC 真机验证。
+8418: 执行：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-strip --strip-unneeded '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/target/aarch64-unknown-linux-ohos/release/codex' -o '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/发布产物/已签名/codex-未签名'
+8419: 候选包制作完成：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/发布产物/鸿蒙Codex-0.0.0-harmony.33af871558c7-未真机验证.tar.gz；商业鸿蒙 PC 运行待验收
+8420: 
+8421: 结束时间：2026-10-02T22:21:46+0800
+8422: 退出码：0

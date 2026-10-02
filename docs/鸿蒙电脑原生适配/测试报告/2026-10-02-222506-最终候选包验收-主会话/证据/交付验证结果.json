@@ -1,0 +1,59 @@
+{
+  "归档": {
+    "归档": "鸿蒙Codex-0.0.0-harmony.bc1a10fa191c-未真机验证.tar.gz",
+    "字节数": 101596883,
+    "SHA-256": "8c89055d466f86efa7f9956c9f3331860d1689035176c7ee78b01affaeff6383",
+    "版本": "0.0.0-harmony.bc1a10fa191c",
+    "签名": "SDK 自签名并检查签名信息",
+    "真机验收": "未执行"
+  },
+  "签名ELF": {
+    "bin/codex": {
+      "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/解包验证/鸿蒙Codex/bin/codex",
+      "字节数": 250218240,
+      "SHA-256": "a1883e514c0ddc2daa7fc7657e95d0eaa0d722459e85a295b2cf96d5387e100d",
+      "架构": "AArch64",
+      "解释器": "/lib/ld-musl-aarch64.so.1",
+      "动态依赖": [
+        "libtime_service_ndk.so",
+        "libc.so"
+      ],
+      "OHOS标识": true,
+      "签名节存在": true,
+      "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过",
+      "官方签名信息检查": "10-02 22:26:23.701  INFO - Start display-sign\n10-02 22:26:23.715  INFO - ELF verification started for file: /Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/解包验证/鸿蒙Codex/bin/codex\n10-02 22:26:23.860  INFO - permission is not found\n10-02 22:26:23.860  INFO - code signature is self-sign\n10-02 22:26:23.860  INFO - verify: Self-sign signature\n10-02 22:26:23.860  INFO - display-sign success\n"
+    },
+    "codex-path/rg": {
+      "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/解包验证/鸿蒙Codex/codex-path/rg",
+      "字节数": 4638464,
+      "SHA-256": "4bb3b4302c52aa059b5d5a5e4cf1249ed7571af7591bbb12e09535ea6f927d6f",
+      "架构": "AArch64",
+      "解释器": "/lib/ld-musl-aarch64.so.1",
+      "动态依赖": [
+        "libc.so"
+      ],
+      "OHOS标识": true,
+      "签名节存在": true,
+      "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过",
+      "官方签名信息检查": "10-02 22:26:24.170  INFO - Start display-sign\n10-02 22:26:24.182  INFO - ELF verification started for file: /Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/解包验证/鸿蒙Codex/codex-path/rg\n10-02 22:26:24.187  INFO - permission is not found\n10-02 22:26:24.188  INFO - code signature is self-sign\n10-02 22:26:24.188  INFO - verify: Self-sign signature\n10-02 22:26:24.188  INFO - display-sign success\n"
+    },
+    "codex-resources/bwrap": {
+      "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/解包验证/鸿蒙Codex/codex-resources/bwrap",
+      "字节数": 423680,
+      "SHA-256": "b4df52de80db80b47e0aa8fe28d69c5f63aa27bc7bb57e6f9eba603d28cf3314",
+      "架构": "AArch64",
+      "解释器": "/lib/ld-musl-aarch64.so.1",
+      "动态依赖": [
+        "libc.so"
+      ],
+      "OHOS标识": true,
+      "签名节存在": true,
+      "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过",
+      "官方签名信息检查": "10-02 22:26:24.415  INFO - Start display-sign\n10-02 22:26:24.426  INFO - ELF verification started for file: /Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/解包验证/鸿蒙Codex/codex-resources/bwrap\n10-02 22:26:24.430  INFO - permission is not found\n10-02 22:26:24.430  INFO - code signature is self-sign\n10-02 22:26:24.430  INFO - verify: Self-sign signature\n10-02 22:26:24.430  INFO - display-sign success\n"
+    }
+  },
+  "包文件数": 15,
+  "安装后PATH解析": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/模拟安装/中文 路径'字面$变量/bin/codex",
+  "校验": "解包及安装前后所有清单文件摘要一致",
+  "边界": "仅 Mac 文件安装模拟、静态 ELF 与官方签名信息检查；未执行目标程序、CLI、设备探针或认证测试"
+}

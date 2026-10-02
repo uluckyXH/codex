@@ -1,0 +1,63 @@
+交叉05-完整发布包（节选；中间输出已省略，完整日志位置和摘要见执行摘要）
+1: 工作目录：/Volumes/MacSSD/Repositories/codex
+2: 开始时间：2026-10-02T22:25:16+0800
+3: 命令：python3 scripts/build_harmony_distribution.py package --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --java /opt/homebrew/opt/openjdk@17/bin/java --helpers-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212512-提交版原生资源复测-主会话/原生资源' --build-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译' --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/发布产物' --offline
+4: openjdk version "17.0.20.1" 2026-08-18
+7382: warning: `codex-app-server` (lib) generated 1 warning (run `cargo fix --lib -p codex-app-server` to apply 1 suggestion)
+7383: warning: variants `NoImage`, `EncodeFailed`, and `IoError` are never constructed
+7384:   --> tui/src/clipboard_paste.rs:13:5
+7385:    |
+7390:    |     ^^^^^^^
+7391: 14 |     EncodeFailed(String),
+7392:    |     ^^^^^^^^^^^^
+7393: 15 |     IoError(String),
+7407:   --> cloud-tasks/src/lib.rs:16:5
+7408:    |
+7409: 16 | use codex_http_client::HttpClientFactory;
+7410:    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+7411:    |
+7412:    = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+7413: 
+7414: warning: unused import: `codex_http_client::OutboundProxyPolicy`
+7415:   --> cloud-tasks/src/lib.rs:17:5
+7416:    |
+7417: 17 | use codex_http_client::OutboundProxyPolicy;
+7418:    |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+7419: 
+7420: warning: `codex-cloud-tasks` (lib) generated 2 warnings (run `cargo fix --lib -p codex-cloud-tasks` to apply 2 suggestions)
+7421:     Finished `release` profile [optimized + debuginfo] target(s) in 2.83s
+7422: build 成功；产物与缓存目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译
+7423: 此结果不代表已签名或通过鸿蒙 PC 真机验证。
+7424: 执行：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-strip --strip-unneeded '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/target/aarch64-unknown-linux-ohos/release/codex' -o '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/发布产物/已签名/codex-未签名'
+7425: 候选包制作完成：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/发布产物/鸿蒙Codex-0.0.0-harmony.bc1a10fa191c-未真机验证.tar.gz；商业鸿蒙 PC 运行待验收
+7426: 
+7427: 结束时间：2026-10-02T22:25:29+0800
+7428: 退出码：0
+
+交叉06-解包签名与文件安装（节选；中间输出已省略，完整日志位置和摘要见执行摘要）
+1: 工作目录：/Volumes/MacSSD/Repositories/codex
+2: 开始时间：2026-10-02T22:26:22+0800
+3: 命令：python3 '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/验证目录包.py' '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话'
+4: 
+34: 文件安装与摘要检查完成；尚未验证鸿蒙设备的签名接受和运行能力。
+35: 在当前终端执行以下命令，然后运行 codex --version：
+36: . '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/模拟安装/中文 路径'\''字面$变量/环境.sh'
+37: 需要新终端也能找到 codex 时，将上面这一行添加到自己的 ~/.zshrc；不要覆盖已有内容。
+38: 
+39: {
+40:   "归档": {
+41:     "归档": "鸿蒙Codex-0.0.0-harmony.bc1a10fa191c-未真机验证.tar.gz",
+42:     "字节数": 101596883,
+43:     "SHA-256": "8c89055d466f86efa7f9956c9f3331860d1689035176c7ee78b01affaeff6383",
+44:     "版本": "0.0.0-harmony.bc1a10fa191c",
+45:     "签名": "SDK 自签名并检查签名信息",
+46:     "真机验收": "未执行"
+47:   },
+48:   "包文件数": 15,
+49:   "安装后PATH解析": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-222506-最终候选包验收-主会话/模拟安装/中文 路径'字面$变量/bin/codex",
+50:   "校验": "解包及安装前后所有清单文件摘要一致",
+51:   "边界": "仅 Mac 文件安装模拟、静态 ELF 与官方签名信息检查；未执行目标程序、CLI、设备探针或认证测试"
+52: }
+53: 
+54: 结束时间：2026-10-02T22:26:26+0800
+55: 退出码：0

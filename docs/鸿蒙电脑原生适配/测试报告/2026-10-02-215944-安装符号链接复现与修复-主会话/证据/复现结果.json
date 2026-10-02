@@ -1,0 +1,36 @@
+[
+  {
+    "脚本": "scripts/harmony/安装.sh",
+    "退出码": 0,
+    "包外文件保留": false,
+    "环境脚本为链接": true,
+    "额外文件被复制": true,
+    "输出": "bin/codex: OK\ncodex-path/rg: OK\ncodex-resources/bwrap: OK\n安装.sh: OK\nbin/codex: OK\ncodex-path/rg: OK\ncodex-resources/bwrap: OK\n安装.sh: OK\n\n文件安装与摘要检查完成；尚未验证鸿蒙设备的签名接受和运行能力。\n在当前终端执行以下命令，然后运行 codex --version：\n. '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-215944-安装符号链接复现与修复-主会话/临时目录/tmp3ipzmwyh/安装目录/环境.sh'\n需要新终端也能找到 codex 时，将上面这一行添加到自己的 ~/.zshrc；不要覆盖已有内容。\n"
+  },
+  {
+    "脚本": ".harmony-build/安装修复草案/安装.sh",
+    "退出码": 0,
+    "包外文件保留": true,
+    "环境脚本为链接": false,
+    "额外文件被复制": false,
+    "输出": "bin/codex: OK\ncodex-path/rg: OK\ncodex-resources/bwrap: OK\n安装.sh: OK\nbin/codex: OK\ncodex-path/rg: OK\ncodex-resources/bwrap: OK\n安装.sh: OK\n\n文件安装与摘要检查完成；尚未验证鸿蒙设备的签名接受和运行能力。\n在当前终端执行以下命令，然后运行 codex --version：\n. '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-215944-安装符号链接复现与修复-主会话/临时目录/tmp2a4wn1tr/安装目录/环境.sh'\n需要新终端也能找到 codex 时，将上面这一行添加到自己的 ~/.zshrc；不要覆盖已有内容。\n"
+  },
+  {
+    "用例": "listed-link",
+    "退出码": 1,
+    "创建安装目录": false,
+    "输出": "安装失败：清单条目不能经过符号链接：bin/codex\n"
+  },
+  {
+    "用例": "parent-path",
+    "退出码": 1,
+    "创建安装目录": false,
+    "输出": "安装失败：非法相对路径：../外部普通文件.txt\n"
+  },
+  {
+    "用例": "reserved-env",
+    "退出码": 1,
+    "创建安装目录": false,
+    "输出": "安装失败：非法或保留路径：环境.sh\n"
+  }
+]
