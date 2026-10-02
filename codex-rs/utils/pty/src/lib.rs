@@ -6,7 +6,7 @@ pub use child_command::Command;
 pub use child_command::DescriptorPolicy;
 pub use child_command::ProcessMode;
 pub use child_command::SpawnFallback;
-#[cfg(target_os = "linux")]
+#[cfg(any(target_os = "linux", all(test, unix)))]
 mod linux_fds;
 pub mod pipe;
 mod process;

@@ -1,13 +1,38 @@
 //! Linux descriptor cleanup after fork, using only stack storage and syscalls.
 //! Stdio and explicitly preserved FDs remain usable. CLOEXEC keeps Rust's
-//! spawn-error channel alive until exec succeeds. Cleanup is best-effort:
-//! failures do not prevent launch and may leave unrelated descriptors inherited.
+//! spawn-error channel alive until exec succeeds. OHOS requires complete cleanup;
+//! other Linux targets retain their existing best-effort launch behavior.
 
 use std::ffi::CStr;
 use std::io;
 use std::os::fd::RawFd;
 
-pub(crate) fn close_inherited_fds_except(preserved_fds: &[RawFd]) {
+#[cfg(target_os = "linux")]
+pub(crate) fn close_inherited_fds_except(preserved_fds: &[RawFd]) -> io::Result<()> {
+    let strict = cfg!(target_env = "ohos");
+    let result = cleanup_with_fallback(
+        preserved_fds,
+        |first, last| {
+            // SAFETY: close_range only changes this child's descriptor flags.
+            unsafe {
+                libc::syscall(
+                    libc::SYS_close_range,
+                    first,
+                    last,
+                    libc::CLOSE_RANGE_CLOEXEC,
+                ) == 0
+            }
+        },
+        || close_from_proc(preserved_fds, strict),
+    );
+    if strict { result } else { Ok(()) }
+}
+
+fn cleanup_with_fallback(
+    preserved_fds: &[RawFd],
+    mut mark_range: impl FnMut(u32, u32) -> bool,
+    fallback: impl FnOnce() -> io::Result<()>,
+) -> io::Result<()> {
     // Mark rather than close: std::process still needs its CLOEXEC error
     // pipe if exec fails. Do not alter flags on explicitly preserved FDs.
     let mut first = 3_u32;
@@ -21,47 +46,36 @@ pub(crate) fn close_inherited_fds_except(preserved_fds: &[RawFd]) {
             .filter(|&fd| fd >= first)
             .min();
         let last = next.map_or(u32::MAX, |fd| fd - 1);
-        if first <= last
-        // SAFETY: close_range has no pointers and changes only this child's FDs.
-        && unsafe {
-            libc::syscall(
-                libc::SYS_close_range,
-                first,
-                last,
-                libc::CLOSE_RANGE_CLOEXEC,
-            )
-        } != 0
-        {
-            break;
+        if first <= last && !mark_range(first, last) {
+            return fallback();
         }
         match next {
             Some(fd) => first = fd + 1,
-            None => return,
+            None => return Ok(()),
         }
     }
-    // Older kernels (or seccomp policies) may reject close_range. Read
-    // this child's descriptor table without libc's allocating DIR API.
-    // Preserve best-effort launch behavior if the fallback also fails. Logging
-    // here could allocate or lock after fork; writing to child stderr may block.
-    close_from_proc(preserved_fds);
 }
 
-fn mark_cloexec(fd: RawFd, preserved_fds: &[RawFd]) {
+fn mark_cloexec(fd: RawFd, preserved_fds: &[RawFd]) -> io::Result<()> {
     if fd <= libc::STDERR_FILENO || preserved_fds.contains(&fd) {
-        return;
+        return Ok(());
     }
     // SAFETY: fcntl operates on the child's descriptors without allocating.
     let flags = unsafe { libc::fcntl(fd, libc::F_GETFD) };
     if flags == -1 {
-        return;
+        return Err(io::Error::last_os_error());
     }
     if flags & libc::FD_CLOEXEC == 0 {
         // SAFETY: only adds CLOEXEC; existing flags and the descriptor remain intact.
-        unsafe { libc::fcntl(fd, libc::F_SETFD, flags | libc::FD_CLOEXEC) };
+        if unsafe { libc::fcntl(fd, libc::F_SETFD, flags | libc::FD_CLOEXEC) } == -1 {
+            return Err(io::Error::last_os_error());
+        }
     }
+    Ok(())
 }
 
-fn close_from_proc(preserved_fds: &[RawFd]) {
+#[cfg(target_os = "linux")]
+fn close_from_proc(preserved_fds: &[RawFd], strict: bool) -> io::Result<()> {
     use std::os::fd::AsRawFd;
     use std::os::fd::FromRawFd;
     use std::os::fd::OwnedFd;
@@ -76,7 +90,7 @@ fn close_from_proc(preserved_fds: &[RawFd]) {
         )
     };
     if raw == -1 {
-        return;
+        return Err(io::Error::last_os_error());
     }
     // SAFETY: open returned a new owned descriptor; dropping it only calls close.
     let directory = unsafe { OwnedFd::from_raw_fd(raw) };
@@ -92,38 +106,62 @@ fn close_from_proc(preserved_fds: &[RawFd]) {
             )
         };
         if count == -1 {
-            if io::Error::last_os_error().raw_os_error() == Some(libc::EINTR) {
+            let error = io::Error::last_os_error();
+            if error.raw_os_error() == Some(libc::EINTR) {
                 continue;
             }
-            return;
+            return Err(error);
         }
         if count == 0 {
-            return;
+            return Ok(());
         }
-        let mut entries = &buffer[..count as usize];
-        // Linux getdents64 records have two 64-bit fields, a u16 record length,
-        // one type byte, then the NUL-terminated name (independent of libc ABI).
-        while !entries.is_empty() {
-            if entries.len() < 20 {
-                return;
-            }
-            let length = u16::from_ne_bytes([entries[16], entries[17]]) as usize;
-            if length < 20 || length > entries.len() {
-                return;
-            }
-            if let Ok(name) = CStr::from_bytes_until_nul(&entries[19..length])
-                && let Ok(name) = name.to_str()
-                && let Ok(fd) = name.parse::<RawFd>()
-            {
-                // A failure on one descriptor must not prevent cleanup of
-                // the remaining descriptors.
-                mark_cloexec(fd, preserved_fds);
-            }
-            entries = &entries[length..];
-        }
+        let entries = buffer
+            .get(..count as usize)
+            .ok_or_else(|| io::Error::from_raw_os_error(libc::EIO))?;
+        mark_proc_entries(entries, preserved_fds, strict)?;
     }
 }
 
-#[cfg(test)]
+fn mark_proc_entries(mut entries: &[u8], preserved_fds: &[RawFd], strict: bool) -> io::Result<()> {
+    // Linux getdents64 records have two 64-bit fields, a u16 record length,
+    // one type byte, then the NUL-terminated name (independent of libc ABI).
+    while !entries.is_empty() {
+        if entries.len() < 20 {
+            return Err(io::Error::from_raw_os_error(libc::EIO));
+        }
+        let length = u16::from_ne_bytes([entries[16], entries[17]]) as usize;
+        if length < 20 || length > entries.len() {
+            return Err(io::Error::from_raw_os_error(libc::EIO));
+        }
+        let name = CStr::from_bytes_until_nul(&entries[19..length]);
+        if let Ok(name) = &name
+            && matches!(name.to_bytes(), b"." | b"..")
+        {
+            entries = &entries[length..];
+            continue;
+        }
+        let fd = name
+            .ok()
+            .and_then(|name| name.to_str().ok())
+            .and_then(|name| name.parse::<RawFd>().ok());
+        if let Some(fd) = fd.filter(|fd| !strict || *fd >= 0) {
+            let result = mark_cloexec(fd, preserved_fds);
+            if strict {
+                result?;
+            }
+        } else if strict {
+            // Raw OS errors do not allocate, unlike formatted diagnostics.
+            return Err(io::Error::from_raw_os_error(libc::EIO));
+        }
+        entries = &entries[length..];
+    }
+    Ok(())
+}
+
+#[cfg(all(test, target_os = "linux"))]
 #[path = "linux_fds_tests.rs"]
 mod tests;
+
+#[cfg(all(test, unix))]
+#[path = "fd_cleanup_tests.rs"]
+mod cleanup_tests;

@@ -367,7 +367,7 @@ async fn spawn_process_preserving_fds(
         command.stderr_file = Some(slave.try_clone()?.into());
         match crate::spawn_helper::spawn(&command, crate::spawn_helper::Setup::Pty).await? {
             Some(child) => child,
-            None if inherited_fds.is_empty() => {
+            None if inherited_fds.is_empty() && !cfg!(target_env = "ohos") => {
                 // Free the first PTY before allocating its portable replacement.
                 drop(command);
                 drop(io);
@@ -376,8 +376,9 @@ async fn spawn_process_preserving_fds(
                 return spawn_process_portable(program, args, cwd, env, arg0, size).await;
             }
             None => {
-                // Explicit descriptors select the shared fallback on Linux. Keep
-                // terminal setup there when this executable cannot run the helper.
+                // Keep OHOS on the checked descriptor path even for an empty
+                // allowlist; portable-pty cannot report incomplete cleanup.
+                // Keep terminal setup when this executable cannot run the helper.
                 unsafe {
                     command.inner.pre_exec(configure_child_terminal);
                 }

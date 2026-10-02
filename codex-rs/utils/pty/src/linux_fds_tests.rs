@@ -175,7 +175,7 @@ print("stderr preserved", file=sys.stderr)
                             return Err(io::Error::last_os_error());
                         }
                     }
-                    crate::pty::close_inherited_fds_except(&allowlist);
+                    crate::pty::close_inherited_fds_except(&allowlist)?;
                     Ok(())
                 });
             }
@@ -209,7 +209,7 @@ fn cleanup_fallback_preserves_exec_failure_reporting() -> anyhow::Result<()> {
     unsafe {
         command.pre_exec(|| {
             deny_syscall(libc::SYS_close_range)?;
-            crate::pty::close_inherited_fds_except(&[]);
+            crate::pty::close_inherited_fds_except(&[])?;
             Ok(())
         });
     }
@@ -224,6 +224,7 @@ fn cleanup_fallback_preserves_exec_failure_reporting() -> anyhow::Result<()> {
     Ok(())
 }
 
+#[cfg(not(target_env = "ohos"))]
 #[tokio::test]
 async fn cleanup_failures_do_not_prevent_explicit_launch() -> anyhow::Result<()> {
     let mut command = crate::Command::new("/bin/sh");
@@ -242,5 +243,37 @@ async fn cleanup_failures_do_not_prevent_explicit_launch() -> anyhow::Result<()>
         command.spawn()?.wait().await?,
         ExitStatus::from_raw(/*raw*/ 42 << 8)
     );
+    Ok(())
+}
+
+#[cfg(target_env = "ohos")]
+#[tokio::test]
+async fn cleanup_failures_prevent_explicit_launch_on_ohos() -> anyhow::Result<()> {
+    for denied_fallback in [libc::SYS_getdents64, libc::SYS_fcntl] {
+        let root = tempfile::tempdir()?;
+        let marker = root.path().join("ran");
+        let mut command = crate::Command::new("/bin/sh");
+        command
+            .args(["-c", "printf ran > \"$1\"", "sh"])
+            .arg(&marker)
+            .descriptor_policy(crate::DescriptorPolicy::Explicit);
+        // SAFETY: Filters are installed only in the child, before the actual
+        // descriptor cleanup hook, without allocation or locks after fork.
+        unsafe {
+            command.inner.pre_exec(move || {
+                deny_syscall(libc::SYS_close_range)?;
+                deny_syscall(denied_fallback)
+            });
+        }
+        let error = match command.spawn() {
+            Err(error) => error,
+            Ok(mut child) => {
+                child.kill().await?;
+                anyhow::bail!("command started after descriptor cleanup failed");
+            }
+        };
+        assert_eq!(error.raw_os_error(), Some(libc::EPERM));
+        assert!(!marker.exists(), "target ran after failed cleanup");
+    }
     Ok(())
 }

@@ -41,7 +41,8 @@ pub enum ProcessMode {
 #[derive(Clone, Copy, PartialEq, Eq)]
 pub enum DescriptorPolicy {
     Inherit,
-    /// Exclude unrelated descriptors, allowing launch if best-effort cleanup fails.
+    /// Exclude unrelated descriptors. OHOS rejects incomplete cleanup; other
+    /// platforms retain their best-effort behavior.
     Explicit,
 }
 
@@ -313,6 +314,9 @@ impl Command {
                             crate::process_group::set_parent_death_signal(parent_pid)?;
                         }
                         if explicit_fds {
+                            #[cfg(target_os = "linux")]
+                            crate::pty::close_inherited_fds_except(&targets)?;
+                            #[cfg(not(target_os = "linux"))]
                             crate::pty::close_inherited_fds_except(&targets);
                         }
                         crate::pty::make_fds_inheritable(&targets)?;
