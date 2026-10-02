@@ -1,4 +1,4 @@
-//! Opens non-authentication links from the TUI using a supported host backend.
+//! Opens TUI links using a supported host backend, or leaves the URL visible for manual opening.
 
 #[cfg(not(target_env = "ohos"))]
 pub(crate) fn open(url: &str) -> std::io::Result<()> {

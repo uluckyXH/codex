@@ -1,0 +1,207 @@
+来源：本批执行结果.tsv 与原始构建日志；仅省略重复编译进度和完整依赖树，没有改写退出码。日志无凭据，未做凭据值读取。
+
+用例：交叉01-TUI发布检查
+开始：2026-10-02T18:05:03+08:00
+结束：2026-10-02T18:07:22+08:00
+退出码：1
+日志 SHA-256：d76d0618ec0e3ca5635cbb15b109de59fc6d6f6590d1788a509ebc8b5008380c
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T18:05:03+08:00
+命令：python3 scripts/build_harmony.py check --release --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-180444-终端系统集成-终端会话/鸿蒙构建' --package codex-tui
+已省略编译进度，保留下列结尾输出：
+    Checking pxfm v0.1.27
+    Checking home v0.5.12
+    Checking color_quant v1.1.0
+   Compiling icu_decimal_data v2.2.0
+   Compiling starlark v0.14.2
+    Checking quick-error v2.0.1
+    Checking weezl v0.1.12
+    Checking byteorder-lite v0.1.0
+    Checking zune-core v0.5.1
+    Checking zune-jpeg v0.5.12
+    Checking image-webp v0.2.4
+    Checking gif v0.14.1
+    Checking rustyline v14.0.0
+error[E0308]: mismatched types
+    --> /Volumes/MacSSD/dev/rust/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rustyline-14.0.0/src/tty/unix.rs:42:1
+     |
+  42 | nix::ioctl_read_bad!(win_size, libc::TIOCGWINSZ, libc::winsize);
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+     | |
+     | expected `i32`, found `u64`
+     | arguments to this function are incorrect
+     |
+note: function defined here
+    --> /Volumes/MacSSD/dev/rust/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.186/src/unix/linux_like/mod.rs:1731:20
+     |
+1731 |             pub fn ioctl(fd: c_int, request: Ioctl, ...) -> c_int;
+     |                    ^^^^^
+     = note: this error originates in the macro `nix::ioctl_read_bad` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+For more information about this error, try `rustc --explain E0308`.
+error: could not compile `rustyline` (lib) due to 1 previous error
+warning: build failed, waiting for other jobs to finish...
+构建失败：Command '['/opt/homebrew/opt/rustup/bin/rustup', 'run', '1.95.0', 'cargo', 'check', '--locked', '--target', 'aarch64-unknown-linux-ohos', '--package', 'codex-tui', '--release']' returned non-zero exit status 101.
+
+结束时间：2026-10-02T18:07:22+08:00
+退出码：1
+
+用例：宿主01-TUI定向回归
+开始：2026-10-02T18:07:43+08:00
+结束：2026-10-02T18:07:43+08:00
+退出码：101
+日志 SHA-256：8dafe59cb1dd0c550f6475ba7ab6c3ea146bd6d578f9ba565753069ec89eb434
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T18:07:43+08:00
+命令：rustup run 1.95.0 cargo test --manifest-path codex-rs/Cargo.toml --locked --offline --target aarch64-apple-darwin --profile dev-small -p codex-tui --lib -- update_action::tests clipboard_copy::tests clipboard_paste::pasted_paths_tests clipboard_paste::pasted_search_query_tests notifications::tests notifications::osc9::tests
+error: failed to download `assert_matches v1.5.0`
+
+Caused by:
+  attempting to make an HTTP request, but --offline was specified
+
+结束时间：2026-10-02T18:07:43+08:00
+退出码：101
+
+用例：交叉01-桌面依赖图
+开始：2026-10-02T18:07:57+08:00
+结束：2026-10-02T18:07:58+08:00
+退出码：0
+日志 SHA-256：50e60516a2ea04d5fbb13e49fca958840adb1ad43f7a9110dc76cb53f0f65ab6
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T18:07:57+08:00
+命令：rustup run 1.95.0 cargo tree --manifest-path codex-rs/Cargo.toml --locked --offline --target aarch64-unknown-linux-ohos -p codex-tui -e normal,build
+已省略数千行依赖树；完整日志仅在本机。后续隔离断言使用这份原始日志。
+│   │   │   │   │   │   │   │   ├── rustyline v14.0.0
+│   │   │   │   │   │   │   │   │   ├── nix v0.28.0
+
+用例：宿主01-隔离更新策略
+开始：2026-10-02T18:09:41+08:00
+结束：2026-10-02T18:09:57+08:00
+退出码：0
+日志 SHA-256：39dec216eb862221dc2f496f85db607e8b28448b93f826a21104643bfed77fae
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T18:09:41+08:00
+命令：python3 '/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/docs/鸿蒙电脑原生适配/测试报告/2026-10-02-180444-终端系统集成-终端会话/证据/隔离策略验证.py' host
+已省略编译进度，保留下列结尾输出：
+   Compiling dyn-clone v1.0.20
+   Compiling idna_adapter v1.2.1
+   Compiling objc2-core-foundation v0.3.2
+   Compiling ts-rs v11.1.0
+   Compiling dirs v6.0.0
+   Compiling dunce v1.0.5
+   Compiling percent-encoding v2.3.2
+   Compiling form_urlencoded v1.2.2
+   Compiling objc2-foundation v0.3.2
+   Compiling codex-utils-absolute-path v0.0.0 (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/utils/absolute-path)
+   Compiling idna v1.1.0
+   Compiling objc2-app-kit v0.3.2
+   Compiling url v2.5.8
+   Compiling codex-utils-home-dir v0.0.0 (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/utils/home-dir)
+   Compiling semver v1.0.27
+   Compiling diff v0.1.13
+   Compiling yansi v1.0.1
+   Compiling log v0.4.34
+   Compiling webbrowser v1.2.4
+   Compiling pretty_assertions v1.4.1
+   Compiling codex-install-context v0.0.0 (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/install-context)
+   Compiling shlex v1.3.0
+   Compiling harmony-tui-policy-verification v0.0.0 (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-180444-终端系统集成-终端会话/策略验证)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 15.11s
+     Running unittests 策略验证.rs (.harmony-build/测试批次/2026-10-02-180444-终端系统集成-终端会话/宿主产物/aarch64-apple-darwin/debug/deps/harmony_tui_policy_verification-df72c07869fddafe)
+
+running 3 tests
+test update_action::tests::standalone_update_commands_rerun_latest_installer ... ok
+test update_action::tests::unsupported_platform_never_offers_an_upstream_installer ... ok
+test update_action::tests::maps_install_context_to_update_action ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+结束时间：2026-10-02T18:09:57+08:00
+退出码：0
+
+用例：文档01-源码差异
+开始：2026-10-02T18:09:59+08:00
+结束：2026-10-02T18:10:00+08:00
+退出码：0
+日志 SHA-256：986f8817aef3089e825b926405a51ce249474495cf880336ed5618cbca2d7c16
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T18:09:59+08:00
+命令：git diff c699f82a4 --check
+2026-10-02 18:10:00.019 xcodebuild[49482:3762453]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-10-02 18:10:00.119 xcodebuild[49482:3762451] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+
+结束时间：2026-10-02T18:10:00+08:00
+退出码：0
+
+用例：交叉01-隔离更新与浏览器
+开始：2026-10-02T18:10:15+08:00
+结束：2026-10-02T18:10:23+08:00
+退出码：0
+日志 SHA-256：23f94c96adda3e1fae0cb2bd71b2e44e0e7f22dc8f63c62788611557ac9628e9
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T18:10:15+08:00
+命令：python3 '/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/docs/鸿蒙电脑原生适配/测试报告/2026-10-02-180444-终端系统集成-终端会话/证据/隔离策略验证.py' ohos
+引用原始 TUI 源文件；隔离清单和锁文件仅在本批外置盘输出目录生成。
+   Compiling proc-macro2 v1.0.106
+   Compiling quote v1.0.45
+   Compiling unicode-ident v1.0.22
+   Compiling serde_core v1.0.228
+   Compiling syn v2.0.117
+   Compiling zmij v1.0.19
+   Compiling libc v0.2.186
+   Compiling serde_json v1.0.149
+    Checking itoa v1.0.17
+    Checking memchr v2.8.1
+   Compiling thiserror v2.0.18
+   Compiling serde v1.0.228
+   Compiling serde_derive v1.0.228
+   Compiling thiserror-impl v2.0.18
+   Compiling serde_derive_internals v0.29.1
+   Compiling schemars v0.8.22
+   Compiling termcolor v1.4.1
+    Checking option-ext v0.2.0
+    Checking dirs-sys v0.5.0
+   Compiling ts-rs-macros v11.1.0
+   Compiling schemars_derive v0.8.22
+    Checking dyn-clone v1.0.20
+    Checking ts-rs v11.1.0
+    Checking dirs v6.0.0
+    Checking dunce v1.0.5
+    Checking semver v1.0.27
+    Checking codex-utils-absolute-path v0.0.0 (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/utils/absolute-path)
+    Checking yansi v1.0.1
+    Checking codex-utils-home-dir v0.0.0 (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/utils/home-dir)
+    Checking diff v0.1.13
+    Checking codex-install-context v0.0.0 (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/codex-rs/install-context)
+    Checking pretty_assertions v1.4.1
+    Checking shlex v1.3.0
+    Checking harmony-tui-policy-verification v0.0.0 (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-180444-终端系统集成-终端会话/策略验证)
+    Finished `release` profile [optimized] target(s) in 8.41s
+
+结束时间：2026-10-02T18:10:23+08:00
+退出码：0
+
+用例：文档01-格式检查
+开始：2026-10-02T18:11:40+08:00
+结束：2026-10-02T18:11:40+08:00
+退出码：0
+日志 SHA-256：337422ae6873bac691ae0ca0f07532b9d586598b21add187154ab4a5b4822a68
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T18:11:40+08:00
+命令：python3 -c 'import subprocess; paths = subprocess.check_output(["git","diff","c699f82a4","--name-only"], text=True).splitlines(); subprocess.run(["rustup","run","1.95.0","rustfmt","--edition","2024","--config","skip_children=true","--check",*[p for p in paths if p.endswith(".rs")]], check=True)'
+退出 0；仅报告稳定版 rustfmt 无法使用仓库 nightly imports_granularity 配置的警告。
+
+用例：文档01-桌面依赖隔离断言
+开始：2026-10-02T18:12:43+08:00
+结束：2026-10-02T18:12:43+08:00
+退出码：0
+日志 SHA-256：10b9f8f123384e0e0facdc98fb036a2cb8029e403fe5e0988bcfd2256277326f
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T18:12:43+08:00
+命令：python3 -c 'from pathlib import Path; import re; p=Path("/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-180444-终端系统集成-终端会话/日志/交叉01-桌面依赖图.log"); text=p.read_text(); forbidden=["arboard", "zbus", "nix v0.29.0"]; found=[name for name in forbidden if name in text]; print("OHOS TUI 的 normal/build 依赖图中排除：" + ", ".join(forbidden)); assert not found, found; print("保留的已知阻塞：rustyline 14.0.0 / nix 0.28.0"); assert "rustyline v14.0.0" in text and "nix v0.28.0" in text'
+OHOS TUI 的 normal/build 依赖图中排除：arboard, zbus, nix v0.29.0
+保留的已知阻塞：rustyline 14.0.0 / nix 0.28.0
+
+结束时间：2026-10-02T18:12:43+08:00
+退出码：0
