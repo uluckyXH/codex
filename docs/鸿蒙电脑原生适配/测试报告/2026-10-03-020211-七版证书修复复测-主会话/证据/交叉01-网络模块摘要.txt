@@ -1,0 +1,2 @@
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 59.29s
+check 成功；产物与缓存目录：/Volumes/MacSSD/Repositories/codex/.harmony-build

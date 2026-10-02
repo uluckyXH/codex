@@ -1,0 +1,26 @@
+{
+  "命令": [
+    "rustup",
+    "run",
+    "1.95.0",
+    "cargo",
+    "test",
+    "--manifest-path",
+    "codex-rs/Cargo.toml",
+    "--locked",
+    "--target",
+    "aarch64-apple-darwin",
+    "-p",
+    "codex-http-client",
+    "--lib",
+    "custom_ca"
+  ],
+  "开始": "2026-10-03T01:57:09+08:00",
+  "结束": "2026-10-03T01:58:05+08:00",
+  "退出码": 101,
+  "系统": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "编译缓存": "/Volumes/MacSSD/Repositories/codex/.harmony-build/target",
+  "缓存来源": "主会话既有缓存；与两个子工作副本分离",
+  "原始日志": ".harmony-build/测试批次/2026-10-03-015708-七版证书默认修复-主会话/日志/宿主01-证书与握手.log",
+  "日志摘要": "5423df1b7e1104873452d97f8d30c1dfaa4b425f56524c2193e47fb078623781"
+}

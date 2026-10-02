@@ -1,0 +1,8 @@
+{
+  "基线": "24d59190d4d2f00d4af3a1b2d6a9b70a3aa38c32",
+  "范围": "含网络模块未提交补丁；仅本地 TLS 与证书测试，不执行认证",
+  "文件摘要": {
+    "codex-rs/http-client/src/custom_ca.rs": "9c5dba1b5f82a87782ebde4c29a8deb96ad98f77ce4f0a7579d6420db7cc6b1e",
+    "codex-rs/http-client/src/custom_ca_tls_tests.rs": "2c51b3204b12a8ad4be69a6ba84d4b847d3ef1f2ac320041317dbda8918569d7"
+  }
+}

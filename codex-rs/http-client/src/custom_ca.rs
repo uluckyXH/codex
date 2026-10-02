@@ -10,6 +10,7 @@
 //! The module intentionally has a narrow responsibility:
 //!
 //! - read CA material from `CODEX_CA_CERTIFICATE`, falling back to `SSL_CERT_FILE`
+//!   and then to the HarmonyOS system bundle on OHOS
 //! - normalize PEM variants that show up in real deployments, including OpenSSL-style
 //!   `TRUSTED CERTIFICATE` labels and bundles that also contain CRLs
 //! - return user-facing errors that explain how to fix misconfigured CA files
@@ -60,6 +61,8 @@ use tracing::warn;
 
 pub const CODEX_CA_CERT_ENV: &str = "CODEX_CA_CERTIFICATE";
 pub const SSL_CERT_FILE_ENV: &str = "SSL_CERT_FILE";
+const HARMONY_SYSTEM_CA_SOURCE: &str = "HarmonyOS system CA bundle";
+const HARMONY_SYSTEM_CA_FILE: &str = "/etc/ssl/certs/cacert.pem";
 const CA_CERT_HINT: &str = "If you set CODEX_CA_CERTIFICATE or SSL_CERT_FILE, ensure it points to a PEM file containing one or more CERTIFICATE blocks, or unset it to use system roots.";
 type PemSection = (SectionKind, Vec<u8>);
 
@@ -165,7 +168,8 @@ impl From<BuildCustomCaTransportError> for io::Error {
 ///
 /// Callers supply the baseline builder configuration they need, and this helper layers in custom
 /// CA handling before finally constructing the client. `CODEX_CA_CERTIFICATE` takes precedence
-/// over `SSL_CERT_FILE`, and empty values for either are treated as unset so callers do not
+/// over `SSL_CERT_FILE`, then the OHOS system bundle is used on HarmonyOS.
+/// Empty values for either override are treated as unset so callers do not
 /// accidentally turn `VAR=""` into a bogus path lookup.
 ///
 /// Callers that build a raw `reqwest::Client` directly bypass this policy entirely. That is an
@@ -187,8 +191,8 @@ pub fn build_reqwest_client_with_custom_ca(
 /// This is the websocket-facing sibling of [`build_reqwest_client_with_custom_ca`]. When
 /// `CODEX_CA_CERTIFICATE` or `SSL_CERT_FILE` selects a CA bundle, the returned config starts from
 /// the platform native roots and then adds the configured custom CA certificates. When no custom
-/// CA env var is set, this returns `Ok(None)` so websocket callers can keep using their ordinary
-/// default connector path.
+/// CA env var is set, OHOS selects its system bundle; other platforms return `Ok(None)` so
+/// websocket callers can keep using their ordinary default connector path.
 ///
 /// Callers that let tungstenite build its default TLS connector directly bypass this policy
 /// entirely. That bug only shows up in environments where secure websocket traffic needs the same
@@ -378,6 +382,11 @@ trait EnvSource {
     /// method, so implementations should not trim or normalize the returned string.
     fn var(&self, key: &str) -> Option<String>;
 
+    /// A platform-owned bundle, used only when neither explicit CA override is set.
+    fn platform_ca_file(&self) -> Option<PathBuf> {
+        None
+    }
+
     /// Returns a non-empty environment variable value interpreted as a filesystem path.
     ///
     /// Empty strings are treated as unset because presence here acts as a boolean "custom CA
@@ -393,6 +402,7 @@ trait EnvSource {
     /// Returns the configured CA bundle and which environment variable selected it.
     ///
     /// `CODEX_CA_CERTIFICATE` wins over `SSL_CERT_FILE` because it is the Codex-specific override.
+    /// Both override the platform bundle, even if the explicit file is invalid.
     /// Keeping the winning variable name with the path lets later logging explain not only which
     /// file was used but also why that file was chosen.
     fn configured_ca_bundle(&self) -> Option<ConfiguredCaBundle> {
@@ -408,6 +418,12 @@ trait EnvSource {
                         path,
                     })
             })
+            .or_else(|| {
+                self.platform_ca_file().map(|path| ConfiguredCaBundle {
+                    source_env: HARMONY_SYSTEM_CA_SOURCE,
+                    path,
+                })
+            })
     }
 }
 
@@ -422,6 +438,14 @@ impl EnvSource for ProcessEnv {
     fn var(&self, key: &str) -> Option<String> {
         env::var(key).ok()
     }
+
+    fn platform_ca_file(&self) -> Option<PathBuf> {
+        // Vendored OpenSSL's default file discovery does not include this OHOS
+        // bundle. Use the shared rustls/PEM path for both HTTP and WebSocket TLS.
+        // Do not silently fall back if it is missing or malformed: report the
+        // actual path and allow an explicit, trusted CA override instead.
+        cfg!(target_env = "ohos").then(|| PathBuf::from(HARMONY_SYSTEM_CA_FILE))
+    }
 }
 
 /// Identifies the CA bundle selected for a client and the policy decision that selected it.
@@ -429,7 +453,7 @@ impl EnvSource for ProcessEnv {
 /// This is the concrete output of the environment-precedence logic. Callers use `source_env` for
 /// logging and diagnostics, while `path` is the bundle that will actually be loaded.
 struct ConfiguredCaBundle {
-    /// The environment variable that won the precedence check for this bundle.
+    /// The winning environment variable, or the platform trust-store label.
     source_env: &'static str,
     /// The filesystem path that should be read as PEM certificate input.
     path: PathBuf,
@@ -723,18 +747,25 @@ mod tests {
     use super::BuildCustomCaTransportError;
     use super::CODEX_CA_CERT_ENV;
     use super::EnvSource;
+    use super::HARMONY_SYSTEM_CA_SOURCE;
     use super::SSL_CERT_FILE_ENV;
+    use super::build_reqwest_client_with_env;
     use super::maybe_build_rustls_client_config_with_env;
 
     const TEST_CERT: &str = include_str!("../tests/fixtures/test-ca.pem");
 
     struct MapEnv {
         values: HashMap<String, String>,
+        platform_ca_file: Option<PathBuf>,
     }
 
     impl EnvSource for MapEnv {
         fn var(&self, key: &str) -> Option<String> {
             self.values.get(key).cloned()
+        }
+
+        fn platform_ca_file(&self) -> Option<PathBuf> {
+            self.platform_ca_file.clone()
         }
     }
 
@@ -744,6 +775,7 @@ mod tests {
                 .iter()
                 .map(|(key, value)| ((*key).to_string(), (*value).to_string()))
                 .collect(),
+            platform_ca_file: None,
         }
     }
 
@@ -789,6 +821,62 @@ mod tests {
             env.configured_ca_bundle().map(|bundle| bundle.path),
             Some(PathBuf::from("/tmp/fallback.pem"))
         );
+    }
+
+    #[test]
+    fn harmony_system_ca_is_used_only_without_explicit_overrides() {
+        let mut env = map_env(&[(CODEX_CA_CERT_ENV, ""), (SSL_CERT_FILE_ENV, "")]);
+        env.platform_ca_file = Some(PathBuf::from("/system-test/ca.pem"));
+        let bundle = env.configured_ca_bundle().expect("platform bundle");
+        assert_eq!(bundle.path, PathBuf::from("/system-test/ca.pem"));
+        assert_eq!(bundle.source_env, HARMONY_SYSTEM_CA_SOURCE);
+
+        env.values
+            .insert(SSL_CERT_FILE_ENV.into(), "/ssl.pem".into());
+        let bundle = env.configured_ca_bundle().expect("SSL override");
+        assert_eq!(bundle.path, PathBuf::from("/ssl.pem"));
+        assert_eq!(bundle.source_env, SSL_CERT_FILE_ENV);
+
+        env.values
+            .insert(CODEX_CA_CERT_ENV.into(), "/codex.pem".into());
+        let bundle = env.configured_ca_bundle().expect("Codex override");
+        assert_eq!(bundle.path, PathBuf::from("/codex.pem"));
+        assert_eq!(bundle.source_env, CODEX_CA_CERT_ENV);
+    }
+
+    #[test]
+    fn harmony_missing_or_invalid_system_ca_fails_with_source_and_path() {
+        let temp = TempDir::new().expect("tempdir");
+        let mut env = map_env(&[]);
+        let path = temp.path().join("system-ca.pem");
+        env.platform_ca_file = Some(path.clone());
+        for contents in [None, Some("not a certificate")] {
+            if let Some(contents) = contents {
+                fs::write(&path, contents).expect("write invalid CA");
+            }
+            let http = build_reqwest_client_with_env(&env, reqwest::Client::builder().no_proxy())
+                .expect_err("invalid platform CA must fail");
+            let websocket = maybe_build_rustls_client_config_with_env(&env)
+                .expect_err("WebSocket must use the same trust source");
+            for error in [http, websocket] {
+                assert!(error.to_string().contains(HARMONY_SYSTEM_CA_SOURCE));
+                assert!(error.to_string().contains(path.to_str().unwrap()));
+            }
+        }
+    }
+
+    #[test]
+    fn harmony_invalid_override_does_not_fall_back_to_valid_system_ca() {
+        let temp = TempDir::new().expect("tempdir");
+        let system = write_cert_file(&temp, "system.pem", TEST_CERT);
+        let missing = temp.path().join("missing.pem");
+        let mut env = map_env(&[(CODEX_CA_CERT_ENV, missing.to_str().unwrap())]);
+        env.platform_ca_file = Some(system);
+        let error = build_reqwest_client_with_env(&env, reqwest::Client::builder().no_proxy())
+            .expect_err("explicit override must not be bypassed");
+        assert!(matches!(error, BuildCustomCaTransportError::ReadCaFile {
+            source_env: CODEX_CA_CERT_ENV, path, ..
+        } if path == missing));
     }
 
     #[test]
