@@ -1,0 +1,8 @@
+{
+  "源码提交": "c56e74124cddacbcf4b26ac5e838449a43d2c6dd",
+  "分支": "codex/harmony-native",
+  "被测修改": "接口密钥安装速用.md 中的自定义服务示例改为用户指定的 proxy 和固定 Bearer token；交付副本同步。",
+  "文档摘要": "c5acebfe483497e48884af69b0e8e71c1ae325e199a39c3b6f4ac2e7eeda7a17",
+  "未提交补丁摘要": "82e50d3eb00158e6cacc475ce415b87ef1d99262803d59f601bfa4d0c9d7cc27",
+  "说明": "报告及索引在被测教程身份快照后生成；没有运行认证或修改程序。"
+}
