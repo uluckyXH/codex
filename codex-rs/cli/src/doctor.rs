@@ -154,12 +154,13 @@ const NARROW_TERMINAL_ROWS: u16 = 24;
 
 /// Options for building a local Codex diagnostic report.
 ///
-/// The command always runs the full diagnostic set. Human output includes
+/// The command runs the full diagnostic set unless --capabilities is selected. Human output includes
 /// detailed diagnostics by default; --summary keeps the terminal output compact.
 #[derive(Debug, Parser)]
 pub struct DoctorCommand {
-    /// Inspect compiled capabilities and local tool paths without configuration,
-    /// credentials, clipboard/audio access, network requests, or child processes.
+    /// Inspect compiled capabilities and local tool paths, skipping Config loading
+    /// and authentication, network, and device diagnostics.
+    /// Normal CLI startup environment initialization still runs.
     #[arg(long, default_value_t = false)]
     capabilities: bool,
     /// Internal isolated filesystem probe; exits before loading configuration.

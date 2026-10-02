@@ -1,4 +1,5 @@
 //! Capability-only diagnostics never load Config, auth, clipboard data or devices.
+//! Normal CLI startup environment initialization runs before this report is selected.
 
 use super::CheckStatus;
 use super::DoctorCheck;
