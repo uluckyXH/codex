@@ -1,0 +1,22 @@
+[
+  {
+    "file": "关键输出.md",
+    "sha256": "14eb587e519759df84d6902b2bb3882fa06e3dcd5e8364e9c780a5c7bfc22d8e"
+  },
+  {
+    "file": "命令与结果.json",
+    "sha256": "31f99be4e0c24721fdd663e97ae3c1f47971ab37c6efd7fe852d4e1e2e074e26"
+  },
+  {
+    "file": "源码身份.json",
+    "sha256": "06e4e4e53adb24cee21e21cffe0279357d06bb12d0f8e2eec37186ddf366deea"
+  },
+  {
+    "file": "独立Shell目标检查.py",
+    "sha256": "b92a29191864be4178e0aee6875f8b1abd0c5587cad09f23a110f1257f01cbcd"
+  },
+  {
+    "file": "验证入口.py",
+    "sha256": "5bf47d8c6e04713615ca0efe95276559db6c8a50c267160dedb82e2760cab956"
+  }
+]

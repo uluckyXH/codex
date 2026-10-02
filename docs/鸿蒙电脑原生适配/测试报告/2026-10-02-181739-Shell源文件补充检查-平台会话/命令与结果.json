@@ -1,0 +1,15 @@
+[
+  {
+    "case": "交叉01-Shell源文件独立检查",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "python3",
+      "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-181739-Shell源文件补充检查-平台会话/独立Shell目标检查.py"
+    ],
+    "ohos": true,
+    "started": "2026-10-02T18:18:03.915928+08:00",
+    "finished": "2026-10-02T18:18:14.988027+08:00",
+    "exit_code": 1,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-181739-Shell源文件补充检查-平台会话/日志/交叉01-Shell源文件独立检查.log"
+  }
+]

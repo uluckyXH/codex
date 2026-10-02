@@ -1,0 +1,14 @@
+{
+  "head": "c699f82a4b4710248a2c1730d025ea711928a64d",
+  "branch": "codex/harmony-platform",
+  "status": " M codex-rs/shell-command/src/shell_detect.rs\n M codex-rs/utils/pty/src/child_tests.rs\n M codex-rs/utils/pty/src/posix_child.rs\n?? \"docs/\\351\\270\\277\\350\\222\\231\\347\\224\\265\\350\\204\\221\\345\\216\\237\\347\\224\\237\\351\\200\\202\\351\\205\\215/\\346\\265\\213\\350\\257\\225\\346\\212\\245\\345\\221\\212/2026-10-02-175930-\\345\\271\\263\\345\\217\\260\\345\\220\\257\\345\\212\\250\\344\\270\\216\\350\\277\\233\\347\\250\\213\\351\\200\\202\\351\\205\\215-\\345\\271\\263\\345\\217\\260\\344\\274\\232\\350\\257\\235/\"\n",
+  "files": {
+    "codex-rs/shell-command/src/shell_detect.rs": "c57e7c72ad8022750cde2f59b7cf6e345c7a7fb84daab9fa002b1b54f3729292",
+    "codex-rs/utils/pty/src/posix_child.rs": "685affe1a61f63ae1dd4432d52ee63b4fc4eb2fc59995e6834e451bb5ce23fc0",
+    "codex-rs/utils/pty/src/child_tests.rs": "f5a7d827f21602948cadab9d22e7b3db57dfddb3121eb680d43fe4b1c292101c",
+    "codex-rs/Cargo.toml": "f420330dd2cd50bb5fc6684e88c99d0c49e91b3f21b626ed655c856507c72870",
+    "codex-rs/Cargo.lock": "c2f0d1ea752d9f1fa310145f9f3403774451c3fa72a94e3f0602e0a46b3dafef"
+  },
+  "final_code_commit": "47631fcb4546ac3d97284bde3d446160036f79ce",
+  "source_unchanged_during_tests": true
+}
