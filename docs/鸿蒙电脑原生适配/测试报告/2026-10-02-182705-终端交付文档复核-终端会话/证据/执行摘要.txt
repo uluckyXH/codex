@@ -1,0 +1,17 @@
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T18:27:30+08:00
+命令：git diff c699f82a4 --check
+2026-10-02 18:27:31.598 xcodebuild[75017:3849751]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-10-02 18:27:31.805 xcodebuild[75017:3849750] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+
+结束时间：2026-10-02T18:27:32+08:00
+退出码：0
+
+
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配
+开始时间：2026-10-02T18:27:32+08:00
+命令：python3 -c 'from pathlib import Path; import re, ast; paths=[Path("docs/鸿蒙电脑原生适配/终端系统集成首批适配交付.md"),Path("/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/docs/鸿蒙电脑原生适配/测试报告/2026-10-02-180444-终端系统集成-终端会话/测试报告.md")]; [(ast.parse(p.read_text())) for p in paths[1].parent.joinpath("证据").glob("*.py")]; links=[(p,link) for p in paths for link in re.findall(r"\]\(([^)]+)\)",p.read_text()) if "://" not in link]; assert all((p.parent/link.split("#")[0]).exists() for p,link in links); print(f"{len(paths)} 份文档、{len(links)} 个本地引用和 2 份 Python 附件语法检查通过；未运行认证或 Rust 测试。")'
+2 份文档、34 个本地引用和 2 份 Python 附件语法检查通过；未运行认证或 Rust 测试。
+
+结束时间：2026-10-02T18:27:32+08:00
+退出码：0
