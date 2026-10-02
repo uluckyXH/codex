@@ -337,6 +337,55 @@ class InstallerTests(unittest.TestCase):
         self.assertNotEqual(self.install(prefix).returncode, 0)
         self.assertFalse(prefix.exists())
 
+    def test_unlisted_files_and_environment_symlink_are_not_copied(self):
+        outside = self.root / "普通外部文件"
+        outside.write_text("must remain unchanged")
+        (self.package / "环境.sh").symlink_to(outside)
+        (self.package / "未列入清单.txt").write_text("not part of the package")
+        prefix = self.root / "safe-install"
+        result = self.install(prefix)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(outside.read_text(), "must remain unchanged")
+        self.assertFalse((prefix / "环境.sh").is_symlink())
+        self.assertTrue((prefix / "环境.sh").is_file())
+        self.assertFalse((prefix / "未列入清单.txt").exists())
+
+    def test_manifest_files_and_parent_directories_cannot_be_symlinks(self):
+        for index, name in enumerate(("bin/codex", "bin", "文件校验清单.sha256")):
+            with self.subTest(name=name):
+                path = self.package / name
+                saved = self.root / f"saved-{index}"
+                path.rename(saved)
+                path.symlink_to(saved, target_is_directory=saved.is_dir())
+                try:
+                    prefix = self.root / f"rejected-{index}"
+                    result = self.install(prefix)
+                    self.assertNotEqual(result.returncode, 0, result.stdout)
+                    self.assertFalse(prefix.exists())
+                finally:
+                    path.unlink()
+                    saved.rename(path)
+
+    def test_manifest_rejects_escape_and_reserved_names_before_install(self):
+        manifest = self.package / "文件校验清单.sha256"
+        original = manifest.read_text()
+        for index, name in enumerate(
+            (
+                "环境.sh",
+                "文件校验清单.sha256",
+                "../外部文件",
+                "/tmp/文件",
+                "bin/../bin/codex",
+                "bin//codex",
+            )
+        ):
+            with self.subTest(name=name):
+                manifest.write_text(original + "0" * 64 + "  " + name + "\n")
+                prefix = self.root / f"invalid-{index}"
+                result = self.install(prefix)
+                self.assertNotEqual(result.returncode, 0, result.stdout)
+                self.assertFalse(prefix.exists())
+
 
 if __name__ == "__main__":
     unittest.main()
