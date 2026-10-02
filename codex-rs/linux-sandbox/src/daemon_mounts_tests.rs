@@ -283,7 +283,7 @@ fn accepts_private_tmp_bind_and_maskable_aliases(root: &str, parent: &str) {
 fn masked_wslg_alias_does_not_skip_other_socket_masks() {
     let mounts = "1 0 0:1 / / rw - ext4 disk rw\n2 1 0:1 / /mnt/wslg/distro rw - ext4 disk rw\n";
     let directory = Path::new("/tmp/codex-daemon-1000");
-    let mask = Some(Path::new(crate::bwrap::WSLG_DISTRO_ROOT));
+    let mask = Some(Path::new("/mnt/wslg/distro"));
     let exposed = format!("{mounts}3 1 0:1 /tmp /host-tmp rw - ext4 disk rw\n");
     for mount_id in [Some("1"), None] {
         assert_eq!(
@@ -321,4 +321,37 @@ fn masked_wslg_alias_does_not_skip_other_socket_masks() {
             ])
         );
     }
+}
+
+#[test]
+fn ohos_account_root_masks_storage_mount_aliases() {
+    let mounts = b"1 0 8:1 / / rw - ext4 system rw\n\
+        2 1 8:2 / /storage/Users/currentUser rw - ext4 users rw\n\
+        3 1 8:2 / /user-alias rw - ext4 users rw\n";
+    let directory = Path::new("/storage/Users/currentUser/.codex-uds");
+    assert_eq!(
+        check_mounts(directory, "8:2", Some("2"), mounts).unwrap(),
+        BTreeSet::from([
+            directory.to_path_buf(),
+            PathBuf::from("/user-alias/.codex-uds")
+        ])
+    );
+}
+
+#[test]
+fn ohos_account_socket_alias_cannot_bypass_the_mask() {
+    let mounts = b"1 0 8:1 / / rw - ext4 system rw\n\
+        2 1 8:2 / /storage/Users/currentUser rw - ext4 users rw\n\
+        3 1 8:2 /.codex-uds/rpc /exposed.sock rw - ext4 users rw\n";
+    assert_eq!(
+        check_mounts(
+            Path::new("/storage/Users/currentUser/.codex-uds"),
+            "8:2",
+            Some("2"),
+            mounts
+        )
+        .expect_err("direct socket bind alias must fail closed")
+        .kind(),
+        io::ErrorKind::PermissionDenied
+    );
 }

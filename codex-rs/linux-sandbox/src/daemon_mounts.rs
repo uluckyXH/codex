@@ -2,15 +2,22 @@
 //! Mount roots describe filesystem identity; canonical paths alone miss bind mounts.
 //! Btrfs subvolume device numbers can differ from the containing mount's device.
 
+#[cfg(target_os = "linux")]
 use rustix::fs::AtFlags;
+#[cfg(target_os = "linux")]
 use rustix::fs::StatxFlags;
+#[cfg(target_os = "linux")]
 use rustix::fs::fstatfs;
+#[cfg(target_os = "linux")]
 use rustix::fs::statx;
 use std::collections::BTreeSet;
+#[cfg(target_os = "linux")]
 use std::fs;
 use std::io;
+#[cfg(target_os = "linux")]
 use std::os::fd::AsRawFd;
 use std::os::unix::ffi::OsStringExt;
+#[cfg(target_os = "linux")]
 use std::os::unix::fs::MetadataExt;
 use std::path::Path;
 use std::path::PathBuf;
@@ -21,6 +28,7 @@ enum SocketFilesystem {
     Other,
 }
 
+#[cfg(target_os = "linux")]
 pub(crate) fn daemon_socket_mask_paths(
     directory: &Path,
     masked_root: Option<&Path>,

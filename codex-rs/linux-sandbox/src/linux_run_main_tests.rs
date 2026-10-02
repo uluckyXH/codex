@@ -743,38 +743,6 @@ fn resolve_permission_profile_rejects_missing_configuration() {
 }
 
 #[test]
-fn apply_seccomp_then_exec_with_legacy_landlock_panics() {
-    let result = std::panic::catch_unwind(|| {
-        ensure_inner_stage_mode_is_valid(
-            /*apply_seccomp_then_exec*/ true, /*use_legacy_landlock*/ true,
-        )
-    });
-    assert!(result.is_err());
-}
-
-#[test]
-#[should_panic(expected = "filesystem-restricted execution requires bubblewrap")]
-fn legacy_landlock_cannot_bypass_daemon_socket_isolation() {
-    ensure_legacy_landlock_mode_supports_policy(
-        /*use_legacy_landlock*/ true,
-        &read_only_file_system_policy(),
-    );
-}
-
-#[test]
-fn valid_inner_stage_modes_do_not_panic() {
-    ensure_inner_stage_mode_is_valid(
-        /*apply_seccomp_then_exec*/ false, /*use_legacy_landlock*/ false,
-    );
-    ensure_inner_stage_mode_is_valid(
-        /*apply_seccomp_then_exec*/ false, /*use_legacy_landlock*/ true,
-    );
-    ensure_inner_stage_mode_is_valid(
-        /*apply_seccomp_then_exec*/ true, /*use_legacy_landlock*/ false,
-    );
-}
-
-#[test]
 fn ohos_preflight_requires_success_and_never_accepts_unknown_failure() {
     for (status, stderr) in [
         (127, "loader could not load helper"),

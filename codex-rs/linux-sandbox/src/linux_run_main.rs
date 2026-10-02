@@ -188,13 +188,16 @@ pub fn run_main() -> ! {
     if !apply_seccomp_then_exec && !verify_fd_mounts.is_empty() {
         panic!("--verify-fd-mount is only supported in the inner sandbox stage");
     }
-    ensure_inner_stage_mode_is_valid(apply_seccomp_then_exec, use_legacy_landlock);
     let EffectivePermissions {
         permission_profile,
         file_system_sandbox_policy,
         network_sandbox_policy,
     } = resolve_permission_profile(permission_profile).unwrap_or_else(|err| panic!("{err}"));
-    ensure_legacy_landlock_mode_supports_policy(use_legacy_landlock, &file_system_sandbox_policy);
+    crate::mode_validation::require_valid_mode(
+        apply_seccomp_then_exec,
+        use_legacy_landlock,
+        file_system_sandbox_policy.has_full_disk_write_access(),
+    );
 
     // Inner stage: apply seccomp/no_new_privs after bubblewrap has already
     // established the filesystem view.
@@ -403,21 +406,6 @@ fn resolve_permission_profile(
         file_system_sandbox_policy,
         network_sandbox_policy,
     })
-}
-
-fn ensure_inner_stage_mode_is_valid(apply_seccomp_then_exec: bool, use_legacy_landlock: bool) {
-    if apply_seccomp_then_exec && use_legacy_landlock {
-        panic!("--apply-seccomp-then-exec is incompatible with --use-legacy-landlock");
-    }
-}
-
-fn ensure_legacy_landlock_mode_supports_policy(
-    use_legacy_landlock: bool,
-    file_system_sandbox_policy: &FileSystemSandboxPolicy,
-) {
-    if use_legacy_landlock && !file_system_sandbox_policy.has_full_disk_write_access() {
-        panic!("filesystem-restricted execution requires bubblewrap to isolate app-server sockets");
-    }
 }
 
 fn run_bwrap_with_proc_fallback(
@@ -1533,6 +1521,13 @@ fn run_bwrap_probe(bwrap_args: crate::bwrap::BwrapArgs) -> std::io::Result<Outpu
     if let Ok(output) = &output
         && output.status.signal().is_some()
     {
+        #[cfg(target_env = "ohos")]
+        eprintln!(
+            "OHOS sandbox stage=bubblewrap-preflight terminated: raw_wait_status={} signal={:?}; stderr: {}",
+            output.status.into_raw(),
+            output.status.signal(),
+            String::from_utf8_lossy(&output.stderr).trim()
+        );
         exit_with_wait_status(output.status.into_raw());
     }
     output

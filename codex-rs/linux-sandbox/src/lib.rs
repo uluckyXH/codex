@@ -9,7 +9,7 @@ mod bazel_bwrap;
 mod bundled_bwrap;
 #[cfg(target_os = "linux")]
 mod bwrap;
-#[cfg(target_os = "linux")]
+#[cfg(any(target_os = "linux", all(test, target_os = "macos")))]
 mod daemon_mounts;
 #[cfg(target_os = "linux")]
 mod exec_util;
@@ -21,6 +21,8 @@ mod landlock;
 mod launcher;
 #[cfg(target_os = "linux")]
 mod linux_run_main;
+#[cfg(any(target_os = "linux", test))]
+mod mode_validation;
 #[cfg(target_os = "linux")]
 mod proxy_lifecycle;
 #[cfg(target_os = "linux")]

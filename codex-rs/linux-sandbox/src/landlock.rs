@@ -130,7 +130,12 @@ fn network_seccomp_mode(
 fn set_no_new_privs() -> Result<()> {
     let result = unsafe { libc::prctl(libc::PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0) };
     if result != 0 {
-        return Err(std::io::Error::last_os_error().into());
+        let error = std::io::Error::last_os_error();
+        return Err(std::io::Error::new(
+            error.kind(),
+            format!("sandbox policy stage=PR_SET_NO_NEW_PRIVS: {error}"),
+        )
+        .into());
     }
     Ok(())
 }
@@ -294,7 +299,9 @@ fn install_network_seccomp_filter_on_current_thread(
 
     let prog: BpfProgram = filter.try_into()?;
 
-    apply_filter(&prog)?;
+    apply_filter(&prog).inspect_err(|error| {
+        eprintln!("sandbox policy stage=seccomp-filter-install: {error}");
+    })?;
 
     Ok(())
 }

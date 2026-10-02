@@ -448,7 +448,16 @@ fn create_filesystem_args(
         options
             .mask_wslg_distro
             .then_some(Path::new(WSLG_DISTRO_ROOT)),
-    )?;
+    )
+    .map_err(|error| {
+        std::io::Error::new(
+            error.kind(),
+            format!(
+                "app-server socket mount isolation for {}: {error}",
+                daemon_directory.display()
+            ),
+        )
+    })?;
     let unreadable_globs = file_system_sandbox_policy.get_unreadable_globs_with_cwd(cwd);
     // Bubblewrap requires bind mount targets to exist. Skip missing writable
     // roots so mixed-platform configs can keep harmless paths for other
