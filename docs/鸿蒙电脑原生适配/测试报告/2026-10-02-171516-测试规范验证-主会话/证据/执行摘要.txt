@@ -1,0 +1,75 @@
+本文件保留主体用例的命令、时间、退出码和关键输出。日志均为本次执行，未借用历史测试数。
+来源：仓库根目录下 .harmony-build/测试批次/2026-10-02-171516-测试规范验证-主会话/日志。原始日志仅本机可用。
+本批次输出未含认证或签名材料。差异检查出现的 Xcode 环境警告原样保留。
+
+【文档01-规范与示例】
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T17:18:05+0800
+命令：/opt/homebrew/opt/python@3.14/bin/python3.14 '/Volumes/MacSSD/Repositories/codex/docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/证据/文档检查脚本.py'
+中文文档：23
+本地链接：297
+Shell 示例：39
+Python 示例：1
+TOML 示例：3
+文档静态检查通过；示例语法检查不会执行示例中的构建或安装命令。
+
+结束时间：2026-10-02T17:18:05+0800
+退出码：0
+
+【脚本01-日志流程】
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T17:18:05+0800
+命令：/opt/homebrew/opt/python@3.14/bin/python3.14 '/Volumes/MacSSD/Repositories/codex/docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/证据/日志流程检查脚本.py' --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-171516-测试规范验证-主会话/流程用例'
+/bin/sh：成功码 0、预期非零码 7、重复日志拒绝码 125 均符合断言；参数原样保留。
+/bin/zsh：成功码 0、预期非零码 7、重复日志拒绝码 125 均符合断言；参数原样保留。
+日志流程检查通过：两个 Shell，各覆盖三个退出场景。非零码 7 是人为注入的工具测试。
+
+结束时间：2026-10-02T17:18:05+0800
+退出码：0
+
+【脚本01-构建入口】
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T17:18:05+0800
+命令：/opt/homebrew/opt/python@3.14/bin/python3.14 -m unittest discover -s scripts -p test_build_harmony.py -v
+test_accepts_sdk_version_and_native_directories (test_build_harmony.HarmonyBuildTests.test_accepts_sdk_version_and_native_directories) ... ok
+test_preserves_explicit_target_dependency_directories (test_build_harmony.HarmonyBuildTests.test_preserves_explicit_target_dependency_directories) ... ok
+test_preserves_host_compiler_and_isolates_target_pkg_config (test_build_harmony.HarmonyBuildTests.test_preserves_host_compiler_and_isolates_target_pkg_config) ... ok
+test_rejects_incomplete_sdk (test_build_harmony.HarmonyBuildTests.test_rejects_incomplete_sdk) ... ok
+test_rejects_sdk_without_target_libraries (test_build_harmony.HarmonyBuildTests.test_rejects_sdk_without_target_libraries) ... ok
+test_uses_sdk_cmake_without_changing_host_toolchain (test_build_harmony.HarmonyBuildTests.test_uses_sdk_cmake_without_changing_host_toolchain) ... ok
+test_wrapper_preserves_arguments_and_quoted_paths (test_build_harmony.HarmonyBuildTests.test_wrapper_preserves_arguments_and_quoted_paths) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.577s
+
+OK
+
+结束时间：2026-10-02T17:18:06+0800
+退出码：0
+
+【文档01-差异检查】
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T17:18:06+0800
+命令：git diff --check
+2026-10-02 17:18:07.303 xcodebuild[76569:3538213]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-10-02 17:18:07.589 xcodebuild[76569:3538212] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+
+结束时间：2026-10-02T17:18:08+0800
+退出码：0
+
+交付追加：报告正文及目录索引填写完成后，重新检查最终文档集合。
+来源：.harmony-build/测试批次/2026-10-02-171516-测试规范验证-主会话/日志/文档01-交付检查.log
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T17:30:39+0800
+命令：/opt/homebrew/opt/python@3.14/bin/python3.14 '/Volumes/MacSSD/Repositories/codex/docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/证据/文档检查脚本.py'
+中文文档：23
+本地链接：309
+Shell 示例：39
+Python 示例：1
+TOML 示例：3
+文档静态检查通过；示例语法检查不会执行示例中的构建或安装命令。
+
+结束时间：2026-10-02T17:30:40+0800
+退出码：0
+
+提交前附件排版复核：git diff --cached --check 曾返回 2，指出本摘要末尾多余空行（new blank line at EOF）。已移除摘要末尾多余空行，原始日志及主体用例结果保持不变。
