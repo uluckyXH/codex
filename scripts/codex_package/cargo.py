@@ -17,7 +17,7 @@ CODEX_RS_ROOT = REPO_ROOT / "codex-rs"
 @dataclass(frozen=True)
 class SourceBuildOutputs:
     entrypoint_bin: Path
-    code_mode_host_bin: Path
+    code_mode_host_bin: Path | None
     bwrap_bin: Path | None
     codex_command_runner_bin: Path | None
     codex_windows_sandbox_setup_bin: Path | None
@@ -35,6 +35,8 @@ def build_source_binaries(
     codex_command_runner_bin: Path | None,
     codex_windows_sandbox_setup_bin: Path | None,
 ) -> SourceBuildOutputs:
+    if spec.is_ohos and code_mode_host_bin is not None:
+        raise RuntimeError("The OHOS package does not support a code-mode host.")
     validate_prebuilt_resource_inputs(
         spec,
         bwrap_bin=bwrap_bin,
@@ -45,13 +47,20 @@ def build_source_binaries(
         spec,
         variant,
         build_entrypoint=entrypoint_bin is None,
-        build_code_mode_host=code_mode_host_bin is None,
+        build_code_mode_host=spec.supports_code_mode_host
+        and code_mode_host_bin is None,
         build_bwrap=spec.is_linux and bwrap_bin is None,
         build_codex_command_runner=spec.is_windows and codex_command_runner_bin is None,
         build_codex_windows_sandbox_setup=spec.is_windows
         and codex_windows_sandbox_setup_bin is None,
     )
     if binaries:
+        if spec.is_ohos:
+            raise RuntimeError(
+                "Build OHOS inputs with scripts/build_harmony.py and pass "
+                "--entrypoint-bin and --bwrap-bin; the generic Cargo builder "
+                "does not configure the HarmonyOS SDK or native dependencies."
+            )
         cmd = [
             cargo,
             "build",
@@ -84,9 +93,13 @@ def build_source_binaries(
             output_dir / variant.entrypoint_name(spec),
         ),
         code_mode_host_bin=(
-            code_mode_host_bin.resolve()
-            if code_mode_host_bin is not None
-            else output_dir / f"codex-code-mode-host{spec.exe_suffix}"
+            (
+                code_mode_host_bin.resolve()
+                if code_mode_host_bin is not None
+                else output_dir / f"codex-code-mode-host{spec.exe_suffix}"
+            )
+            if spec.supports_code_mode_host
+            else None
         ),
         bwrap_bin=resolve_output_path(
             bwrap_bin,
@@ -118,7 +131,7 @@ def source_binaries_for_target(
     binaries = []
     if build_entrypoint:
         binaries.append(variant.cargo_bin)
-    if build_code_mode_host:
+    if build_code_mode_host and spec.supports_code_mode_host:
         binaries.append("codex-code-mode-host")
     if build_bwrap:
         binaries.append("bwrap")

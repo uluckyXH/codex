@@ -1,0 +1,30 @@
+
+交叉02-原生沙箱工具（原始日志节选；中间编译输出已省略）
+1: 工作目录：/Volumes/MacSSD/Repositories/codex
+2: 开始时间：2026-10-02T20:25:40+0800
+3: 命令：python3 scripts/build_harmony.py build --release --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-202357-沙箱目录接口修复复测-主会话/bwrap' --native-deps '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/原生依赖' --package codex-bwrap
+4: 执行：/opt/homebrew/opt/rustup/bin/rustup run 1.95.0 rustc --version
+29:    Compiling cc v1.2.55
+30:    Compiling pkg-config v0.3.32
+31:    Compiling libc v0.2.186
+32:    Compiling codex-bwrap v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/bwrap)
+33: warning: codex-bwrap@0.0.0: /Volumes/MacSSD/Repositories/codex/codex-rs/bwrap/../vendor/bubblewrap/network.c:53:49: warning: missing field 'nl_pid' initializer [-Wmissing-field-initializers]
+34: warning: codex-bwrap@0.0.0:   struct sockaddr_nl dst_addr = { AF_NETLINK, 0 };
+35: warning: codex-bwrap@0.0.0:                                                 ^
+36: warning: codex-bwrap@0.0.0: /Volumes/MacSSD/Repositories/codex/codex-rs/bwrap/../vendor/bubblewrap/network.c:142:49: warning: missing field 'nl_pid' initializer [-Wmissing-field-initializers]
+37: warning: codex-bwrap@0.0.0:   struct sockaddr_nl src_addr = { AF_NETLINK, 0 };
+38: warning: codex-bwrap@0.0.0:                                                 ^
+39: warning: codex-bwrap@0.0.0: 2 warnings generated.
+40: warning: codex-bwrap@0.0.0: /Volumes/MacSSD/Repositories/codex/codex-rs/bwrap/../vendor/bubblewrap/utils.c:823:49: warning: comparison of integers of different signs: 'unsigned long' and 'long' [-Wsign-compare]
+41: warning: codex-bwrap@0.0.0:   for (cmsg = CMSG_FIRSTHDR(&msg); cmsg; cmsg = CMSG_NXTHDR(&msg, cmsg))
+42: warning: codex-bwrap@0.0.0:                                                 ^~~~~~~~~~~~~~~~~~~~~~~
+43: warning: codex-bwrap@0.0.0: /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/sys/socket.h:360:44: note: expanded from macro 'CMSG_NXTHDR'
+44: warning: codex-bwrap@0.0.0:         __CMSG_LEN(cmsg) + sizeof(struct cmsghdr) >= __MHDR_END(mhdr) - (unsigned char *)(cmsg) \
+45: warning: codex-bwrap@0.0.0:         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+46: warning: codex-bwrap@0.0.0: 1 warning generated.
+47:     Finished `release` profile [optimized + debuginfo] target(s) in 4.71s
+48: build 成功；产物与缓存目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-202357-沙箱目录接口修复复测-主会话/bwrap
+49: 此结果不代表已签名或通过鸿蒙 PC 真机验证。
+50: 
+51: 结束时间：2026-10-02T20:25:45+0800
+52: 退出码：0

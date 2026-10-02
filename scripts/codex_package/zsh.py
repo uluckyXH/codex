@@ -15,6 +15,12 @@ def resolve_zsh_bin(
     *,
     zsh_bin: Path | None = None,
 ) -> Path | None:
+    if spec.is_ohos:
+        if zsh_bin is not None or manifest_path is not None:
+            raise RuntimeError(
+                "The OHOS package does not support the patched zsh runtime."
+            )
+        return None
     if zsh_bin is not None:
         return resolve_input_path(zsh_bin, "zsh executable", "--zsh-bin")
 

@@ -1,0 +1,84 @@
+
+交叉02-原生权限库（原始日志节选；中间编译输出已省略）
+1: 工作目录：/Volumes/MacSSD/Repositories/codex
+2: 开始时间：2026-10-02T20:12:31+0800
+3: 命令：python3 scripts/build_harmony_helpers.py --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap' --source-cache '/Volumes/MacSSD/Repositories/codex/.harmony-build/第二阶段/源包' --only libcap --offline
+4: 执行：/usr/bin/cc -O2 _makenames.c -o '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/_makenames'
+5: 2026-10-02 20:12:32.376 xcodebuild[83224:4340627]  DVTFilePathFSEvents: Failed to start fs event stream.
+6: 2026-10-02 20:12:32.592 xcodebuild[83224:4340626] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+7: 执行：'/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/toolchain/ohos-clang' -O2 -fPIC -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D_LIBPSX_PTHREAD_LINKAGE '-I/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/include' '-I/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/include/uapi' -c '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_alloc.c' -o '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_alloc.o'
+8: 执行：'/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/toolchain/ohos-clang' -O2 -fPIC -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D_LIBPSX_PTHREAD_LINKAGE '-I/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/include' '-I/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/include/uapi' -c '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_proc.c' -o '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_proc.o'
+9: 执行：'/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/toolchain/ohos-clang' -O2 -fPIC -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D_LIBPSX_PTHREAD_LINKAGE '-I/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/include' '-I/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/include/uapi' -c '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_extint.c' -o '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_extint.o'
+10: 执行：'/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/toolchain/ohos-clang' -O2 -fPIC -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D_LIBPSX_PTHREAD_LINKAGE '-I/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/include' '-I/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/include/uapi' -c '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_flag.c' -o '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_flag.o'
+11: 执行：'/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/toolchain/ohos-clang' -O2 -fPIC -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D_LIBPSX_PTHREAD_LINKAGE '-I/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/include' '-I/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/include/uapi' -c '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_text.c' -o '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_text.o'
+12: 执行：'/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/toolchain/ohos-clang' -O2 -fPIC -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D_LIBPSX_PTHREAD_LINKAGE '-I/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/include' '-I/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/include/uapi' -c '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_file.c' -o '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_file.o'
+13: 执行：'/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/toolchain/ohos-clang' -O2 -fPIC -D_LARGEFILE64_SOURCE -D_FILE_OFFSET_BITS=64 -D_LIBPSX_PTHREAD_LINKAGE '-I/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/include' '-I/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/include/uapi' -c '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_syscalls.c' -o '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_syscalls.o'
+14: 执行：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-ar rcs '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/原生依赖/lib/libcap.a' '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_alloc.o' '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_proc.o' '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_extint.o' '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_flag.o' '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_text.o' '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_file.o' '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/源码/libcap-2.78/libcap/cap_syscalls.o'
+15: 执行：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-ranlib '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/原生依赖/lib/libcap.a'
+16: 
+17: 结束时间：2026-10-02T20:12:35+0800
+18: 退出码：0
+
+交叉02-原生搜索工具（原始日志节选；中间编译输出已省略）
+1: 工作目录：/Volumes/MacSSD/Repositories/codex
+2: 开始时间：2026-10-02T20:12:38+0800
+3: 命令：python3 scripts/build_harmony_helpers.py --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/ripgrep' --source-cache '/Volumes/MacSSD/Repositories/codex/.harmony-build/第二阶段/源包' --only ripgrep
+4: 执行：/opt/homebrew/opt/rustup/bin/rustup run 1.95.0 cargo build --locked --release --target aarch64-unknown-linux-ohos --bin rg
+42:    Compiling serde_json v1.0.150
+43:    Compiling crossbeam-epoch v0.9.20
+44:    Compiling encoding_rs_io v0.1.7
+45:    Compiling memmap2 v0.9.11
+46:    Compiling globset v0.4.19
+47:    Compiling itoa v1.0.18
+48:    Compiling termcolor v1.4.1
+49:    Compiling crossbeam-deque v0.8.7
+50:    Compiling grep-searcher v0.1.17
+51:    Compiling same-file v1.0.6
+52:    Compiling anyhow v1.0.103
+53:    Compiling walkdir v2.5.0
+54:    Compiling grep-printer v0.3.1
+55:    Compiling grep-cli v0.1.12
+56:    Compiling grep-regex v0.1.14
+57:    Compiling ripgrep v15.2.0 (/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/ripgrep/源码/ripgrep-15.2.0)
+58:    Compiling grep v0.4.1
+59:    Compiling ignore v0.4.29
+60:    Compiling textwrap v0.16.2
+61:    Compiling lexopt v0.3.2
+62:     Finished `release` profile [optimized + debuginfo] target(s) in 26.27s
+63: 
+64: 结束时间：2026-10-02T20:13:05+0800
+65: 退出码：0
+
+交叉02-原生沙箱工具（原始日志节选；中间编译输出已省略）
+1: 工作目录：/Volumes/MacSSD/Repositories/codex
+2: 开始时间：2026-10-02T20:15:13+0800
+3: 命令：python3 scripts/build_harmony.py build --release --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/bwrap' --native-deps '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/原生依赖' --package codex-bwrap
+4: 执行：/opt/homebrew/opt/rustup/bin/rustup run 1.95.0 rustc --version
+32:    Compiling codex-bwrap v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/bwrap)
+33: error: failed to run custom build command for `codex-bwrap v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/bwrap)`
+34: 
+35: Caused by:
+67:   cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR_aarch64-unknown-linux-ohos
+68: 
+69:   --- stderr
+70: 
+71:   thread 'main' (4344701) panicked at bwrap/build.rs:28:9:
+72:   failed to compile bubblewrap for Linux target: libcap not available via pkg-config: Could not run `PKG_CONFIG_PATH= PKG_CONFIG_LIBDIR=/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/原生依赖/lib/pkgconfig PKG_CONFIG_SYSROOT_DIR=/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/原生依赖 PKG_CONFIG_ALLOW_SYSTEM_LIBS=1 PKG_CONFIG_ALLOW_SYSTEM_CFLAGS=1 pkg-config --static --libs --cflags libcap`
+73:   The pkg-config command could not be found.
+74: 
+75:   Most likely, you need to install a pkg-config package for your OS.
+76:   Try `brew install pkgconf` if you have Homebrew.
+77: 
+78:   If you've already installed it, ensure the pkg-config command is one of the
+79:   directories in the PATH environment variable.
+80: 
+81:   If you did not expect this build to link to a pre-installed system library,
+82:   then check documentation of the codex-bwrap crate for an option to
+83:   build the library from source, or disable features or dependencies
+84:   that require pkg-config.
+85:   note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+86: warning: build failed, waiting for other jobs to finish...
+87: 构建失败：Command '['/opt/homebrew/opt/rustup/bin/rustup', 'run', '1.95.0', 'cargo', 'build', '--locked', '--target', 'aarch64-unknown-linux-ohos', '--package', 'codex-bwrap', '--release']' returned non-zero exit status 101.
+88: 
+89: 结束时间：2026-10-02T20:15:16+0800
+90: 退出码：1

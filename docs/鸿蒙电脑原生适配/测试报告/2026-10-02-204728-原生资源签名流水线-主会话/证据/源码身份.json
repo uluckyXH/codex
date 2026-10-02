@@ -1,0 +1,12 @@
+{
+  "提交": "28ff2f12846dd34b302ee64f4a2c95fa7a4c8d38",
+  "文件摘要": {
+    "scripts/build_harmony.py": "3bdd5b23e32e69d5c805f7e58bd577ea125dd619a3aeb72ad9fcc445921911c4",
+    "scripts/build_harmony_helpers.py": "a740327c1d50e57f49a3911cc053902b823847eaeb617a870439ef12be09c0a5",
+    "scripts/sign_harmony.py": "bef47fbd7e3c14b339fc0ed99173a45ced113df4cfb688bf0dcdc44d2cc72bac",
+    "scripts/harmony_elf.py": "19cc8c7dae745f9b1eca735f9bd4f359db51e6089e8e99aedf2e661f9e7cad5b",
+    "scripts/build_harmony_distribution.py": "ea00d91975abdfc07891849a7879f04044f567bfed4f10a45a04f43dbce432de",
+    "codex-rs/bwrap/build.rs": "aad636a816d69170a1ed26ebf02dcad815ee45298c2019917e3a6f365ed76dc7",
+    "codex-rs/bwrap/ohos_compat.h": "a44eca54efd7585e23e0efb4f372ee4b27419252131b76f1e62262b0666052bd"
+  }
+}

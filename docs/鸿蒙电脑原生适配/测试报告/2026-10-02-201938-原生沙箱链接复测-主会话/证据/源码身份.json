@@ -1,0 +1,8 @@
+{
+  "被测HEAD": "28ff2f12846dd34b302ee64f4a2c95fa7a4c8d38",
+  "未提交源码": {
+    "scripts/build_harmony.py": "3bdd5b23e32e69d5c805f7e58bd577ea125dd619a3aeb72ad9fcc445921911c4",
+    "codex-rs/bwrap/build.rs": "0c62db86d1365dc18a18927dca239bd1564476dc0dfb595de5ad8087f3369d2a"
+  },
+  "依赖来源": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/辅助工具构建记录.json"
+}

@@ -1,0 +1,41 @@
+
+交叉02-原生沙箱工具（原始日志节选；中间编译输出已省略）
+1: 工作目录：/Volumes/MacSSD/Repositories/codex
+2: 开始时间：2026-10-02T20:20:08+0800
+3: 命令：python3 scripts/build_harmony.py build --release --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201938-原生沙箱链接复测-主会话/bwrap' --native-deps '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/原生依赖' --package codex-bwrap
+4: 执行：/opt/homebrew/opt/rustup/bin/rustup run 1.95.0 rustc --version
+32:    Compiling codex-bwrap v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/bwrap)
+33: warning: codex-bwrap@0.0.0: /Volumes/MacSSD/Repositories/codex/codex-rs/bwrap/../vendor/bubblewrap/bubblewrap.c:3335:13: warning: call to undeclared function 'get_current_dir_name'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+34: warning: codex-bwrap@0.0.0:   old_cwd = get_current_dir_name ();
+35: warning: codex-bwrap@0.0.0:             ^
+36: warning: codex-bwrap@0.0.0: /Volumes/MacSSD/Repositories/codex/codex-rs/bwrap/../vendor/bubblewrap/bubblewrap.c:3335:11: error: incompatible integer to pointer conversion assigning to 'char *' from 'int' [-Wint-conversion]
+37: warning: codex-bwrap@0.0.0:   old_cwd = get_current_dir_name ();
+38: warning: codex-bwrap@0.0.0:           ^ ~~~~~~~~~~~~~~~~~~~~~~~
+39: warning: codex-bwrap@0.0.0: 1 warning and 1 error generated.
+40: error: failed to run custom build command for `codex-bwrap v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/bwrap)`
+41: 
+42: Caused by:
+70:   cargo:rerun-if-env-changed=TARGET_CFLAGS
+71:   TARGET_CFLAGS = None
+72:   cargo:rerun-if-env-changed=CFLAGS_aarch64_unknown_linux_ohos
+73:   CFLAGS_aarch64_unknown_linux_ohos = None
+74:   cargo:rerun-if-env-changed=CFLAGS_aarch64-unknown-linux-ohos
+75:   CFLAGS_aarch64-unknown-linux-ohos = None
+76:   cargo:warning=/Volumes/MacSSD/Repositories/codex/codex-rs/bwrap/../vendor/bubblewrap/bubblewrap.c:3335:13: warning: call to undeclared function 'get_current_dir_name'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
+77:   cargo:warning=  old_cwd = get_current_dir_name ();
+78:   cargo:warning=            ^
+79:   cargo:warning=/Volumes/MacSSD/Repositories/codex/codex-rs/bwrap/../vendor/bubblewrap/bubblewrap.c:3335:11: error: incompatible integer to pointer conversion assigning to 'char *' from 'int' [-Wint-conversion]
+80:   cargo:warning=  old_cwd = get_current_dir_name ();
+81:   cargo:warning=          ^ ~~~~~~~~~~~~~~~~~~~~~~~
+82:   cargo:warning=1 warning and 1 error generated.
+83: 
+84:   --- stderr
+85: 
+86: 
+87:   error occurred in cc-rs: command did not execute successfully (status code exit status: 1): LC_ALL="C" "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201938-原生沙箱链接复测-主会话/bwrap/toolchain/ohos-clang" "-O3" "-ffunction-sections" "-fdata-sections" "-fPIC" "-g" "-gdwarf-4" "-fno-omit-frame-pointer" "--target=aarch64-unknown-linux-ohos" "-I" "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201938-原生沙箱链接复测-主会话/bwrap/target/aarch64-unknown-linux-ohos/release/build/codex-bwrap-2a1e70b23e2e136d/out" "-I" "/Volumes/MacSSD/Repositories/codex/codex-rs/bwrap/../vendor/bubblewrap" "-I" "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/原生依赖/include" "-Wall" "-Wextra" "-D_GNU_SOURCE" "-Dmain=bwrap_main" "-o" "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201938-原生沙箱链接复测-主会话/bwrap/target/aarch64-unknown-linux-ohos/release/build/codex-bwrap-2a1e70b23e2e136d/out/2b80fc795abff254-bubblewrap.o" "-c" "/Volumes/MacSSD/Repositories/codex/codex-rs/bwrap/../vendor/bubblewrap/bubblewrap.c"
+88: 
+89: 
+90: 构建失败：Command '['/opt/homebrew/opt/rustup/bin/rustup', 'run', '1.95.0', 'cargo', 'build', '--locked', '--target', 'aarch64-unknown-linux-ohos', '--package', 'codex-bwrap', '--release']' returned non-zero exit status 101.
+91: 
+92: 结束时间：2026-10-02T20:20:10+0800
+93: 退出码：1

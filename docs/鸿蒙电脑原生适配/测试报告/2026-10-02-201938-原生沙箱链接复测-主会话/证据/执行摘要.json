@@ -1,0 +1,14 @@
+[
+  {
+    "用例": "交叉02-原生沙箱工具",
+    "开始": "2026-10-02T20:20:08+0800",
+    "结束": "2026-10-02T20:20:10+0800",
+    "退出码": 1,
+    "命令": [
+      "命令：python3 scripts/build_harmony.py build --release --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201938-原生沙箱链接复测-主会话/bwrap' --native-deps '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/原生依赖' --package codex-bwrap"
+    ],
+    "日志": ".harmony-build/测试批次/2026-10-02-201938-原生沙箱链接复测-主会话/日志/交叉02-原生沙箱工具.log",
+    "字节数": 6963,
+    "SHA-256": "85ec7a77d07790e85f9a2ff0a17576c5b772e94d0cb610370b7eb028faa0cf20"
+  }
+]

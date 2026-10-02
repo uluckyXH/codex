@@ -1,0 +1,9 @@
+{
+  "批次": "2026-10-02-201142-原生辅助工具构建-主会话",
+  "被测HEAD": "28ff2f12846dd34b302ee64f4a2c95fa7a4c8d38",
+  "未提交源码": {
+    "scripts/build_harmony_helpers.py": "a740327c1d50e57f49a3911cc053902b823847eaeb617a870439ef12be09c0a5",
+    "scripts/build_harmony.py": "7883ad7b22f5efd5760f81a301c5de953efcd370c6a8bc3892404fe388a499df",
+    "codex-rs/bwrap/build.rs": "854b892cee71b3cbcc43fd1036df998ad174a69561618ccce8ff4b0adca1c64d"
+  }
+}

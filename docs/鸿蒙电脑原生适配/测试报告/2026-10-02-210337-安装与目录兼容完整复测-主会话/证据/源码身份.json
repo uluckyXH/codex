@@ -1,0 +1,31 @@
+{
+  "提交": "28ff2f12846dd34b302ee64f4a2c95fa7a4c8d38",
+  "文件摘要": {
+    "scripts/harmony_elf.py": "5653461d9d31e8ddcd67b572e25afb1e33f4936c2a3f001ad84882e94315ab36",
+    "scripts/test_harmony_distribution.py": "b81a689ce2933f15fe2929050814c3ee158bfacbaeaf8afa6dc259c359ce5e1a",
+    "scripts/build_harmony_helpers.py": "11ba7723548b1eea13cd0573a05e34c9f96bbff52cecf6d6025d41cc9f7a5c1e",
+    "scripts/sign_harmony.py": "4b17d5261a4dfd056aa4baead7a12f920fa0cd6d6f95ac4f4868a545271d97e1",
+    "scripts/build_harmony_distribution.py": "ed90dde2f07892670e02b66d4891871b8f2375d4ccebba5a8fc9f98689e2c6eb",
+    "scripts/build_harmony.py": "7ace98b264abb286117a9fc861a4b0c2070f9f360fbb7059b218b4d38314cdf5",
+    "scripts/test_build_harmony.py": "74bab30ca06b15062eedd87edfcc2a809cf5f2b2885fc48222d111a03eeacfe9",
+    "scripts/harmony/安装.sh": "d3e6cd2207a4762014bcbb6effe8c2feb1e033188af8b8813313d59bc7a391be",
+    "scripts/codex_package/targets.py": "545c028ebbbe8c862f9da541a3c460cf89fc4e209b791dbe583af9ee899328b0",
+    "scripts/codex_package/version.py": "b186f76456ca7c6a3fabed8b0d20f82f556bf17eea7d2a7bfa37b5033099d614",
+    "scripts/codex_package/test_zsh.py": "ebabf3a924a04e56aaa50a2e6e7309ea299b084dcd49f0b2d1d6f0060de6eefe",
+    "scripts/codex_package/layout.py": "f3d2b5b1bde7deb1cb66c49a209119afb79f7229c7f88621083606fe3e1e53ab",
+    "scripts/codex_package/cargo.py": "8b9c3c49a883356f63fc91f51439adcee4f9478b4dd9e9a185842bf2a1bd5fe1",
+    "scripts/codex_package/ripgrep.py": "e69dd66d9e6f3cd27a1716cc57dbca84f0e0ab0125b2a3cbc246374890c4f09a",
+    "scripts/codex_package/__init__.py": "e2140b37ed4d66a3758079a0961ee4d7dc01328f892d2b53a98582427bce341b",
+    "scripts/codex_package/zsh.py": "9539d91c094b9812f33f908d6cf0a69de542fdcb03f96443305967a8d649c790",
+    "scripts/codex_package/dotslash.py": "83585018a57de7c4f7f725f998196e80eb954a7193f2f5406ce98d97e22029ed",
+    "scripts/codex_package/test_archive.py": "b93bf1aa9eb70f9d2e29ec6b6ca6389d7d15c0222f339aa82f3e2107241f2f4f",
+    "scripts/codex_package/cli.py": "df88bd48c6aa561e1651b2f34e222f2ee127218e9497b812c027c8c4cf899359",
+    "scripts/codex_package/v8.py": "a6ec2a955af2e99e8823aeaf8ea079aa8af170f7758fd639dfec7cc7bf91f238",
+    "scripts/codex_package/test_v8.py": "14ec3c5f605f5f54a2108512da339cb157145302b7c8cdf353c9291851fd1780",
+    "scripts/codex_package/archive.py": "7c30362aa112b490c25f61058e645d5a00fb171bc37b54da446ee1541315cdb7",
+    "scripts/codex_package/test_layout.py": "0f510580569325cee462f5fe51663ae2f00320820d3ed99b2b4e27b9e7b576bb",
+    "scripts/codex_package/test_cargo.py": "d4bab9d1b991e9f0e7618e832b8351102e27c9d4530ff7b5a9712aace20f6f12",
+    "scripts/codex_package/test_cli.py": "6a2de6936fd83e6c06a93a7d1509eab3fea4017db467b63be993a9a57985b9fc",
+    "codex-rs/bwrap/ohos_compat.h": "a44eca54efd7585e23e0efb4f372ee4b27419252131b76f1e62262b0666052bd"
+  }
+}

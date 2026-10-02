@@ -1,0 +1,60 @@
+
+脚本02-鸿蒙安装签名打包（原始日志节选；中间编译输出已省略）
+1: 工作目录：/Volumes/MacSSD/Repositories/codex
+2: 开始时间：2026-10-02T20:51:53+0800
+3: 命令：python3 -m unittest -v scripts.test_build_harmony scripts.test_harmony_distribution
+4: test_accepts_sdk_version_and_native_directories (scripts.test_build_harmony.HarmonyBuildTests.test_accepts_sdk_version_and_native_directories) ... ok
+8: test_rejects_sdk_without_target_archive_indexer (scripts.test_build_harmony.HarmonyBuildTests.test_rejects_sdk_without_target_archive_indexer) ... ok
+9: test_rejects_sdk_without_target_libraries (scripts.test_build_harmony.HarmonyBuildTests.test_rejects_sdk_without_target_libraries) ... ok
+10: test_uses_sdk_cmake_without_changing_host_toolchain (scripts.test_build_harmony.HarmonyBuildTests.test_uses_sdk_cmake_without_changing_host_toolchain) ... ok
+11: test_wrapper_preserves_arguments_and_quoted_paths (scripts.test_build_harmony.HarmonyBuildTests.test_wrapper_preserves_arguments_and_quoted_paths) ... ok
+12: test_elf_rejects_truncation_and_invalid_section_bounds (scripts.test_harmony_distribution.DistributionTests.test_elf_rejects_truncation_and_invalid_section_bounds) ... ok
+13: test_elf_rejects_wrong_architecture_missing_note_and_host_rpath (scripts.test_harmony_distribution.DistributionTests.test_elf_rejects_wrong_architecture_missing_note_and_host_rpath) ... ok
+14: test_missing_ohos_resources_do_not_download_linux_artifacts (scripts.test_harmony_distribution.DistributionTests.test_missing_ohos_resources_do_not_download_linux_artifacts) ... ok
+15: test_ohos_package_preserves_bytes_without_code_mode_or_zsh (scripts.test_harmony_distribution.DistributionTests.test_ohos_package_preserves_bytes_without_code_mode_or_zsh) ... ok
+16: test_ohos_rejects_linux_inputs_before_creating_layout (scripts.test_harmony_distribution.DistributionTests.test_ohos_rejects_linux_inputs_before_creating_layout) ... ok
+17: test_signing_requires_exit_status_and_success_marker (scripts.test_harmony_distribution.DistributionTests.test_signing_requires_exit_status_and_success_marker) ... ok
+18: test_source_cache_rejects_corruption_without_network (scripts.test_harmony_distribution.DistributionTests.test_source_cache_rejects_corruption_without_network) ... ok
+19: test_source_extraction_rejects_parent_path (scripts.test_harmony_distribution.DistributionTests.test_source_extraction_rejects_parent_path) ... ok
+20: test_corrupted_package_never_creates_install_directory (scripts.test_harmony_distribution.InstallerTests.test_corrupted_package_never_creates_install_directory) ... ok
+21: test_existing_prefix_is_preserved (scripts.test_harmony_distribution.InstallerTests.test_existing_prefix_is_preserved) ... ok
+22: test_install_preserves_bytes_permissions_and_quotes_path (scripts.test_harmony_distribution.InstallerTests.test_install_preserves_bytes_permissions_and_quotes_path) ... ok
+23: test_missing_resource_or_newline_prefix_is_rejected (scripts.test_harmony_distribution.InstallerTests.test_missing_resource_or_newline_prefix_is_rejected) ... ok
+24: 
+25: ----------------------------------------------------------------------
+26: Ran 20 tests in 0.677s
+27: 
+28: OK
+29: 
+30: 结束时间：2026-10-02T20:51:54+0800
+31: 退出码：0
+
+脚本03-上游打包回归（原始日志节选；中间编译输出已省略）
+1: 工作目录：/Volumes/MacSSD/Repositories/codex
+2: 开始时间：2026-10-02T20:51:54+0800
+3: 命令：python3 -m unittest discover -s scripts/codex_package -p 'test_*.py' -v
+4: test_errors_when_no_zstd_or_dotslash_manifest_is_available (test_archive.ResolveZstdCommandTest.test_errors_when_no_zstd_or_dotslash_manifest_is_available) ... ok
+16: test_macos_package_preserves_prebuilt_resource_binaries (test_layout.PackageLayoutTest.test_macos_package_preserves_prebuilt_resource_binaries) ... ok
+17: test_winget_preserves_signed_files_and_voice_hashes (test_layout.PackageLayoutTest.test_winget_preserves_signed_files_and_voice_hashes) ... ok
+18: test_authenticates_windows_manifest_with_crlf (test_v8.FetchCodexV8ArtifactsTest.test_authenticates_windows_manifest_with_crlf) ... ok
+19: test_cached_manifest_still_authenticates_both_artifacts (test_v8.FetchCodexV8ArtifactsTest.test_cached_manifest_still_authenticates_both_artifacts) ... ok
+20: test_changed_repository_pin_rejects_old_cache_and_bad_refresh (test_v8.FetchCodexV8ArtifactsTest.test_changed_repository_pin_rejects_old_cache_and_bad_refresh) ... ok
+21: test_fetches_artifacts_after_authenticating_manifest (test_v8.FetchCodexV8ArtifactsTest.test_fetches_artifacts_after_authenticating_manifest) ... ok
+22: test_interrupted_refresh_preserves_cache (test_v8.FetchCodexV8ArtifactsTest.test_interrupted_refresh_preserves_cache) ... ok
+23: test_missing_or_corrupt_manifest_refresh_retains_valid_artifacts (test_v8.FetchCodexV8ArtifactsTest.test_missing_or_corrupt_manifest_refresh_retains_valid_artifacts) ... ok
+24: test_rejects_missing_manifest_pin_before_downloading_artifacts (test_v8.FetchCodexV8ArtifactsTest.test_rejects_missing_manifest_pin_before_downloading_artifacts) ... ok
+25: test_rejects_missing_pin_file_before_downloading_artifacts (test_v8.FetchCodexV8ArtifactsTest.test_rejects_missing_pin_file_before_downloading_artifacts) ... ok
+26: test_rejects_tampered_manifest_before_downloading_artifacts (test_v8.FetchCodexV8ArtifactsTest.test_rejects_tampered_manifest_before_downloading_artifacts) ... ok
+27: test_source_and_paired_overrides_do_not_touch_cache (test_v8.FetchCodexV8ArtifactsTest.test_source_and_paired_overrides_do_not_touch_cache) ... ok
+28: test_symlink_manifest_is_replaced_without_writing_through_link (test_v8.FetchCodexV8ArtifactsTest.test_symlink_manifest_is_replaced_without_writing_through_link) ... ok
+29: test_verified_cache_needs_no_network (test_v8.FetchCodexV8ArtifactsTest.test_verified_cache_needs_no_network) ... ok
+30: test_uses_manifest_override (test_zsh.ResolveZshBinTest.test_uses_manifest_override) ... ok
+31: test_uses_prebuilt_executable_override (test_zsh.ResolveZshBinTest.test_uses_prebuilt_executable_override) ... ok
+32: 
+33: ----------------------------------------------------------------------
+34: Ran 28 tests in 0.049s
+35: 
+36: OK
+37: 
+38: 结束时间：2026-10-02T20:51:54+0800
+39: 退出码：0

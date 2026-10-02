@@ -23,6 +23,14 @@ class TargetSpec:
     dotslash_platform: str
 
     @property
+    def is_ohos(self) -> bool:
+        return self.target.endswith("-ohos")
+
+    @property
+    def supports_code_mode_host(self) -> bool:
+        return not self.is_ohos
+
+    @property
     def exe_suffix(self) -> str:
         return ".exe" if self.is_windows else ""
 
@@ -44,7 +52,7 @@ class PackageVariant:
 @dataclass(frozen=True)
 class PackageInputs:
     entrypoint_bin: Path
-    code_mode_host_bin: Path
+    code_mode_host_bin: Path | None
     rg_bin: Path
     zsh_bin: Path | None
     bwrap_bin: Path | None
@@ -67,6 +75,12 @@ PACKAGE_VARIANTS: dict[str, PackageVariant] = {
 
 
 TARGET_SPECS: dict[str, TargetSpec] = {
+    "aarch64-unknown-linux-ohos": TargetSpec(
+        target="aarch64-unknown-linux-ohos",
+        is_windows=False,
+        is_linux=True,
+        dotslash_platform="ohos-aarch64",
+    ),
     "x86_64-unknown-linux-gnu": TargetSpec(
         target="x86_64-unknown-linux-gnu",
         is_windows=False,

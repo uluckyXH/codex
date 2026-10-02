@@ -1,0 +1,96 @@
+{
+  "目标": "aarch64-unknown-linux-ohos",
+  "源码": {
+    "提交": "28ff2f12846dd34b302ee64f4a2c95fa7a4c8d38",
+    "工作区状态": "M codex-rs/bwrap/build.rs\n M scripts/build_harmony.py\n M scripts/codex_package/cargo.py\n M scripts/codex_package/layout.py\n M scripts/codex_package/ripgrep.py\n M scripts/codex_package/targets.py\n M scripts/codex_package/zsh.py\n?? codex-rs/bwrap/ohos_compat.h\n?? scripts/build_harmony_distribution.py\n?? scripts/build_harmony_helpers.py\n?? scripts/harmony/\n?? scripts/harmony_elf.py\n?? scripts/sign_harmony.py",
+    "时间": "2026-10-02T12:48:20.714535+00:00"
+  },
+  "SDK": "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native",
+  "上游辅助源码": {
+    "libcap": [
+      "2.78",
+      "https://cdn.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.78.tar.xz",
+      "0d621e562fd932ccf67b9660fb018e468a683d7b827541df27813228c996bb11"
+    ],
+    "ripgrep": [
+      "15.2.0",
+      "https://static.crates.io/crates/ripgrep/ripgrep-15.2.0.crate",
+      "a30750b6d0743bfdd2656ebbaf4555aa278c43144b84bc389bcbfa399485ec71"
+    ]
+  },
+  "程序": {
+    "rg": {
+      "方式": "官方 binary-sign-tool.jar 自签名",
+      "工具": "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/lib/binary-sign-tool.jar",
+      "输入": {
+        "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-204728-原生资源签名流水线-主会话/原生资源/已签名/rg-未签名",
+        "字节数": 4630552,
+        "SHA-256": "daf364e025b02cb0f207ce4ace048a4ae3cb16253ca4f7478a195082f65af2b9",
+        "架构": "AArch64",
+        "解释器": "/lib/ld-musl-aarch64.so.1",
+        "动态依赖": [
+          "libc.so"
+        ],
+        "OHOS标识": true,
+        "签名节存在": false,
+        "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+      },
+      "输出": {
+        "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-204728-原生资源签名流水线-主会话/原生资源/已签名/rg",
+        "字节数": 4638464,
+        "SHA-256": "1ed1e9f0fd7a352f7af859e9376d2fd078e1f7bd27148bbf7609849afdffb458",
+        "架构": "AArch64",
+        "解释器": "/lib/ld-musl-aarch64.so.1",
+        "动态依赖": [
+          "libc.so"
+        ],
+        "OHOS标识": true,
+        "签名节存在": true,
+        "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+      },
+      "签名日志": "10-02 20:48:19.747  INFO - Start sign\n10-02 20:48:19.754  INFO - Using SelfSignSignProvider\n10-02 20:48:19.755  INFO - Start signing ELF file...\n10-02 20:48:19.762  INFO - Self-sign mode enabled, skip writing .profile and .permission sections\n10-02 20:48:19.763  INFO - Added .codesign section placeholder, offset: 4632576, size: 4096 bytes\n10-02 20:48:19.775  INFO - Start to sign elf code.\n10-02 20:48:19.775  INFO - Self-sign mode enabled, setting FLAG_SELF_SIGN\n10-02 20:48:19.818  INFO - Self-sign mode: using descriptor digest as signature, size: 32 bytes\n10-02 20:48:19.818  INFO - Sign elf successfully, code sign block size: 296 bytes\n10-02 20:48:19.818  INFO - Generate code sign block successfully, size: 296 bytes\n10-02 20:48:19.818  INFO - Replace code sign data at offset: 4632576, size: 296\n10-02 20:48:19.819  INFO - Self-sign elf success\n10-02 20:48:19.819  INFO - sign success\n",
+      "签名信息检查": "10-02 20:48:20.045  INFO - Start display-sign\n10-02 20:48:20.065  INFO - ELF verification started for file: /Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-204728-原生资源签名流水线-主会话/原生资源/已签名/rg\n10-02 20:48:20.070  INFO - permission is not found\n10-02 20:48:20.071  INFO - code signature is self-sign\n10-02 20:48:20.071  INFO - verify: Self-sign signature\n10-02 20:48:20.071  INFO - display-sign success\n",
+      "真机状态": "未验证；本机签名检查不代表商业鸿蒙 PC 接受加载"
+    },
+    "bwrap": {
+      "方式": "官方 binary-sign-tool.jar 自签名",
+      "工具": "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/lib/binary-sign-tool.jar",
+      "输入": {
+        "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-204728-原生资源签名流水线-主会话/原生资源/已签名/bwrap-未签名",
+        "字节数": 415856,
+        "SHA-256": "eb2d999c6716060e20c1118f9986f71e708343efd5e5fd3c556e42338dd17836",
+        "架构": "AArch64",
+        "解释器": "/lib/ld-musl-aarch64.so.1",
+        "动态依赖": [
+          "libc.so"
+        ],
+        "OHOS标识": true,
+        "签名节存在": false,
+        "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+      },
+      "输出": {
+        "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-204728-原生资源签名流水线-主会话/原生资源/已签名/bwrap",
+        "字节数": 423680,
+        "SHA-256": "b4df52de80db80b47e0aa8fe28d69c5f63aa27bc7bb57e6f9eba603d28cf3314",
+        "架构": "AArch64",
+        "解释器": "/lib/ld-musl-aarch64.so.1",
+        "动态依赖": [
+          "libc.so"
+        ],
+        "OHOS标识": true,
+        "签名节存在": true,
+        "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+      },
+      "签名日志": "10-02 20:48:20.320  INFO - Start sign\n10-02 20:48:20.327  INFO - Using SelfSignSignProvider\n10-02 20:48:20.328  INFO - Start signing ELF file...\n10-02 20:48:20.331  INFO - Self-sign mode enabled, skip writing .profile and .permission sections\n10-02 20:48:20.331  INFO - Added .codesign section placeholder, offset: 417792, size: 4096 bytes\n10-02 20:48:20.335  INFO - Start to sign elf code.\n10-02 20:48:20.335  INFO - Self-sign mode enabled, setting FLAG_SELF_SIGN\n10-02 20:48:20.345  INFO - Self-sign mode: using descriptor digest as signature, size: 32 bytes\n10-02 20:48:20.346  INFO - Sign elf successfully, code sign block size: 296 bytes\n10-02 20:48:20.346  INFO - Generate code sign block successfully, size: 296 bytes\n10-02 20:48:20.346  INFO - Replace code sign data at offset: 417792, size: 296\n10-02 20:48:20.346  INFO - Self-sign elf success\n10-02 20:48:20.346  INFO - sign success\n",
+      "签名信息检查": "10-02 20:48:20.611  INFO - Start display-sign\n10-02 20:48:20.628  INFO - ELF verification started for file: /Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-204728-原生资源签名流水线-主会话/原生资源/已签名/bwrap\n10-02 20:48:20.634  INFO - permission is not found\n10-02 20:48:20.634  INFO - code signature is self-sign\n10-02 20:48:20.635  INFO - verify: Self-sign signature\n10-02 20:48:20.635  INFO - display-sign success\n",
+      "真机状态": "未验证；本机签名检查不代表商业鸿蒙 PC 接受加载"
+    }
+  },
+  "许可摘要": {
+    "权限库许可.txt": "68467e731f4744bd6e0bb69e8df9c3a994e09cd6b203d0c41327ac6d079c581d",
+    "沙箱工具许可.txt": "b7993225104d90ddd8024fd838faf300bea5e83d91203eab98e29512acebd69c",
+    "搜索工具许可说明.txt": "01c266bced4a434da0051174d6bee16a4c82cf634e2679b6155d40d75012390f",
+    "搜索工具公共领域声明.txt": "7e12e5df4bae12cb21581ba157ced20e1986a0508dd10d0e8a4ab9a4cf94e85c",
+    "搜索工具许可.txt": "0f96a83840e146e43c0ec96a22ec1f392e0680e6c1226e6f3ba87e0740af850f"
+  }
+}

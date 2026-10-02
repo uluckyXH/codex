@@ -38,6 +38,17 @@ def build_package_dir(
     spec: TargetSpec,
     inputs: PackageInputs,
 ) -> None:
+    if spec.supports_code_mode_host and inputs.code_mode_host_bin is None:
+        raise RuntimeError("The selected target requires a code-mode host.")
+    if spec.is_ohos:
+        if inputs.code_mode_host_bin is not None or inputs.zsh_bin is not None:
+            raise RuntimeError("The OHOS package does not support V8 or patched zsh.")
+        if inputs.bwrap_bin is None:
+            raise RuntimeError("The OHOS package requires a native bwrap.")
+        from harmony_elf import inspect_ohos_elf
+
+        for binary in (inputs.entrypoint_bin, inputs.rg_bin, inputs.bwrap_bin):
+            inspect_ohos_elf(binary)
     bin_dir = package_dir / "bin"
     resources_dir = package_dir / "codex-resources"
     path_dir = package_dir / "codex-path"
@@ -51,11 +62,16 @@ def build_package_dir(
         bin_dir / entrypoint_name,
         is_windows=spec.is_windows,
     )
-    copy_executable(
-        inputs.code_mode_host_bin,
-        bin_dir / f"codex-code-mode-host{spec.exe_suffix}",
-        is_windows=spec.is_windows,
-    )
+    if spec.supports_code_mode_host:
+        if inputs.code_mode_host_bin is None:
+            raise RuntimeError("The selected target requires a code-mode host.")
+        copy_executable(
+            inputs.code_mode_host_bin,
+            bin_dir / f"codex-code-mode-host{spec.exe_suffix}",
+            is_windows=spec.is_windows,
+        )
+    elif inputs.code_mode_host_bin is not None:
+        raise RuntimeError("The OHOS package does not support a code-mode host.")
     copy_executable(inputs.rg_bin, path_dir / spec.rg_name, is_windows=spec.is_windows)
 
     if inputs.zsh_bin is not None:
@@ -135,9 +151,12 @@ def validate_package_dir(
 
     required_files = [
         Path("bin") / variant.entrypoint_name(spec),
-        Path("bin") / f"codex-code-mode-host{spec.exe_suffix}",
         Path("codex-path") / spec.rg_name,
     ]
+    if spec.supports_code_mode_host:
+        required_files.append(Path("bin") / f"codex-code-mode-host{spec.exe_suffix}")
+    elif (package_dir / "bin/codex-code-mode-host").exists():
+        raise RuntimeError("Unsupported code-mode host in OHOS package")
     executable_files = list(required_files)
 
     if include_zsh:
@@ -167,6 +186,12 @@ def validate_package_dir(
             path = package_dir / relative_file
             if not is_executable(path):
                 raise RuntimeError(f"Package file is not executable: {relative_file}")
+
+    if spec.is_ohos:
+        from harmony_elf import inspect_ohos_elf
+
+        for relative_file in executable_files:
+            inspect_ohos_elf(package_dir / relative_file)
 
 
 def copy_executable(src: Path, dest: Path, *, is_windows: bool) -> None:

@@ -1,0 +1,62 @@
+[
+  {
+    "用例": "脚本02-鸿蒙安装签名打包",
+    "开始": "2026-10-02T21:03:37+0800",
+    "结束": "2026-10-02T21:03:41+0800",
+    "退出码": 0,
+    "命令": [
+      "命令：python3 -m unittest -v scripts.test_build_harmony scripts.test_harmony_distribution"
+    ],
+    "日志": ".harmony-build/测试批次/2026-10-02-210337-安装与目录兼容完整复测-主会话/日志/脚本02-鸿蒙安装签名打包.log",
+    "字节数": 4050,
+    "SHA-256": "5283d1e9988dc777221ef0db654829997ca34d4df7449df7446fa835b8bad055"
+  },
+  {
+    "用例": "脚本03-上游打包回归",
+    "开始": "2026-10-02T21:03:41+0800",
+    "结束": "2026-10-02T21:03:41+0800",
+    "退出码": 0,
+    "命令": [
+      "命令：python3 -m unittest discover -s scripts/codex_package -p 'test_*.py' -v"
+    ],
+    "日志": ".harmony-build/测试批次/2026-10-02-210337-安装与目录兼容完整复测-主会话/日志/脚本03-上游打包回归.log",
+    "字节数": 4473,
+    "SHA-256": "a952807d2a794d6fff9eadf9652312279ee7a7e520bfda49acd5477be0decda1"
+  },
+  {
+    "用例": "脚本04-静态检查",
+    "开始": "2026-10-02T21:03:41+0800",
+    "结束": "2026-10-02T21:03:41+0800",
+    "退出码": 0,
+    "命令": [
+      "命令：'.harmony-build/工具/python/bin/ruff' check scripts/build_harmony.py scripts/build_harmony_helpers.py scripts/harmony_elf.py scripts/sign_harmony.py scripts/build_harmony_distribution.py scripts/test_harmony_distribution.py scripts/codex_package/cargo.py scripts/codex_package/layout.py scripts/codex_package/ripgrep.py scripts/codex_package/targets.py scripts/codex_package/zsh.py"
+    ],
+    "日志": ".harmony-build/测试批次/2026-10-02-210337-安装与目录兼容完整复测-主会话/日志/脚本04-静态检查.log",
+    "字节数": 557,
+    "SHA-256": "b855e261071f24d15f58215eb02c6d93c2225c361a64ec5fd60018cc1ff199b6"
+  },
+  {
+    "用例": "脚本05-格式检查",
+    "开始": "2026-10-02T21:03:41+0800",
+    "结束": "2026-10-02T21:03:41+0800",
+    "退出码": 0,
+    "命令": [
+      "命令：'.harmony-build/工具/python/bin/ruff' format --check scripts/build_harmony.py scripts/build_harmony_helpers.py scripts/harmony_elf.py scripts/sign_harmony.py scripts/build_harmony_distribution.py scripts/test_harmony_distribution.py scripts/codex_package/cargo.py scripts/codex_package/layout.py scripts/codex_package/ripgrep.py scripts/codex_package/targets.py scripts/codex_package/zsh.py"
+    ],
+    "日志": ".harmony-build/测试批次/2026-10-02-210337-安装与目录兼容完整复测-主会话/日志/脚本05-格式检查.log",
+    "字节数": 574,
+    "SHA-256": "f1eea3f5f90f0daf93285ef2b09e680395c485999f4127c5e5da37ca5b327ae2"
+  },
+  {
+    "用例": "脚本06-安装入口语法",
+    "开始": "2026-10-02T21:03:41+0800",
+    "结束": "2026-10-02T21:03:41+0800",
+    "退出码": 0,
+    "命令": [
+      "命令：sh -n 'scripts/harmony/安装.sh'"
+    ],
+    "日志": ".harmony-build/测试批次/2026-10-02-210337-安装与目录兼容完整复测-主会话/日志/脚本06-安装入口语法.log",
+    "字节数": 188,
+    "SHA-256": "eb83e8f1d651538e96d2f5273516205f135e7fe08c0f726887c34823da681c8a"
+  }
+]

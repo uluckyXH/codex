@@ -12,6 +12,13 @@ def resolve_rg_bin(spec: TargetSpec, rg_bin: Path | None) -> Path:
     if rg_bin is not None:
         return resolve_input_path(rg_bin, "ripgrep executable", "--rg-bin")
 
+    if spec.is_ohos:
+        raise RuntimeError(
+            "OHOS requires a source-built native ripgrep via --rg-bin; "
+            "Linux DotSlash artifacts are not compatible. "
+            "Use scripts/build_harmony_helpers.py."
+        )
+
     return fetch_rg(spec)
 
 

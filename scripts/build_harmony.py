@@ -110,6 +110,11 @@ def main() -> int:
     parser.add_argument("--sdk", type=Path, default=os.environ.get("OHOS_NDK_HOME"))
     parser.add_argument("--output-dir", type=Path, default=REPO_ROOT / ".harmony-build")
     parser.add_argument(
+        "--native-deps",
+        type=Path,
+        help="目标原生依赖根目录，含 lib/pkgconfig；例如辅助工具构建生成的 libcap",
+    )
+    parser.add_argument(
         "--package", action="append", help="check/build 的 Cargo 包名，可重复"
     )
     parser.add_argument(
@@ -126,7 +131,18 @@ def main() -> int:
         if rustup is None:
             raise ValueError("找不到 rustup；请先按中文构建环境文档安装并配置 PATH")
         output = args.output_dir.expanduser().resolve()
-        env = build_environment(sdk, output, dict(os.environ))
+        base = dict(os.environ)
+        if args.native_deps is not None:
+            native_deps = args.native_deps.expanduser().resolve()
+            pkgconfig = native_deps / "lib/pkgconfig"
+            if not pkgconfig.is_dir():
+                raise ValueError(f"原生依赖缺少 lib/pkgconfig：{native_deps}")
+            base["CODEX_OHOS_LIBCAP_DIR"] = str(native_deps)
+            for suffix in (TARGET, TARGET.replace("-", "_")):
+                base[f"PKG_CONFIG_SYSROOT_DIR_{suffix}"] = str(native_deps)
+                base[f"PKG_CONFIG_LIBDIR_{suffix}"] = str(pkgconfig)
+                base[f"PKG_CONFIG_PATH_{suffix}"] = ""
+        env = build_environment(sdk, output, base)
         rust = [rustup, "run", TOOLCHAIN]
         # 缺少工具链或目标时停止，避免在未配置的内部磁盘位置自动安装。
         env["RUSTUP_AUTO_INSTALL"] = "0"

@@ -1,0 +1,38 @@
+[
+  {
+    "用例": "交叉02-原生权限库",
+    "开始": "2026-10-02T20:12:31+0800",
+    "结束": "2026-10-02T20:12:35+0800",
+    "退出码": 0,
+    "命令": [
+      "命令：python3 scripts/build_harmony_helpers.py --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap' --source-cache '/Volumes/MacSSD/Repositories/codex/.harmony-build/第二阶段/源包' --only libcap --offline"
+    ],
+    "日志": ".harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/日志/交叉02-原生权限库.log",
+    "字节数": 9026,
+    "SHA-256": "2c7df34c20271597072ca51f9c91d22b1ba03c67e8ceea9221abc80b4d02a572"
+  },
+  {
+    "用例": "交叉02-原生搜索工具",
+    "开始": "2026-10-02T20:12:38+0800",
+    "结束": "2026-10-02T20:13:05+0800",
+    "退出码": 0,
+    "命令": [
+      "命令：python3 scripts/build_harmony_helpers.py --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/ripgrep' --source-cache '/Volumes/MacSSD/Repositories/codex/.harmony-build/第二阶段/源包' --only ripgrep"
+    ],
+    "日志": ".harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/日志/交叉02-原生搜索工具.log",
+    "字节数": 2615,
+    "SHA-256": "b6e0089b25ee0d2146b57d1fcdb7e0dc800ee1a66aa33f5c1a2796b055cbf9ca"
+  },
+  {
+    "用例": "交叉02-原生沙箱工具",
+    "开始": "2026-10-02T20:15:13+0800",
+    "结束": "2026-10-02T20:15:16+0800",
+    "退出码": 1,
+    "命令": [
+      "命令：python3 scripts/build_harmony.py build --release --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/bwrap' --native-deps '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/libcap/原生依赖' --package codex-bwrap"
+    ],
+    "日志": ".harmony-build/测试批次/2026-10-02-201142-原生辅助工具构建-主会话/日志/交叉02-原生沙箱工具.log",
+    "字节数": 5658,
+    "SHA-256": "2e3780d261af9ea00c219a4840aa865f9000817228246c4333e42701706b920e"
+  }
+]

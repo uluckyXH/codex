@@ -9,6 +9,8 @@ fn main() {
     println!("cargo:rerun-if-env-changed=PKG_CONFIG_PATH");
     println!("cargo:rerun-if-env-changed=PKG_CONFIG_SYSROOT_DIR");
     println!("cargo:rerun-if-env-changed=CODEX_SKIP_BWRAP_BUILD");
+    println!("cargo:rerun-if-env-changed=CODEX_OHOS_LIBCAP_DIR");
+    println!("cargo:rerun-if-changed=ohos_compat.h");
 
     let manifest_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").unwrap_or_default());
     let vendor_dir = manifest_dir.join("../vendor/bubblewrap");
@@ -34,19 +36,42 @@ fn try_build_bwrap() -> Result<(), String> {
         PathBuf::from(env::var("CARGO_MANIFEST_DIR").map_err(|err| err.to_string())?);
     let out_dir = PathBuf::from(env::var("OUT_DIR").map_err(|err| err.to_string())?);
     let src_dir = resolve_bwrap_source_dir(&manifest_dir)?;
-    let libcap = pkg_config::Config::new()
-        .cargo_metadata(false)
-        .probe("libcap")
-        .map_err(|err| format!("libcap not available via pkg-config: {err}"))?;
+    let is_ohos = env::var("CARGO_CFG_TARGET_ENV").as_deref() == Ok("ohos");
+    let (include_paths, link_paths, libs) = if is_ohos {
+        // A target-only prefix avoids both a host pkg-config dependency and
+        // accidental selection of a Homebrew/Linux libcap for the OHOS ELF.
+        let prefix = PathBuf::from(env::var("CODEX_OHOS_LIBCAP_DIR").map_err(|_| {
+            "OHOS requires CODEX_OHOS_LIBCAP_DIR; build libcap with scripts/build_harmony_helpers.py and pass --native-deps to scripts/build_harmony.py".to_string()
+        })?);
+        if !prefix.is_absolute()
+            || !prefix.join("include/sys/capability.h").is_file()
+            || !prefix.join("lib/libcap.a").is_file()
+        {
+            return Err(format!("invalid OHOS libcap prefix: {}", prefix.display()));
+        }
+        (
+            vec![prefix.join("include")],
+            vec![prefix.join("lib")],
+            vec!["cap".to_string()],
+        )
+    } else {
+        let libcap = pkg_config::Config::new()
+            .cargo_metadata(false)
+            .probe("libcap")
+            .map_err(|err| format!("libcap not available via pkg-config: {err}"))?;
+        (libcap.include_paths, libcap.link_paths, libcap.libs)
+    };
 
     let config_h = out_dir.join("config.h");
-    std::fs::write(
-        &config_h,
-        r#"#pragma once
+    let mut config = r#"#pragma once
 #define PACKAGE_STRING "bubblewrap built for Codex"
-"#,
-    )
-    .map_err(|err| format!("failed to write {}: {err}", config_h.display()))?;
+"#
+    .to_string();
+    if is_ohos {
+        config.push_str("#include \"ohos_compat.h\"\n");
+    }
+    std::fs::write(&config_h, config)
+        .map_err(|err| format!("failed to write {}: {err}", config_h.display()))?;
 
     let mut build = cc::Build::new();
     build
@@ -56,21 +81,32 @@ fn try_build_bwrap() -> Result<(), String> {
         .file(src_dir.join("utils.c"))
         .include(&out_dir)
         .include(&src_dir)
+        .include(&manifest_dir)
         .define("_GNU_SOURCE", None)
         // Rename `main` so the Rust wrapper can expose the Cargo-built binary.
         .define("main", Some("bwrap_main"));
-    for include_path in libcap.include_paths {
+    for include_path in include_paths {
+        if is_ohos {
+            // The SDK's sys/capability.h only declares capget/capset, whereas
+            // bubblewrap also needs libcap's cap_value_t and cap_from_name.
+            build.include(include_path);
+            continue;
+        }
         // Use -idirafter so target sysroot headers win (musl cross builds),
         // while still allowing libcap headers from the host toolchain.
         build.flag(format!("-idirafter{}", include_path.display()));
     }
 
     build.compile("standalone_bwrap");
-    for link_path in libcap.link_paths {
+    for link_path in link_paths {
         println!("cargo:rustc-link-search=native={}", link_path.display());
     }
-    for lib in libcap.libs {
-        println!("cargo:rustc-link-lib={lib}");
+    for lib in libs {
+        if is_ohos {
+            println!("cargo:rustc-link-lib=static={lib}");
+        } else {
+            println!("cargo:rustc-link-lib={lib}");
+        }
     }
     println!("cargo:rustc-cfg=bwrap_available");
     Ok(())
