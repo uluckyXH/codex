@@ -1,3 +1,7 @@
+原始 readelf 输出：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/.harmony-build/测试批次/2026-10-03-015922-七版临时目录与别名边界-工具会话/原始ELF检查.txt
+原始字节数：2974；SHA256：bae570d75c18198183fc2937595fe34eca838d762b8ec2241d6db9b2b6067c71
+下方展示仅移除行尾空白，字段和值未改。
+
 ELF Header:
   Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00
   Class:                             ELF64
@@ -40,15 +44,15 @@ Program Headers:
 
  Section to Segment mapping:
   Segment Sections...
-   00     
-   01     .interp 
-   02     .interp .note.ohos.ident .dynsym .gnu.hash .hash .dynstr .rela.dyn .rela.plt .rodata .gcc_except_table .debug_gdb_scripts .eh_frame_hdr .eh_frame 
-   03     .text .init .fini .plt 
-   04     .init_array .fini_array .data.rel.ro .dynamic .got .got.plt 
-   05     .data .bss 
-   06     .dynamic 
-   07     .init_array .fini_array .data.rel.ro .dynamic .got .got.plt 
-   08     .eh_frame_hdr 
-   09     
-   10     .note.ohos.ident 
-   None   .debug_abbrev .debug_info .debug_str_offsets .debug_str .debug_addr .comment .debug_line .debug_line_str .debug_aranges .debug_rnglists .debug_frame .debug_ranges .debug_loclists .symtab .shstrtab .strtab 
+   00
+   01     .interp
+   02     .interp .note.ohos.ident .dynsym .gnu.hash .hash .dynstr .rela.dyn .rela.plt .rodata .gcc_except_table .debug_gdb_scripts .eh_frame_hdr .eh_frame
+   03     .text .init .fini .plt
+   04     .init_array .fini_array .data.rel.ro .dynamic .got .got.plt
+   05     .data .bss
+   06     .dynamic
+   07     .init_array .fini_array .data.rel.ro .dynamic .got .got.plt
+   08     .eh_frame_hdr
+   09
+   10     .note.ohos.ident
+   None   .debug_abbrev .debug_info .debug_str_offsets .debug_str .debug_addr .comment .debug_line .debug_line_str .debug_aranges .debug_rnglists .debug_frame .debug_ranges .debug_loclists .symtab .shstrtab .strtab

@@ -1,0 +1,20 @@
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-015922-七版临时目录与别名边界-工具会话/证据/目标ELF检查.txt:45: trailing whitespace.
++   02     .interp .note.ohos.ident .dynsym .gnu.hash .hash .dynstr .rela.dyn .rela.plt .rodata .gcc_except_table .debug_gdb_scripts .eh_frame_hdr .eh_frame 
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-015922-七版临时目录与别名边界-工具会话/证据/目标ELF检查.txt:46: trailing whitespace.
++   03     .text .init .fini .plt 
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-015922-七版临时目录与别名边界-工具会话/证据/目标ELF检查.txt:47: trailing whitespace.
++   04     .init_array .fini_array .data.rel.ro .dynamic .got .got.plt 
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-015922-七版临时目录与别名边界-工具会话/证据/目标ELF检查.txt:48: trailing whitespace.
++   05     .data .bss 
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-015922-七版临时目录与别名边界-工具会话/证据/目标ELF检查.txt:49: trailing whitespace.
++   06     .dynamic 
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-015922-七版临时目录与别名边界-工具会话/证据/目标ELF检查.txt:50: trailing whitespace.
++   07     .init_array .fini_array .data.rel.ro .dynamic .got .got.plt 
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-015922-七版临时目录与别名边界-工具会话/证据/目标ELF检查.txt:51: trailing whitespace.
++   08     .eh_frame_hdr 
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-015922-七版临时目录与别名边界-工具会话/证据/目标ELF检查.txt:52: trailing whitespace.
++   09     
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-015922-七版临时目录与别名边界-工具会话/证据/目标ELF检查.txt:53: trailing whitespace.
++   10     .note.ohos.ident 
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-015922-七版临时目录与别名边界-工具会话/证据/目标ELF检查.txt:54: trailing whitespace.
++   None   .debug_abbrev .debug_info .debug_str_offsets .debug_str .debug_addr .comment .debug_line .debug_line_str .debug_aranges .debug_rnglists .debug_frame .debug_ranges .debug_loclists .symtab .shstrtab .strtab 

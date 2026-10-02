@@ -1,0 +1,21 @@
+{
+  "命令": [
+    "rustup",
+    "run",
+    "1.95.0",
+    "cargo",
+    "fmt",
+    "--manifest-path",
+    "codex-rs/Cargo.toml",
+    "--all",
+    "--check"
+  ],
+  "开始": "2026-10-03T02:51:16+08:00",
+  "结束": "2026-10-03T02:51:27+08:00",
+  "退出码": 0,
+  "系统": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "编译缓存": "/Volumes/MacSSD/Repositories/codex/.harmony-build/target",
+  "缓存来源": "主会话既有缓存；与两个子工作副本分离",
+  "原始日志": ".harmony-build/测试批次/2026-10-03-025115-七版发布前文档与格式核对-主会话/日志/Rust格式.log",
+  "日志摘要": "5b0f93d4b4ec9471f686dc431b8d53510ff376cbe2a56a2ccbe5157dd6a2f315"
+}
