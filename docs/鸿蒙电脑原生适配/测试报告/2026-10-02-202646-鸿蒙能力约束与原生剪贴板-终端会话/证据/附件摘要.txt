@@ -1,9 +1,9 @@
-SHA-256；绝对路径的原始日志/产物保存在外置盘，未上传二进制。
+SHA-256；原始日志路径、字节数和 SHA-256 同见执行摘要.txt。绝对路径的日志/产物保存在外置盘 ignored 目录，未修改或上传。
 d1d02b56fd0b11b167b4477c99ca280c11e555789193a4e923165a3a9a4f4fe5  /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-202646-鸿蒙能力约束与原生剪贴板-终端会话/日志/宿主01-剪贴板接口.log
 9fb7c95e765d9794bf1f4d8e1b24e68fea484e055895ceed04c0ba77543d94e9  /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-202646-鸿蒙能力约束与原生剪贴板-终端会话/日志/宿主01-功能约束.log
 42ac301f3291bf11b459edd8e925a764dec89655e13bf0dd1c198072ae600e62  证据/剪贴板定向清单.toml
 8ceb1c7159b5abb4ecf3696521bc3d8a17e1917447851200476a024d4cb32ec8  证据/剪贴板测试入口.rs
-80e5af1866948d38e1c72dece7cefb800948f2d5500617424838b84390b58a90  证据/执行摘要.txt
+657c89b36189bfeb60ab63f3e57bcb7549e894e7b89f802687015184cb38a95c  证据/执行摘要.txt
 ade80f020b80ebdd96c234f9e26017551d98a335e8bb7e5c6da29519bdd27c5a  证据/执行用例.py
 27594a6b94afd63c6c9e02d3f3d160ddff75340f3a561acf6ea7534994f97c7c  证据/执行结果.tsv
 78b52bb4000ed50b50cc50c3b77f7b784ed6b55bf05d235d5b4f45f1c8e36750  证据/源码摘要.txt

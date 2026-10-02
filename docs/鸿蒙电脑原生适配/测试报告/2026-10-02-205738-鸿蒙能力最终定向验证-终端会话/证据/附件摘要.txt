@@ -1,4 +1,4 @@
-SHA-256；绝对路径的原始日志/产物保存在外置盘，未上传二进制。
+SHA-256；原始日志路径、字节数和 SHA-256 同见执行摘要.txt。绝对路径的日志/产物保存在外置盘 ignored 目录，未修改或上传。
 c408df07fae6349697e50825dc5061a92bb267f2ad936df6a53c698818ee1bc4  /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/日志/交叉01-最终CLI检查.log
 913cb4eb33ed1f0654271803dac0f948c34c1d11961541cda60e0046997386de  /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/日志/宿主01-功能模块.log
 6843cdd1056313745dd0be24bccb1748060862256624be2937cc014b356df043  /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/日志/宿主01-工具模式.log
@@ -14,7 +14,7 @@ b9b535815cfc587db869736d0cfdf8603ee12a1c21c78ae683f926b2008ba076  /Volumes/MacSS
 ccb18391c86065dee1c508885f059bc3d9a3c2e351bca95d1153612fd05d6e1f  /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/终端适配/.harmony-build/测试批次/2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/工具模式测试
 c0c0e7ce8c0357bb69aec91260c10775582b6554163ccaebb46e043e4f463ed2  证据/交付检查.py
 d27ef321bb0462479d534f6d1384f18dcb7fc351526ea3da0566a025f58509da  证据/工具模式测试入口.rs
-da0dd783ecaa8b9772b7ab88be43ab76c78398de50b92f25210bb329a706b0d9  证据/执行摘要.txt
+4f8d723fcdca3b929c92ab6af8fbeffb09dc5c06e81054db5c7386f2cc71223a  证据/执行摘要.txt
 ade80f020b80ebdd96c234f9e26017551d98a335e8bb7e5c6da29519bdd27c5a  证据/执行用例.py
 9fcf1cbe614d80a9828b3b95c348ce23a1e3c5ea26c08832a495de8ede59323d  证据/执行结果.tsv
 bb97c2dfab9d08f8b221648b7b921f6493930ea93aa6bca272f635b9d9862027  证据/源码摘要.txt
