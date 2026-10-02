@@ -1,0 +1,124 @@
+[
+  {
+    "case": "文档01-公共入口源码格式",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "rustfmt",
+      "--edition",
+      "2024",
+      "codex-rs/utils/pty/src/pty.rs",
+      "codex-rs/utils/pty/tests/ohos_pty_spawn.rs"
+    ],
+    "ohos": false,
+    "started": "2026-10-02T19:17:55.552416+08:00",
+    "finished": "2026-10-02T19:17:55.602779+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/日志/文档01-公共入口源码格式.log",
+    "log_sha256": "32fe085114da7297c4250ed80110877f68dca957b8f2ce65265c81be05c04818"
+  },
+  {
+    "case": "宿主01-PTY相关回归",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "codex-rs/Cargo.toml",
+      "--locked",
+      "--target",
+      "aarch64-apple-darwin",
+      "-p",
+      "codex-utils-pty",
+      "--lib",
+      "tests::pty_"
+    ],
+    "ohos": false,
+    "started": "2026-10-02T19:18:01.593552+08:00",
+    "finished": "2026-10-02T19:18:14.241104+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/日志/宿主01-PTY相关回归.log",
+    "log_sha256": "8e12cc2755484afb25c2882d5c132c3ce157088b4c8a5fcdde03280d0468bf6a"
+  },
+  {
+    "case": "交叉01-PTY公共入口检查",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "python3",
+      "scripts/build_harmony.py",
+      "check",
+      "--sdk",
+      "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native",
+      "--output-dir",
+      "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/鸿蒙构建",
+      "--package",
+      "codex-utils-pty"
+    ],
+    "ohos": false,
+    "started": "2026-10-02T19:18:50.869254+08:00",
+    "finished": "2026-10-02T19:18:56.377105+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/日志/交叉01-PTY公共入口检查.log",
+    "log_sha256": "54ee1d6022507345e44ed3bf62f2d5587b06cfd6a4702a3848dc8c909c397d9c"
+  },
+  {
+    "case": "交叉03-公共入口用例链接",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "codex-rs/Cargo.toml",
+      "--locked",
+      "--no-run",
+      "--target",
+      "aarch64-unknown-linux-ohos",
+      "-p",
+      "codex-utils-pty",
+      "--test",
+      "ohos_pty_spawn"
+    ],
+    "ohos": true,
+    "started": "2026-10-02T19:19:44.392901+08:00",
+    "finished": "2026-10-02T19:19:52.220523+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/日志/交叉03-公共入口用例链接.log",
+    "log_sha256": "b4a789b6771243320edfba37649fc27f32dc1f39d58988bcff158293fdee44d1"
+  },
+  {
+    "case": "静态01-公共入口测试产物",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "python3",
+      "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/静态与交付检查.py"
+    ],
+    "ohos": false,
+    "started": "2026-10-02T19:20:20.795253+08:00",
+    "finished": "2026-10-02T19:20:21.050282+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/日志/静态01-公共入口测试产物.log",
+    "log_sha256": "092ad56c28e1eb32bc2ad05f985b59a668211044d8bc47465e58da3d8a7858ce"
+  },
+  {
+    "case": "文档01-报告交付检查",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "python3",
+      "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/报告检查.py"
+    ],
+    "ohos": false,
+    "started": "2026-10-02T19:23:32.203746+08:00",
+    "finished": "2026-10-02T19:23:33.616208+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/日志/文档01-报告交付检查.log",
+    "log_sha256": "a9537187c54f61521a469417ef734483f5c759b7de28ed1145662e3df63e1a9c"
+  }
+]

@@ -1,0 +1,19 @@
+{
+  "工作目录": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+  "分支": "codex/harmony-platform",
+  "被测HEAD": "215db4306eaf18769f6c02d33be5f767840bda1b",
+  "测试前状态": " M codex-rs/utils/pty/src/pty.rs\n?? codex-rs/utils/pty/tests/ohos_pty_spawn.rs\n?? docs/鸿蒙电脑原生适配/测试报告/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/\n",
+  "文件SHA256": {
+    "codex-rs/utils/pty/src/pty.rs": "ffea9fea92cf89ab9e19466721ba8f26b880541cc842dda186a6439669a02a8b",
+    "codex-rs/utils/pty/tests/ohos_pty_spawn.rs": "a4232bdcf5ef6ebc1db55977046cb61d88896792909b414f0b5db261fcb66e0a",
+    "codex-rs/Cargo.toml": "f420330dd2cd50bb5fc6684e88c99d0c49e91b3f21b626ed655c856507c72870",
+    "codex-rs/Cargo.lock": "c2f0d1ea752d9f1fa310145f9f3403774451c3fa72a94e3f0602e0a46b3dafef"
+  },
+  "最终对应代码提交": "e5aff7b28ba116fed4c31d749a2a42003ab5330d",
+  "测试期间源码一致性": "静态01 核对所有文件摘要一致；之后仅提交相同源码与整理报告",
+  "复现辅助文件SHA256": {
+    "scripts/build_harmony.py": "5a46da7a2166ec6cc61ce8551026df951f398898cabef1f32937fdcbc1c2c49a",
+    "codex-rs/rust-toolchain.toml": "570656042681cfd8795403a455baf9a33035331a07db0645e866bbcea89a3d64",
+    "codex-rs/utils/pty/Cargo.toml": "bacf71d7afedb321054493d7353ea3c2f04eb0ba609e567fef4b7fec9906a2c4"
+  }
+}

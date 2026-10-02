@@ -1,0 +1,19 @@
+{
+  "系统": "ProductName:\t\tmacOS\nProductVersion:\t\t27.0.1\nBuildVersion:\t\t26A434",
+  "架构": "arm64",
+  "Rust": "rustc 1.95.0 (59807616e 2026-04-14)",
+  "Cargo": "cargo 1.95.0 (f2d3ce0bd 2026-03-21)",
+  "Python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "Clang": "OHOS (dev) clang version 15.0.4 (llvm-project 99548401bd80576251755b185ab95945e5fe7884)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin",
+  "链接器": "LLD 15.0.4 (compatible with GNU linkers)",
+  "SDK": {
+    "apiVersion": "24",
+    "displayName": "Native",
+    "meta": {
+      "metaVersion": "3.0.0"
+    },
+    "path": "native",
+    "releaseType": "Release",
+    "version": "6.1.1.125"
+  }
+}
