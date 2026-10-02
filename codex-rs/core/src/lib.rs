@@ -4,6 +4,8 @@
 // user-visible output must go through the appropriate abstraction (e.g.,
 // the TUI or the tracing stack).
 #![deny(clippy::print_stdout, clippy::print_stderr)]
+// OHOS release builds exceed the default query depth when laying out tool futures.
+#![cfg_attr(target_env = "ohos", recursion_limit = "256")]
 
 mod apply_patch;
 mod apps;
