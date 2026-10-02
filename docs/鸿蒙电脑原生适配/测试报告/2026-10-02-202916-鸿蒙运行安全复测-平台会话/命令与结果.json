@@ -1,0 +1,122 @@
+[
+  {
+    "case": "文档01-源码格式",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "rustfmt",
+      "--edition",
+      "2024",
+      "codex-rs/arg0/src/lib.rs",
+      "codex-rs/linux-sandbox/src/launcher.rs",
+      "codex-rs/linux-sandbox/src/lib.rs",
+      "codex-rs/linux-sandbox/src/linux_run_main.rs",
+      "codex-rs/linux-sandbox/src/linux_run_main_tests.rs",
+      "codex-rs/process-hardening/src/lib.rs",
+      "codex-rs/sandboxing/src/bwrap.rs",
+      "codex-rs/sandboxing/src/bwrap_tests.rs",
+      "codex-rs/sandboxing/src/lib.rs",
+      "codex-rs/sandboxing/src/probe.rs",
+      "codex-rs/sandboxing/src/probe_tests.rs"
+    ],
+    "ohos": false,
+    "started": "2026-10-02T20:29:16.119569+08:00",
+    "finished": "2026-10-02T20:29:16.271456+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-202916-鸿蒙运行安全复测-平台会话/日志/文档01-源码格式.log",
+    "log_sha256": "0af72ce72dc682c0258ffc84a3b7dcbd357b0f1bf0bc06e62f788c270efc1f87"
+  },
+  {
+    "case": "宿主01-探针状态与边界",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "codex-rs/Cargo.toml",
+      "--locked",
+      "--target",
+      "aarch64-apple-darwin",
+      "-p",
+      "codex-sandboxing",
+      "--lib",
+      "probe::tests"
+    ],
+    "ohos": false,
+    "started": "2026-10-02T20:46:14.730316+08:00",
+    "finished": "2026-10-02T20:49:14.670211+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-202916-鸿蒙运行安全复测-平台会话/日志/宿主01-探针状态与边界.log",
+    "log_sha256": "efa295c0c0cc40ca9884fe757d839ab40cc995b48fa1e6187db7b005842e62b5"
+  },
+  {
+    "case": "宿主02-沙箱诊断状态",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "codex-rs/Cargo.toml",
+      "--locked",
+      "--target",
+      "aarch64-apple-darwin",
+      "-p",
+      "codex-sandboxing",
+      "--lib",
+      "bwrap::tests"
+    ],
+    "ohos": false,
+    "started": "2026-10-02T20:50:56.944391+08:00",
+    "finished": "2026-10-02T20:50:58.903638+08:00",
+    "exit_code": 101,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-202916-鸿蒙运行安全复测-平台会话/日志/宿主02-沙箱诊断状态.log",
+    "log_sha256": "f0f052983f59582f7f39fe8ef00c607687b2a2011dc17222d0edb78ac10ed2ca"
+  },
+  {
+    "case": "宿主03-加固前缀规则",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "codex-rs/Cargo.toml",
+      "--locked",
+      "--target",
+      "aarch64-apple-darwin",
+      "-p",
+      "codex-process-hardening",
+      "--lib"
+    ],
+    "ohos": false,
+    "started": "2026-10-02T20:51:36.982787+08:00",
+    "finished": "2026-10-02T20:51:39.508175+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-202916-鸿蒙运行安全复测-平台会话/日志/宿主03-加固前缀规则.log",
+    "log_sha256": "8fe7efbd05ca0e367c7d4c438a92f3e4d129008e114afe6ea73ce5a3fcae12a2"
+  },
+  {
+    "case": "宿主04-独立进程加固",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "python3",
+      "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202916-鸿蒙运行安全复测-平台会话/运行加固探针.py"
+    ],
+    "ohos": false,
+    "started": "2026-10-02T20:51:39.559177+08:00",
+    "finished": "2026-10-02T20:51:39.618556+08:00",
+    "exit_code": 1,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-202916-鸿蒙运行安全复测-平台会话/日志/宿主04-独立进程加固.log",
+    "log_sha256": "a39c0466b4096f44584ceffbe6daa11421ff3d5a171af89c28a5f6b1da043328"
+  }
+]

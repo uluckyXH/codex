@@ -1,0 +1,70 @@
+[
+  {
+    "case": "宿主00-源码格式检查",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "rustfmt",
+      "--check",
+      "--edition",
+      "2024",
+      "codex-rs/arg0/src/lib.rs",
+      "codex-rs/linux-sandbox/src/bwrap.rs",
+      "codex-rs/linux-sandbox/src/launcher.rs",
+      "codex-rs/linux-sandbox/src/lib.rs",
+      "codex-rs/linux-sandbox/src/linux_run_main.rs",
+      "codex-rs/linux-sandbox/src/linux_run_main_tests.rs",
+      "codex-rs/process-hardening/src/lib.rs",
+      "codex-rs/sandboxing/src/bwrap.rs",
+      "codex-rs/sandboxing/src/bwrap_tests.rs",
+      "codex-rs/sandboxing/src/lib.rs",
+      "codex-rs/sandboxing/src/probe.rs",
+      "codex-rs/sandboxing/src/probe_tests.rs"
+    ],
+    "ohos": false,
+    "started": "2026-10-02T21:35:52.782313+08:00",
+    "finished": "2026-10-02T21:35:53.193848+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/日志/宿主00-源码格式检查.log",
+    "日志SHA256": "ffc4a60ea9ac8797fd0f668dea3d31ed2bd1d2157196dd22f8785ebc59ff762e",
+    "告警行数": 0,
+    "错误行数": 0
+  },
+  {
+    "case": "交叉01-独立加固源码链接",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "python3",
+      "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/docs/鸿蒙电脑原生适配/测试报告/2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/运行加固探针.py",
+      "--ohos"
+    ],
+    "ohos": true,
+    "started": "2026-10-02T21:37:02.894103+08:00",
+    "finished": "2026-10-02T21:37:04.783614+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/日志/交叉01-独立加固源码链接.log",
+    "日志SHA256": "27073485671c008b3c2b4a54db2accea2bfac910db6707a028d3666c5238489a",
+    "告警行数": 0,
+    "错误行数": 0
+  },
+  {
+    "case": "交叉02-加固产物格式核对",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-readelf",
+      "-h",
+      "-l",
+      "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/鸿蒙启动加固探针"
+    ],
+    "ohos": false,
+    "started": "2026-10-02T21:39:36.355079+08:00",
+    "finished": "2026-10-02T21:39:36.432166+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/日志/交叉02-加固产物格式核对.log",
+    "日志SHA256": "933da81ecd196d6bfe8f93bfb6fa141a56e45247467c764620dd2db669ffd3cb",
+    "告警行数": 0,
+    "错误行数": 0
+  }
+]

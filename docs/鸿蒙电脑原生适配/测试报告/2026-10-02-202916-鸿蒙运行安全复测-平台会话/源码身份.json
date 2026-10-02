@@ -1,0 +1,21 @@
+{
+  "工作目录": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+  "分支": "codex/harmony-runtime",
+  "被测HEAD": "28ff2f12846dd34b302ee64f4a2c95fa7a4c8d38",
+  "测试前状态": " M codex-rs/arg0/src/lib.rs\n M codex-rs/linux-sandbox/src/launcher.rs\n M codex-rs/linux-sandbox/src/lib.rs\n M codex-rs/linux-sandbox/src/linux_run_main.rs\n M codex-rs/linux-sandbox/src/linux_run_main_tests.rs\n M codex-rs/process-hardening/src/lib.rs\n M codex-rs/sandboxing/src/bwrap.rs\n M codex-rs/sandboxing/src/bwrap_tests.rs\n M codex-rs/sandboxing/src/lib.rs\n?? codex-rs/sandboxing/src/probe.rs\n?? codex-rs/sandboxing/src/probe_tests.rs\n?? docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202248-鸿蒙运行安全与探测-平台会话/\n?? docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202916-鸿蒙运行安全复测-平台会话/\n",
+  "文件SHA256": {
+    "codex-rs/arg0/src/lib.rs": "9ae4f6f5bd0e75dde2fd3aa9238c5fbeda459b892d5984eef20dda77768c8438",
+    "codex-rs/linux-sandbox/src/launcher.rs": "c4cea6587496d339ecd1178294dcf2e66762b91bbb2ced53dda452d4032235ee",
+    "codex-rs/linux-sandbox/src/lib.rs": "33bcd1ee806445a5952660a917fe86ec94c35df433d78b134b5cb03af3af86ca",
+    "codex-rs/linux-sandbox/src/linux_run_main.rs": "8873627713ad3d797abfcc1b73a402ca91b81e15b49ef793f22de9b196da4d68",
+    "codex-rs/linux-sandbox/src/linux_run_main_tests.rs": "d5d293abf9500529011a65af83f2ec18b0617cb23a45e4317fdb9358712c6345",
+    "codex-rs/process-hardening/src/lib.rs": "bb27f7bd281e9d6ac7b8dc6b7fd1f8f54a1b9767a0e379cee81ac6e182b116b3",
+    "codex-rs/sandboxing/src/bwrap.rs": "486c2eb0a4953aff3a8c5d552d9444d60d5c585c70831691db1ba5d002aaa1ae",
+    "codex-rs/sandboxing/src/bwrap_tests.rs": "45a982be1555a4226d8012f6e587b5ee04763ad6e69f6923ebb7671c9e93c571",
+    "codex-rs/sandboxing/src/lib.rs": "8b5e2bead7f89df39ac6f3488a615d9eac58d7874d9eefecb5ae96289285aa1a",
+    "codex-rs/sandboxing/src/probe.rs": "3a43478bb484b30910acd1c9e31cf715c35f00b1ccce37150825bb7e9955bce4",
+    "codex-rs/sandboxing/src/probe_tests.rs": "171069a83f08cc3f26fe94e24e7adf2e8cefa59705ecd38be8ff6dad4c5975ab",
+    "codex-rs/Cargo.toml": "d9e69c9234e433f82d2b58362a4416b177ce15c996da79a40a73a8bd592dd2e0",
+    "codex-rs/Cargo.lock": "67fdc4222df94e6a43381f9fba9522d244560d2b44668df25cff6d45123431a7"
+  }
+}

@@ -1,0 +1,57 @@
+[
+  {
+    "case": "文档01-源码格式",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "rustfmt",
+      "--edition",
+      "2024",
+      "codex-rs/arg0/src/lib.rs",
+      "codex-rs/linux-sandbox/src/launcher.rs",
+      "codex-rs/linux-sandbox/src/lib.rs",
+      "codex-rs/linux-sandbox/src/linux_run_main.rs",
+      "codex-rs/linux-sandbox/src/linux_run_main_tests.rs",
+      "codex-rs/process-hardening/src/lib.rs",
+      "codex-rs/sandboxing/src/bwrap.rs",
+      "codex-rs/sandboxing/src/bwrap_tests.rs",
+      "codex-rs/sandboxing/src/lib.rs",
+      "codex-rs/sandboxing/src/probe.rs",
+      "codex-rs/sandboxing/src/probe_tests.rs"
+    ],
+    "ohos": false,
+    "started": "2026-10-02T20:22:48.741251+08:00",
+    "finished": "2026-10-02T20:22:48.897076+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-202248-鸿蒙运行安全与探测-平台会话/日志/文档01-源码格式.log",
+    "log_sha256": "50ae7e33b6721290c90a5c87b8f534e7eeed9581cc3b3e7a2ab1df2e2cab57ad"
+  },
+  {
+    "case": "宿主01-探针状态与边界",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "codex-rs/Cargo.toml",
+      "--locked",
+      "--target",
+      "aarch64-apple-darwin",
+      "-p",
+      "codex-sandboxing",
+      "--lib",
+      "probe::tests"
+    ],
+    "ohos": false,
+    "started": "2026-10-02T20:23:20.472902+08:00",
+    "finished": "2026-10-02T20:25:53.703693+08:00",
+    "exit_code": 101,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配/.harmony-build/测试批次/2026-10-02-202248-鸿蒙运行安全与探测-平台会话/日志/宿主01-探针状态与边界.log",
+    "log_sha256": "4cd0c7fa74402b652d5e1917bf129b34ab37e300f6b07aebe2313472eb90a636"
+  }
+]

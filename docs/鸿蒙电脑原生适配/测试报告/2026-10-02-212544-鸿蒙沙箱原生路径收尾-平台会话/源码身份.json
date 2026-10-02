@@ -1,0 +1,22 @@
+{
+  "工作目录": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/平台适配",
+  "分支": "codex/harmony-runtime",
+  "被测HEAD": "28ff2f12846dd34b302ee64f4a2c95fa7a4c8d38",
+  "测试前状态": " M codex-rs/arg0/src/lib.rs\n M codex-rs/linux-sandbox/src/bwrap.rs\n M codex-rs/linux-sandbox/src/launcher.rs\n M codex-rs/linux-sandbox/src/lib.rs\n M codex-rs/linux-sandbox/src/linux_run_main.rs\n M codex-rs/linux-sandbox/src/linux_run_main_tests.rs\n M codex-rs/process-hardening/src/lib.rs\n M codex-rs/sandboxing/src/bwrap.rs\n M codex-rs/sandboxing/src/bwrap_tests.rs\n M codex-rs/sandboxing/src/lib.rs\n?? codex-rs/sandboxing/src/probe.rs\n?? codex-rs/sandboxing/src/probe_tests.rs\n?? docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202248-鸿蒙运行安全与探测-平台会话/\n?? docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202916-鸿蒙运行安全复测-平台会话/\n?? docs/鸿蒙电脑原生适配/测试报告/2026-10-02-211748-鸿蒙运行安全收尾-平台会话/\n?? docs/鸿蒙电脑原生适配/测试报告/2026-10-02-212544-鸿蒙沙箱原生路径收尾-平台会话/\n",
+  "文件SHA256": {
+    "codex-rs/arg0/src/lib.rs": "9ae4f6f5bd0e75dde2fd3aa9238c5fbeda459b892d5984eef20dda77768c8438",
+    "codex-rs/linux-sandbox/src/bwrap.rs": "d1cc374a2318d0ef02ede79e9d6960e871abdf8311307db3ccbef3a142c5a9eb",
+    "codex-rs/linux-sandbox/src/launcher.rs": "9068c7650654d965e4598957a7fc32f4d182e2931a9cdfab70b0bbc8503b4df1",
+    "codex-rs/linux-sandbox/src/lib.rs": "33bcd1ee806445a5952660a917fe86ec94c35df433d78b134b5cb03af3af86ca",
+    "codex-rs/linux-sandbox/src/linux_run_main.rs": "4bf630fae6328150190bde45ffdfb51ecf148b242423c521ff24ee53dcf23a14",
+    "codex-rs/linux-sandbox/src/linux_run_main_tests.rs": "d5d293abf9500529011a65af83f2ec18b0617cb23a45e4317fdb9358712c6345",
+    "codex-rs/process-hardening/src/lib.rs": "bb27f7bd281e9d6ac7b8dc6b7fd1f8f54a1b9767a0e379cee81ac6e182b116b3",
+    "codex-rs/sandboxing/src/bwrap.rs": "91667bbab08c810be44b988cd4929f2531b612f08ba28df51412d1a9f4610861",
+    "codex-rs/sandboxing/src/bwrap_tests.rs": "048c8193421f8b4abb006b5766bbbaf949d6fbdd6afad2d3e7a127cbc14bc239",
+    "codex-rs/sandboxing/src/lib.rs": "8b5e2bead7f89df39ac6f3488a615d9eac58d7874d9eefecb5ae96289285aa1a",
+    "codex-rs/sandboxing/src/probe.rs": "415c9d4e405045da06b3746f83894ca7a46a115dbb84065e3018e25c5362a1ce",
+    "codex-rs/sandboxing/src/probe_tests.rs": "c00b055e4fa859baaa7375308b0a075fbd48b61c00d821820710f6d7b3eb37e2",
+    "codex-rs/Cargo.toml": "d9e69c9234e433f82d2b58362a4416b177ce15c996da79a40a73a8bd592dd2e0",
+    "codex-rs/Cargo.lock": "67fdc4222df94e6a43381f9fba9522d244560d2b44668df25cff6d45123431a7"
+  }
+}
