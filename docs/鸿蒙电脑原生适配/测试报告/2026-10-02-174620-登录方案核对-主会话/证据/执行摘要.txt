@@ -1,0 +1,27 @@
+本次真实执行的文档检查；示例不执行，不包含认证运行结果。
+来源：.harmony-build/测试批次/2026-10-02-174620-登录方案核对-主会话/日志；原始日志仅本机可用。
+执行时仅额外设置 TMPDIR 为同批次临时目录、PYTHONDONTWRITEBYTECODE=1；没有认证凭据输入。
+
+【文档01-认证方案】
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T17:47:17+0800
+命令：/opt/homebrew/opt/python@3.14/bin/python3.14 '/Volumes/MacSSD/Repositories/codex/docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/证据/文档检查脚本.py'
+中文文档：24
+本地链接：334
+Shell 示例：41
+Python 示例：1
+TOML 示例：3
+文档静态检查通过；示例语法检查不会执行示例中的构建或安装命令。
+
+结束时间：2026-10-02T17:47:18+0800
+退出码：0
+
+【文档01-差异检查】
+工作目录：/Volumes/MacSSD/Repositories/codex
+开始时间：2026-10-02T17:47:18+0800
+命令：git diff --check
+2026-10-02 17:47:18.996 xcodebuild[86554:3587154]  DVTFilePathFSEvents: Failed to start fs event stream.
+2026-10-02 17:47:19.224 xcodebuild[86554:3587153] [MT] DVTDeveloperPaths: Failed to get length of DARWIN_USER_CACHE_DIR from confstr(3), error = Error Domain=NSPOSIXErrorDomain Code=5 "Input/output error". Using NSCachesDirectory instead.
+
+结束时间：2026-10-02T17:47:20+0800
+退出码：0

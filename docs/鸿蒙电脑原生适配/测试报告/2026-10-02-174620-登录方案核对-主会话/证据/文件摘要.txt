@@ -1,0 +1,14 @@
+算法：SHA-256
+基线：a9b2199ee0fe0066542ef2469f41b15982ebcd61
+以下为本次测试前的未提交文档内容及复用的检查脚本；对应内容随本报告提交。
+
+bdbd40a23ab5e7e9cdb9feea148c78b12c9fbcdb8d3ea30c8dc6f0c6adaace1e  docs/鸿蒙电脑原生适配/网络登录与凭据适配.md
+ae538454adc4c86d804599996dc3c3cd57d542a87b0fa19f33d4adb827665cc6  docs/鸿蒙电脑原生适配/安装配置与运行指南.md
+2cf551263fb254567c604a0ee3ddc3cf2128d728f2d0a5562a8beb4fca1b0215  docs/鸿蒙电脑原生适配/验证方案与兼容性记录.md
+37e21cbc8f1127e8ada77c1d9b98191d69757eec404ffec4f667a042803dec32  docs/鸿蒙电脑原生适配/测试规范.md
+98a90645863eb239e6c45f83e19f12dbbaf9eda0b3aa285b990dde1e31be1bc3  docs/鸿蒙电脑原生适配/实施计划与任务拆分.md
+3bd34b5c011a1fbab3378a3fa7b9470f7c9d1ac305624f695ed2d84de11fb100  docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/证据/文档检查脚本.py
+
+以下为本机原始日志的摘要；原始文件未提交，关键输出见执行摘要：
+62bd159fc19b08cc3f440a9c5f59ea00991816fbada7e0e6053de877787cf46b  原始日志/文档01-认证方案.log
+18dd650c2a5cbb6e330aad17fc52f39ab504063916bdf1f59601c6924babd141  原始日志/文档01-差异检查.log
