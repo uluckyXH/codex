@@ -1,0 +1,21 @@
+{
+  "工作目录": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱",
+  "分支": "codex/harmony-pc7-sandbox",
+  "HEAD": "24d59190d4d2f00d4af3a1b2d6a9b70a3aa38c32",
+  "状态": "含未提交修改",
+  "文件SHA256": {
+    "codex-rs/linux-sandbox/Cargo.toml": "e3d44565bd26eda8317131d2052bfc50258c08ab50d0414cbe20b96b9798f9ed",
+    "codex-rs/linux-sandbox/src/bwrap.rs": "8ca74e004e12676124fe6e620206ed78e54e18cad0fdeb5b445702c1412f3c4d",
+    "codex-rs/linux-sandbox/src/daemon_mounts.rs": "44848a612e60e0c16d29a2d2ea4f26e9f5a142a62d0437a844c7db553dd1de2e",
+    "codex-rs/linux-sandbox/src/daemon_mounts_tests.rs": "4f856d69bd4fa957fc6452f2f2d89902fc1f360ae36df677755db68557830aa5",
+    "codex-rs/linux-sandbox/src/landlock.rs": "f3b12fabd194fd86b97d586262d1846893a855a425978866163806de0483b6b3",
+    "codex-rs/linux-sandbox/src/lib.rs": "b36dc323787efd16b24f6d52322964a700d95e5e7f7350383d8143c12de7b458",
+    "codex-rs/linux-sandbox/src/linux_run_main.rs": "7d2f86c70ca717f59fc87ce6f08c03c32e9670ec2a1cf19e86121264f6e8ccd8",
+    "codex-rs/linux-sandbox/src/linux_run_main_tests.rs": "461baf087a3570ee15e57ce49f5ad6c73243b6e10b0012127f2acd4a51fc35ec",
+    "codex-rs/uds/src/daemon_directory.rs": "17ebb473184b7059eaf5df02130875da9a96248641333afa5456d7962ff0e8e5",
+    "codex-rs/uds/src/daemon_directory_tests.rs": "ac67db18d24be0beb0c364d85cdc10e34b6590b7ec4e444c3d36a0f5678a7c1c",
+    "codex-rs/linux-sandbox/src/mode_validation.rs": "c009621ac9d34eb6c2f591bb90b349e599e435966e972c89efd1c577267ac0c2",
+    "codex-rs/Cargo.toml": "d9e69c9234e433f82d2b58362a4416b177ce15c996da79a40a73a8bd592dd2e0",
+    "codex-rs/Cargo.lock": "67fdc4222df94e6a43381f9fba9522d244560d2b44668df25cff6d45123431a7"
+  }
+}

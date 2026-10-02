@@ -1,0 +1,41 @@
+[
+  {
+    "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-021822-七版沙箱交叉复核-沙箱会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/deps/codex_uds-b2aefafd2c66f67d",
+    "大小": 12311136,
+    "SHA256": "72ce9cce9e9f7412baf03221890db8bdb1be3b1ca62667fd08592dedba38d490",
+    "ELF": "ELF64 AArch64",
+    "解释器": "/lib/ld-musl-aarch64.so.1",
+    "动态依赖": [
+      "libc.so"
+    ],
+    "命令": [
+      "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-readelf",
+      "-h",
+      "-l",
+      "-d",
+      "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-021822-七版沙箱交叉复核-沙箱会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/deps/codex_uds-b2aefafd2c66f67d"
+    ],
+    "工具退出码": 0,
+    "运行": "未执行、未签名"
+  },
+  {
+    "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-021822-七版沙箱交叉复核-沙箱会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/deps/codex_linux_sandbox-4f00d7ac42fe1744",
+    "大小": 174710864,
+    "SHA256": "eaa402ba149f0e9cab3b6b62fb2c80763d3b21665a41e23546f0e76d2c943a36",
+    "ELF": "ELF64 AArch64",
+    "解释器": "/lib/ld-musl-aarch64.so.1",
+    "动态依赖": [
+      "libtime_service_ndk.so",
+      "libc.so"
+    ],
+    "命令": [
+      "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-readelf",
+      "-h",
+      "-l",
+      "-d",
+      "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-021822-七版沙箱交叉复核-沙箱会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/deps/codex_linux_sandbox-4f00d7ac42fe1744"
+    ],
+    "工具退出码": 0,
+    "运行": "未执行、未签名"
+  }
+]

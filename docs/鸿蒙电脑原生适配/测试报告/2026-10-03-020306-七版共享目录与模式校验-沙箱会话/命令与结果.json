@@ -1,0 +1,81 @@
+[
+  {
+    "case": "文档00-Rust格式",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "rustfmt",
+      "--edition",
+      "2024",
+      "codex-rs/linux-sandbox/src/daemon_mounts.rs",
+      "codex-rs/linux-sandbox/src/daemon_mounts_tests.rs",
+      "codex-rs/linux-sandbox/src/lib.rs",
+      "codex-rs/linux-sandbox/src/linux_run_main.rs",
+      "codex-rs/linux-sandbox/src/linux_run_main_tests.rs",
+      "codex-rs/uds/src/daemon_directory.rs",
+      "codex-rs/uds/src/daemon_directory_tests.rs",
+      "codex-rs/linux-sandbox/src/mode_validation.rs"
+    ],
+    "ohos": false,
+    "started": "2026-10-03T02:03:06.767464+08:00",
+    "finished": "2026-10-03T02:03:06.887371+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-020306-七版共享目录与模式校验-沙箱会话/日志/文档00-Rust格式.log",
+    "日志SHA256": "4b52b1c7edc7c883184cd669049eaed83130c26c94755832cef59c61fe7d55f2"
+  },
+  {
+    "case": "宿主01-HM04共享目录",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "codex-rs/Cargo.toml",
+      "--locked",
+      "--offline",
+      "--target",
+      "aarch64-apple-darwin",
+      "-p",
+      "codex-uds",
+      "--lib",
+      "daemon_directory::tests"
+    ],
+    "ohos": false,
+    "started": "2026-10-03T02:03:43.338946+08:00",
+    "finished": "2026-10-03T02:03:53.551213+08:00",
+    "exit_code": 101,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-020306-七版共享目录与模式校验-沙箱会话/日志/宿主01-HM04共享目录.log",
+    "日志SHA256": "ef51d25fe6359ae1e6ced0df49bb798441d3f69a30405b5d082c434322a6fc58"
+  },
+  {
+    "case": "宿主02-HM04别名与HM05模式",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "codex-rs/Cargo.toml",
+      "--locked",
+      "--offline",
+      "--target",
+      "aarch64-apple-darwin",
+      "-p",
+      "codex-linux-sandbox",
+      "--lib"
+    ],
+    "ohos": false,
+    "started": "2026-10-03T02:04:57.022814+08:00",
+    "finished": "2026-10-03T02:05:00.526879+08:00",
+    "exit_code": 101,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-020306-七版共享目录与模式校验-沙箱会话/日志/宿主02-HM04别名与HM05模式.log",
+    "日志SHA256": "375e36cac3c532cb95a728c7868a70031a38c91bc13766ab66a49667ea698a12"
+  }
+]

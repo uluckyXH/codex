@@ -1,0 +1,148 @@
+[
+  {
+    "case": "文档00-Rust格式",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "rustfmt",
+      "--edition",
+      "2024",
+      "codex-rs/uds/src/daemon_directory.rs",
+      "codex-rs/uds/src/daemon_directory_tests.rs"
+    ],
+    "ohos": false,
+    "started": "2026-10-03T02:32:59.702700+08:00",
+    "finished": "2026-10-03T02:32:59.748880+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-023200-七版固定账号入口复测-沙箱会话/日志/文档00-Rust格式.log",
+    "日志SHA256": "e9cf49372fe342a24557f2375f51cfde6b2a1a6b345d5892e0cab0c50ee9ab2c"
+  },
+  {
+    "case": "宿主01-HM04固定入口与共享目录",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "codex-rs/Cargo.toml",
+      "--locked",
+      "--offline",
+      "--target",
+      "aarch64-apple-darwin",
+      "-p",
+      "codex-uds",
+      "--lib",
+      "daemon_directory::tests"
+    ],
+    "ohos": false,
+    "started": "2026-10-03T02:32:59.825001+08:00",
+    "finished": "2026-10-03T02:33:02.969705+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-023200-七版固定账号入口复测-沙箱会话/日志/宿主01-HM04固定入口与共享目录.log",
+    "日志SHA256": "6d9f5ff56d0bffe69a98072f02e76f8a5683a97d72f7f6175761710280f57478"
+  },
+  {
+    "case": "交叉01-固定入口与沙箱检查",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "cargo",
+      "check",
+      "--manifest-path",
+      "codex-rs/Cargo.toml",
+      "--locked",
+      "--offline",
+      "--target",
+      "aarch64-unknown-linux-ohos",
+      "-p",
+      "codex-uds",
+      "-p",
+      "codex-linux-sandbox"
+    ],
+    "ohos": true,
+    "started": "2026-10-03T02:33:36.836415+08:00",
+    "finished": "2026-10-03T02:35:23.910487+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-023200-七版固定账号入口复测-沙箱会话/日志/交叉01-固定入口与沙箱检查.log",
+    "日志SHA256": "149eadd7dcd6a61dfbcb74ac77217eb8318161b9b59d0316d28a793940595213"
+  },
+  {
+    "case": "交叉03-固定入口与沙箱目标链接",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱",
+    "command": [
+      "rustup",
+      "run",
+      "1.95.0",
+      "cargo",
+      "test",
+      "--manifest-path",
+      "codex-rs/Cargo.toml",
+      "--locked",
+      "--offline",
+      "--target",
+      "aarch64-unknown-linux-ohos",
+      "-p",
+      "codex-uds",
+      "-p",
+      "codex-linux-sandbox",
+      "--lib",
+      "--no-run"
+    ],
+    "ohos": true,
+    "started": "2026-10-03T02:35:49.850258+08:00",
+    "finished": "2026-10-03T02:39:36.464151+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-023200-七版固定账号入口复测-沙箱会话/日志/交叉03-固定入口与沙箱目标链接.log",
+    "日志SHA256": "c9a843151676bb6477845a5c5ce54aac9c869154dd98381cba7ab84d9b6fe130"
+  },
+  {
+    "case": "静态01-最终目标测试与系统符号",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱",
+    "command": [
+      "python3",
+      "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-023200-七版固定账号入口复测-沙箱会话/目标产物核对.py"
+    ],
+    "ohos": false,
+    "started": "2026-10-03T02:40:05.291404+08:00",
+    "finished": "2026-10-03T02:40:05.531291+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-023200-七版固定账号入口复测-沙箱会话/日志/静态01-最终目标测试与系统符号.log",
+    "日志SHA256": "c491668a3e96b97fca9ec015a4b41e09eed41ba6cdaa60e4040fd36a9ecf0f8d"
+  },
+  {
+    "case": "文档01-中文文档与链接",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱",
+    "command": [
+      "python3",
+      "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/证据/文档检查脚本.py"
+    ],
+    "ohos": false,
+    "started": "2026-10-03T02:42:12.513061+08:00",
+    "finished": "2026-10-03T02:42:12.793468+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-023200-七版固定账号入口复测-沙箱会话/日志/文档01-中文文档与链接.log",
+    "日志SHA256": "fcd31c714d46ad26a216a3339384aa3cf679e04343ff1242374d984ca405e5d9"
+  },
+  {
+    "case": "文档01-差异格式",
+    "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱",
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "ohos": false,
+    "started": "2026-10-03T02:42:12.833554+08:00",
+    "finished": "2026-10-03T02:42:13.923747+08:00",
+    "exit_code": 0,
+    "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-023200-七版固定账号入口复测-沙箱会话/日志/文档01-差异格式.log",
+    "日志SHA256": "e9287a3c24b8dd4060c44160b148385399d6bcfaa15c09897ea9a7c05e843b7e"
+  }
+]

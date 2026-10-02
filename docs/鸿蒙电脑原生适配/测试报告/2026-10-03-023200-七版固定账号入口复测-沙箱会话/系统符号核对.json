@@ -1,0 +1,15 @@
+{
+  "SDK库": "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/lib/aarch64-linux-ohos/libc.so",
+  "命令": [
+    "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-readelf",
+    "--dyn-syms",
+    "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/lib/aarch64-linux-ohos/libc.so"
+  ],
+  "退出码": 0,
+  "已导出符号": [
+    "getpwuid_r",
+    "mkdirat",
+    "openat"
+  ],
+  "边界": "仅 SDK 动态符号存在性检查，不代表商业设备运行行为"
+}
