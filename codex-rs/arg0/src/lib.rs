@@ -18,6 +18,9 @@ use codex_windows_sandbox::CODEX_WINDOWS_SANDBOX_ARG1;
 use std::os::unix::fs::symlink;
 use tempfile::TempDir;
 
+#[cfg(any(target_env = "ohos", all(test, unix)))]
+mod harmony_alias_dir;
+
 const APPLY_PATCH_ARG0: &str = "apply_patch";
 const MISSPELLED_APPLY_PATCH_ARG0: &str = "applypatch";
 #[cfg(unix)]
@@ -353,7 +356,7 @@ fn prepare_path_entry_for_codex_aliases(
     existing_path: Option<OsString>,
 ) -> std::io::Result<(Arg0PathEntryGuard, OsString)> {
     let codex_home = find_codex_home()?;
-    #[cfg(not(debug_assertions))]
+    #[cfg(all(not(debug_assertions), not(target_env = "ohos")))]
     {
         // Guard against placing helpers in system temp directories outside debug builds.
         let temp_root = std::env::temp_dir();
@@ -367,11 +370,22 @@ fn prepare_path_entry_for_codex_aliases(
         }
     }
 
+    #[cfg(target_env = "ohos")]
+    let temp_root = harmony_alias_dir::prepare(
+        codex_home.as_path(),
+        &std::env::temp_dir(),
+        std::env::var_os("HOME").as_deref().map(Path::new),
+        // SAFETY: geteuid only reads the effective user identity.
+        unsafe { libc::geteuid() },
+    )?;
+    #[cfg(not(target_env = "ohos"))]
     std::fs::create_dir_all(&codex_home)?;
     // Use a CODEX_HOME-scoped temp root to avoid cluttering the top-level directory.
+    #[cfg(not(target_env = "ohos"))]
     let temp_root = codex_home.join("tmp").join("arg0");
+    #[cfg(not(target_env = "ohos"))]
     std::fs::create_dir_all(&temp_root)?;
-    #[cfg(unix)]
+    #[cfg(all(unix, not(target_env = "ohos")))]
     {
         use std::os::unix::fs::PermissionsExt;
 

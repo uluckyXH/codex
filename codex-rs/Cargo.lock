@@ -2376,6 +2376,7 @@ dependencies = [
  "codex-utils-pty",
  "codex-windows-sandbox",
  "dotenvy",
+ "libc",
  "pathdiff",
  "pretty_assertions",
  "tempfile",
