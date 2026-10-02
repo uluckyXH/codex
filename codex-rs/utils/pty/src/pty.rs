@@ -161,14 +161,16 @@ pub async fn spawn_process(
     let _ = inherited_fds;
 
     #[cfg(target_os = "linux")]
-    if crate::spawn_helper::is_available()
-        && inherited_fds.as_slice().is_empty()
-        && Path::new(program).is_absolute()
-        && arg0.is_none()
-        && cwd.is_dir()
+    if cfg!(target_env = "ohos")
+        || (crate::spawn_helper::is_available()
+            && inherited_fds.as_slice().is_empty()
+            && Path::new(program).is_absolute()
+            && arg0.is_none()
+            && cwd.is_dir())
     {
-        // Keep portable-pty's PATH, argv0, and missing-cwd behavior for requests
-        // whose launch settings require its command builder.
+        // Every OHOS request must report descriptor cleanup failure, including
+        // relative programs, custom argv0, and unavailable setup helpers.
+        // Other Linux targets retain portable-pty's compatibility routing.
         return spawn_process_preserving_fds(program, args, cwd, env, arg0, size, inherited_fds)
             .await;
     }
