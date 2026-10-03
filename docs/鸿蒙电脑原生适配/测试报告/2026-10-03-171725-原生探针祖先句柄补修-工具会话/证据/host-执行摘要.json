@@ -1,0 +1,17 @@
+{
+  "host": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "cases": [
+    {
+      "case": "宿主01",
+      "command": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/test_harmony_runtime_probe.py"
+      ],
+      "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具",
+      "started": "2026-10-03T17:19:20.144386+08:00",
+      "finished": "2026-10-03T17:19:27.847685+08:00",
+      "exit_code": 0
+    }
+  ]
+}

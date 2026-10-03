@@ -1,0 +1,12 @@
+{
+  "head": "e2f7d624d5aeaeb77e671c5e440292f1865b5985",
+  "session": "01a0fbd5-774e-76b2-8090-f11b7accb711",
+  "branch": "codex/harmony-pc7-native-probe",
+  "contains_uncommitted_source": true,
+  "files": {
+    "scripts/harmony_runtime_probe.c": "8165545357a136b652c7c32dd130d4e200794053a6fb71ee64c9525d3008f7d3",
+    "scripts/test_harmony_runtime_probe.py": "000605e4f192900fbce81f0537686287815a8b21377b402d597dfc4f9da64c15",
+    "scripts/harmony_runtime_probe_context.h": "b9117304bc7aa7547f9e05461f5d81e97fe7193e6bb3c0a786cd421ff2c5dce7",
+    "scripts/harmony_runtime_probe_sdk_check.cpp": "10fda23c756cbc7f3c89b09dc75d57dc35f170f5d5d435fb6273e88919529b29"
+  }
+}
