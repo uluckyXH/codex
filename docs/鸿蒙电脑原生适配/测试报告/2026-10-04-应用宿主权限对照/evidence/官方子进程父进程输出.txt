@@ -1,0 +1,15 @@
+uid=20020058 gid=20020058 pid=23120
+context_files_dir=/data/storage/el2/base/haps/entry/files
+network_host=developer.huawei.com port=443
+dns_result=0
+family=2 tcp_errno=0
+family=2 tcp_errno=0
+family=2 tcp_errno=0
+family=2 tcp_errno=0
+addresses_tested=4 tcp_succeeded=4
+spawn_phase=calling_posix_spawn
+posix_spawn_result=0
+spawn_exit=0 spawn_signal=0 raw_wait_status=0
+native_phase=OH_Ability_StartNativeChildProcess
+native_start_result=0 native_pid=23252
+probe_complete=yes

@@ -44,28 +44,58 @@ pub fn ohos_runtime_profile_contract() -> &'static str {
     option_env!("CODEX_OHOS_RUNTIME_PROFILE").unwrap_or("strict")
 }
 
+/// The installation-specific application UID, compiled into an HNP debug build.
+/// It is not read from the environment of the running application or its tools.
+pub fn ohos_runtime_uid_contract() -> Option<&'static str> {
+    option_env!("CODEX_OHOS_RUNTIME_UID")
+}
+
 const HDC_DEBUG_BASE: &str = "/data/local/tmp/cdx";
 const HDC_SHELL_UID: libc::uid_t = 2000;
+const HNP_DEBUG_BASE: &str = "/data/storage/el2/base/files/r";
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum RuntimeProfile {
     Strict,
     HdcDebug,
+    HnpDebug { uid: libc::uid_t },
 }
 
 impl RuntimeProfile {
-    fn from_contract(profile: &str, base: &Path, uid: libc::uid_t) -> io::Result<Self> {
+    fn from_contract(
+        profile: &str,
+        base: &Path,
+        uid: libc::uid_t,
+        compiled_uid: Option<&str>,
+    ) -> io::Result<Self> {
         match profile {
             "strict" => Ok(Self::Strict),
             "hdc-debug" if base == Path::new(HDC_DEBUG_BASE) && uid == HDC_SHELL_UID => {
                 Ok(Self::HdcDebug)
+            }
+            "hnp-debug" if base == Path::new(HNP_DEBUG_BASE) => {
+                let bound_uid = compiled_uid
+                    .filter(|value| value.bytes().all(|byte| byte.is_ascii_digit()))
+                    .and_then(|value| value.parse::<libc::uid_t>().ok())
+                    .filter(|value| *value >= 10_000 && *value == uid);
+                match bound_uid {
+                    Some(uid) => Ok(Self::HnpDebug { uid }),
+                    None => Err(at_path(
+                        "profile-contract",
+                        base,
+                        io::Error::new(
+                            io::ErrorKind::PermissionDenied,
+                            "hnp-debug requires a compiled application UID >= 10000 matching the effective UID; the runtime environment cannot select another identity",
+                        ),
+                    )),
+                }
             }
             _ => Err(at_path(
                 "profile-contract",
                 base,
                 io::Error::new(
                     io::ErrorKind::PermissionDenied,
-                    "unknown runtime profile, or hdc-debug requires the compiled base /data/local/tmp/cdx and effective UID 2000; no fallback is allowed",
+                    "unknown runtime profile or mismatched fixed base/identity: hdc-debug requires /data/local/tmp/cdx and UID 2000; hnp-debug requires /data/storage/el2/base/files/r and its compiled application UID; no fallback is allowed",
                 ),
             )),
         }
@@ -82,6 +112,18 @@ impl RuntimeProfile {
                 ),
             ));
         }
+        if let Self::HnpDebug { uid: compiled_uid } = self
+            && (uid != compiled_uid || !base.starts_with(HNP_DEBUG_BASE))
+        {
+            return Err(at_path(
+                "profile-scope",
+                base,
+                io::Error::new(
+                    io::ErrorKind::PermissionDenied,
+                    "hnp-debug may only open the fixed private runtime subtree of the compiled application UID",
+                ),
+            ));
+        }
         Ok(())
     }
 }
@@ -91,6 +133,7 @@ fn compiled_runtime_profile(uid: libc::uid_t) -> io::Result<RuntimeProfile> {
         ohos_runtime_profile_contract(),
         Path::new(ohos_runtime_base_contract().unwrap_or("")),
         uid,
+        ohos_runtime_uid_contract(),
     )
 }
 
@@ -537,6 +580,8 @@ fn validate_profile_metadata(
                         "current-user-owned directory with mode 0700"
                     } else if profile == RuntimeProfile::HdcDebug {
                         "the exact platform ancestor UID/GID/mode contract and a shell-owned 0700 runtime base"
+                    } else if matches!(profile, RuntimeProfile::HnpDebug { .. }) {
+                        "strict ancestor protection and a compiled-application-owned 0700 runtime base; shared application directories are not exempt"
                     } else {
                         "root/current-user-owned directory without group/other writes, or root-owned sticky directory"
                     }
@@ -556,6 +601,17 @@ fn directory_profile_mode_is_safe(
     private: bool,
     profile: RuntimeProfile,
 ) -> bool {
+    if let RuntimeProfile::HnpDebug { uid: compiled_uid } = profile {
+        if uid != compiled_uid {
+            return false;
+        }
+        // The dedicated debug application must provision a private root and
+        // protected ancestors before launching Codex. Its Context path or UID
+        // alone never makes a world-writable directory safe.
+        if path == Path::new(HNP_DEBUG_BASE) {
+            return owner == uid && mode == 0o700;
+        }
+    }
     if profile == RuntimeProfile::HdcDebug {
         if uid != HDC_SHELL_UID {
             return false;

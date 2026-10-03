@@ -224,6 +224,7 @@ mod temporary_structured_request;
 mod terminal_hyperlinks;
 mod terminal_palette;
 mod terminal_probe;
+mod terminal_size;
 mod terminal_title;
 mod terminal_visualization_instructions;
 mod text_formatting;

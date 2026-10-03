@@ -1,0 +1,8 @@
+{
+  "name": "codex-emulator-host",
+  "version": "0.1.0",
+  "modelVersion": "6.0.0",
+  "description": "Native Codex emulator environment probe",
+  "dependencies": {},
+  "devDependencies": {}
+}

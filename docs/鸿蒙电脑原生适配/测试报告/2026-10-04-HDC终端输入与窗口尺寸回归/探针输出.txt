@@ -1,0 +1,110 @@
+测试输出摘录（删除 Shell 命令回显及光标控制字符，保留探针输出与退出码）
+原始日志：.harmony-build/terminal-backend-probe/
+
+来源：c-terminal-result.txt
+uid=2000 stdin_isatty=1 stdout_isatty=1
+fd=stdin
+stage=libc_tcgetattr result=0 errno=0
+stage=libc_tcsetattr_unchanged result=-1 errno=13
+stage=libc_tcsetattr_raw result=-1 errno=13
+stage=ioctl_TCGETS2 result=-1 errno=13
+stage=ioctl_TIOCGWINSZ result=0 errno=0
+stage=open_dev_tty result=5 errno=0
+fd=dev_tty
+stage=libc_tcgetattr result=0 errno=0
+stage=libc_tcsetattr_unchanged result=0 errno=0
+stage=libc_tcsetattr_raw result=0 errno=0
+stage=libc_tcsetattr_restore result=0 errno=0
+stage=ioctl_TCGETS2 result=-1 errno=13
+stage=ioctl_TIOCGWINSZ result=0 errno=0
+terminal_probe_complete
+__TERMINAL_PROBE_EXIT__:0
+
+来源：rustix-result.txt
+backend=rustix stdin_isatty=true stdout_isatty=true
+cycle=1 stage=enable_raw_mode errno=Some(13)
+terminal_probe_complete passed=false
+__TERMINAL_PROBE_EXIT__:1
+
+来源：libc-result.txt
+backend=libc stdin_isatty=true stdout_isatty=true
+cycle=1 stage=enable_raw_mode errno=Some(13)
+terminal_probe_complete passed=false
+__TERMINAL_PROBE_EXIT__:1
+
+来源：rustix-devtty-result.txt
+backend=rustix stdin_isatty=true stdout_isatty=true
+cycle=1 stage=enable_raw_mode result=ok active=true
+cycle=1 stage=disable_raw_mode result=ok
+cycle=2 stage=enable_raw_mode result=ok active=true
+cycle=2 stage=disable_raw_mode result=ok
+cycle=3 stage=enable_raw_mode result=ok active=true
+cycle=3 stage=disable_raw_mode result=ok
+terminal_probe_complete passed=true
+__TERMINAL_PROBE_EXIT__:0
+
+来源：libc-devtty-result.txt
+backend=libc stdin_isatty=true stdout_isatty=true
+cycle=1 stage=enable_raw_mode result=ok active=true
+cycle=1 stage=disable_raw_mode result=ok
+cycle=2 stage=enable_raw_mode result=ok active=true
+cycle=2 stage=disable_raw_mode result=ok
+cycle=3 stage=enable_raw_mode result=ok active=true
+cycle=3 stage=disable_raw_mode result=ok
+terminal_probe_complete passed=true
+__TERMINAL_PROBE_EXIT__:0
+
+来源：io-window-before-spawn-v2-result.txt
+uid=2000 stdin_isatty=1 stdout_isatty=1
+fd=stdin stage=TIOCGWINSZ result=0 errno=0 rows=0 columns=0
+fd=stdin stage=TIOCSWINSZ_unchanged result=-1 errno=13
+fd=stdout stage=TIOCGWINSZ result=0 errno=0 rows=0 columns=0
+fd=stdout stage=TIOCSWINSZ_unchanged result=-1 errno=13
+stage=open_dev_tty result=5 errno=0
+fd=dev_tty stage=TIOCGWINSZ result=0 errno=0 rows=0 columns=0
+fd=dev_tty stage=TIOCSWINSZ_unchanged result=-1 errno=13
+stage=inherited_stdin_set result=-1 errno=13 modes_unchanged=1
+stage=poll result=1 errno=0 revents=1 read_count=1 byte=75
+stage=restore result=0 errno=0 modes_restored=1
+terminal_io_probe_complete passed=1
+__TERMINAL_PROBE_EXIT__:0
+
+来源：io-window-after-spawn-v2-result.txt
+uid=2000 stdin_isatty=1 stdout_isatty=1
+fd=stdin stage=TIOCGWINSZ result=0 errno=0 rows=0 columns=0
+fd=stdin stage=TIOCSWINSZ_unchanged result=-1 errno=13
+fd=stdout stage=TIOCGWINSZ result=0 errno=0 rows=0 columns=0
+fd=stdout stage=TIOCSWINSZ_unchanged result=-1 errno=13
+stage=open_dev_tty result=5 errno=0
+fd=dev_tty stage=TIOCGWINSZ result=0 errno=0 rows=0 columns=0
+fd=dev_tty stage=TIOCSWINSZ_unchanged result=-1 errno=13
+stage=inherited_stdin_set result=-1 errno=13 modes_unchanged=1
+stage=poll result=1 errno=0 revents=1 read_count=1 byte=75
+stage=restore result=0 errno=0 modes_restored=1
+terminal_io_probe_complete passed=1
+__TERMINAL_PROBE_EXIT__:0
+
+来源：crossterm-input-hints-result.txt
+backend=rustix stdin_isatty=true stdout_isatty=true
+native_columns=0 native_rows=0 resolved_columns=120 resolved_rows=36
+input_event=Key(KeyEvent { code: Char('K'), modifiers: KeyModifiers(SHIFT), kind: Press, state: KeyEventState(0x0) })
+modes_restored=true input_passed=true
+crossterm_input_probe_complete passed=true
+__TERMINAL_PROBE_EXIT__:0
+
+来源：crossterm-input-default-result.txt
+backend=rustix stdin_isatty=true stdout_isatty=true
+native_columns=0 native_rows=0 resolved_columns=80 resolved_rows=24
+input_event=Key(KeyEvent { code: Char('K'), modifiers: KeyModifiers(SHIFT), kind: Press, state: KeyEventState(0x0) })
+modes_restored=true input_passed=true
+crossterm_input_probe_complete passed=true
+__TERMINAL_PROBE_EXIT__:0
+
+Mac 工具调用结果摘录：
+独立策略 rustc --test：5 passed; 0 failed
+Mac PTY：stty size = 36 120
+Expect builtin stty size = 36 120
+假 HDC：validated_dimensions=120x36
+假 HDC 远端退出状态=7；启动器退出状态=7
+git diff --check：通过
+sh -n start-codex.sh：通过

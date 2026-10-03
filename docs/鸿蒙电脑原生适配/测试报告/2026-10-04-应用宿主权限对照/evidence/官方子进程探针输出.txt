@@ -1,0 +1,24 @@
+uid=20020058 gid=20020058 pid=23252 parent_pid=23247
+isolation_mode=NORMAL
+context_files_dir=/data/storage/el2/base/haps/entry/files
+network_host=developer.huawei.com port=443
+dns_result=0
+family=2 tcp_errno=0
+family=2 tcp_errno=0
+family=2 tcp_errno=0
+family=2 tcp_errno=0
+addresses_tested=4 tcp_succeeded=4
+private_file_phase=open
+private_file_written=21 sync_errno=0 seek=0 read=21 matches=1
+private_file_uid=20020058 mode=600
+pipe_phase=create
+pipe_written=15 read=15 matches=1
+pty_phase=posix_openpt
+pty_master_tty=0 slave_tty=1 tcgetattr_errno=0 written=13 read=13 matches=1
+shell_phase=posix_spawn
+shell_posix_spawn_result=0
+shell_exit=0 shell_signal=0 raw_wait_status=0
+heartbeat_second=1
+heartbeat_second=2
+heartbeat_second=3
+native_child_complete=yes

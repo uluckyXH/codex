@@ -1,0 +1,23 @@
+   Compiling harmony-alias-harness v0.1.0 (/Volumes/MacSSD/Repositories/codex/.harmony-build/runtime-profile-tests/alias-harness)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.92s
+     Running unittests src/lib.rs (.harmony-build/runtime-profile-tests/host/debug/deps/harmony_alias_harness-7e195955c4a9f94d)
+
+running 16 tests
+test harmony_hnp_alias_dir::tests::installer_group_write_requires_the_exact_hnp_directory_contract ... ok
+test harmony_hnp_alias_dir::tests::installer_primary_or_supplementary_group_membership_is_rejected ... ok
+test harmony_alias_dir::tests::changed_parent_is_rejected_before_creating_a_session ... ok
+test harmony_alias_dir::tests::replaced_ancestor_prevents_cleanup_of_both_trees ... ok
+test harmony_hnp_alias_dir::tests::oversized_launcher_is_rejected_before_hashing ... ok
+test harmony_alias_dir::tests::replaced_alias_and_unknown_content_are_preserved ... ok
+test harmony_hnp_alias_dir::tests::dot_components_and_root_escape_are_rejected ... ok
+test harmony_hnp_alias_dir::tests::another_main_executable_identity_is_rejected ... ok
+test harmony_hnp_alias_dir::tests::foreign_owner_writable_or_special_modes_are_rejected ... ok
+test harmony_hnp_alias_dir::tests::wrong_layout_and_unknown_alias_are_rejected ... ok
+test harmony_hnp_alias_dir::tests::malformed_digest_and_changed_launcher_bytes_are_rejected ... ok
+test harmony_alias_dir::tests::aliases_are_executable_and_only_session_objects_are_removed ... ok
+test harmony_hnp_alias_dir::tests::installed_aliases_pin_all_directories_and_close_fds_on_exec ... ok
+test harmony_hnp_alias_dir::tests::replaced_directory_is_rejected_even_when_file_identity_is_preserved ... ok
+test harmony_hnp_alias_dir::tests::same_digest_file_replacement_is_rejected_by_identity ... ok
+test harmony_hnp_alias_dir::tests::symlink_launchers_main_binary_and_directory_are_rejected ... ok
+
+test result: ok. 16 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s

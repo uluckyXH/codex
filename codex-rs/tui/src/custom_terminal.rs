@@ -51,6 +51,11 @@ use ratatui::widgets::WidgetRef;
 
 mod cursor;
 
+fn resolve_backend_size(size: Size) -> Size {
+    let (width, height) = crate::terminal_size::resolve((size.width, size.height));
+    Size::new(width, height)
+}
+
 #[cfg(test)]
 #[path = "custom_terminal_test_support.rs"]
 pub(crate) mod test_support;
@@ -185,7 +190,7 @@ where
 {
     /// Creates a new [`Terminal`] with the given [`Backend`] and [`TerminalOptions`].
     pub fn with_options(mut backend: B) -> io::Result<Self> {
-        let screen_size = backend.size()?;
+        let screen_size = resolve_backend_size(backend.size()?);
         let cursor_pos = backend.get_cursor_position().unwrap_or_else(|err| {
             // Some PTYs do not answer CPR (`ESC[6n`); continue with a safe default instead
             // of failing TUI startup.
@@ -206,7 +211,7 @@ where
     /// the inline viewport anchor, so callers should only use this after they have chosen the same
     /// fallback they want the first render to honor.
     pub fn with_options_and_cursor_position(backend: B, cursor_pos: Position) -> io::Result<Self> {
-        let screen_size = backend.size()?;
+        let screen_size = resolve_backend_size(backend.size()?);
         Ok(Self::with_screen_size_and_cursor_position(
             backend,
             screen_size,
@@ -582,13 +587,13 @@ where
         self.current = 1 - self.current;
     }
 
-    /// Queries the real size of the backend.
+    /// Queries the backend, recovering unavailable HarmonyOS geometry from launch hints.
     pub fn size(&self) -> io::Result<Size> {
         #[cfg(test)]
         if let Some(size) = self.screen_size_override {
             return Ok(size);
         }
-        self.backend.size()
+        self.backend.size().map(resolve_backend_size)
     }
 }
 

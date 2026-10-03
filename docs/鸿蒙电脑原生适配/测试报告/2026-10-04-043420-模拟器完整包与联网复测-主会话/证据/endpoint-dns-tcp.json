@@ -1,0 +1,7 @@
+{
+  "用例": "endpoint-dns-tcp",
+  "设备退出码": 6,
+  "主机退出码": 0,
+  "是否主机超时": false,
+  "关键输出": "dns_result=0\nfamily=2 tcp_errno=13\naddresses_tested=1 tcp_succeeded=0\n\n__HARMONY_DEVICE_EXIT__=6\n\n"
+}

@@ -49,6 +49,16 @@ proc sync_window {} {
     }
 }
 
+# HDC 当前可能不转发窗口尺寸，设备 ioctl 会成功返回 0x0。
+# 只转发有界的十进制数，作为鸿蒙 TUI 的布局提示，不修改设备终端权限。
+set dimension_prefix ""
+if {![catch {stty size} initial_size] &&
+    [regexp {^([1-9][0-9]{0,3}) ([1-9][0-9]{0,3})$} $initial_size _ rows columns] &&
+    $rows <= 1000 && $columns <= 1000 && $rows * $columns <= 100000} {
+    set dimension_prefix "LINES=$rows COLUMNS=$columns "
+    set stty_init "rows $rows columns $columns"
+}
+
 log_user 0
 set timeout 20
 if {[catch {spawn -noecho $hdc -t $target shell} message]} {
@@ -77,7 +87,7 @@ set marker [format {__HARMONY_CODEX_%d_%d__} [pid] [clock clicks]]
 set start_marker "${marker}START"
 set exit_marker "${marker}EXIT"
 set entry [shell_quote $remote_entry]
-set command [format {printf '\n%s\n'; if test -x %s; then %s; harmony_codex_status=$?; else printf '错误：模拟器中的 Codex 启动脚本不存在或不可执行。\n' >&2; harmony_codex_status=127; fi; printf '\n%s:%%s\n' "$harmony_codex_status"; exit "$harmony_codex_status"} $start_marker $entry $entry $exit_marker]
+set command [format {printf '\n%s\n'; if test -x %s; then %s%s; harmony_codex_status=$?; else printf '错误：模拟器中的 Codex 启动脚本不存在或不可执行。\n' >&2; harmony_codex_status=127; fi; printf '\n%s:%%s\n' "$harmony_codex_status"; exit "$harmony_codex_status"} $start_marker $entry $dimension_prefix $entry $exit_marker]
 send -- "$command\r"
 
 # 消耗 Shell 的命令回显；真正程序输出从 START 标记之后开始交给用户。

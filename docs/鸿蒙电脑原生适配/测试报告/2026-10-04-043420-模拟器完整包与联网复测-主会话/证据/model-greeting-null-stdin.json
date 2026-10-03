@@ -1,0 +1,7 @@
+{
+  "用例": "model-greeting-null-stdin",
+  "设备退出码": 1,
+  "主机退出码": 0,
+  "是否主机超时": false,
+  "关键输出": "Reading additional input from stdin...\n{\"type\":\"thread.started\",\"thread_id\":\"01a10377-175f-7333-9d8e-f66ef61732fd\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_0\",\"type\":\"error\",\"message\":\"Model `gpt-5.6-terra` advertises Code Mode, but the V8 code-mode host is not available in this native HarmonyOS build; use direct tools. Direct tools will be used.\"}}\n{\"type\":\"turn.started\"}\n{\"type\":\"error\",\"message\":\"Connection failed: error sending request\"}\n{\"type\":\"turn.failed\",\"error\":{\"message\":\"Connection failed: error sending request\"}}\n\n__HARMONY_DEVICE_EXIT__=1\n\n"
+}

@@ -1,0 +1,9 @@
+{
+  "recorded_at": "2026-10-04T04:57:08.136084+08:00",
+  "hap_sha256": "c6ba3155298d6fe196de5099ef99ffd66e4106013ca89f1557bc679250999dd1",
+  "source_sha256": "a6d7f0136bf38dd1483f6de6997136b54b445d10f72b12c1ea7d17c3733553bf",
+  "fake_fixture_sha256": "006aa57bf69796659a95499a4800b11ba5660a9408236bc03e929c7236331c22",
+  "fixture_size": 42,
+  "hap_signing": "unsigned-debug-emulator-only",
+  "binary_in_git": false
+}

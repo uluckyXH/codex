@@ -9,20 +9,43 @@ import unittest
 
 from build_harmony import TARGET
 from build_harmony import build_environment
+from build_harmony import hnp_alias_build_environment
 from build_harmony import native_sdk
 from build_harmony import runtime_base_contract
 from build_harmony import runtime_build_environment
 
 
 class HarmonyBuildTests(unittest.TestCase):
+    def test_hnp_alias_digest_cannot_be_inherited_or_used_for_other_profiles(self):
+        original = {"CODEX_HNP_ALIAS_SHA256": "a" * 64, "UNRELATED": "keep"}
+        self.assertEqual(
+            hnp_alias_build_environment(original, "strict", None), {"UNRELATED": "keep"}
+        )
+        env = hnp_alias_build_environment(original, "hnp-debug", "b" * 64)
+        self.assertEqual(env["CODEX_HNP_ALIAS_SHA256"], "b" * 64)
+        for profile, digest in (
+            ("strict", "b" * 64),
+            ("hdc-debug", "b" * 64),
+            ("hnp-debug", "B" * 64),
+            ("hnp-debug", "b" * 63),
+            ("hnp-debug", "b" * 64 + "\n"),
+        ):
+            with (
+                self.subTest(profile=profile, digest=digest),
+                self.assertRaises(ValueError),
+            ):
+                hnp_alias_build_environment(original, profile, digest)
+
     def test_runtime_profile_must_be_explicit_and_cannot_leak_from_shell(self):
         original = {
             "CODEX_OHOS_RUNTIME_BASE": "/data/local/tmp/cdx",
             "CODEX_OHOS_RUNTIME_PROFILE": "hdc-debug",
+            "CODEX_OHOS_RUNTIME_UID": "20020059",
             "UNRELATED": "keep",
         }
         env = runtime_build_environment(original, None)
         self.assertNotIn("CODEX_OHOS_RUNTIME_BASE", env)
+        self.assertNotIn("CODEX_OHOS_RUNTIME_UID", env)
         self.assertEqual(env["CODEX_OHOS_RUNTIME_PROFILE"], "strict")
         self.assertEqual(env["UNRELATED"], "keep")
         self.assertEqual(original["CODEX_OHOS_RUNTIME_PROFILE"], "hdc-debug")
@@ -35,8 +58,31 @@ class HarmonyBuildTests(unittest.TestCase):
             ("hdc-debug", "/data/storage/el2/base/files"),
             ("hdc-debug", "/data/local/tmp/cdx-other"),
         ):
-            with self.subTest(profile=profile, base=base), self.assertRaises(ValueError):
+            with (
+                self.subTest(profile=profile, base=base),
+                self.assertRaises(ValueError),
+            ):
                 runtime_build_environment(original, base, profile)
+
+    def test_hnp_debug_requires_explicit_application_identity_and_exact_base(self):
+        base = "/data/storage/el2/base/files/r"
+        env = runtime_build_environment({}, base, "hnp-debug", 20020059)
+        self.assertEqual(env["CODEX_OHOS_RUNTIME_UID"], "20020059")
+        self.assertEqual(env["CODEX_OHOS_RUNTIME_BASE"], base)
+        self.assertEqual(env["CODEX_OHOS_RUNTIME_PROFILE"], "hnp-debug")
+        self.assertEqual(len(base.encode()) + len("/cffffffff/s/" + "f" * 64) + 1, 108)
+        for uid in (None, 0, 2000, 9999, True, "20020059", 0x100000000):
+            with self.subTest(uid=uid), self.assertRaises(ValueError):
+                runtime_build_environment({}, base, "hnp-debug", uid)
+        for invalid_base in (None, "/data/local/tmp/cdx", base + "x"):
+            with self.subTest(base=invalid_base), self.assertRaises(ValueError):
+                runtime_build_environment({}, invalid_base, "hnp-debug", 20020059)
+        for profile, other_base in (
+            ("strict", base),
+            ("hdc-debug", "/data/local/tmp/cdx"),
+        ):
+            with self.subTest(profile=profile), self.assertRaises(ValueError):
+                runtime_build_environment({}, other_base, profile, 20020059)
 
     def test_runtime_contract_keeps_target_path_and_full_socket_identity(self):
         self.assertEqual(

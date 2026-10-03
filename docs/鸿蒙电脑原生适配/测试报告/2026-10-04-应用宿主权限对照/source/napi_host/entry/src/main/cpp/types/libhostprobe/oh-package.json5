@@ -1,0 +1,6 @@
+{
+  "name": "libhostprobe.so",
+  "version": "1.0.0",
+  "description": "Native application capability probe",
+  "types": "./Index.d.ts"
+}

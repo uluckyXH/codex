@@ -183,15 +183,17 @@ class DistributionTests(unittest.TestCase):
         provenance = self.root / "scripts/harmony/版本来源.json"
         provenance.parent.mkdir(parents=True)
         provenance.write_text(json.dumps({"工作区版本": "0.160.0-dev"}))
-        for profile, base in (
-            ("strict", "/data/storage/el2/base/files"),
-            ("hdc-debug", "/data/local/tmp/cdx"),
+        for profile, base, uid in (
+            ("strict", "/data/storage/el2/base/files", None),
+            ("hdc-debug", "/data/local/tmp/cdx", None),
+            ("hnp-debug", "/data/storage/el2/base/files/r", 20020059),
         ):
             output = self.root / profile
             output.mkdir()
             args = SimpleNamespace(
                 runtime_base=base,
                 runtime_profile=profile,
+                runtime_uid=uid,
                 helpers_dir=self.root / "helpers",
                 java="java",
                 build_dir=None,
@@ -209,6 +211,10 @@ class DistributionTests(unittest.TestCase):
                     return_value=helper_record,
                 ),
                 patch(
+                    "build_harmony_distribution.build_hnp_alias",
+                    return_value=(self.root / "signed-alias", {"SHA-256": "c" * 64}),
+                ) as alias_builder,
+                patch(
                     "build_harmony_distribution.run",
                     side_effect=RuntimeError("stopped after build dispatch"),
                 ) as run,
@@ -218,18 +224,42 @@ class DistributionTests(unittest.TestCase):
                         args,
                         output,
                         self.root,
-                        {"CODEX_OHOS_RUNTIME_PROFILE": "host-shell-must-not-win"},
+                        {
+                            "CODEX_OHOS_RUNTIME_PROFILE": "host-shell-must-not-win",
+                            "CODEX_OHOS_RUNTIME_UID": "must-not-leak",
+                            "CODEX_HNP_ALIAS_SHA256": "must-not-leak",
+                        },
                     )
                 command, env = run.call_args.args
-                self.assertEqual(command[command.index("--runtime-profile") + 1], profile)
+                self.assertEqual(
+                    command[command.index("--runtime-profile") + 1], profile
+                )
                 self.assertEqual(command[command.index("--runtime-base") + 1], base)
                 self.assertEqual(env["CODEX_OHOS_RUNTIME_PROFILE"], profile)
+                if uid is None:
+                    self.assertNotIn("--runtime-uid", command)
+                    self.assertNotIn("CODEX_OHOS_RUNTIME_UID", env)
+                    self.assertNotIn("CODEX_HNP_ALIAS_SHA256", env)
+                    alias_builder.assert_not_called()
+                else:
+                    self.assertEqual(
+                        command[command.index("--runtime-uid") + 1], str(uid)
+                    )
+                    self.assertEqual(env["CODEX_OHOS_RUNTIME_UID"], str(uid))
+                    self.assertEqual(env["CODEX_HNP_ALIAS_SHA256"], "c" * 64)
+                    self.assertEqual(
+                        command[command.index("--hnp-alias-sha256") + 1], "c" * 64
+                    )
+                    alias_builder.assert_called_once()
                 contract = json.loads((output / "构建输入.json").read_text())[
                     "受保护运行根契约"
                 ]
                 self.assertEqual(contract["编译时策略"], profile)
                 self.assertEqual(contract["编译时固定候选"], base)
                 self.assertFalse(contract["环境变量回退"])
+                if profile == "hnp-debug":
+                    self.assertEqual(contract["绑定应用UID"], uid)
+                    self.assertEqual(contract["私有运行根"]["权限"], "0700")
                 if profile == "hdc-debug":
                     self.assertEqual(contract["私有运行根"]["权限"], "0700")
                     self.assertEqual(contract["固定祖先"]["/data"]["GID"], 1000)
@@ -384,6 +414,54 @@ class DistributionTests(unittest.TestCase):
         manifest = (package / "文件校验清单.sha256").read_text()
         self.assertIn("  emulator-tools/run-harmony-codex.exp\n", manifest)
         self.assertIn("  模拟器使用与日志速用.md\n", manifest)
+
+    def test_hnp_debug_package_has_application_instructions_and_no_shell_installer(
+        self,
+    ):
+        binary = elf_fixture(self.root / "input")
+        helpers = self.root / "helpers"
+        (helpers / "已签名").mkdir(parents=True)
+        (helpers / "许可原文").mkdir()
+        for name in ("rg", "bwrap"):
+            shutil.copyfile(binary, helpers / "已签名" / name)
+        package = self.root / "hnp-package"
+        assemble(
+            package,
+            cli=binary,
+            helpers=helpers,
+            runtime_probe=binary,
+            version="0.160.0-dev.harmony.gaaaaaaaaaaaa",
+            runtime_profile="hnp-debug",
+            runtime_uid=20020059,
+            hnp_alias=binary,
+        )
+        instructions = (package / "安装说明.md").read_text()
+        self.assertIn("hnp-debug", instructions)
+        self.assertIn("20020059", instructions)
+        self.assertIn("private HNP", instructions)
+        self.assertEqual(list(package.rglob("config.toml")), [])
+        self.assertFalse((package / "emulator-tools").exists())
+        self.assertFalse((package / "安装.sh").exists())
+        for name in (
+            "apply_patch",
+            "applypatch",
+            "codex-linux-sandbox",
+            "codex-execve-wrapper",
+        ):
+            alias = package / "codex-path" / name
+            self.assertEqual(alias.read_bytes(), binary.read_bytes())
+            self.assertFalse(alias.is_symlink())
+            self.assertTrue(os.access(alias, os.X_OK))
+        write_checksums(package)
+        manifest = (package / "文件校验清单.sha256").read_text()
+        for name in (
+            "bin/codex",
+            "codex-path/rg",
+            "codex-resources/bwrap",
+            "codex-resources/harmony-runtime-probe",
+            "HNP应用宿主调试速用.md",
+        ):
+            self.assertIn(f"  {name}\n", manifest)
 
     def test_source_cache_rejects_corruption_without_network(self):
         (self.root / "libcap-2.78.tar.xz").write_bytes(b"bad archive")

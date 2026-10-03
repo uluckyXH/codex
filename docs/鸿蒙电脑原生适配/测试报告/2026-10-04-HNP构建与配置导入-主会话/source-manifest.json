@@ -1,0 +1,14 @@
+{
+  "base_commit": "42542a8f1aad6f4f9a75cbc2c8abb52118347635",
+  "scope": "本批主机测试源码；不代表完整Codex或HNP包设备验收",
+  "files": {
+    "scripts/build_harmony.py": "087c02b3b16b9ea6c9bbc9d93618d2992a2f82772c180152cc544b92a5391969",
+    "scripts/build_harmony_distribution.py": "58236adae22f42285ebe64313f313f97b7b8951ce4e08ac66da0ea51f7491543",
+    "scripts/test_build_harmony.py": "0d2d00fe4d68f913d4c0b7a577f6e8738a2856905612fa4c46394b086a5ccaec",
+    "scripts/test_harmony_distribution.py": "a2f1626aac92557b14a5a2bbf73478b84e75ea49e3bf80c974e9c8d4d50b9e1d",
+    ".harmony-build/emulator-hnp/entry/src/main/cpp/secure_config.cpp": "d1dc8b0f298b365e803d510b4a5bbd753627506b3be6cacd7495ca2ac8a76c56",
+    ".harmony-build/emulator-hnp/entry/src/main/cpp/secure_config.h": "1df5d830ad0413edd119d53620f026108515c0a0a5f998ab63ef64acd9456d6f",
+    ".harmony-build/emulator-hnp/test_secure_config.py": "3310147e4bf081fb8d15d5cd2043ecfa08f545f8af4f6d16e1178ed94c00ced1",
+    ".harmony-build/emulator-hnp/config_import_test_main.cpp": "18a08c29b2f29b7323526d353066a05dd09160c99a7627453933a86dee00dee8"
+  }
+}

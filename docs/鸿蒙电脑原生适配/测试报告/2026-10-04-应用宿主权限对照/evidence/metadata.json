@@ -1,0 +1,24 @@
+{
+  "recorded_at": "2026-10-04T04:27:41.588650+08:00",
+  "repository_head": "42542a8f1aad6f4f9a75cbc2c8abb52118347635",
+  "device_target": "127.0.0.1:5555",
+  "device_version": "OpenHarmony-7.0.0.105",
+  "device_form": "2in1",
+  "device_arch": "aarch64",
+  "bundle": "com.codex.emulatorhost",
+  "permissions_declared": [
+    "ohos.permission.INTERNET"
+  ],
+  "prototype_hap_signing": "unsigned-debug-emulator-only",
+  "public_probe_endpoint": "developer.huawei.com:443",
+  "files": {
+    "entry/src/main/module.json5": "7367781d283ebae456deb920fecf20d3429827f2637bd020adf391ee94268dc9",
+    "entry/src/main/cpp/host_probe.cpp": "286430ee123b2117f459a86404d53694ca3134863392f2ab687e3c0f1117c09a",
+    "entry/src/main/ets/entryability/EntryAbility.ets": "efd2712406c038c51d99f1f35822555f1fd11e650200f2a3b0903507ec8aac66",
+    "entry/src/main/resources/rawfile/network-probe": "c113003941784587cafe441b5087faf9f9b0e9186d989a42626dd72e61b9ace3",
+    "entry/build/default/outputs/default/entry-default-unsigned.hap": "f4f8754783a2e72038669573e893ece97243e5481ec1d81bca22d7772ebc5f9b"
+  },
+  "hap_rawfile_entries": {
+    "resources/rawfile/network-probe": "c113003941784587cafe441b5087faf9f9b0e9186d989a42626dd72e61b9ace3"
+  }
+}

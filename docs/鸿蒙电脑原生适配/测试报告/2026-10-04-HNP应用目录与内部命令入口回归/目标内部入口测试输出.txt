@@ -1,0 +1,6 @@
+profile=hnp-debug uid=20020059 aliases=/data/app/codexnetprobe.org/codexnetprobe_0.1/codex-path
+invoke=apply_patch exit=Some(0) stdout=alias-dispatch=apply_patch forwarded=true stderr=
+invoke=applypatch exit=Some(0) stdout=alias-dispatch=applypatch forwarded=true stderr=
+invoke=codex-linux-sandbox exit=Some(0) stdout=alias-dispatch=codex-linux-sandbox forwarded=true stderr=
+invoke=codex-execve-wrapper exit=Some(0) stdout=alias-dispatch=codex-execve-wrapper forwarded=true stderr=
+HNP_ALIAS_VALIDATION_PASS

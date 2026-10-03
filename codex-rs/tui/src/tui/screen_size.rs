@@ -37,7 +37,8 @@ impl Tui {
         let size = match event {
             TuiEvent::Resize(size) => {
                 self.screen_size.deferred_size = None;
-                *size
+                let (width, height) = crate::terminal_size::resolve((size.width, size.height));
+                Size::new(width, height)
             }
             TuiEvent::Resume => {
                 self.screen_size.pending_recheck_at = None;

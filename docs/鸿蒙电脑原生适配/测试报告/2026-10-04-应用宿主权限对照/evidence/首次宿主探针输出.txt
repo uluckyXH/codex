@@ -1,0 +1,11 @@
+uid=20020058 gid=20020058 pid=13845
+context_files_dir=/data/storage/el2/base/haps/entry/files
+network_host=developer.huawei.com port=443
+dns_result=0
+family=2 tcp_errno=0
+family=2 tcp_errno=0
+addresses_tested=2 tcp_succeeded=2
+spawn_phase=calling_posix_spawn
+posix_spawn_result=0
+spawn_exit=127 spawn_signal=0 raw_wait_status=32512
+probe_complete=yes

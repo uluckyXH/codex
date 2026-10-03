@@ -349,7 +349,9 @@ impl AppServerSession {
             next_item_cursor: item_cursor,
             ..ThreadHistoryPagination::default()
         };
-        let (width, height) = crossterm::terminal::size().unwrap_or(/*default*/ (80, 24));
+        let (width, height) = crate::terminal_size::resolve(
+            crossterm::terminal::size().unwrap_or(/*default*/ (80, 24)),
+        );
         let width = width.max(/*other*/ 1);
         let budget = HistoryLoadBudget::new(scope, config, local_settings, height);
         let mut scanned_items = 0;

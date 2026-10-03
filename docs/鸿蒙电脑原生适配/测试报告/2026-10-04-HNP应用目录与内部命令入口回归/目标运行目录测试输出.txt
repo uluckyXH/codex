@@ -1,0 +1,7 @@
+
+running 3 tests
+test ohos_runtime::tests::hnp_debug_profile_cannot_create_symlinks_on_target ... ok
+test ohos_runtime::tests::hnp_debug_profile_prepares_private_runtime_on_target ... ok
+test ohos_runtime::tests::hnp_debug_profile_socket_lifecycle_on_target ... ok
+
+test result: ok. 3 passed; 0 failed; 0 ignored; 0 measured; 35 filtered out; finished in 0.00s

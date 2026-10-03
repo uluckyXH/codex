@@ -18,37 +18,65 @@ struct LinkIdentity {
     ino: libc::ino_t,
 }
 
-pub(super) struct SessionAliases {
+struct DynamicAliases {
     root: ProtectedRuntimeDirectory,
     session: ProtectedRuntimeDirectory,
     name: CString,
     links: Vec<LinkIdentity>,
 }
 
+impl DynamicAliases {
+    fn path(&self) -> &Path {
+        self.session.path()
+    }
+}
+
+enum AliasStorage {
+    Dynamic(DynamicAliases),
+    Installed {
+        aliases: crate::harmony_hnp_alias_dir::InstalledAliases,
+        _runtime: ProtectedRuntimeDirectory,
+    },
+}
+
+pub(super) struct SessionAliases(AliasStorage);
+
 impl SessionAliases {
     pub(super) fn path(&self) -> &Path {
-        self.session.path()
+        match &self.0 {
+            AliasStorage::Dynamic(aliases) => aliases.path(),
+            AliasStorage::Installed { aliases, .. } => aliases.path(),
+        }
     }
 }
 
 #[cfg(target_env = "ohos")]
 pub(super) fn prepare(executable: &Path, aliases: &[&str]) -> io::Result<SessionAliases> {
     let root = codex_uds::prepare_ohos_runtime_directory(codex_uds::OhosRuntimePurpose::Aliases)?;
+    if codex_uds::ohos_runtime_profile_contract() == "hnp-debug" {
+        let aliases = crate::harmony_hnp_alias_dir::prepare(executable, aliases)?;
+        root.revalidate()?;
+        return Ok(SessionAliases(AliasStorage::Installed {
+            aliases,
+            _runtime: root,
+        }));
+    }
     prepare_in(root, executable, aliases)
+        .map(|aliases| SessionAliases(AliasStorage::Dynamic(aliases)))
 }
 
 fn prepare_in(
     root: ProtectedRuntimeDirectory,
     executable: &Path,
     aliases: &[&str],
-) -> io::Result<SessionAliases> {
+) -> io::Result<DynamicAliases> {
     let target = c_string(executable.as_os_str())?;
     let mut random = [0_u8; 16];
     File::open("/dev/urandom")?.read_exact(&mut random)?;
     let random = u128::from_ne_bytes(random);
     let name = format!("p{}-{random:032x}", std::process::id());
     let session = root.create_new_subdirectory(OsStr::new(&name))?;
-    let mut guard = SessionAliases {
+    let mut guard = DynamicAliases {
         root,
         session,
         name: c_string(OsStr::new(&name))?,
@@ -106,7 +134,7 @@ fn stat_at(directory: &ProtectedRuntimeDirectory, name: &CString) -> io::Result<
     Ok(unsafe { metadata.assume_init() })
 }
 
-impl Drop for SessionAliases {
+impl Drop for DynamicAliases {
     fn drop(&mut self) {
         // A changed ancestor invalidates cleanup through the original pathname.
         // Preserve both trees rather than recursively following the new name.
@@ -157,7 +185,7 @@ mod tests {
         (temporary, path)
     }
 
-    fn aliases(path: &Path) -> SessionAliases {
+    fn aliases(path: &Path) -> DynamicAliases {
         let root = codex_uds::validate_ohos_runtime_base(path).unwrap();
         prepare_in(
             root,

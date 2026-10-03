@@ -20,6 +20,8 @@ use tempfile::TempDir;
 
 #[cfg(any(target_env = "ohos", all(test, unix)))]
 mod harmony_alias_dir;
+#[cfg(any(target_env = "ohos", all(test, unix)))]
+mod harmony_hnp_alias_dir;
 
 const APPLY_PATCH_ARG0: &str = "apply_patch";
 const MISSPELLED_APPLY_PATCH_ARG0: &str = "applypatch";

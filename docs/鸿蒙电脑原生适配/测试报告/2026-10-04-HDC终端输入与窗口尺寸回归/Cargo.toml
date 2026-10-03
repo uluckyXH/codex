@@ -1,0 +1,22 @@
+[package]
+name = "harmony-terminal-regression-probes"
+version = "0.1.0"
+edition = "2021"
+
+[workspace]
+
+[features]
+libc-backend = ["crossterm/libc"]
+
+[[bin]]
+name = "crossterm-mode-probe"
+path = "crossterm_mode_probe.rs"
+
+[[bin]]
+name = "crossterm-input-probe"
+path = "crossterm_input_probe.rs"
+
+[dependencies]
+crossterm = { git = "https://github.com/openai-oss-forks/crossterm", rev = "efa177859fd9623d57b9fe7ae9bf491ae1ac6ec4", features = ["bracketed-paste", "event-stream"] }
+libc = "=0.2.186"
+tracing = "=0.1.44"

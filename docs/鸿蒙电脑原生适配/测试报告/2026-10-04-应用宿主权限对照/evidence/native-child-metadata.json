@@ -1,0 +1,25 @@
+{
+  "recorded_at": "2026-10-04T04:42:18.959159+08:00",
+  "bundle": "com.codex.emulatorhost",
+  "permissions": [
+    "ohos.permission.INTERNET"
+  ],
+  "hap_signing": "unsigned-debug-emulator-only",
+  "hap_sha256": "f21fa26490773134e92d61e612b8314b20b9eaae69aef02b22e16fe3ffa9f0b5",
+  "hap_entries": [
+    "libs/arm64-v8a/libc++_shared.so",
+    "libs/arm64-v8a/libhostprobe.so",
+    "libs/arm64-v8a/libnativechildprobe.so"
+  ],
+  "source_sha256": {
+    "entry/src/main/cpp/host_probe.cpp": "b3bc0a2c409db772638bbd67689dceecf8acbe9b9733eb4bed6ba275c95d40a1",
+    "entry/src/main/cpp/native_child_probe.cpp": "17f923a7bd1c40804861ce3c8bab6691c643eb8b4196045b82cfbe96274f51d0",
+    "entry/src/main/cpp/CMakeLists.txt": "a8f909f53bd88f4b88598877f0444116574a748ecac1a32f9b155b2fac8d2aab",
+    "entry/src/main/cpp/types/libhostprobe/Index.d.ts": "6bbf2ea1ca736feb6ed33b77426f1d08df2c7180f24c0b78b5294510b50284ef",
+    "entry/src/main/cpp/types/libhostprobe/oh-package.json5": "6fbac0dd552c460059c8d0b9bafe4fec18cd2cccdddc78b4412ab1b3476666f4",
+    "entry/src/main/ets/entryability/EntryAbility.ets": "e96d693b5cc21fde82bb0a7b519a5b8ddce92c77654b03542efaae3d785b03a7",
+    "entry/src/main/module.json5": "7367781d283ebae456deb920fecf20d3429827f2637bd020adf391ee94268dc9",
+    "entry/build-profile.json5": "03a0b8a680a8352ec2923f02e21a1965faebb652edc34e368f48206d19938039",
+    "entry/oh-package.json5": "752f395b28ad305233fd3afa60a8bd846f13eb54102f6037680fb28c720ee43b"
+  }
+}

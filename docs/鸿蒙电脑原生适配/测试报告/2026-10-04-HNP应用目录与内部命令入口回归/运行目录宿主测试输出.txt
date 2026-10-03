@@ -1,0 +1,40 @@
+   Compiling codex-uds v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/codex-rs/uds)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.94s
+     Running unittests src/lib.rs (.harmony-build/runtime-profile-tests/host/debug/deps/codex_uds-3ae0df4db7ae6acc)
+
+running 33 tests
+test daemon_directory::tests::directory_errors_include_stage_path_and_os_error ... ok
+test lib_tests::stream_round_trips_data_between_listener_and_client ... ok
+test lib_tests::bound_listener_path_is_stale_socket_path ... ok
+test lib_tests::regular_file_path_is_not_stale_socket_path ... ok
+test lib_tests::prepare_private_socket_directory_creates_directory ... ok
+test daemon_directory::tests::private_reservation_is_idempotent_and_concurrent ... ok
+test ohos_runtime::tests::hdc_debug_platform_ancestors_require_exact_paths_owners_groups_and_modes ... ok
+test ohos_runtime::tests::hdc_debug_contract_requires_an_explicit_fixed_base_and_shell_identity ... ok
+test daemon_directory::tests::reservation_rejects_symlinks_files_wrong_owner_and_unsafe_modes ... ok
+test ohos_runtime::tests::hdc_debug_private_base_and_leaves_keep_strict_private_permissions ... ok
+test ohos_runtime::tests::hnp_debug_contract_binds_the_installation_uid_and_fixed_private_root ... ok
+test ohos_runtime::tests::hnp_debug_never_exempts_shared_context_ancestors_or_foreign_owners ... ok
+test ohos_runtime::tests::invalid_or_missing_base_is_not_created ... ok
+test ohos_runtime::tests::every_symlink_component_is_rejected_without_touching_its_target ... ok
+test lib_tests::prepare_private_socket_directory_sets_existing_permissions_to_owner_only ... ok
+test ohos_runtime::tests::aliases_use_owned_fixed_subdirectories_without_changing_base ... ok
+test ohos_runtime::tests::new_setgid_inheritance_is_normalized_through_its_descriptor_only ... ok
+test ohos_control_socket::tests::socket_roundtrip_concurrent_listener_refusal_and_owned_cleanup ... ok
+test ohos_control_socket::tests::cleanup_preserves_replacement_and_unsafe_socket_mode ... ok
+test ohos_runtime::tests::reported_device_identity_and_setgid_are_not_sticky_protection ... ok
+test ohos_runtime::tests::private_directory_compatibility_entry_never_repairs_existing_modes ... ok
+test ohos_runtime::tests::read_only_parent_fails_without_changing_it ... ok
+test ohos_runtime::tests::socket_address_budget_counts_full_digest_separator_nul_and_utf8_bytes ... ok
+test ohos_runtime::tests::existing_runtime_objects_are_never_repaired_or_replaced ... ok
+test ohos_runtime::tests::wrong_effective_owner_is_rejected_even_with_private_mode ... ok
+test ohos_runtime::tests::shared_setgid_and_nonroot_sticky_bases_are_rejected_without_mutation ... ok
+test ohos_runtime::tests::pinned_chain_rejects_replacement_before_creating_more_objects ... ok
+test ohos_runtime::tests::new_private_directory_keeps_a_chmod_capable_descriptor ... ok
+test ohos_runtime::tests::runtime_initialization_converges_across_concurrent_callers ... ok
+test ohos_control_socket::tests::stale_owned_socket_is_reused_but_foreign_objects_are_preserved ... ok
+test ohos_runtime::tests::lock_rejects_links_wrong_type_and_unsafe_modes_without_chmod ... ok
+test ohos_runtime::tests::replaced_lock_and_every_cloned_descriptor_are_checked ... ok
+test ohos_runtime::tests::runtime_environment_cannot_bind_or_replace_the_build_contract ... ok
+
+test result: ok. 33 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s

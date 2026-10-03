@@ -19,6 +19,7 @@ from build_harmony import (
     RUNTIME_PROFILES,
     TARGET,
     TOOLCHAIN,
+    hnp_alias_build_environment,
     native_sdk,
     runtime_base_contract,
     runtime_build_environment,
@@ -265,6 +266,50 @@ def build_runtime_probe(
     }
 
 
+HNP_ALIAS_NAMES = (
+    "apply_patch",
+    "applypatch",
+    "codex-linux-sandbox",
+    "codex-execve-wrapper",
+)
+
+
+def build_hnp_alias(
+    output: Path, *, sdk: Path, java: str, env: dict[str, str]
+) -> tuple[Path, dict]:
+    source = REPO_ROOT / "scripts/harmony_hnp_alias.c"
+    unsigned = output / "hnp-alias-build/hnp-alias"
+    unsigned.parent.mkdir()
+    run(
+        [
+            str(sdk / "llvm/bin/clang"),
+            f"--target={CLANG_TARGET}",
+            f"--sysroot={sdk / 'sysroot'}",
+            "-D__MUSL__",
+            "-std=c11",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-O2",
+            "-fPIE",
+            "-pie",
+            str(source),
+            "-o",
+            str(unsigned),
+        ],
+        env,
+    )
+    signed = output / "已签名/hnp-alias"
+    signature = strip_and_sign(unsigned, signed, sdk=sdk, java=java)
+    return signed, {
+        "源码": "scripts/harmony_hnp_alias.c",
+        "源码摘要": digest(source),
+        "SHA-256": digest(signed),
+        "入口": list(HNP_ALIAS_NAMES),
+        "签名": signature,
+    }
+
+
 def assemble(
     directory: Path,
     *,
@@ -273,6 +318,8 @@ def assemble(
     runtime_probe: Path,
     version: str,
     runtime_profile: str = "strict",
+    runtime_uid: int | None = None,
+    hnp_alias: Path | None = None,
 ) -> None:
     # Reuse the upstream layout and validation, while explicitly selecting OHOS.
     os.environ["CODEX_REPO_ROOT"] = str(REPO_ROOT)
@@ -305,6 +352,33 @@ def assemble(
     shutil.copytree(helpers / "许可原文", directory / "许可原文")
     shutil.copyfile(REPO_ROOT / "LICENSE", directory / "许可原文/项目许可.txt")
     shutil.copyfile(REPO_ROOT / "NOTICE", directory / "许可原文/项目声明.txt")
+    if runtime_profile == "hnp-debug":
+        if runtime_uid is None or hnp_alias is None:
+            raise ValueError("hnp-debug 交付缺少绑定应用 UID 或已签名工具入口")
+        if not inspect_ohos_elf(hnp_alias)["签名节存在"]:
+            raise RuntimeError("HNP 工具入口缺少签名节")
+        for name in HNP_ALIAS_NAMES:
+            shutil.copyfile(hnp_alias, directory / "codex-path" / name)
+            (directory / "codex-path" / name).chmod(0o755)
+        shutil.copyfile(
+            REPO_ROOT / "docs/鸿蒙电脑模拟器/HNP应用宿主调试速用.md",
+            directory / "HNP应用宿主调试速用.md",
+        )
+        (directory / "安装说明.md").write_text(
+            "# 鸿蒙应用宿主调试包\n\n"
+            f"版本：`{version}`。目标：ARM64 OHOS；部署策略：`hnp-debug`；"
+            f"编译绑定应用 UID：`{runtime_uid}`。\n\n"
+            "运行文件须按原相对布局通过官方 private HNP 随调试 HAP 安装，由对应应用正常启动。"
+            "不能直接通过 HDC shell UID 2000 执行，也不能覆盖 HiShell 真机候选包。"
+            "卸载重装导致应用 UID 变化时，须重新核验并构建，不能修改 HOME 权限处理。\n\n"
+            "受保护运行根固定为 `/data/storage/el2/base/files/r`，由应用创建为 0700；"
+            "程序仍校验已核验的目录链、编译绑定身份、防链接和私有控制目录。"
+            "用户配置通过应用私有目录单独导入，完整包不含接口 URL 或 API Key。\n\n"
+            "包内 ELF 使用 SDK 自签名；HAP 的调试安装与商业发布签名分别验收。"
+            "普通 INTERNET 权限与内核命令沙箱是不同能力，本包不会自动改为完全权限。"
+            "具体安装入口和状态见《HNP应用宿主调试速用.md》及本次设备测试报告。\n"
+        )
+        return
     for script in ("安装.sh", "启用终端.sh", "诊断.sh"):
         shutil.copyfile(REPO_ROOT / "scripts/harmony" / script, directory / script)
         (directory / script).chmod(0o755)
@@ -421,13 +495,25 @@ def build_package(
     version = package_version(upstream_version, identity["提交"])
     runtime_base = runtime_base_contract(args.runtime_base)
     runtime_profile = args.runtime_profile
-    env = runtime_build_environment(env, runtime_base, runtime_profile)
+    runtime_uid = args.runtime_uid
+    env = runtime_build_environment(env, runtime_base, runtime_profile, runtime_uid)
+    env = hnp_alias_build_environment(env, runtime_profile, None)
     runtime_contract = {
         "编译时固定候选": runtime_base,
         "编译时策略": runtime_profile,
         "环境变量回退": False,
         "设备验证": "待同一鸿蒙 PC 验证目录身份、权限、生命周期与隔离；不保证路径可用",
     }
+    if runtime_profile == "hnp-debug":
+        runtime_contract.update(
+            {
+                "绑定应用UID": runtime_uid,
+                "部署范围": "仅本次已核验的应用 UID 和官方 private HNP 调试部署；不是通用 HiShell 包",
+                "私有运行根": {"UID": runtime_uid, "权限": "0700", "须应用创建": True},
+                "配置导入": "通过应用私有目录单独导入；不把 URL 或 Key 放入 HAP、HNP 或完整包",
+                "沙箱能力": "目录和应用联网权限不能补齐内核隔离能力；不自动切换完全权限",
+            }
+        )
     if runtime_profile == "hdc-debug":
         runtime_contract.update(
             {
@@ -444,6 +530,15 @@ def build_package(
         )
     helpers = args.helpers_dir.resolve()
     helper_record = validate_helpers(helpers, sdk, args.java)
+    hnp_alias = None
+    hnp_alias_record = None
+    if runtime_profile == "hnp-debug":
+        hnp_alias, hnp_alias_record = build_hnp_alias(
+            output, sdk=sdk, java=args.java, env=env
+        )
+        env = hnp_alias_build_environment(
+            env, runtime_profile, hnp_alias_record["SHA-256"]
+        )
     bwrap_digest = helper_record["程序"]["bwrap"]["输出"]["SHA-256"]
     env["CODEX_BWRAP_SHA256"] = bwrap_digest
     env["CODEX_HARMONY_BUILD_ID"] = identity["提交"]
@@ -461,6 +556,7 @@ def build_package(
             "Rust": TOOLCHAIN,
             "SDK": str(sdk),
             "受保护运行根契约": runtime_contract,
+            "HNP工具入口": hnp_alias_record,
         },
     )
     run(
@@ -477,6 +573,12 @@ def build_package(
             runtime_base,
             "--runtime-profile",
             runtime_profile,
+            *(["--runtime-uid", str(runtime_uid)] if runtime_uid is not None else []),
+            *(
+                ["--hnp-alias-sha256", hnp_alias_record["SHA-256"]]
+                if hnp_alias_record
+                else []
+            ),
         ],
         env,
     )
@@ -507,6 +609,8 @@ def build_package(
         runtime_probe=signed_probe,
         version=version,
         runtime_profile=runtime_profile,
+        runtime_uid=runtime_uid,
+        hnp_alias=hnp_alias,
     )
     files = {
         name: inspect_ohos_elf(directory / name)
@@ -519,6 +623,12 @@ def build_package(
     }
     if files["codex-resources/bwrap"]["SHA-256"] != bwrap_digest:
         raise RuntimeError("打包后的 bwrap 摘要与编入 CLI 的摘要不一致")
+    if hnp_alias_record:
+        for name in HNP_ALIAS_NAMES:
+            relative = f"codex-path/{name}"
+            files[relative] = inspect_ohos_elf(directory / relative)
+            if files[relative]["SHA-256"] != hnp_alias_record["SHA-256"]:
+                raise RuntimeError("HNP 工具入口摘要与编入 CLI 的摘要不一致")
     record = {
         "版本": version,
         "版本来源": version_source,
@@ -528,6 +638,7 @@ def build_package(
         "SDK": json.loads((sdk / "oh-uni-package.json").read_text()),
         "CLI签名": cli_record,
         "目录探针": probe_record,
+        "HNP工具入口": hnp_alias_record,
         "受保护运行根契约": runtime_contract,
         "辅助程序": helper_record,
         "文件": files,
@@ -549,6 +660,7 @@ def build_package(
             "版本": version,
             "运行目录策略": runtime_profile,
             "受保护运行根": runtime_base,
+            "绑定应用UID": runtime_uid,
             "签名": "SDK 自签名并检查签名信息",
             "真机验收": "未执行",
         },
@@ -577,7 +689,10 @@ def main() -> int:
         "--runtime-profile",
         choices=RUNTIME_PROFILES,
         default="strict",
-        help="默认 strict；hdc-debug 仅为 UID 2000 制作独立 HDC 调试包",
+        help="默认 strict；hdc-debug 绑定 HDC UID 2000，hnp-debug 绑定显式应用 UID",
+    )
+    parser.add_argument(
+        "--runtime-uid", type=int, help="hnp-debug 必须绑定的已核验应用 UID"
     )
     args = parser.parse_args()
     if not args.java:
@@ -596,8 +711,12 @@ def main() -> int:
         parser.error("helpers 不使用 --runtime-base")
     if args.action == "helpers" and args.runtime_profile != "strict":
         parser.error("helpers 不使用 --runtime-profile")
+    if args.action == "helpers" and args.runtime_uid is not None:
+        parser.error("helpers 不使用 --runtime-uid")
     try:
-        runtime_build_environment({}, args.runtime_base, args.runtime_profile)
+        runtime_build_environment(
+            {}, args.runtime_base, args.runtime_profile, args.runtime_uid
+        )
     except (ValueError, argparse.ArgumentTypeError) as error:
         parser.error(str(error))
     sdk = native_sdk(args.sdk)

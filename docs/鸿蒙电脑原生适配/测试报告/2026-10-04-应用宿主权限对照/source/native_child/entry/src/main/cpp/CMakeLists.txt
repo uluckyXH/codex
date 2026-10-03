@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.5.0)
+project(harmony_host_probe)
+add_library(hostprobe SHARED host_probe.cpp)
+target_link_libraries(hostprobe PUBLIC libace_napi.z.so libchild_process.so)
+add_library(nativechildprobe SHARED native_child_probe.cpp)
+target_link_libraries(nativechildprobe PUBLIC libchild_process.so)

@@ -1,0 +1,18 @@
+#!/usr/bin/expect -f
+set timeout 20
+lassign $argv hdc target remote_program output_log
+log_file -noappend $output_log
+spawn -noecho $hdc -t $target shell
+expect {
+    -re {[$#] ?$} {}
+    timeout { exit 124 }
+    eof { exit 125 }
+}
+send -- "$remote_program; terminal_probe_status=\$?; printf '\\n__TERMINAL_PROBE_EXIT__:%s\\n' \"\$terminal_probe_status\"; exit\r"
+expect {
+    -re {\r*\n__TERMINAL_PROBE_EXIT__:([0-9]+)\r*\n} { set status $expect_out(1,string) }
+    timeout { close; exit 124 }
+    eof { exit 125 }
+}
+expect eof
+exit $status

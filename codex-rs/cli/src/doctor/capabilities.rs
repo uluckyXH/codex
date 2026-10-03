@@ -25,6 +25,9 @@ pub(super) fn capabilities_check() -> DoctorCheck {
         details.push(format!("runtime directory build profile: {profile}"));
         if profile == "hdc-debug" {
             details.push("runtime directory deployment: HDC shell UID 2000 only; trusts platform system and shell-group services at fixed ancestors; not a commercial PC default and does not enable command isolation".to_owned());
+        } else if profile == "hnp-debug" {
+            let uid = codex_uds::ohos_runtime_uid_contract().unwrap_or("not set");
+            details.push(format!("runtime directory deployment: private HNP application debug build; compiled application UID: {uid}; requires verified private application directories; not a general HiShell package and does not enable command isolation"));
         }
     }
     #[cfg(not(target_env = "ohos"))]

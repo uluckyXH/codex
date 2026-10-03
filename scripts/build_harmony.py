@@ -15,8 +15,9 @@ import tomllib
 REPO_ROOT = Path(__file__).resolve().parents[1]
 TARGET = "aarch64-unknown-linux-ohos"
 CLANG_TARGET = "aarch64-linux-ohos"
-RUNTIME_PROFILES = ("strict", "hdc-debug")
+RUNTIME_PROFILES = ("strict", "hdc-debug", "hnp-debug")
 HDC_DEBUG_RUNTIME_BASE = "/data/local/tmp/cdx"
+HNP_DEBUG_RUNTIME_BASE = "/data/storage/el2/base/files/r"
 # 跟随仓库的上游版本锁，避免每次合并 Rust 升级时维护第二份版本号。
 TOOLCHAIN = tomllib.loads((REPO_ROOT / "codex-rs/rust-toolchain.toml").read_text())[
     "toolchain"
@@ -39,7 +40,10 @@ def runtime_base_contract(value: str) -> str:
 
 
 def runtime_build_environment(
-    original: dict[str, str], runtime_base: str | None, runtime_profile: str = "strict"
+    original: dict[str, str],
+    runtime_base: str | None,
+    runtime_profile: str = "strict",
+    runtime_uid: int | None = None,
 ) -> dict[str, str]:
     """Bind only explicit build inputs; shell variables cannot select a profile."""
     if runtime_profile not in RUNTIME_PROFILES:
@@ -48,12 +52,27 @@ def runtime_build_environment(
         raise ValueError(
             "hdc-debug 调试包必须显式指定 --runtime-base /data/local/tmp/cdx"
         )
+    if runtime_profile == "hnp-debug":
+        if runtime_base != HNP_DEBUG_RUNTIME_BASE:
+            raise ValueError(
+                "hnp-debug 必须显式绑定应用私有短目录 /data/storage/el2/base/files/r"
+            )
+        if type(runtime_uid) is not int or not 10000 <= runtime_uid <= 0xFFFFFFFF:
+            raise ValueError(
+                "hnp-debug 必须通过 --runtime-uid 明确绑定已核验的应用 UID"
+                "（10000..4294967295）"
+            )
+    elif runtime_uid is not None:
+        raise ValueError("只有 hnp-debug 使用 --runtime-uid")
     env = original.copy()
     env.pop("CODEX_OHOS_RUNTIME_BASE", None)
     env.pop("CODEX_OHOS_RUNTIME_PROFILE", None)
+    env.pop("CODEX_OHOS_RUNTIME_UID", None)
     if runtime_base is not None:
         env["CODEX_OHOS_RUNTIME_BASE"] = runtime_base_contract(runtime_base)
     env["CODEX_OHOS_RUNTIME_PROFILE"] = runtime_profile
+    if runtime_uid is not None:
+        env["CODEX_OHOS_RUNTIME_UID"] = str(runtime_uid)
     return env
 
 
@@ -70,6 +89,23 @@ def native_sdk(path: Path) -> Path:
                 raise ValueError(f"SDK 缺少 {CLANG_TARGET} 的 libc.so：{root}")
             return root
     raise ValueError(f"找不到原生 SDK 的 sysroot：{path}")
+
+
+def hnp_alias_build_environment(
+    original: dict[str, str], profile: str, sha256: str | None
+) -> dict[str, str]:
+    """Pin only a hash explicitly supplied for an installed HNP helper."""
+    env = original.copy()
+    env.pop("CODEX_HNP_ALIAS_SHA256", None)
+    if sha256 is not None:
+        if (
+            profile != "hnp-debug"
+            or len(sha256) != 64
+            or any(char not in "0123456789abcdef" for char in sha256)
+        ):
+            raise ValueError("HNP 别名摘要只适用于 hnp-debug，须为64位小写 SHA-256")
+        env["CODEX_HNP_ALIAS_SHA256"] = sha256
+    return env
 
 
 def write_wrapper(path: Path, compiler: Path, sdk: Path) -> None:
@@ -165,7 +201,13 @@ def main() -> int:
         "--runtime-profile",
         choices=RUNTIME_PROFILES,
         default="strict",
-        help="默认 strict；hdc-debug 仅供 UID 2000 的显式 HDC 调试部署，不用于正式 PC 包",
+        help="默认 strict；hdc-debug 绑定 HDC UID 2000，hnp-debug 绑定显式应用 UID；调试策略不用于通用 PC 包",
+    )
+    parser.add_argument(
+        "--runtime-uid", type=int, help="hnp-debug 必须绑定的已核验应用 UID"
+    )
+    parser.add_argument(
+        "--hnp-alias-sha256", help="完整 HNP 包绑定的已签名工具入口摘要，由交付脚本生成"
     )
     args = parser.parse_args()
     try:
@@ -179,7 +221,10 @@ def main() -> int:
             raise ValueError("找不到 rustup；请先按中文构建环境文档安装并配置 PATH")
         output = args.output_dir.expanduser().resolve()
         base = runtime_build_environment(
-            dict(os.environ), args.runtime_base, args.runtime_profile
+            dict(os.environ), args.runtime_base, args.runtime_profile, args.runtime_uid
+        )
+        base = hnp_alias_build_environment(
+            base, args.runtime_profile, args.hnp_alias_sha256
         )
         if args.native_deps is not None:
             native_deps = args.native_deps.expanduser().resolve()

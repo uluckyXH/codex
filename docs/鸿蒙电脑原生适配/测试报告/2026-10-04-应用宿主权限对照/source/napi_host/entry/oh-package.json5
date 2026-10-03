@@ -1,0 +1,8 @@
+{
+  "name": "entry",
+  "version": "0.1.0",
+  "description": "Environment probe",
+  "dependencies": {
+    "libhostprobe.so": "file:./src/main/cpp/types/libhostprobe"
+  }
+}

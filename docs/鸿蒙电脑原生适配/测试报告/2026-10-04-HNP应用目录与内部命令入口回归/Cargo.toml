@@ -1,0 +1,10 @@
+[package]
+name = "harmony-alias-harness"
+version = "0.1.0"
+edition = "2024"
+[workspace]
+[dependencies]
+libc = "=0.2.186"
+sha2 = "0.10"
+tempfile = "3.23.0"
+codex-uds = { path = "../../../codex-rs/uds" }

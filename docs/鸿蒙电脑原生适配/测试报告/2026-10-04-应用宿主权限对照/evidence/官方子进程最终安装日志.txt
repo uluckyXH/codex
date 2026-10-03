@@ -1,0 +1,13 @@
+COMMAND ['install', '/Volumes/MacSSD/Repositories/codex/.harmony-build/emulator-host/entry/build/default/outputs/default/entry-default-unsigned.hap']
+[Info]App install path:/Volumes/MacSSD/Repositories/codex/.harmony-build/emulator-host/entry/build/default/outputs/default/entry-default-unsigned.hap msg:install bundle successfully.
+AppMod finish
+
+hdc_exit=0
+COMMAND ['shell', 'aa', 'force-stop', 'com.codex.emulatorhost']
+force stop process successfully.
+
+hdc_exit=0
+COMMAND ['shell', 'aa', 'start', '-a', 'EntryAbility', '-b', 'com.codex.emulatorhost']
+start ability successfully.
+
+hdc_exit=0

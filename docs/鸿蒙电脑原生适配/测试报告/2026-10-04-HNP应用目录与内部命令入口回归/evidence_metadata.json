@@ -1,0 +1,33 @@
+{
+  "date": "2026-10-04",
+  "profile": "hnp-debug",
+  "uid": 20020059,
+  "runtime_base": "/data/storage/el2/base/files/r",
+  "hnp_installer_uid_gid": 3060,
+  "application_supplementary_groups": [
+    1097,
+    3099
+  ],
+  "host_runtime_tests": 33,
+  "host_alias_tests": 16,
+  "target_runtime_tests": 3,
+  "target_aliases": 4,
+  "hap_sha256": "334089ae39268092cdb558ece036f3305b89214017e2e5dbc3279dfbfa49941e",
+  "sha256": {
+    "codex-rs/uds/src/ohos_runtime.rs": "2c5ac0950c924005982c098b719eeb065017c1bd21fe68e1435bdea521850c0a",
+    "codex-rs/uds/src/ohos_runtime_tests.rs": "58ef5d89f9742a71007bbb76827517c515474bf8e5995341983b04a882033dbe",
+    "codex-rs/arg0/src/harmony_alias_dir.rs": "a452ab6351913b1ab1e5b5698f2550809c4f5a9521832423ea77196295aca719",
+    "codex-rs/arg0/src/harmony_hnp_alias_dir.rs": "23062133265725657dd902f5c67936292587209a4bfc7f76436194ff2c90aab0",
+    "codex-rs/arg0/src/harmony_hnp_alias_dir_tests.rs": "c55c97bb2589cab03a0deb5ce01bf7b39f78c0d9a921802d2e07d59b656dec5f",
+    "scripts/harmony_hnp_alias.c": "45588f3479e5dbe47094a12e9b34785ffd5c7527d633c04efaf6d9f4118d4eea",
+    ".harmony-build/runtime-profile-tests/hnp/alias-launcher-v2": "9d6274fca3e3d1e5e67c5affcfcd79a18e0f187ed137a71bfaf62f2a1393ee52",
+    ".harmony-build/runtime-profile-tests/hnp/alias-validator-v2": "8df9a0adb2ff7ffaa34203c524dd8da40518146d1e395c3f4bc6471a33c69fa5",
+    ".harmony-build/runtime-profile-tests/hnp/runtime-tests-split": "f5356326802f1f2c44a501c5c98208c13515f901a81f3cd8572c4a635550dda3",
+    ".harmony-build/runtime-profile-tests/hnp/alias-host-tests.log": "92e1bafe57fece06cfebe6c0ce559b7a839c96daa95681908d488c4ae1e418f3",
+    ".harmony-build/emulator-hnp/aliasv2-validator.log": "54e190d3f373b9b5a2abfd1eb29f05f27c4e680b8efb41acaf9df4496234ddd4",
+    ".harmony-build/emulator-hnp/aliasv2-runtime.log": "063ef91c5bec4cc0ef1e5d6b720961fa347c1a416c40e5a6cf9794ab1a930153",
+    ".harmony-build/emulator-hnp/aliasv2-host.log": "2cf4fdd84487ec1d878e1d558616ae68fc184f66a2727a872ab60c397d2d4e86",
+    ".harmony-build/emulator-hnp/hnp-runtime-tests.log": "152e99b2b9b8fef6a9a0dda46f340b9c446198c035c0c70a9dd3e07753654e99",
+    ".harmony-build/emulator-hnp/extras-alias-apply_patch.txt": "116431472f390d87dd94f60fcaa562ec8f38e9b522fe5cd88f75db1f1859081a"
+  }
+}

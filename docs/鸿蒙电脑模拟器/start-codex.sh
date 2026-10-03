@@ -37,5 +37,10 @@ export SHELL=/system/bin/sh
 export PATH="$package/bin:$package/codex-path:${PATH:-/system/bin}"
 case "${TERM-}" in ''|dumb) export TERM=xterm-256color ;; esac
 cd "$root/workspace"
-exec "$package/bin/codex" --model gpt-5.6-terra --no-alt-screen \
-    -c 'log_dir="/data/local/tmp/codex-emulator/logs"'
+# HDC 传入的 stdin 虽是 TTY，但修改其终端模式可能被拒绝。
+# 仅此调试入口重新打开当前控制终端；打开失败时不回退到旧句柄。
+launch_codex() {
+    exec "$package/bin/codex" --model gpt-5.6-terra --no-alt-screen \
+        -c 'log_dir="/data/local/tmp/codex-emulator/logs"'
+}
+launch_codex </dev/tty || fail '无法重新打开 /dev/tty；请重新连接 HDC 交互终端。'
