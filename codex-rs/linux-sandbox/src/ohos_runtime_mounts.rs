@@ -15,22 +15,21 @@ pub(crate) fn append_alias_readonly_mounts(
 ) -> io::Result<()> {
     let mut mounts = Vec::new();
     for alias in aliases {
-        // An explicitly writable session could undo alias integrity. Broader
-        // writable roots are allowed only with this final read-only overlay.
-        if writable.iter().any(|root| root.starts_with(alias)) {
+        // A read-only child mount does not pin every ancestor's name. Allowing
+        // a writable ancestor could let a restricted command rename the parent
+        // of both a/ and s/, then create a new unmasked runtime tree at the old
+        // path for a later listener. Reject that policy rather than bind the
+        // entire privileged parent back into the sandbox.
+        if writable
+            .iter()
+            .any(|root| root.starts_with(alias) || alias.starts_with(root))
+        {
             return Err(io::Error::new(
                 io::ErrorKind::PermissionDenied,
-                "OHOS aliases: a writable root overlaps a reserved alias directory",
+                "OHOS runtime: writable roots must not overlap aliases or their ancestors",
             ));
         }
-        let readable = can_read(alias);
-        if !readable {
-            if writable.iter().any(|root| alias.starts_with(root)) {
-                return Err(io::Error::new(
-                    io::ErrorKind::PermissionDenied,
-                    "OHOS aliases: cannot protect aliases without reopening a denied path",
-                ));
-            }
+        if !can_read(alias) {
             continue;
         }
         // Conservatively reject conflicting carveouts rather than undoing an
@@ -61,14 +60,14 @@ mod tests {
     use super::*;
 
     #[test]
-    fn dev_recreation_and_writable_ancestor_restore_only_aliases_readonly() {
+    fn dev_recreation_restores_only_aliases_readonly() {
         let alias = PathBuf::from("/dev/shm/c12345678/a");
         let mut args = vec![
+            "--ro-bind".into(),
+            "/".into(),
+            "/".into(),
             "--dev".into(),
             "/dev".into(),
-            "--bind".into(),
-            "/dev/shm".into(),
-            "/dev/shm".into(),
             "--tmpfs".into(),
             "/dev/shm/c12345678/s".into(),
         ];
@@ -78,7 +77,7 @@ mod tests {
             &BTreeSet::from([alias.clone()]),
             |_| true,
             &[],
-            &[PathBuf::from("/dev/shm")],
+            &[PathBuf::from("/project")],
         )
         .unwrap();
         assert_eq!(&args[..prefix.len()], &prefix);
@@ -100,6 +99,8 @@ mod tests {
             (vec![alias.join("session")], vec![]),
             (vec![], vec![alias.clone()]),
             (vec![], vec![alias.join("session")]),
+            (vec![], vec![PathBuf::from("/runtime")]),
+            (vec![], vec![PathBuf::from("/")]),
         ] {
             let mut args = Vec::new();
             assert!(
@@ -154,5 +155,22 @@ mod tests {
                 "/view/runtime/a"
             ]
         );
+    }
+    #[test]
+    fn writable_mount_alias_ancestor_is_rejected_before_any_restoration() {
+        let aliases = BTreeSet::from([
+            PathBuf::from("/data/storage/el2/base/files/c12345678/a"),
+            PathBuf::from("/mapped/files/c12345678/a"),
+        ]);
+        let mut args = vec!["existing-mask".to_string()];
+        let result = append_alias_readonly_mounts(
+            &mut args,
+            &aliases,
+            |_| true,
+            &[],
+            &[PathBuf::from("/mapped/files")],
+        );
+        assert_eq!(result.unwrap_err().kind(), io::ErrorKind::PermissionDenied);
+        assert_eq!(args, ["existing-mask"]);
     }
 }
