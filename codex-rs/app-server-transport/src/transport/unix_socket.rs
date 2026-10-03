@@ -1,5 +1,6 @@
 //! Control socket startup, guarded rendezvous paths, and WebSocket acceptance.
 
+#[cfg(not(target_env = "ohos"))]
 use std::fs::OpenOptions;
 use std::io::ErrorKind;
 use std::io::Result as IoResult;
@@ -27,7 +28,7 @@ use tracing::error;
 use tracing::info;
 use tracing::warn;
 
-#[cfg(unix)]
+#[cfg(all(unix, not(target_env = "ohos")))]
 const CONTROL_SOCKET_MODE: u32 = 0o600;
 // Advertise the effective incoming cap for single-frame messages so clients can
 // reject oversized requests before the socket closes.
@@ -46,7 +47,7 @@ pub async fn start_control_socket_acceptor(
     shutdown_token: CancellationToken,
     daemon_shutdown_access: DaemonShutdownAccess,
 ) -> IoResult<JoinHandle<()>> {
-    #[cfg(unix)]
+    #[cfg(all(unix, not(target_env = "ohos")))]
     let (socket_path, rendezvous_path, _startup_lock) = {
         use std::os::unix::fs::MetadataExt;
 
@@ -93,17 +94,30 @@ pub async fn start_control_socket_acceptor(
         let (path, guard) = codex_uds::validate_private_socket_path(socket_path.as_path())?;
         (AbsolutePathBuf::from_absolute_path_checked(path)?, guard)
     };
+    #[cfg(target_env = "ohos")]
+    let (listener, private_socket_guard) = {
+        let directory = ohos_runtime_directory_for(socket_path.as_path())?;
+        let name = socket_path.as_path().file_name().ok_or_else(|| {
+            std::io::Error::new(ErrorKind::InvalidInput, "socket basename missing")
+        })?;
+        directory.bind_control_socket(name).await?
+    };
+    #[cfg(not(target_env = "ohos"))]
     prepare_control_socket_path(socket_path.as_path()).await?;
+    #[cfg(not(target_env = "ohos"))]
     let listener = UnixListener::bind(socket_path.as_path()).await?;
     let socket_guard = ControlSocketFileGuard {
         socket_path,
-        #[cfg(unix)]
+        #[cfg(all(unix, not(target_env = "ohos")))]
         rendezvous_path,
+        #[cfg(target_env = "ohos")]
+        _private_socket_guard: private_socket_guard,
         #[cfg(windows)]
         _directory_guard: directory_guard,
     };
+    #[cfg(not(target_env = "ohos"))]
     set_control_socket_permissions(socket_guard.socket_path.as_path()).await?;
-    #[cfg(unix)]
+    #[cfg(all(unix, not(target_env = "ohos")))]
     std::os::unix::fs::symlink(
         socket_guard.socket_path.as_path(),
         socket_guard.rendezvous_path.as_path(),
@@ -225,6 +239,7 @@ async fn run_daemon_shutdown(
 }
 
 // Unix callers hold the physical socket's startup lock through bind and publication.
+#[cfg(not(target_env = "ohos"))]
 async fn prepare_control_socket_path(socket_path: &Path) -> IoResult<()> {
     #[cfg(windows)]
     let (socket_path, _directory_guard) = codex_uds::validate_private_socket_path(socket_path)?;
@@ -278,7 +293,7 @@ async fn prepare_control_socket_path(socket_path: &Path) -> IoResult<()> {
     tokio::fs::remove_file(socket_path).await
 }
 
-#[cfg(unix)]
+#[cfg(all(unix, not(target_env = "ohos")))]
 fn protected_socket_path(rendezvous_path: &Path) -> IoResult<std::path::PathBuf> {
     use sha2::Digest;
     use sha2::Sha256;
@@ -297,8 +312,11 @@ fn protected_socket_path(rendezvous_path: &Path) -> IoResult<std::path::PathBuf>
 
 pub struct AppServerStartupLock {
     _file: std::fs::File,
+    #[cfg(target_env = "ohos")]
+    _directory: codex_uds::ProtectedRuntimeDirectory,
 }
 
+#[cfg(not(target_env = "ohos"))]
 pub async fn acquire_app_server_startup_lock(
     startup_lock_path: AbsolutePathBuf,
 ) -> IoResult<AppServerStartupLock> {
@@ -319,7 +337,49 @@ pub async fn acquire_app_server_startup_lock(
     .map_err(|err| std::io::Error::other(format!("startup lock task failed: {err}")))?
 }
 
-#[cfg(unix)]
+#[cfg(target_env = "ohos")]
+fn ohos_runtime_directory_for(path: &Path) -> IoResult<codex_uds::ProtectedRuntimeDirectory> {
+    let directory =
+        codex_uds::prepare_ohos_runtime_directory(codex_uds::OhosRuntimePurpose::ControlSockets)?;
+    if path.parent() != Some(directory.path()) {
+        return Err(std::io::Error::new(
+            ErrorKind::PermissionDenied,
+            format!(
+                "OHOS control path must be directly under fixed runtime directory {}; public rendezvous aliases are disabled",
+                directory.path().display()
+            ),
+        ));
+    }
+    directory.revalidate()?;
+    Ok(directory)
+}
+
+#[cfg(target_env = "ohos")]
+pub async fn acquire_app_server_startup_lock(
+    startup_lock_path: AbsolutePathBuf,
+) -> IoResult<AppServerStartupLock> {
+    let directory = ohos_runtime_directory_for(startup_lock_path.as_path())?;
+    let name = startup_lock_path
+        .as_path()
+        .file_name()
+        .ok_or_else(|| {
+            std::io::Error::new(ErrorKind::InvalidInput, "startup lock basename missing")
+        })?
+        .to_os_string();
+    let file = directory.open_lock_file(&name)?;
+    tokio::task::spawn_blocking(move || {
+        file.lock()?;
+        directory.validate_lock_file(&name, &file)?;
+        Ok(AppServerStartupLock {
+            _file: file,
+            _directory: directory,
+        })
+    })
+    .await
+    .map_err(|error| std::io::Error::other(format!("startup lock task failed: {error}")))?
+}
+
+#[cfg(all(unix, not(target_env = "ohos")))]
 async fn set_control_socket_permissions(socket_path: &Path) -> IoResult<()> {
     use std::os::unix::fs::PermissionsExt;
 
@@ -337,13 +397,16 @@ async fn set_control_socket_permissions(_socket_path: &Path) -> IoResult<()> {
 
 struct ControlSocketFileGuard {
     socket_path: AbsolutePathBuf,
-    #[cfg(unix)]
+    #[cfg(all(unix, not(target_env = "ohos")))]
     rendezvous_path: AbsolutePathBuf,
+    #[cfg(target_env = "ohos")]
+    _private_socket_guard: codex_uds::ProtectedControlSocket,
     // Keep the directory pinned until after the socket file is removed in Drop.
     #[cfg(windows)]
     _directory_guard: std::os::windows::io::OwnedHandle,
 }
 
+#[cfg(not(target_env = "ohos"))]
 impl Drop for ControlSocketFileGuard {
     fn drop(&mut self) {
         #[cfg(unix)]

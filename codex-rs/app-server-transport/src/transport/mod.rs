@@ -52,6 +52,7 @@ const OVERLOADED_ERROR_CODE: i64 = -32001;
 
 const APP_SERVER_CONTROL_SOCKET_DIR_NAME: &str = "app-server-control";
 const APP_SERVER_CONTROL_SOCKET_FILE_NAME: &str = "app-server-control.sock";
+#[cfg(not(target_env = "ohos"))]
 const APP_SERVER_STARTUP_LOCK_FILE_NAME: &str = "app-server-startup.lock";
 const DAEMON_RECOVERY_FILE_NAME: &str = "loaded-threads.json";
 
@@ -62,6 +63,22 @@ pub fn daemon_recovery_file_path(codex_home: &Path) -> PathBuf {
 }
 
 pub fn app_server_control_socket_path(codex_home: &Path) -> std::io::Result<AbsolutePathBuf> {
+    #[cfg(target_env = "ohos")]
+    {
+        use sha2::Digest;
+        use std::os::unix::ffi::OsStrExt;
+        // Config identity selects a socket within one fixed protected root.
+        // No rendezvous directory or symlink is created under CODEX_HOME.
+        let logical = std::fs::canonicalize(codex_home)?
+            .join(APP_SERVER_CONTROL_SOCKET_DIR_NAME)
+            .join(APP_SERVER_CONTROL_SOCKET_FILE_NAME);
+        let hash = sha2::Sha256::digest(logical.as_os_str().as_bytes());
+        let directory = codex_uds::prepare_ohos_runtime_directory(
+            codex_uds::OhosRuntimePurpose::ControlSockets,
+        )?;
+        return AbsolutePathBuf::from_absolute_path(directory.path().join(format!("{hash:x}")));
+    }
+    #[cfg(not(target_env = "ohos"))]
     AbsolutePathBuf::from_absolute_path(
         codex_home
             .join(APP_SERVER_CONTROL_SOCKET_DIR_NAME)
@@ -70,6 +87,16 @@ pub fn app_server_control_socket_path(codex_home: &Path) -> std::io::Result<Abso
 }
 
 pub fn app_server_startup_lock_path(codex_home: &Path) -> std::io::Result<AbsolutePathBuf> {
+    #[cfg(target_env = "ohos")]
+    {
+        // Distinct from the listener's .lock, since startup retains this lock.
+        return AbsolutePathBuf::from_absolute_path(
+            app_server_control_socket_path(codex_home)?
+                .as_path()
+                .with_extension("startup-lock"),
+        );
+    }
+    #[cfg(not(target_env = "ohos"))]
     AbsolutePathBuf::from_absolute_path(
         codex_home
             .join(APP_SERVER_CONTROL_SOCKET_DIR_NAME)

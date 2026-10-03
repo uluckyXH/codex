@@ -479,6 +479,8 @@ fn build_bwrap_argv(
     Ok(crate::bwrap::BwrapArgs {
         args: argv,
         preserved_files: bwrap_args.preserved_files,
+        runtime_directory_guard: bwrap_args.runtime_directory_guard,
+        runtime_alias_guard: bwrap_args.runtime_alias_guard,
         synthetic_mount_targets: bwrap_args.synthetic_mount_targets,
         protected_create_targets: bwrap_args.protected_create_targets,
     })
@@ -575,6 +577,16 @@ fn build_preflight_bwrap_argv(options: BwrapOptions) -> CodexResult<crate::bwrap
 }
 
 fn run_or_exec_bwrap(bwrap_args: crate::bwrap::BwrapArgs) -> ! {
+    if let Some(guard) = &bwrap_args.runtime_directory_guard {
+        guard
+            .revalidate()
+            .unwrap_or_else(|error| panic!("OHOS socket runtime changed before exec: {error}"));
+    }
+    if let Some(guard) = &bwrap_args.runtime_alias_guard {
+        guard
+            .revalidate()
+            .unwrap_or_else(|error| panic!("OHOS alias runtime changed before exec: {error}"));
+    }
     if bwrap_args.synthetic_mount_targets.is_empty()
         && bwrap_args.protected_create_targets.is_empty()
     {
@@ -587,9 +599,13 @@ fn run_bwrap_in_child_with_synthetic_mount_cleanup(bwrap_args: crate::bwrap::Bwr
     let crate::bwrap::BwrapArgs {
         args,
         preserved_files,
+        runtime_directory_guard,
+        runtime_alias_guard,
         synthetic_mount_targets,
         protected_create_targets,
     } = bwrap_args;
+    let _runtime_directory_guard = runtime_directory_guard;
+    let _runtime_alias_guard = runtime_alias_guard;
     let setup_signal_mask = ForwardedSignalMask::block();
     let synthetic_mount_registrations = register_synthetic_mount_targets(&synthetic_mount_targets);
     let protected_create_registrations =
@@ -1430,9 +1446,19 @@ fn run_bwrap_probe(bwrap_args: crate::bwrap::BwrapArgs) -> std::io::Result<Outpu
     let crate::bwrap::BwrapArgs {
         args,
         preserved_files,
+        runtime_directory_guard,
+        runtime_alias_guard,
         synthetic_mount_targets,
         protected_create_targets,
     } = bwrap_args;
+    if let Some(guard) = &runtime_directory_guard {
+        guard.revalidate()?;
+    }
+    if let Some(guard) = &runtime_alias_guard {
+        guard.revalidate()?;
+    }
+    let _runtime_directory_guard = runtime_directory_guard;
+    let _runtime_alias_guard = runtime_alias_guard;
     let mut pipe_fds = [0; 2];
     if unsafe { libc::pipe2(pipe_fds.as_mut_ptr(), libc::O_CLOEXEC) } < 0 {
         return Err(std::io::Error::last_os_error());

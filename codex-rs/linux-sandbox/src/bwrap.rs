@@ -136,6 +136,8 @@ impl BwrapNetworkMode {
 pub(crate) struct BwrapArgs {
     pub args: Vec<String>,
     pub preserved_files: Vec<File>,
+    pub runtime_directory_guard: Option<codex_uds::DaemonSocketDirectoryGuard>,
+    pub runtime_alias_guard: Option<codex_uds::ProtectedRuntimeDirectory>,
     pub synthetic_mount_targets: Vec<SyntheticMountTarget>,
     pub protected_create_targets: Vec<ProtectedCreateTarget>,
 }
@@ -276,6 +278,8 @@ pub(crate) fn create_bwrap_command_args(
             Ok(BwrapArgs {
                 args: command,
                 preserved_files: Vec::new(),
+                runtime_directory_guard: None,
+                runtime_alias_guard: None,
                 synthetic_mount_targets: Vec::new(),
                 protected_create_targets: Vec::new(),
             })
@@ -329,6 +333,8 @@ fn create_bwrap_flags_full_filesystem(command: Vec<String>, options: BwrapOption
     BwrapArgs {
         args,
         preserved_files: Vec::new(),
+        runtime_directory_guard: None,
+        runtime_alias_guard: None,
         synthetic_mount_targets: Vec::new(),
         protected_create_targets: Vec::new(),
     }
@@ -362,6 +368,8 @@ fn create_bwrap_flags(
     let BwrapArgs {
         args: filesystem_args,
         preserved_files,
+        runtime_directory_guard,
+        runtime_alias_guard,
         synthetic_mount_targets,
         protected_create_targets,
     } = create_filesystem_args(file_system_sandbox_policy, sandbox_policy_cwd, options)?;
@@ -415,6 +423,8 @@ fn create_bwrap_flags(
     Ok(BwrapArgs {
         args,
         preserved_files,
+        runtime_directory_guard,
+        runtime_alias_guard,
         synthetic_mount_targets,
         protected_create_targets,
     })
@@ -442,7 +452,22 @@ fn create_filesystem_args(
     cwd: &Path,
     options: BwrapOptions,
 ) -> Result<BwrapArgs> {
-    let daemon_directory = codex_uds::prepare_shared_daemon_socket_directory()?;
+    let runtime_directory_guard = codex_uds::prepare_shared_daemon_socket_directory_guard()?;
+    let daemon_directory = runtime_directory_guard.path().to_path_buf();
+    #[cfg(target_env = "ohos")]
+    let runtime_alias_guard = Some(codex_uds::prepare_ohos_runtime_directory(
+        codex_uds::OhosRuntimePurpose::Aliases,
+    )?);
+    #[cfg(not(target_env = "ohos"))]
+    let runtime_alias_guard: Option<codex_uds::ProtectedRuntimeDirectory> = None;
+    #[cfg(target_env = "ohos")]
+    let runtime_alias_paths = crate::daemon_mounts::daemon_socket_mask_paths(
+        runtime_alias_guard
+            .as_ref()
+            .expect("OHOS aliases prepared")
+            .path(),
+        None,
+    )?;
     let daemon_directories = crate::daemon_mounts::daemon_socket_mask_paths(
         &daemon_directory,
         options
@@ -617,6 +642,8 @@ fn create_filesystem_args(
     let mut bwrap_args = BwrapArgs {
         args,
         preserved_files: Vec::new(),
+        runtime_directory_guard: Some(runtime_directory_guard),
+        runtime_alias_guard,
         synthetic_mount_targets: Vec::new(),
         protected_create_targets: Vec::new(),
     };
@@ -796,6 +823,15 @@ fn create_filesystem_args(
             append_unreadable_root_args(&mut bwrap_args, &unreadable_root, &allowed_write_paths)?;
         }
     }
+
+    #[cfg(target_env = "ohos")]
+    crate::ohos_runtime_mounts::append_alias_readonly_mounts(
+        &mut bwrap_args.args,
+        &runtime_alias_paths,
+        |path| file_system_sandbox_policy.can_read_local_path_with_cwd(path, cwd),
+        &unreadable_roots,
+        &allowed_write_paths,
+    )?;
 
     let mut rootless_unreadable_roots: Vec<PathBuf> = unreadable_roots
         .iter()

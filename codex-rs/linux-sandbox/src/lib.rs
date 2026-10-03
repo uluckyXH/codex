@@ -49,3 +49,6 @@ pub fn run_main() -> ! {
 pub fn run_main() -> ! {
     panic!("codex-linux-sandbox is only supported on Linux");
 }
+
+#[cfg(any(target_env = "ohos", test))]
+mod ohos_runtime_mounts;

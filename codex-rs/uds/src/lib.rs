@@ -3,9 +3,30 @@
 #[cfg(unix)]
 mod daemon_directory;
 #[cfg(unix)]
+pub use daemon_directory::DaemonSocketDirectoryGuard;
+#[cfg(unix)]
 pub use daemon_directory::prepare_shared_daemon_socket_directory;
 #[cfg(unix)]
+pub use daemon_directory::prepare_shared_daemon_socket_directory_guard;
+#[cfg(unix)]
 pub use daemon_directory::shared_daemon_socket_directory;
+
+#[cfg(unix)]
+mod ohos_control_socket;
+#[cfg(unix)]
+pub use ohos_control_socket::ProtectedControlSocket;
+#[cfg(unix)]
+mod ohos_runtime;
+#[cfg(unix)]
+pub use ohos_runtime::OhosRuntimePurpose;
+#[cfg(unix)]
+pub use ohos_runtime::ProtectedRuntimeDirectory;
+#[cfg(unix)]
+pub use ohos_runtime::ohos_runtime_base_contract;
+#[cfg(unix)]
+pub use ohos_runtime::prepare_ohos_runtime_directory;
+#[cfg(unix)]
+pub use ohos_runtime::validate_ohos_runtime_base;
 
 use std::io::Result as IoResult;
 use std::path::Path;
@@ -113,13 +134,21 @@ mod platform {
 
     /// Owner-only access keeps the control socket directory private while
     /// preserving owner traversal and socket path creation.
+    #[cfg(not(target_env = "ohos"))]
     const SOCKET_DIR_MODE: u32 = 0o700;
+    #[cfg(not(target_env = "ohos"))]
     const SOCKET_DIR_PERMISSION_BITS: u32 = 0o777;
 
     pub(super) type Stream = UnixStream;
 
     pub(super) struct Listener(UnixListener);
 
+    #[cfg(target_env = "ohos")]
+    pub(super) async fn prepare_private_socket_directory(socket_dir: &Path) -> IoResult<()> {
+        crate::ohos_runtime::prepare_private_directory(socket_dir).map(|_| ())
+    }
+
+    #[cfg(not(target_env = "ohos"))]
     pub(super) async fn prepare_private_socket_directory(socket_dir: &Path) -> IoResult<()> {
         let mut dir_builder = fs::DirBuilder::new();
         dir_builder.mode(SOCKET_DIR_MODE);
