@@ -168,6 +168,52 @@ class RuntimeProbeTests(unittest.TestCase):
         self.assertEqual(parent.stat().st_mode, before.st_mode)
         self.assertEqual(list(parent.iterdir()), [])
 
+    def test_owned_0711_ancestor_metadata_and_child_identity_are_preserved(self):
+        # The owner still has read permission on Mac. This covers the unchanged
+        # policy/metadata path, not execution of the OHOS-only O_PATH branch.
+        ancestor = self.root / "ancestor"
+        ancestor.mkdir(mode=0o711)
+        child = ancestor / "child"
+        child.mkdir(mode=0o700)
+        before = ancestor.stat()
+        report = self.run_probe("--path", str(child))
+        observation = self.records(report, "path")[0]["result"]
+        self.assertTrue(observation["posix_ancestor_checks"])
+        metadata = next(item for item in observation["ancestors"] if item["path"] == str(ancestor))
+        self.assertEqual(metadata["mode"], "0711")
+        self.assertEqual(metadata["ino"], before.st_ino)
+        self.assertEqual(observation["ancestors"][-1]["ino"], child.stat().st_ino)
+        self.assertNotIn("errno", observation["filesystem"])
+        self.assertEqual(ancestor.stat().st_mode, before.st_mode)
+
+    def test_changed_opened_ancestor_is_rejected_before_creating_objects(self):
+        # Substitute a different real directory FD between fstatat and fstat.
+        # This exercises the existing identity check with the production walk;
+        # it does not simulate the kernel implementation of O_PATH on macOS.
+        original = self.root / "swap-me"
+        replacement = self.root / "replacement"
+        original.mkdir()
+        replacement.mkdir()
+        harness = self.root / "changed-ancestor.c"
+        binary = self.root / "changed-ancestor"
+        harness.write_text(
+            '#define _GNU_SOURCE 1\n#include <fcntl.h>\n#include <stdarg.h>\n'
+            '#include <string.h>\n'
+            'static int redirected_openat(int fd, const char *path, int flags, ...) {\n'
+            '  mode_t mode=0; if(flags & O_CREAT) { va_list ap; va_start(ap,flags);'
+            '    mode=(mode_t)va_arg(ap,int); va_end(ap); }\n'
+            '  return openat(fd, !strcmp(path,"swap-me") ? "replacement" : path, flags, mode);\n'
+            '}\n#define openat redirected_openat\n#include "' + str(SOURCE) + '"\n'
+        )
+        compile_c(harness, binary)
+        report = self.run_probe("--path", str(original), "--create-test", str(original), binary=binary, code=1)
+        self.assertFalse(self.records(report, "path")[0]["result"]["posix_ancestor_checks"])
+        creation = self.records(report, "create")[0]["result"]
+        self.assertEqual(creation["status"], "parent_rejected")
+        self.assertFalse(creation["created"])
+        self.assertEqual(list(original.iterdir()), [])
+        self.assertEqual(list(replacement.iterdir()), [])
+
     def test_symlink_parent_is_rejected_without_creating_at_destination(self):
         actual = self.root / "actual"
         actual.mkdir()
@@ -300,6 +346,8 @@ class RuntimeProbeTests(unittest.TestCase):
             " assert(safe_ancestor(&st)); st.st_mode=S_IFDIR|02771; assert(!safe_ancestor(&st));\n"
             " st.st_uid=geteuid()+1; st.st_mode=S_IFDIR|0700; assert(!safe_ancestor(&st));\n"
             " st.st_uid=0; st.st_mode=S_IFDIR|01777; assert(safe_ancestor(&st));\n"
+            " st.st_mode=S_IFDIR|0711; assert(safe_ancestor(&st));\n"
+            " st.st_uid=geteuid(); st.st_mode=S_IFDIR|0111; assert(safe_ancestor(&st));\n"
             " int parent=open(argv[1], O_RDONLY|O_DIRECTORY); assert(parent>=0);\n"
             " int first=openat(parent, \"first\", O_CREAT|O_EXCL|O_RDWR,0600); assert(first>=0);\n"
             " assert(fstat(first,&st)==0); assert(same_entry(parent,\"first\",&st));\n"

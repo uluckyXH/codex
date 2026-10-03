@@ -57,6 +57,17 @@
 #define MOUNT_BYTES (1024 * 1024)
 #define RESULT_FD 3
 
+/* Ancestors only need searchable path handles. O_RDONLY would additionally
+ * require listing permission, rejecting a trusted root-owned 0711 ancestor.
+ * New test directories below these handles still use ordinary readable FDs.
+ * No O_RDONLY fallback on OHOS: unsupported operations remain diagnostics.
+ */
+#if defined(__OHOS__)
+#define ANCESTOR_OPEN_FLAGS (O_PATH | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+#else
+#define ANCESTOR_OPEN_FLAGS (O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC)
+#endif
+
 extern char **environ;
 static FILE *result;
 
@@ -144,7 +155,7 @@ static bool safe_ancestor(const struct stat *st) {
  */
 static int inspect_chain(const char *path, bool *compatible) {
     *compatible = true;
-    int fd = open("/", O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
+    int fd = open("/", ANCESTOR_OPEN_FLAGS);
     fprintf(result, "[");
     struct stat st;
     if (fd < 0 || fstat(fd, &st)) {
@@ -214,7 +225,7 @@ static int inspect_chain(const char *path, bool *compatible) {
             break;
         }
         stage("openat-nofollow");
-        int next = openat(fd, part, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
+        int next = openat(fd, part, ANCESTOR_OPEN_FLAGS);
         int open_error = errno;
         close(fd);
         fd = next;
