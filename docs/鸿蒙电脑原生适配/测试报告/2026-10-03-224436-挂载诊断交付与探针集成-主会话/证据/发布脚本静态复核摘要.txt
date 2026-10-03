@@ -1,0 +1,2 @@
+原始日志及 SHA256 见同名 JSON；只摘录用例、数量和结果，长 JSON 错误输出留原日志。
+All checks passed!

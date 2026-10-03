@@ -1,0 +1,10 @@
+{
+  "提交": "96320ac21a270069fb582cd14e45e6566a9ea8d3",
+  "文件": {
+    "scripts/build_harmony_distribution.py": "75ba026dac4d470a1331eaae521e74271db59d95d7708c77e762b5c27e6fc0db",
+    "scripts/harmony/诊断.sh": "e98b2cca7d82316bf4f0e7c0545da6a7a43a32ecc728bdfdb89a61eef095b29b",
+    "scripts/test_harmony_distribution.py": "46eb2b7082f91c4f1caf260aa6fae2b56fcc537ef9907018e807f18ca3867521",
+    "scripts/harmony_runtime_probe.c": "42d13ba710310298315e290de17d25424fdaf3884116e01e16c5ac0b8a979e25",
+    "scripts/test_harmony_runtime_probe.py": "945ffc451033d7aab8e296d8cabb8cb039b1a314c3bba5358a9b712189b1e9a1"
+  }
+}

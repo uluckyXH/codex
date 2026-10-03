@@ -1,0 +1,21 @@
+{
+  "工作区状态": "",
+  "工作区补丁摘要": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "命令": [
+    ".harmony-build/工具/python/bin/ruff",
+    "format",
+    "--check",
+    "scripts/build_harmony_distribution.py",
+    "scripts/test_harmony_distribution.py"
+  ],
+  "开始": "2026-10-03T22:44:36+08:00",
+  "结束": "2026-10-03T22:44:36+08:00",
+  "退出码": 0,
+  "主机": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "源码": "96320ac21a270069fb582cd14e45e6566a9ea8d3",
+  "日志": ".harmony-build/挂载修复/执行记录/发布脚本格式复核.log",
+  "日志字节数": 26,
+  "日志摘要": "3bc53bf3e981a98a34a852e175bf9b77af841edea74fca595d9aedcbaf9a4938",
+  "并行编译数": 2,
+  "工具链与下载缓存": "外置盘 /Volumes/MacSSD/dev/rust；未运行目标程序"
+}

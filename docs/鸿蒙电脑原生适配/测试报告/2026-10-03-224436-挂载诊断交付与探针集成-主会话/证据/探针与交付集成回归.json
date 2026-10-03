@@ -1,0 +1,22 @@
+{
+  "工作区状态": "",
+  "工作区补丁摘要": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "命令": [
+    "python3",
+    "-m",
+    "unittest",
+    "scripts/test_harmony_distribution.py",
+    "scripts/test_harmony_runtime_probe.py",
+    "-v"
+  ],
+  "开始": "2026-10-03T22:37:40+08:00",
+  "结束": "2026-10-03T22:37:57+08:00",
+  "退出码": 1,
+  "主机": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "源码": "96320ac21a270069fb582cd14e45e6566a9ea8d3",
+  "日志": ".harmony-build/挂载修复/执行记录/探针与交付集成回归.log",
+  "日志字节数": 21363,
+  "日志摘要": "b781f3d2c0e74437900d028798f8d014ea835a20e4efb5014e34f413b59eee79",
+  "并行编译数": 2,
+  "工具链与下载缓存": "外置盘 /Volumes/MacSSD/dev/rust；未运行目标程序"
+}
