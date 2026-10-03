@@ -1,0 +1,9 @@
+{
+  "包源码": "913098105a4025d620ddea39648339a0d592a212",
+  "仓库最终提交": "00fa75d54ad60983416d4fb206c2891adbc8a38c",
+  "分支": "codex/harmony-native",
+  "推送": "git push origin codex/harmony-native 已退出 0",
+  "归档": "鸿蒙Codex-0.160.0-dev.harmony.g913098105a40-未真机验证.tar.gz",
+  "SHA256": "8f3322821d07e66ea3697bac2aadbd87137df7cece4e73aca655900ad92f2a28",
+  "说明": "构建后仅有报告和文档提交；目标程序、认证、模型与鸿蒙真机未执行。"
+}
