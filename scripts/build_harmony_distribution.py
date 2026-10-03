@@ -198,6 +198,25 @@ def build_runtime_probe(
     source = REPO_ROOT / "scripts/harmony_runtime_probe.c"
     unsigned = output / "探针编译/harmony-runtime-probe"
     unsigned.parent.mkdir()
+    # Fail the package build if a different SDK changes the dynamically loaded
+    # directory APIs. This translation unit is never linked into the probe.
+    run(
+        [
+            str(sdk / "llvm/bin/clang"),
+            f"--target={CLANG_TARGET}",
+            f"--sysroot={sdk / 'sysroot'}",
+            "-D__MUSL__",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-x",
+            "c++",
+            "-std=c++17",
+            "-fsyntax-only",
+            str(REPO_ROOT / "scripts/harmony_runtime_probe_sdk_check.cpp"),
+        ],
+        env,
+    )
     run(
         [
             str(sdk / "llvm/bin/clang"),
@@ -225,6 +244,7 @@ def build_runtime_probe(
     return signed, {
         "源码": "scripts/harmony_runtime_probe.c",
         "源码摘要": digest(source),
+        "SDK接口类型检查": "三个目录 API 类型均与本次 SDK 声明一致；仅编译检查",
         "相关源码摘要": {
             name: digest(REPO_ROOT / "scripts" / name)
             for name in (

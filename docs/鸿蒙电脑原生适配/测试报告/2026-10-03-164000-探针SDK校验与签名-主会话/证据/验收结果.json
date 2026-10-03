@@ -1,0 +1,60 @@
+{
+  "源码": "3ce429e114304359bc218d776f963a0a90c6aa5e",
+  "构建与签名": {
+    "源码": "scripts/harmony_runtime_probe.c",
+    "源码摘要": "2747e88fe2dc0b47662de70974ab1e7686ac6838d702f78fbeda2c18b8ac7012",
+    "SDK接口类型检查": "三个目录 API 类型均与本次 SDK 声明一致；仅编译检查",
+    "相关源码摘要": {
+      "harmony_runtime_probe.c": "2747e88fe2dc0b47662de70974ab1e7686ac6838d702f78fbeda2c18b8ac7012",
+      "harmony_runtime_probe_context.h": "b9117304bc7aa7547f9e05461f5d81e97fe7193e6bb3c0a786cd421ff2c5dce7",
+      "harmony_runtime_probe_sdk_check.cpp": "10fda23c756cbc7f3c89b09dc75d57dc35f170f5d5d435fb6273e88919529b29"
+    },
+    "签名": {
+      "方式": "官方 binary-sign-tool.jar 自签名",
+      "工具": "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/lib/binary-sign-tool.jar",
+      "输入": {
+        "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/目录权限修复/探针SDK门禁与签名实测/已签名/harmony-runtime-probe-未签名",
+        "字节数": 28496,
+        "SHA-256": "d3a635799c5241cd2896cbe80ebed04c1096322139801a67d3c793c840e8dc0d",
+        "架构": "AArch64",
+        "解释器": "/lib/ld-musl-aarch64.so.1",
+        "动态依赖": [
+          "libc.so"
+        ],
+        "OHOS标识": true,
+        "签名节存在": false,
+        "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+      },
+      "输出": {
+        "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/目录权限修复/探针SDK门禁与签名实测/已签名/harmony-runtime-probe",
+        "字节数": 34496,
+        "SHA-256": "6aabc4db543870531284acd6ecadeec5d2ca2cc709912aaf005e2bf139b27834",
+        "架构": "AArch64",
+        "解释器": "/lib/ld-musl-aarch64.so.1",
+        "动态依赖": [
+          "libc.so"
+        ],
+        "OHOS标识": true,
+        "签名节存在": true,
+        "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+      },
+      "签名日志": "10-03 16:40:02.485  INFO - Start sign\n10-03 16:40:02.491  INFO - Using SelfSignSignProvider\n10-03 16:40:02.492  INFO - Start signing ELF file...\n10-03 16:40:02.497  INFO - Self-sign mode enabled, skip writing .profile and .permission sections\n10-03 16:40:02.497  INFO - Added .codesign section placeholder, offset: 28672, size: 4096 bytes\n10-03 16:40:02.501  INFO - Start to sign elf code.\n10-03 16:40:02.501  INFO - Self-sign mode enabled, setting FLAG_SELF_SIGN\n10-03 16:40:02.509  INFO - Self-sign mode: using descriptor digest as signature, size: 32 bytes\n10-03 16:40:02.509  INFO - Sign elf successfully, code sign block size: 296 bytes\n10-03 16:40:02.509  INFO - Generate code sign block successfully, size: 296 bytes\n10-03 16:40:02.509  INFO - Replace code sign data at offset: 28672, size: 296\n10-03 16:40:02.509  INFO - Self-sign elf success\n10-03 16:40:02.509  INFO - sign success\n",
+      "签名信息检查": "10-03 16:40:02.714  INFO - Start display-sign\n10-03 16:40:02.734  INFO - ELF verification started for file: /Volumes/MacSSD/Repositories/codex/.harmony-build/目录权限修复/探针SDK门禁与签名实测/已签名/harmony-runtime-probe\n10-03 16:40:02.737  INFO - permission is not found\n10-03 16:40:02.737  INFO - code signature is self-sign\n10-03 16:40:02.738  INFO - verify: Self-sign signature\n10-03 16:40:02.738  INFO - display-sign success\n",
+      "真机状态": "未验证；本机签名检查不代表商业鸿蒙 PC 接受加载"
+    }
+  },
+  "ELF": {
+    "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/目录权限修复/探针SDK门禁与签名实测/已签名/harmony-runtime-probe",
+    "字节数": 34496,
+    "SHA-256": "6aabc4db543870531284acd6ecadeec5d2ca2cc709912aaf005e2bf139b27834",
+    "架构": "AArch64",
+    "解释器": "/lib/ld-musl-aarch64.so.1",
+    "动态依赖": [
+      "libc.so"
+    ],
+    "OHOS标识": true,
+    "签名节存在": true,
+    "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+  },
+  "目标运行": "未执行"
+}
