@@ -1,0 +1,19 @@
+{
+  "工作区状态": "",
+  "工作区补丁摘要": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "命令": [
+    "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    ".harmony-build/挂载修复/整理安装资料.py",
+    "/Volumes/MacSSD/Repositories/codex/releases/2026-10-03-230204-鸿蒙Codex-挂载修复候选"
+  ],
+  "开始": "2026-10-03T23:28:32+08:00",
+  "结束": "2026-10-03T23:28:32+08:00",
+  "退出码": 0,
+  "主机": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "源码": "e11ea5e65308bc00ebb5c3ab238b73213ac362c0",
+  "日志": ".harmony-build/挂载修复/执行记录/整理新版安装资料.log",
+  "日志字节数": 235,
+  "日志摘要": "eb4ae6a2cd3bf85de0771424e8b87f55dc21716c575c42a5113ce672591d64a1",
+  "并行编译数": 2,
+  "工具链与下载缓存": "外置盘 /Volumes/MacSSD/dev/rust；未运行目标程序"
+}

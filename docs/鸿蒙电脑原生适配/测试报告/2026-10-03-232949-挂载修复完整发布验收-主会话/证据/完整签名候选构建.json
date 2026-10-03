@@ -1,0 +1,32 @@
+{
+  "工作区状态": "",
+  "工作区补丁摘要": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "命令": [
+    "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    "scripts/build_harmony_distribution.py",
+    "package",
+    "--sdk",
+    "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native",
+    "--java",
+    "/opt/homebrew/opt/openjdk@17/bin/java",
+    "--helpers-dir",
+    ".harmony-build/七版发布/原生资源复测",
+    "--build-dir",
+    ".harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译",
+    "--runtime-base",
+    "/data/storage/el2/base/files",
+    "--output-dir",
+    "/Volumes/MacSSD/Repositories/codex/releases/2026-10-03-230204-鸿蒙Codex-挂载修复候选",
+    "--offline"
+  ],
+  "开始": "2026-10-03T23:02:13+08:00",
+  "结束": "2026-10-03T23:26:25+08:00",
+  "退出码": 0,
+  "主机": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "源码": "e11ea5e65308bc00ebb5c3ab238b73213ac362c0",
+  "日志": ".harmony-build/挂载修复/执行记录/完整签名候选构建.log",
+  "日志字节数": 432970,
+  "日志摘要": "fc57f928dd352144fae60b759093ab1160c8eb86646edd26d98ecdec7afd2350",
+  "并行编译数": 2,
+  "工具链与下载缓存": "外置盘 /Volumes/MacSSD/dev/rust；未运行目标程序"
+}

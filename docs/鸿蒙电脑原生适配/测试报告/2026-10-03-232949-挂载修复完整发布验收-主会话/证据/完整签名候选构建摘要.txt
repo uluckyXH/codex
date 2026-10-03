@@ -1,0 +1,18 @@
+摘录执行入口和构建完成信息；原始日志与完整 SHA256 见同名记录。验收结果另存 JSON。
+执行：/opt/homebrew/opt/python@3.14/bin/python3.14 /Volumes/MacSSD/Repositories/codex/scripts/build_harmony.py build --sdk /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native --output-dir '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译' --release --runtime-base /data/storage/el2/base/files
+执行：/opt/homebrew/opt/rustup/bin/rustup run 1.95.0 rustc --version
+执行：/opt/homebrew/opt/rustup/bin/rustup run 1.95.0 rustc --print cfg --target aarch64-unknown-linux-ohos
+执行：/opt/homebrew/opt/rustup/bin/rustup run 1.95.0 cargo build --locked --target aarch64-unknown-linux-ohos --package codex-cli --release
+   Compiling codex-linux-sandbox v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/codex-rs/linux-sandbox)
+   Compiling codex-cli v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/codex-rs/cli)
+   Compiling codex-arg0 v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/codex-rs/arg0)
+   Compiling codex-app-server v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/codex-rs/app-server)
+   Compiling codex-app-server-client v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/codex-rs/app-server-client)
+   Compiling codex-tui v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/codex-rs/tui)
+   Compiling codex-cloud-tasks v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/codex-rs/cloud-tasks)
+   Compiling codex-exec v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/codex-rs/exec)
+    Finished `release` profile [optimized + debuginfo] target(s) in 23m 59s
+执行：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-strip --strip-unneeded '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/target/aarch64-unknown-linux-ohos/release/codex' -o '/Volumes/MacSSD/Repositories/codex/releases/2026-10-03-230204-鸿蒙Codex-挂载修复候选/已签名/codex-未签名'
+执行：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/clang --target=aarch64-linux-ohos --sysroot=/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot -D__MUSL__ -Wall -Wextra -Werror -x c++ -std=c++17 -fsyntax-only /Volumes/MacSSD/Repositories/codex/scripts/harmony_runtime_probe_sdk_check.cpp
+执行：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/clang --target=aarch64-linux-ohos --sysroot=/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot -D__MUSL__ -std=c11 -Wall -Wextra -Werror -O2 -fPIE -pie '-DCODEX_HARMONY_BUILD_ID="e11ea5e65308bc00ebb5c3ab238b73213ac362c0"' '-DCODEX_HARMONY_VERSION="0.160.0-dev.harmony.ge11ea5e65308"' '-DCODEX_OHOS_RUNTIME_BASE="/data/storage/el2/base/files"' /Volumes/MacSSD/Repositories/codex/scripts/harmony_runtime_probe.c -ldl -o '/Volumes/MacSSD/Repositories/codex/releases/2026-10-03-230204-鸿蒙Codex-挂载修复候选/探针编译/harmony-runtime-probe'
+执行：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-strip --strip-unneeded '/Volumes/MacSSD/Repositories/codex/releases/2026-10-03-230204-鸿蒙Codex-挂载修复候选/探针编译/harmony-runtime-probe' -o '/Volumes/MacSSD/Repositories/codex/releases/2026-10-03-230204-鸿蒙Codex-挂载修复候选/已签名/harmony-runtime-probe-未签名'

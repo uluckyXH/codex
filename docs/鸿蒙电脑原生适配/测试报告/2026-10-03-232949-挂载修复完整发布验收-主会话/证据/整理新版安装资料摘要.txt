@@ -1,0 +1,2 @@
+摘录执行入口和构建完成信息；原始日志与完整 SHA256 见同名记录。验收结果另存 JSON。
+{"安装资料": "/Volumes/MacSSD/Repositories/codex/releases/2026-10-03-230204-鸿蒙Codex-挂载修复候选/鸿蒙Codex安装", "文件数": 10, "压缩包SHA256": "f00d23db086643373828b7680b96ec7ba151ff4abf4f661aadbd6b1f5ac31d40"}
