@@ -1,4 +1,4 @@
-展示说明：llvm-readelf 输出中的 NUL 已转义为文字 \0；未转义原始输出保存在本批原始日志。
+展示说明：llvm-readelf 输出中的 NUL 已转义为文字 \0，移除展示行的尾随空格；未转义原始输出保存在本批原始日志。
 ELF Header:
   Magic:   7f 45 4c 46 02 01 01 00 00 00 00 00 00 00 00 00
   Class:                             ELF64
@@ -41,23 +41,23 @@ Program Headers:
 
  Section to Segment mapping:
   Segment Sections...
-   00     
-   01     .interp 
-   02     .interp .note.ohos.ident .dynsym .gnu.hash .hash .dynstr .rela.dyn .rela.plt .rodata .eh_frame_hdr .eh_frame 
-   03     .text .init .fini .plt 
-   04     .init_array .fini_array .data.rel.ro .dynamic .got .got.plt 
-   05     .data .bss 
-   06     .dynamic 
-   07     .init_array .fini_array .data.rel.ro .dynamic .got .got.plt 
-   08     .eh_frame_hdr 
-   09     
-   10     .note.ohos.ident 
-   None   .debug_abbrev .debug_info .debug_str_offsets .debug_str .debug_addr .comment .debug_line .debug_line_str .debug_aranges .debug_rnglists .debug_frame .symtab .shstrtab .strtab 
+   00
+   01     .interp
+   02     .interp .note.ohos.ident .dynsym .gnu.hash .hash .dynstr .rela.dyn .rela.plt .rodata .eh_frame_hdr .eh_frame
+   03     .text .init .fini .plt
+   04     .init_array .fini_array .data.rel.ro .dynamic .got .got.plt
+   05     .data .bss
+   06     .dynamic
+   07     .init_array .fini_array .data.rel.ro .dynamic .got .got.plt
+   08     .eh_frame_hdr
+   09
+   10     .note.ohos.ident
+   None   .debug_abbrev .debug_info .debug_str_offsets .debug_str .debug_addr .comment .debug_line .debug_line_str .debug_aranges .debug_rnglists .debug_frame .symtab .shstrtab .strtab
 Dynamic section at offset 0x6318 contains 25 entries:
   Tag                Type           Name/Value
   0x0000000000000001 (NEEDED)       Shared library: [libc.so]
-  0x000000000000001e (FLAGS)        BIND_NOW 
-  0x000000006ffffffb (FLAGS_1)      NOW PIE 
+  0x000000000000001e (FLAGS)        BIND_NOW
+  0x000000006ffffffb (FLAGS_1)      NOW PIE
   0x0000000000000015 (DEBUG)        0x0
   0x0000000000000007 (RELA)         0x1048
   0x0000000000000008 (RELASZ)       576 (bytes)

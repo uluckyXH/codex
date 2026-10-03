@@ -1,0 +1,1 @@
+git diff --check 退出 0，无尾随空格。

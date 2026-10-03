@@ -1,0 +1,26 @@
+{
+  "head": "5867a826bdea081515d8568e91a8e00b90f410ed",
+  "started": "2026-10-03T16:20:07.712905+08:00",
+  "finished": "2026-10-03T16:20:07.758785+08:00",
+  "checks": [
+    {
+      "command": [
+        "git",
+        "show",
+        "--format=",
+        "--check",
+        "5867a826bdea081515d8568e91a8e00b90f410ed"
+      ],
+      "exit_code": 2
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exit_code": 0
+    }
+  ],
+  "changed": "仅 ELF 展示文本移除尾随空格并说明；原始日志不变。"
+}

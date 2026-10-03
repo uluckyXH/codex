@@ -1,0 +1,29 @@
+展示说明：错误中的行尾空格仅在此展示副本裁剪，原始输出保留在本批日志。
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161126-独立原生目录探针最终验证-工具会话/证据/静态01-ELF.txt:44: trailing whitespace.
++   00
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161126-独立原生目录探针最终验证-工具会话/证据/静态01-ELF.txt:45: trailing whitespace.
++   01     .interp
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161126-独立原生目录探针最终验证-工具会话/证据/静态01-ELF.txt:46: trailing whitespace.
++   02     .interp .note.ohos.ident .dynsym .gnu.hash .hash .dynstr .rela.dyn .rela.plt .rodata .eh_frame_hdr .eh_frame
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161126-独立原生目录探针最终验证-工具会话/证据/静态01-ELF.txt:47: trailing whitespace.
++   03     .text .init .fini .plt
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161126-独立原生目录探针最终验证-工具会话/证据/静态01-ELF.txt:48: trailing whitespace.
++   04     .init_array .fini_array .data.rel.ro .dynamic .got .got.plt
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161126-独立原生目录探针最终验证-工具会话/证据/静态01-ELF.txt:49: trailing whitespace.
++   05     .data .bss
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161126-独立原生目录探针最终验证-工具会话/证据/静态01-ELF.txt:50: trailing whitespace.
++   06     .dynamic
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161126-独立原生目录探针最终验证-工具会话/证据/静态01-ELF.txt:51: trailing whitespace.
++   07     .init_array .fini_array .data.rel.ro .dynamic .got .got.plt
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161126-独立原生目录探针最终验证-工具会话/证据/静态01-ELF.txt:52: trailing whitespace.
++   08     .eh_frame_hdr
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161126-独立原生目录探针最终验证-工具会话/证据/静态01-ELF.txt:53: trailing whitespace.
++   09
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161126-独立原生目录探针最终验证-工具会话/证据/静态01-ELF.txt:54: trailing whitespace.
++   10     .note.ohos.ident
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161126-独立原生目录探针最终验证-工具会话/证据/静态01-ELF.txt:55: trailing whitespace.
++   None   .debug_abbrev .debug_info .debug_str_offsets .debug_str .debug_addr .comment .debug_line .debug_line_str .debug_aranges .debug_rnglists .debug_frame .symtab .shstrtab .strtab
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161126-独立原生目录探针最终验证-工具会话/证据/静态01-ELF.txt:59: trailing whitespace.
++  0x000000000000001e (FLAGS)        BIND_NOW
+docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161126-独立原生目录探针最终验证-工具会话/证据/静态01-ELF.txt:60: trailing whitespace.
++  0x000000006ffffffb (FLAGS_1)      NOW PIE
