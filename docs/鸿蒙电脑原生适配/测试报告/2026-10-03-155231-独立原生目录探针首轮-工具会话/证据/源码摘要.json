@@ -1,0 +1,9 @@
+{
+  "HEAD": "8df622a93d3a911c7d77e22e318e5ffc4bba4426",
+  "分支": "codex/harmony-pc7-native-probe",
+  "状态": "含未提交新增源码",
+  "文件": {
+    "scripts/harmony_runtime_probe.c": "3e1c935c6085a10b0325d4754bccc9e216ffc05da5819710aad97b07f1bc4412",
+    "scripts/test_harmony_runtime_probe.py": "bc70e02dbca8c3c34efe8b097e794db04f8183ffbb15e3fa9c8145091bb77a23"
+  }
+}

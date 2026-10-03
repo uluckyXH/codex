@@ -1,0 +1,25 @@
+test_ancestor_and_cleanup_identity_rules_use_real_objects (__main__.RuntimeProbeTests.test_ancestor_and_cleanup_identity_rules_use_real_objects) ... ok
+test_argument_bounds_and_dot_components_fail_before_probing (__main__.RuntimeProbeTests.test_argument_bounds_and_dot_components_fail_before_probing) ... ok
+test_create_roundtrip_and_cleanup_leave_existing_content_unchanged (__main__.RuntimeProbeTests.test_create_roundtrip_and_cleanup_leave_existing_content_unchanged) ... ok
+test_explicit_paths_replace_defaults_and_report_missing_errno (__main__.RuntimeProbeTests.test_explicit_paths_replace_defaults_and_report_missing_errno) ... ok
+test_group_writable_setgid_parent_is_rejected_without_modification (__main__.RuntimeProbeTests.test_group_writable_setgid_parent_is_rejected_without_modification) ... ok
+test_help_does_not_need_process_or_directory_probes (__main__.RuntimeProbeTests.test_help_does_not_need_process_or_directory_probes) ... ok
+test_identity_uses_native_calls_with_no_external_commands (__main__.RuntimeProbeTests.test_identity_uses_native_calls_with_no_external_commands) ... ok
+test_native_invalid_path_is_reported_without_reading_it (__main__.RuntimeProbeTests.test_native_invalid_path_is_reported_without_reading_it) ... ok
+test_native_library_unavailable_remains_diagnostic (__main__.RuntimeProbeTests.test_native_library_unavailable_remains_diagnostic) ... ok
+test_native_no_context_and_missing_symbols_are_distinct (__main__.RuntimeProbeTests.test_native_no_context_and_missing_symbols_are_distinct) ... ok
+test_native_platform_unavailable_is_an_observation (__main__.RuntimeProbeTests.test_native_platform_unavailable_is_an_observation) ... ok
+test_native_signal_retains_wait_status_and_other_probes_continue (__main__.RuntimeProbeTests.test_native_signal_retains_wait_status_and_other_probes_continue) ... ok
+test_native_success_observes_path_without_approving_root (__main__.RuntimeProbeTests.test_native_success_observes_path_without_approving_root) ... ok
+test_native_timeout_does_not_block_remaining_checks (__main__.RuntimeProbeTests.test_native_timeout_does_not_block_remaining_checks) ... ok
+test_oversized_worker_output_is_bounded_and_does_not_break_json (__main__.RuntimeProbeTests.test_oversized_worker_output_is_bounded_and_does_not_break_json) ... ok
+test_read_only_never_opens_dotenv_or_configuration_contents (__main__.RuntimeProbeTests.test_read_only_never_opens_dotenv_or_configuration_contents) ... ok
+test_root_parent_is_rejected_including_redundant_slashes (__main__.RuntimeProbeTests.test_root_parent_is_rejected_including_redundant_slashes) ... ok
+test_symlink_is_observed_without_approving_its_chain (__main__.RuntimeProbeTests.test_symlink_is_observed_without_approving_its_chain) ... ok
+test_symlink_parent_is_rejected_without_creating_at_destination (__main__.RuntimeProbeTests.test_symlink_parent_is_rejected_without_creating_at_destination) ... ok
+test_unicode_quotes_and_control_characters_are_valid_json (__main__.RuntimeProbeTests.test_unicode_quotes_and_control_characters_are_valid_json) ... ok
+
+----------------------------------------------------------------------
+Ran 20 tests in 6.756s
+
+OK

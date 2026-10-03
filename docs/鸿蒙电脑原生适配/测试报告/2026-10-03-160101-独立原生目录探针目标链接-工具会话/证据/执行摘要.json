@@ -1,0 +1,40 @@
+{
+  "command": [
+    "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/clang",
+    "--target=aarch64-linux-ohos",
+    "--sysroot=/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot",
+    "-D__MUSL__",
+    "-std=c11",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-O2",
+    "-fPIE",
+    "-pie",
+    "-DCODEX_HARMONY_BUILD_ID=\"8df622a93d3a911c7d77e22e318e5ffc4bba4426\"",
+    "-DCODEX_HARMONY_VERSION=\"0.160.0-dev\"",
+    "scripts/harmony_runtime_probe.c",
+    "-ldl",
+    "-o",
+    "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/.harmony-build/测试批次/2026-10-03-160101-独立原生目录探针目标链接-工具会话/产物/harmony-runtime-probe"
+  ],
+  "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具",
+  "started": "2026-10-03T16:01:01.627659+08:00",
+  "finished": "2026-10-03T16:01:02.468186+08:00",
+  "exit_code": 1,
+  "host": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "sdk": "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native",
+  "sdk_metadata": {
+    "apiVersion": "24",
+    "displayName": "Native",
+    "meta": {
+      "metaVersion": "3.0.0"
+    },
+    "path": "native",
+    "releaseType": "Release",
+    "version": "6.1.1.125"
+  },
+  "clang": "OHOS (dev) clang version 15.0.4 (llvm-project 99548401bd80576251755b185ab95945e5fe7884)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin\n",
+  "binary": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/.harmony-build/测试批次/2026-10-03-160101-独立原生目录探针目标链接-工具会话/产物/harmony-runtime-probe",
+  "elf_static": null
+}

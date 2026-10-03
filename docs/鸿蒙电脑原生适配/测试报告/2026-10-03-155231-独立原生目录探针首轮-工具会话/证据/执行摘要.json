@@ -1,0 +1,12 @@
+{
+  "开始": "2026-10-03T15:52:31.084386+08:00",
+  "结束": "2026-10-03T15:52:35.353330+08:00",
+  "命令": [
+    "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    "-B",
+    "scripts/test_harmony_runtime_probe.py"
+  ],
+  "退出码": 1,
+  "工作目录": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具",
+  "原始日志": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/.harmony-build/测试批次/2026-10-03-155231-独立原生目录探针首轮-工具会话/日志/宿主原生探针.log"
+}

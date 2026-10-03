@@ -1,0 +1,12 @@
+{
+  "HEAD": "8df622a93d3a911c7d77e22e318e5ffc4bba4426",
+  "branch": "codex/harmony-pc7-native-probe",
+  "含未提交修改": true,
+  "session": "01a0fbd5-774e-76b2-8090-f11b7accb711",
+  "files": {
+    "scripts/harmony_runtime_probe.c": "2747e88fe2dc0b47662de70974ab1e7686ac6838d702f78fbeda2c18b8ac7012",
+    "scripts/harmony_runtime_probe_context.h": "b9117304bc7aa7547f9e05461f5d81e97fe7193e6bb3c0a786cd421ff2c5dce7",
+    "scripts/harmony_runtime_probe_sdk_check.cpp": "10fda23c756cbc7f3c89b09dc75d57dc35f170f5d5d435fb6273e88919529b29",
+    "scripts/test_harmony_runtime_probe.py": "40f03aed78af28482744357f3e2dae7ff44170d8fb40341c7cad7dba7901e520"
+  }
+}

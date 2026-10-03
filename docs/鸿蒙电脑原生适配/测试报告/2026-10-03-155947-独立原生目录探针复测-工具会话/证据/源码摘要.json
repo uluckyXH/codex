@@ -1,0 +1,10 @@
+{
+  "HEAD": "8df622a93d3a911c7d77e22e318e5ffc4bba4426",
+  "branch": "codex/harmony-pc7-native-probe",
+  "含未提交修改": true,
+  "session": "01a0fbd5-774e-76b2-8090-f11b7accb711",
+  "files": {
+    "scripts/harmony_runtime_probe.c": "3e1c935c6085a10b0325d4754bccc9e216ffc05da5819710aad97b07f1bc4412",
+    "scripts/test_harmony_runtime_probe.py": "423bcdfcb80be1bdfcd99847082f9d4d743a4b3b5407b7de3024269d39c5ac91"
+  }
+}

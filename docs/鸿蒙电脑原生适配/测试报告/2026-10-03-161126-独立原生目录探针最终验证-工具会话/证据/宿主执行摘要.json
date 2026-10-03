@@ -1,0 +1,18 @@
+{
+  "command": [
+    "python3",
+    "-B",
+    "scripts/test_harmony_runtime_probe.py"
+  ],
+  "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具",
+  "exit_code": 0,
+  "passed": 20,
+  "failed": 0,
+  "skipped": 0,
+  "filtered": 0,
+  "test_elapsed_seconds": 6.756,
+  "log_created": "2026-10-03T16:11:49.258886+08:00",
+  "log_modified": "2026-10-03T16:11:56.059574+08:00",
+  "time_note": "日志创建和最后写入时间来自文件系统；进程精确起止未单独记录，退出码来自执行工具最终结果。",
+  "原始日志": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/.harmony-build/测试批次/2026-10-03-161126-独立原生目录探针最终验证-工具会话/日志/宿主01.log"
+}

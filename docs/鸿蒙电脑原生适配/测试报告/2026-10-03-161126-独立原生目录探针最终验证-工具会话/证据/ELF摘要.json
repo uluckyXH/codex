@@ -1,0 +1,13 @@
+{
+  "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/.harmony-build/测试批次/2026-10-03-161126-独立原生目录探针最终验证-工具会话/产物/harmony-runtime-probe",
+  "字节数": 40024,
+  "SHA-256": "ea5c8d37b89153a9bad45bd30addc15e48c3833f94de987cca38dfd4a30e1c99",
+  "架构": "AArch64",
+  "解释器": "/lib/ld-musl-aarch64.so.1",
+  "动态依赖": [
+    "libc.so"
+  ],
+  "OHOS标识": true,
+  "签名节存在": false,
+  "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+}

@@ -1,0 +1,8 @@
+{
+  "started": "2026-10-03T16:11:26.526650+08:00",
+  "host": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具",
+  "raw": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/.harmony-build/测试批次/2026-10-03-161126-独立原生目录探针最终验证-工具会话",
+  "审批记录": "前次组合验证工具调用的自动审批超时，命令未执行。本批将宿主 Unix socket 测试与目标编译拆开重试。"
+}

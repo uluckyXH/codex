@@ -1,0 +1,15 @@
+{
+  "command": [
+    "/opt/homebrew/opt/python@3.14/bin/python3.14",
+    "-B",
+    "scripts/test_harmony_runtime_probe.py"
+  ],
+  "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具",
+  "started": "2026-10-03T15:59:47.460429+08:00",
+  "finished": "2026-10-03T15:59:52.594649+08:00",
+  "exit_code": 0,
+  "原始日志": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/.harmony-build/测试批次/2026-10-03-155947-独立原生目录探针复测-工具会话/日志/宿主原生探针.log",
+  "host": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.1.1.101)]",
+  "sandbox": "仅本次宿主固定夹具测试经工具授权，允许临时目录内 AF_UNIX bind"
+}

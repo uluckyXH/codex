@@ -1,0 +1,87 @@
+In file included from scripts/harmony_runtime_probe.c:35:
+In file included from /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/application_context.h:46:
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:114:31: error: expected ')'
+    AbilityRuntime_WindowMode &windowMode)
+                              ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:113:69: note: to match this '('
+AbilityRuntime_ErrorCode OH_AbilityRuntime_GetStartOptionsWindowMode(AbilityRuntime_StartOptions *startOptions,
+                                                                    ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:142:13: error: expected ')'
+    int32_t &displayId)
+            ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:141:68: note: to match this '('
+AbilityRuntime_ErrorCode OH_AbilityRuntime_GetStartOptionsDisplayId(AbilityRuntime_StartOptions *startOptions,
+                                                                   ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:170:10: error: expected ')'
+    bool &withAnimation)
+         ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:169:72: note: to match this '('
+AbilityRuntime_ErrorCode OH_AbilityRuntime_GetStartOptionsWithAnimation(AbilityRuntime_StartOptions *startOptions,
+                                                                       ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:198:13: error: expected ')'
+    int32_t &windowLeft)
+            ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:197:69: note: to match this '('
+AbilityRuntime_ErrorCode OH_AbilityRuntime_GetStartOptionsWindowLeft(AbilityRuntime_StartOptions *startOptions,
+                                                                    ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:226:13: error: expected ')'
+    int32_t &windowTop)
+            ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:225:68: note: to match this '('
+AbilityRuntime_ErrorCode OH_AbilityRuntime_GetStartOptionsWindowTop(AbilityRuntime_StartOptions *startOptions,
+                                                                   ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:254:13: error: expected ')'
+    int32_t &windowHeight)
+            ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:253:71: note: to match this '('
+AbilityRuntime_ErrorCode OH_AbilityRuntime_GetStartOptionsWindowHeight(AbilityRuntime_StartOptions *startOptions,
+                                                                      ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:282:13: error: expected ')'
+    int32_t &windowWidth)
+            ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:281:70: note: to match this '('
+AbilityRuntime_ErrorCode OH_AbilityRuntime_GetStartOptionsWindowWidth(AbilityRuntime_StartOptions *startOptions,
+                                                                     ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:310:36: error: expected ')'
+    AbilityRuntime_StartVisibility &startVisibility)
+                                   ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:309:74: note: to match this '('
+AbilityRuntime_ErrorCode OH_AbilityRuntime_GetStartOptionsStartVisibility(AbilityRuntime_StartOptions *startOptions,
+                                                                         ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:372:90: error: expected ')'
+    AbilityRuntime_StartOptions *startOptions, char **startWindowBackgroundColor, size_t &size)
+                                                                                         ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:371:85: note: to match this '('
+AbilityRuntime_ErrorCode OH_AbilityRuntime_GetStartOptionsStartWindowBackgroundColor(
+                                                                                    ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:407:12: error: expected ')'
+    size_t &size)
+           ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:405:79: note: to match this '('
+AbilityRuntime_ErrorCode OH_AbilityRuntime_GetStartOptionsSupportedWindowModes(
+                                                                              ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:435:56: error: expected ')'
+    AbilityRuntime_StartOptions *startOptions, int32_t &minWindowWidth)
+                                                       ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:434:73: note: to match this '('
+AbilityRuntime_ErrorCode OH_AbilityRuntime_GetStartOptionsMinWindowWidth(
+                                                                        ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:463:56: error: expected ')'
+    AbilityRuntime_StartOptions *startOptions, int32_t &maxWindowWidth)
+                                                       ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:462:73: note: to match this '('
+AbilityRuntime_ErrorCode OH_AbilityRuntime_GetStartOptionsMaxWindowWidth(
+                                                                        ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:491:56: error: expected ')'
+    AbilityRuntime_StartOptions *startOptions, int32_t &minWindowHeight)
+                                                       ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:490:74: note: to match this '('
+AbilityRuntime_ErrorCode OH_AbilityRuntime_GetStartOptionsMinWindowHeight(
+                                                                         ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:519:56: error: expected ')'
+    AbilityRuntime_StartOptions *startOptions, int32_t &maxWindowHeight)
+                                                       ^
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/start_options.h:518:74: note: to match this '('
+AbilityRuntime_ErrorCode OH_AbilityRuntime_GetStartOptionsMaxWindowHeight(
+                                                                         ^
+14 errors generated.
