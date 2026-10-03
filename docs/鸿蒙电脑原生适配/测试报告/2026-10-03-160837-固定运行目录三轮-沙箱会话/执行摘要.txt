@@ -1,0 +1,122 @@
+用例：格式化
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱
+命令：rustup run 1.95.0 rustfmt --edition 2024 codex-rs/uds/src/ohos_control_socket.rs codex-rs/uds/src/daemon_directory_tests.rs codex-rs/uds/src/windows_peer.rs codex-rs/uds/src/ohos_runtime.rs codex-rs/uds/src/windows_socket_validation.rs codex-rs/uds/src/lib.rs codex-rs/uds/src/daemon_directory.rs codex-rs/uds/src/lib_tests.rs codex-rs/uds/src/windows_security.rs codex-rs/uds/src/ohos_runtime_tests.rs codex-rs/linux-sandbox/src/fd_mount.rs codex-rs/linux-sandbox/src/wslg.rs codex-rs/linux-sandbox/src/linux_run_main_tests.rs codex-rs/linux-sandbox/src/daemon_mounts.rs codex-rs/linux-sandbox/src/bazel_bwrap.rs codex-rs/linux-sandbox/src/fd_mount_tests.rs codex-rs/linux-sandbox/src/proxy_lifecycle_tests.rs codex-rs/linux-sandbox/src/exec_util.rs codex-rs/linux-sandbox/src/lib.rs codex-rs/linux-sandbox/src/wslg_tests.rs codex-rs/linux-sandbox/src/proxy_lifecycle.rs codex-rs/linux-sandbox/src/bundled_bwrap.rs codex-rs/linux-sandbox/src/proxy_routing.rs codex-rs/linux-sandbox/src/ohos_runtime_mounts.rs codex-rs/linux-sandbox/src/daemon_mounts_tests.rs codex-rs/linux-sandbox/src/main.rs codex-rs/linux-sandbox/src/mode_validation.rs codex-rs/linux-sandbox/src/linux_run_main.rs codex-rs/linux-sandbox/src/landlock.rs codex-rs/linux-sandbox/src/bwrap_wslg_tests.rs codex-rs/linux-sandbox/src/launcher.rs codex-rs/linux-sandbox/src/bwrap.rs codex-rs/app-server-transport/src/transport/unix_socket.rs codex-rs/app-server-transport/src/transport/mod.rs codex-rs/app-server-transport/src/transport/websocket.rs codex-rs/app-server-transport/src/transport/stdio.rs codex-rs/app-server-transport/src/transport/unix_socket_tests.rs
+开始：2026-10-03T16:09:33.214075+08:00
+结束：2026-10-03T16:09:33.489234+08:00
+退出码：0
+原始日志（仅本机）：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-160837-固定运行目录三轮-沙箱会话/日志/格式化.log
+原始日志 SHA256：b7a0f05587d86dcdae14854fcb00518273b3ec79bd829b0d30a12b4d03ef212d
+关键输出（依赖构建过程及重复错误已省略）：
+
+用例：宿主目录与socket
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱
+命令：rustup run 1.95.0 cargo test --manifest-path codex-rs/Cargo.toml --locked --offline --target aarch64-apple-darwin -p codex-uds --lib -- --nocapture
+开始：2026-10-03T16:10:27.775395+08:00
+结束：2026-10-03T16:10:35.184188+08:00
+退出码：0
+原始日志（仅本机）：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-160837-固定运行目录三轮-沙箱会话/日志/宿主目录与socket.log
+原始日志 SHA256：4224e29485a5a7b98ba4ffd6058446ce0e46323eb092e12d6680611ba54d6a84
+关键输出（依赖构建过程及重复错误已省略）：
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 7.02s
+running 25 tests
+test daemon_directory::tests::directory_errors_include_stage_path_and_os_error ... ok
+test lib_tests::stream_round_trips_data_between_listener_and_client ... ok
+test daemon_directory::tests::private_reservation_is_idempotent_and_concurrent ... ok
+test lib_tests::bound_listener_path_is_stale_socket_path ... ok
+test daemon_directory::tests::reservation_rejects_symlinks_files_wrong_owner_and_unsafe_modes ... ok
+test lib_tests::prepare_private_socket_directory_creates_directory ... ok
+test lib_tests::regular_file_path_is_not_stale_socket_path ... ok
+test lib_tests::prepare_private_socket_directory_sets_existing_permissions_to_owner_only ... ok
+test ohos_runtime::tests::invalid_or_missing_base_is_not_created ... ok
+test ohos_runtime::tests::every_symlink_component_is_rejected_without_touching_its_target ... ok
+test ohos_runtime::tests::reported_device_identity_and_setgid_are_not_sticky_protection ... ok
+test ohos_control_socket::tests::socket_roundtrip_concurrent_listener_refusal_and_owned_cleanup ... ok
+test ohos_runtime::tests::aliases_use_owned_fixed_subdirectories_without_changing_base ... ok
+test ohos_runtime::tests::shared_setgid_and_nonroot_sticky_bases_are_rejected_without_mutation ... ok
+test ohos_runtime::tests::new_setgid_inheritance_is_normalized_through_its_descriptor_only ... ok
+test ohos_runtime::tests::socket_address_budget_counts_full_digest_separator_nul_and_utf8_bytes ... ok
+test ohos_runtime::tests::existing_runtime_objects_are_never_repaired_or_replaced ... ok
+test ohos_control_socket::tests::cleanup_preserves_replacement_and_unsafe_socket_mode ... ok
+test ohos_runtime::tests::wrong_effective_owner_is_rejected_even_with_private_mode ... ok
+test ohos_runtime::tests::runtime_initialization_converges_across_concurrent_callers ... ok
+test ohos_runtime::tests::pinned_chain_rejects_replacement_before_creating_more_objects ... ok
+test ohos_control_socket::tests::stale_owned_socket_is_reused_but_foreign_objects_are_preserved ... ok
+test ohos_runtime::tests::lock_rejects_links_wrong_type_and_unsafe_modes_without_chmod ... ok
+test ohos_runtime::tests::replaced_lock_and_every_cloned_descriptor_are_checked ... ok
+test ohos_runtime::tests::runtime_environment_cannot_bind_or_replace_the_build_contract ... ok
+test result: ok. 25 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+用例：宿主挂载别名与运行模式
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱
+命令：rustup run 1.95.0 cargo test --manifest-path codex-rs/Cargo.toml --locked --offline --target aarch64-apple-darwin -p codex-linux-sandbox --lib -- --nocapture
+开始：2026-10-03T16:11:52.159728+08:00
+结束：2026-10-03T16:11:56.357315+08:00
+退出码：0
+原始日志（仅本机）：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-160837-固定运行目录三轮-沙箱会话/日志/宿主挂载别名与运行模式.log
+原始日志 SHA256：701072dea28efa0badc7e6af1946497bb3479d99fb764f046db854ca4e7287ed
+关键输出（依赖构建过程及重复错误已省略）：
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 3.88s
+running 39 tests
+test daemon_mounts::tests::accepts_only_mounts_that_can_keep_the_directory_masked::unrelated_project_bind ... ok
+test daemon_mounts::tests::accepts_only_mounts_that_can_keep_the_directory_masked::root_alias ... ok
+test daemon_mounts::tests::accepts_only_mounts_that_can_keep_the_directory_masked::same_location ... ok
+test daemon_mounts::tests::accepts_only_mounts_that_can_keep_the_directory_masked::directory_alias ... ok
+test daemon_mounts::tests::accepts_only_mounts_that_can_keep_the_directory_masked::ancestor_alias ... ok
+test daemon_mounts::tests::accepts_only_mounts_that_can_keep_the_directory_masked::escaped_alias ... ok
+test daemon_mounts::tests::accepts_only_mounts_that_can_keep_the_directory_masked::socket_alias ... ok
+test daemon_mounts::tests::accepts_only_mounts_that_can_keep_the_directory_masked::nested_mount ... ok
+test daemon_mounts::tests::accepts_private_tmp_bind_and_maskable_aliases::tmp_on_root_filesystem ... ok
+test daemon_mounts::tests::accepts_private_tmp_bind_and_maskable_aliases::tmp_on_separate_filesystem ... ok
+test daemon_mounts::tests::accepts_private_tmp_filesystem_and_resolves_stacked_mounts ... ok
+test daemon_mounts::tests::btrfs_device_mismatch_rejects_duplicate_mount_id ... ok
+test daemon_mounts::tests::btrfs_bind_mount_masks_aliases_for_both_device_numbers ... ok
+test daemon_mounts::tests::btrfs_device_mismatch_still_rejects_unsafe_mounts::stat_device_socket_alias ... ok
+test daemon_mounts::tests::btrfs_device_mismatch_still_rejects_unsafe_mounts::mount_device_directory_alias ... ok
+test daemon_mounts::tests::device_mismatch_requires_verified_btrfs_mount::inconsistent_mount_filesystem ... ok
+test daemon_mounts::tests::device_mismatch_requires_verified_btrfs_mount::missing_mount_id ... ok
+test daemon_mounts::tests::device_mismatch_requires_verified_btrfs_mount::unavailable_mount_id ... ok
+test daemon_mounts::tests::device_mismatch_requires_verified_btrfs_mount::unverified_descriptor_filesystem ... ok
+test daemon_mounts::tests::masks_alias_when_tmp_is_itself_a_bind_mount ... ok
+test daemon_mounts::tests::masked_wslg_alias_does_not_skip_other_socket_masks ... ok
+test daemon_mounts::tests::ohos_account_socket_alias_cannot_bypass_the_mask ... ok
+test daemon_mounts::tests::ohos_account_root_masks_storage_mount_aliases ... ok
+test daemon_mounts::tests::rejects_mount_hidden_by_an_ancestor_overmount ... ok
+test daemon_mounts::tests::rejects_open_mount_that_has_been_covered ... ok
+test daemon_mounts::tests::validates_namespace_mounts_by_device_and_destination::invalid_destination_escape ... ok
+test daemon_mounts::tests::validates_namespace_mounts_by_device_and_destination::nested_namespace_mount ... ok
+test daemon_mounts::tests::unrelated_namespace_mount_does_not_hide_a_socket_alias ... ok
+test daemon_mounts::tests::validates_namespace_mounts_by_device_and_destination::relative_destination ... ok
+test daemon_mounts::tests::validates_namespace_mounts_by_device_and_destination::non_path_root_on_socket_filesystem ... ok
+test daemon_mounts::tests::validates_namespace_mounts_by_device_and_destination::unrelated_mount_namespace ... ok
+test daemon_mounts::tests::validates_namespace_mounts_by_device_and_destination::unrelated_network_namespace ... ok
+test mode_validation::tests::filesystem_restrictions_cannot_use_legacy_mode ... ok
+test mode_validation::tests::supported_mode_combinations_remain_allowed ... ok
+test ohos_runtime_mounts::tests::conflicting_rules_reject_without_partial_mounts ... ok
+test ohos_runtime_mounts::tests::dev_recreation_and_writable_ancestor_restore_only_aliases_readonly ... ok
+test ohos_runtime_mounts::tests::every_visible_alias_receives_its_own_protection ... ok
+test ohos_runtime_mounts::tests::unreadable_alias_is_not_reopened_and_writable_exposure_is_rejected ... ok
+test mode_validation::tests::invalid_mode_exits_two_with_explanation_and_without_panic ... ok
+test result: ok. 39 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+用例：鸿蒙受影响库检查
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱
+命令：env CODEX_OHOS_RUNTIME_BASE=/data/storage/el2/base/files rustup run 1.95.0 cargo check --manifest-path codex-rs/Cargo.toml --locked --offline --target aarch64-unknown-linux-ohos -p codex-uds -p codex-linux-sandbox -p codex-app-server-transport
+开始：2026-10-03T16:10:28.886627+08:00
+结束：2026-10-03T16:14:33.988565+08:00
+退出码：0
+原始日志（仅本机）：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-160837-固定运行目录三轮-沙箱会话/日志/鸿蒙受影响库检查.log
+原始日志 SHA256：d6a6acdc90e9e55250db2dd4cea658c79de14f013749efbce79855ced1e42fb1
+关键输出（依赖构建过程及重复错误已省略）：
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 4m 05s
+
+用例：鸿蒙目录模块测试链接
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱
+命令：env CODEX_OHOS_RUNTIME_BASE=/data/storage/el2/base/files rustup run 1.95.0 cargo test --manifest-path codex-rs/Cargo.toml --locked --offline --target aarch64-unknown-linux-ohos -p codex-uds --lib --no-run
+开始：2026-10-03T16:15:29.236473+08:00
+结束：2026-10-03T16:15:36.718202+08:00
+退出码：0
+原始日志（仅本机）：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-160837-固定运行目录三轮-沙箱会话/日志/鸿蒙目录模块测试链接.log
+原始日志 SHA256：56f025d58703565d322a1911910d773ad96062702ad029c9ffd5fdc72d666456
+关键输出（依赖构建过程及重复错误已省略）：
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 7.41s
+  Executable unittests src/lib.rs (.harmony-build/测试批次/2026-10-03-160837-固定运行目录三轮-沙箱会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/deps/codex_uds-7251d4e8be5f7ff2)

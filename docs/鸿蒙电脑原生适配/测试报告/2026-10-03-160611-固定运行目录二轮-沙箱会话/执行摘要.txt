@@ -1,0 +1,29 @@
+用例：格式化
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱
+命令：rustup run 1.95.0 rustfmt --edition 2024 codex-rs/uds/src/lib.rs codex-rs/uds/src/daemon_directory.rs codex-rs/uds/src/ohos_runtime.rs codex-rs/uds/src/ohos_runtime_tests.rs codex-rs/uds/src/ohos_control_socket.rs codex-rs/linux-sandbox/src/bwrap.rs codex-rs/linux-sandbox/src/lib.rs codex-rs/linux-sandbox/src/linux_run_main.rs codex-rs/linux-sandbox/src/ohos_runtime_mounts.rs codex-rs/app-server-transport/src/transport/mod.rs codex-rs/app-server-transport/src/transport/unix_socket.rs
+开始：2026-10-03T16:06:11.182979+08:00
+结束：2026-10-03T16:06:11.537102+08:00
+退出码：0
+原始日志（仅本机）：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-160611-固定运行目录二轮-沙箱会话/日志/格式化.log
+原始日志 SHA256：a0ebae12825eec48800138542c1d0be4c486c106a1718b168968d00f4a8b2e30
+关键输出（依赖构建过程及重复错误已省略）：
+
+用例：宿主目录与socket
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱
+命令：rustup run 1.95.0 cargo test --manifest-path codex-rs/Cargo.toml --locked --offline --target aarch64-apple-darwin -p codex-uds --lib
+开始：2026-10-03T16:06:39.112820+08:00
+结束：2026-10-03T16:06:48.487833+08:00
+退出码：101
+原始日志（仅本机）：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-160611-固定运行目录二轮-沙箱会话/日志/宿主目录与socket.log
+原始日志 SHA256：267c017a37f45007486e8d7d3f002f1a36d7431c472c2fb6fd5f72b520176d59
+关键输出（依赖构建过程及重复错误已省略）：
+test ohos_control_socket::tests::socket_roundtrip_concurrent_listener_refusal_and_owned_cleanup ... FAILED
+test ohos_control_socket::tests::stale_owned_socket_is_reused_but_foreign_objects_are_preserved ... FAILED
+test ohos_control_socket::tests::cleanup_preserves_replacement_and_unsafe_socket_mode ... FAILED
+thread 'ohos_control_socket::tests::socket_roundtrip_concurrent_listener_refusal_and_owned_cleanup' (6523114) panicked at uds/src/ohos_control_socket.rs:182:14:
+called `Result::unwrap()` on an `Err` value: Custom { kind: PermissionDenied, error: "OHOS runtime-dir stage=validate-private path=/private/tmp/csCMnrV1: owner=501 euid=501 mode=0755; require current-user-owned directory with mode 0700; no existing permissions were changed" }
+thread 'ohos_control_socket::tests::stale_owned_socket_is_reused_but_foreign_objects_are_preserved' (6523123) panicked at uds/src/ohos_control_socket.rs:210:70:
+thread 'ohos_control_socket::tests::cleanup_preserves_replacement_and_unsafe_socket_mode' (6523113) panicked at uds/src/ohos_control_socket.rs:245:14:
+called `Result::unwrap()` on an `Err` value: Custom { kind: PermissionDenied, error: "OHOS runtime-dir stage=validate-private path=/private/tmp/csfPoDy9: owner=501 euid=501 mode=0755; require current-user-owned directory with mode 0700; no existing permissions were changed" }
+test result: FAILED. 20 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+error: test failed, to rerun pass `-p codex-uds --lib`

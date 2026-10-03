@@ -1,0 +1,62 @@
+用例：格式化目录模块
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱
+命令：rustup run 1.95.0 rustfmt --edition 2024 codex-rs/uds/src/ohos_runtime.rs codex-rs/uds/src/ohos_runtime_tests.rs codex-rs/uds/src/daemon_directory.rs codex-rs/uds/src/daemon_directory_tests.rs codex-rs/uds/src/lib.rs
+开始：2026-10-03T15:48:31.134720+08:00
+结束：2026-10-03T15:48:31.374602+08:00
+退出码：0
+原始日志（仅本机）：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-154752-固定运行目录契约-沙箱会话/日志/格式化目录模块.log
+原始日志 SHA256：52c915d8cb0a9ac161ef953390e5b50ea526a165cdca86cdfbfb2d7233ce6cf5
+关键输出（依赖构建过程及重复错误已省略）：
+
+用例：宿主目录首轮
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱
+命令：rustup run 1.95.0 cargo test --manifest-path codex-rs/Cargo.toml --locked --offline --target aarch64-apple-darwin -p codex-uds --lib
+开始：2026-10-03T15:48:31.444625+08:00
+结束：2026-10-03T15:48:41.428320+08:00
+退出码：101
+原始日志（仅本机）：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-154752-固定运行目录契约-沙箱会话/日志/宿主目录首轮.log
+原始日志 SHA256：dbdfb3cc4d23ac6a99086fdd7a2c8ed9966f15be8315f6fe25a50878b6910c15
+关键输出（依赖构建过程及重复错误已省略）：
+test ohos_runtime::tests::aliases_use_owned_fixed_subdirectories_without_changing_base ... FAILED
+test lib_tests::bound_listener_path_is_stale_socket_path ... FAILED
+test lib_tests::stream_round_trips_data_between_listener_and_client ... FAILED
+test ohos_runtime::tests::existing_runtime_objects_are_never_repaired_or_replaced ... FAILED
+test ohos_runtime::tests::lock_rejects_links_wrong_type_and_unsafe_modes_without_chmod ... FAILED
+test ohos_runtime::tests::new_setgid_inheritance_is_normalized_through_its_descriptor_only ... FAILED
+test ohos_runtime::tests::pinned_chain_rejects_replacement_before_creating_more_objects ... FAILED
+test ohos_runtime::tests::shared_setgid_and_nonroot_sticky_bases_are_rejected_without_mutation ... FAILED
+test ohos_runtime::tests::runtime_initialization_converges_across_concurrent_callers ... FAILED
+thread 'ohos_runtime::tests::aliases_use_owned_fixed_subdirectories_without_changing_base' (6499986) panicked at uds/src/ohos_runtime_tests.rs:18:77:
+called `Result::unwrap()` on an `Err` value: Custom { kind: PermissionDenied, error: "OHOS runtime-dir stage=validate-ancestor path=/Volumes/MacSSD: owner=501 euid=501 mode=0775; require root/current-user-owned directory without group/other writes, or root-owned sticky directory; no existing permissions were changed" }
+thread 'lib_tests::bound_listener_path_is_stale_socket_path' (6499981) panicked at uds/src/lib_tests.rs:231:21:
+thread 'lib_tests::stream_round_trips_data_between_listener_and_client' (6499985) panicked at uds/src/lib_tests.rs:251:21:
+thread 'ohos_runtime::tests::existing_runtime_objects_are_never_repaired_or_replaced' (6499998) panicked at uds/src/ohos_runtime_tests.rs:95:77:
+called `Result::unwrap()` on an `Err` value: Custom { kind: PermissionDenied, error: "OHOS runtime-dir stage=validate-ancestor path=/Volumes/MacSSD: owner=501 euid=501 mode=0775; require root/current-user-owned directory without group/other writes, or root-owned sticky directory; no existing permissions were changed" }
+thread 'ohos_runtime::tests::lock_rejects_links_wrong_type_and_unsafe_modes_without_chmod' (6500001) panicked at uds/src/ohos_runtime_tests.rs:176:77:
+called `Result::unwrap()` on an `Err` value: Custom { kind: PermissionDenied, error: "OHOS runtime-dir stage=validate-ancestor path=/Volumes/MacSSD: owner=501 euid=501 mode=0775; require root/current-user-owned directory without group/other writes, or root-owned sticky directory; no existing permissions were changed" }
+thread 'ohos_runtime::tests::new_setgid_inheritance_is_normalized_through_its_descriptor_only' (6500002) panicked at uds/src/ohos_runtime_tests.rs:116:77:
+called `Result::unwrap()` on an `Err` value: Custom { kind: PermissionDenied, error: "OHOS runtime-dir stage=validate-ancestor path=/Volumes/MacSSD: owner=501 euid=501 mode=0775; require root/current-user-owned directory without group/other writes, or root-owned sticky directory; no existing permissions were changed" }
+thread 'ohos_runtime::tests::pinned_chain_rejects_replacement_before_creating_more_objects' (6500003) panicked at uds/src/ohos_runtime_tests.rs:128:77:
+called `Result::unwrap()` on an `Err` value: Custom { kind: PermissionDenied, error: "OHOS runtime-dir stage=validate-ancestor path=/Volumes/MacSSD: owner=501 euid=501 mode=0775; require root/current-user-owned directory without group/other writes, or root-owned sticky directory; no existing permissions were changed" }
+thread 'ohos_runtime::tests::shared_setgid_and_nonroot_sticky_bases_are_rejected_without_mutation' (6500006) panicked at uds/src/ohos_runtime_tests.rs:53:9:
+  left: 505
+ right: 1529
+thread '<unnamed>' (6500012) panicked at uds/src/ohos_runtime_tests.rs:159:85:
+called `Result::unwrap()` on an `Err` value: Custom { kind: PermissionDenied, error: "OHOS runtime-dir stage=validate-ancestor path=/Volumes/MacSSD: owner=501 euid=501 mode=0775; require root/current-user-owned directory without group/other writes, or root-owned sticky directory; no existing permissions were changed" }
+thread '<unnamed>' (6500009) panicked at uds/src/ohos_runtime_tests.rs:159:85:
+called `Result::unwrap()` on an `Err` value: Custom { kind: PermissionDenied, error: "OHOS runtime-dir stage=validate-ancestor path=/Volumes/MacSSD: owner=501 euid=501 mode=0775; require root/current-user-owned directory without group/other writes, or root-owned sticky directory; no existing permissions were changed" }
+thread '<unnamed>' (6500013) panicked at uds/src/ohos_runtime_tests.rs:159:85:
+called `Result::unwrap()` on an `Err` value: Custom { kind: PermissionDenied, error: "OHOS runtime-dir stage=validate-ancestor path=/Volumes/MacSSD: owner=501 euid=501 mode=0775; require root/current-user-owned directory without group/other writes, or root-owned sticky directory; no existing permissions were changed" }
+thread '<unnamed>' (6500016) panicked at uds/src/ohos_runtime_tests.rs:159:85:
+called `Result::unwrap()` on an `Err` value: Custom { kind: PermissionDenied, error: "OHOS runtime-dir stage=validate-ancestor path=/Volumes/MacSSD: owner=501 euid=501 mode=0775; require root/current-user-owned directory without group/other writes, or root-owned sticky directory; no existing permissions were changed" }
+thread '<unnamed>' (6500015) panicked at uds/src/ohos_runtime_tests.rs:159:85:
+called `Result::unwrap()` on an `Err` value: Custom { kind: PermissionDenied, error: "OHOS runtime-dir stage=validate-ancestor path=/Volumes/MacSSD: owner=501 euid=501 mode=0775; require root/current-user-owned directory without group/other writes, or root-owned sticky directory; no existing permissions were changed" }
+thread '<unnamed>' (6500017) panicked at uds/src/ohos_runtime_tests.rs:159:85:
+called `Result::unwrap()` on an `Err` value: Custom { kind: PermissionDenied, error: "OHOS runtime-dir stage=validate-ancestor path=/Volumes/MacSSD: owner=501 euid=501 mode=0775; require root/current-user-owned directory without group/other writes, or root-owned sticky directory; no existing permissions were changed" }
+thread '<unnamed>' (6500011) panicked at uds/src/ohos_runtime_tests.rs:159:85:
+called `Result::unwrap()` on an `Err` value: Custom { kind: PermissionDenied, error: "OHOS runtime-dir stage=validate-ancestor path=/Volumes/MacSSD: owner=501 euid=501 mode=0775; require root/current-user-owned directory without group/other writes, or root-owned sticky directory; no existing permissions were changed" }
+thread 'ohos_runtime::tests::runtime_initialization_converges_across_concurrent_callers' (6500005) panicked at uds/src/ohos_runtime_tests.rs:167:41:
+thread '<unnamed>' (6500014) panicked at uds/src/ohos_runtime_tests.rs:159:85:
+called `Result::unwrap()` on an `Err` value: Custom { kind: PermissionDenied, error: "OHOS runtime-dir stage=validate-ancestor path=/Volumes/MacSSD: owner=501 euid=501 mode=0775; require root/current-user-owned directory without group/other writes, or root-owned sticky directory; no existing permissions were changed" }
+test result: FAILED. 11 passed; 9 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+error: test failed, to rerun pass `-p codex-uds --lib`

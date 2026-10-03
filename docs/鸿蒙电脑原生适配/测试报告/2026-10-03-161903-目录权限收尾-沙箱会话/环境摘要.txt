@@ -1,0 +1,17 @@
+宿主：macOS 27.0.1 (26A434), arm64
+Python：3.14.7
+Rust/Cargo：固定 rustup 1.95.0，完整版本输出见收尾批次执行摘要和原始工具链日志
+宿主目标：aarch64-apple-darwin
+交叉目标：aarch64-unknown-linux-ohos
+SDK：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native
+SDK metadata：6.1.1.125 / API 24 / Release（oh-uni-package.json）
+Clang / LLD：15.0.4
+Cargo：--locked --offline，默认 features，dev/test profile，CARGO_BUILD_JOBS=2
+RUSTUP_HOME：/Volumes/MacSSD/dev/rust/rustup
+CARGO_HOME：/Volumes/MacSSD/dev/rust/cargo
+交叉候选契约：CODEX_OHOS_RUNTIME_BASE=/data/storage/el2/base/files，仅编译时 env/option_env
+SDK sys/un.h：char sun_path[108]，候选40字节socket根 + 斜线1 + 摘要64 + NUL1 = 106
+构建输出与日志：每批独立 .harmony-build/测试批次/<批次名>，位于外置盘
+宿主临时夹具：外置盘短 rt-* 目录用于普通测试；严格祖先/短socket测试仅用少量 /private/tmp/cr*、cs* 私有夹具，TempDir 清理
+现场设备、登录/凭据/模型请求、签名、完整 CLI 发布：均未执行
+版本于收尾时实际采样；先前批次通过验证入口固定同一工具链路径和版本，不冒充早期逐时采样。
