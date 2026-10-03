@@ -1,0 +1,17 @@
+{
+  "HEAD": "10465b340ba467e76597065e986673a1a7061f6e",
+  "files": {
+    "codex-rs/uds/BUILD.bazel": "8d63234480ab3da7a82e1754fcc10d988ff2e3f38344f9fe086914985c03cebc",
+    "codex-rs/uds/Cargo.toml": "9d12d74d08723dd5ff1ac2cf1998e79b03a5de65cb4c014e90b225167405577c",
+    "codex-rs/uds/src/daemon_directory.rs": "ff9a1d2676214d0947451c0d00160717ea3210c0a6d816f942501cb826c38b5e",
+    "codex-rs/uds/src/daemon_directory_tests.rs": "869f19d3a19e880c7fcb7600ba8dfc77e9fbcbd3df23c403cbdb6c19cb34719f",
+    "codex-rs/uds/src/lib.rs": "25c9bd78bba0429fd83a2e6f042faec37f9321fb52d34244b58d9dc08a9c0e53",
+    "codex-rs/uds/src/lib_tests.rs": "797597a2416ce19a9fc2a2c8f20fc27eb22d5ed4051490644b62ccbaf8065c1c",
+    "codex-rs/uds/src/ohos_control_socket.rs": "26797486c213fd8ca7618566943c2a8b8dfe3118817bcfc2f353727259725763",
+    "codex-rs/uds/src/ohos_runtime.rs": "d86daea603f4b1368056552d26f40a6f7a2c73159f6bfb181a33a70de63560d7",
+    "codex-rs/uds/src/ohos_runtime_tests.rs": "fb7d62f6b7c65d99ce3bcad22e5dccd588a07c0590e0129436bd731855d3cc37",
+    "codex-rs/uds/src/windows_peer.rs": "44c4ba4690d1930b40e4a5da9f283e2e17453d81692b73ff5e7c366832b2831b",
+    "codex-rs/uds/src/windows_security.rs": "dc4c5a2e06e5c49dd170b14302fd1bc99b05c2af5aa30ca497846c889606d021",
+    "codex-rs/uds/src/windows_socket_validation.rs": "b6639ba2b1d287be3bd75a084805232f0f55e738c28c8b0901916d3040d0d619"
+  }
+}

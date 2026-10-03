@@ -1,0 +1,17 @@
+{
+  "inputs": {
+    "codex-rs/Cargo.toml": "b6bf30f11f75095d9687fd44a907e6404e7f374a60fb53ca8e371cb9d2226d41",
+    "codex-rs/Cargo.lock": "da948feb3be540f25620b20c8290623dbc583cd597352137850afdaceaa2052a",
+    "scripts/build_harmony.py": "7ace98b264abb286117a9fc861a4b0c2070f9f360fbb7059b218b4d38314cdf5"
+  },
+  "wrappers": {
+    "ohos-clang": {
+      "sha256": "eeb6fdc32280e14ec03667361508ff7cc1e81e5e1b41d9f0b37368eeed4400d6",
+      "content": "#!/bin/sh\nexec /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/clang --target=aarch64-linux-ohos --sysroot=/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot -D__MUSL__ \"$@\"\n"
+    },
+    "ohos-clang++": {
+      "sha256": "61644f47080f9e3800abb87a799174d3c7f781549d497e1802bf6760bdb4ba61",
+      "content": "#!/bin/sh\nexec /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/clang++ --target=aarch64-linux-ohos --sysroot=/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot -D__MUSL__ \"$@\"\n"
+    }
+  }
+}

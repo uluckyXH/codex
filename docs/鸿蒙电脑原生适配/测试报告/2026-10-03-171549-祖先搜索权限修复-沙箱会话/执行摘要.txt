@@ -1,0 +1,198 @@
+本批原始日志摘要；保留精确命令、起止时间和退出码。原始日志仅存外置盘，本文件不计为新的测试运行。
+
+用例：格式化
+命令：rustup run 1.95.0 rustfmt --edition 2024 codex-rs/uds/src/ohos_runtime.rs
+开始：2026-10-03T17:15:49.387612+08:00
+结束：2026-10-03T17:15:49.574616+08:00
+退出码：0
+原始日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-171549-祖先搜索权限修复-沙箱会话/日志/格式化.log
+原始日志 SHA256：08c669a80940d1d5148c90fda4e6d5aa1ecb65a8bdbb91b80e08c1b6f0c06f53
+关键输出（末尾最多55行）：
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱
+开始时间：2026-10-03T17:15:49.387612+08:00
+命令：rustup run 1.95.0 rustfmt --edition 2024 codex-rs/uds/src/ohos_runtime.rs
+Warning: can't set `imports_granularity = Item`, unstable features are only available in nightly channel.
+
+结束时间：2026-10-03T17:15:49.574616+08:00
+退出码：0
+
+用例：鸿蒙目录模块检查
+命令：env CODEX_OHOS_RUNTIME_BASE=/data/storage/el2/base/files rustup run 1.95.0 cargo check --manifest-path codex-rs/Cargo.toml --locked --offline --target aarch64-unknown-linux-ohos -p codex-uds
+开始：2026-10-03T17:17:07.054950+08:00
+结束：2026-10-03T17:17:12.074336+08:00
+退出码：0
+原始日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-171549-祖先搜索权限修复-沙箱会话/日志/鸿蒙目录模块检查.log
+原始日志 SHA256：cdd706e233432e9ec35e3928121b1c882a20084acd03885c7e471bcade3a4d99
+关键输出（末尾最多55行）：
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱
+开始时间：2026-10-03T17:17:07.054950+08:00
+命令：env CODEX_OHOS_RUNTIME_BASE=/data/storage/el2/base/files rustup run 1.95.0 cargo check --manifest-path codex-rs/Cargo.toml --locked --offline --target aarch64-unknown-linux-ohos -p codex-uds
+   Compiling libc v0.2.186
+    Checking pin-project-lite v0.2.16
+    Checking socket2 v0.6.3
+    Checking mio v1.2.0
+    Checking tokio v1.52.3
+    Checking codex-uds v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/uds)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 4.99s
+
+结束时间：2026-10-03T17:17:12.074336+08:00
+退出码：0
+
+用例：宿主目录与socket回归
+命令：rustup run 1.95.0 cargo test --manifest-path codex-rs/Cargo.toml --locked --offline --target aarch64-apple-darwin -p codex-uds --lib -- --nocapture
+开始：2026-10-03T17:17:05.882596+08:00
+结束：2026-10-03T17:17:14.416854+08:00
+退出码：0
+原始日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-171549-祖先搜索权限修复-沙箱会话/日志/宿主目录与socket回归.log
+原始日志 SHA256：0c152ec12635e93c3fa67e3d4174753b562161f9946d38695a1a863b3bac2076
+关键输出（末尾最多55行）：
+   Compiling syn v2.0.117
+   Compiling errno v0.3.14
+   Compiling bitflags v2.13.1
+   Compiling cfg-if v1.0.4
+   Compiling socket2 v0.6.3
+   Compiling mio v1.2.0
+   Compiling once_cell v1.21.4
+   Compiling yansi v1.0.1
+   Compiling fastrand v2.3.0
+   Compiling tokio-macros v2.7.0
+   Compiling pin-project-lite v0.2.16
+   Compiling bytes v1.12.1
+   Compiling diff v0.1.13
+   Compiling tokio v1.52.3
+   Compiling pretty_assertions v1.4.1
+   Compiling tempfile v3.27.0
+   Compiling codex-uds v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/uds)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 8.15s
+     Running unittests src/lib.rs (.harmony-build/测试批次/2026-10-03-171549-祖先搜索权限修复-沙箱会话/宿主产物/aarch64-apple-darwin/debug/deps/codex_uds-52cc87b4fae11e09)
+
+running 28 tests
+test daemon_directory::tests::directory_errors_include_stage_path_and_os_error ... ok
+test lib_tests::stream_round_trips_data_between_listener_and_client ... ok
+test lib_tests::prepare_private_socket_directory_creates_directory ... ok
+test lib_tests::bound_listener_path_is_stale_socket_path ... ok
+test lib_tests::prepare_private_socket_directory_sets_existing_permissions_to_owner_only ... ok
+test lib_tests::regular_file_path_is_not_stale_socket_path ... ok
+test ohos_runtime::tests::invalid_or_missing_base_is_not_created ... ok
+test daemon_directory::tests::reservation_rejects_symlinks_files_wrong_owner_and_unsafe_modes ... ok
+test daemon_directory::tests::private_reservation_is_idempotent_and_concurrent ... ok
+test ohos_runtime::tests::every_symlink_component_is_rejected_without_touching_its_target ... ok
+test ohos_control_socket::tests::socket_roundtrip_concurrent_listener_refusal_and_owned_cleanup ... ok
+test ohos_runtime::tests::new_setgid_inheritance_is_normalized_through_its_descriptor_only ... ok
+test ohos_runtime::tests::existing_runtime_objects_are_never_repaired_or_replaced ... ok
+test ohos_runtime::tests::aliases_use_owned_fixed_subdirectories_without_changing_base ... ok
+test ohos_runtime::tests::read_only_parent_fails_without_changing_it ... ok
+test ohos_runtime::tests::reported_device_identity_and_setgid_are_not_sticky_protection ... ok
+test ohos_control_socket::tests::cleanup_preserves_replacement_and_unsafe_socket_mode ... ok
+test ohos_runtime::tests::socket_address_budget_counts_full_digest_separator_nul_and_utf8_bytes ... ok
+test ohos_runtime::tests::wrong_effective_owner_is_rejected_even_with_private_mode ... ok
+test ohos_runtime::tests::new_private_directory_keeps_a_chmod_capable_descriptor ... ok
+test ohos_runtime::tests::private_directory_compatibility_entry_never_repairs_existing_modes ... ok
+test ohos_runtime::tests::pinned_chain_rejects_replacement_before_creating_more_objects ... ok
+test ohos_runtime::tests::shared_setgid_and_nonroot_sticky_bases_are_rejected_without_mutation ... ok
+test ohos_control_socket::tests::stale_owned_socket_is_reused_but_foreign_objects_are_preserved ... ok
+test ohos_runtime::tests::runtime_initialization_converges_across_concurrent_callers ... ok
+test ohos_runtime::tests::lock_rejects_links_wrong_type_and_unsafe_modes_without_chmod ... ok
+test ohos_runtime::tests::replaced_lock_and_every_cloned_descriptor_are_checked ... ok
+test ohos_runtime::tests::runtime_environment_cannot_bind_or_replace_the_build_contract ... ok
+
+test result: ok. 28 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s
+
+
+结束时间：2026-10-03T17:17:14.416854+08:00
+退出码：0
+
+用例：鸿蒙目录测试链接
+命令：env CODEX_OHOS_RUNTIME_BASE=/data/storage/el2/base/files rustup run 1.95.0 cargo test --manifest-path codex-rs/Cargo.toml --locked --offline --target aarch64-unknown-linux-ohos -p codex-uds --lib --no-run
+开始：2026-10-03T17:20:58.176049+08:00
+结束：2026-10-03T17:21:04.481699+08:00
+退出码：0
+原始日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-171549-祖先搜索权限修复-沙箱会话/日志/鸿蒙目录测试链接.log
+原始日志 SHA256：f505ed4f6c1c296e243520c2781382fd480b433787a20176f86cba208af5cfce
+关键输出（末尾最多55行）：
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱
+开始时间：2026-10-03T17:20:58.176049+08:00
+命令：env CODEX_OHOS_RUNTIME_BASE=/data/storage/el2/base/files rustup run 1.95.0 cargo test --manifest-path codex-rs/Cargo.toml --locked --offline --target aarch64-unknown-linux-ohos -p codex-uds --lib --no-run
+   Compiling proc-macro2 v1.0.106
+   Compiling libc v0.2.186
+   Compiling unicode-ident v1.0.22
+   Compiling quote v1.0.45
+   Compiling getrandom v0.4.2
+   Compiling rustix v1.1.4
+   Compiling syn v2.0.117
+   Compiling cfg-if v1.0.4
+   Compiling linux-raw-sys v0.12.1
+   Compiling bitflags v2.13.1
+   Compiling mio v1.2.0
+   Compiling tokio-macros v2.7.0
+   Compiling socket2 v0.6.3
+   Compiling diff v0.1.13
+   Compiling fastrand v2.3.0
+   Compiling pin-project-lite v0.2.16
+   Compiling yansi v1.0.1
+   Compiling once_cell v1.21.4
+   Compiling bytes v1.12.1
+   Compiling pretty_assertions v1.4.1
+   Compiling tempfile v3.27.0
+   Compiling tokio v1.52.3
+   Compiling codex-uds v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/uds)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 6.27s
+  Executable unittests src/lib.rs (.harmony-build/测试批次/2026-10-03-171549-祖先搜索权限修复-沙箱会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/deps/codex_uds-7251d4e8be5f7ff2)
+
+结束时间：2026-10-03T17:21:04.481699+08:00
+退出码：0
+
+用例：证据静态采集
+命令：python3 'docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171549-祖先搜索权限修复-沙箱会话/证据采集.py'
+开始：2026-10-03T17:26:45.370645+08:00
+结束：2026-10-03T17:26:47.396243+08:00
+退出码：0
+原始日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-171549-祖先搜索权限修复-沙箱会话/日志/证据静态采集.log
+原始日志 SHA256：0f3acbdceb1827a5f1c32a6ead1cfa193bf72ac35b834953771ddfe621762036
+关键输出（末尾最多55行）：
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱
+开始时间：2026-10-03T17:26:45.370645+08:00
+命令：python3 'docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171549-祖先搜索权限修复-沙箱会话/证据采集.py'
+命令：sw_vers
+退出码：0
+命令：uname -m
+退出码：0
+命令：id -u
+退出码：0
+命令：rustup run 1.95.0 rustc --version --verbose
+退出码：0
+命令：rustup run 1.95.0 cargo --version
+退出码：0
+命令：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/clang --version
+退出码：0
+命令：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/ld.lld --version
+退出码：0
+命令：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-readelf -h -l -d '/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-171549-祖先搜索权限修复-沙箱会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/deps/codex_uds-7251d4e8be5f7ff2'
+退出码：0
+命令：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-nm --demangle '/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-171549-祖先搜索权限修复-沙箱会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/deps/codex_uds-7251d4e8be5f7ff2'
+退出码：0
+环境、SDK 常量/标准库路径、测试 ELF 与源码摘要采集通过；没有执行目标 ELF。
+
+结束时间：2026-10-03T17:26:47.396243+08:00
+退出码：0
+
+用例：文档静态检查
+命令：python3 'docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/证据/文档检查脚本.py'
+开始：2026-10-03T17:30:50.142135+08:00
+结束：2026-10-03T17:30:50.572585+08:00
+退出码：0
+原始日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-171549-祖先搜索权限修复-沙箱会话/日志/文档静态检查.log
+原始日志 SHA256：0a1d83de90ee5461dc9d7f4bddd0bb98ca70e9c863f25c1221302b62e6820e0a
+关键输出（末尾最多55行）：
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱
+开始时间：2026-10-03T17:30:50.142135+08:00
+命令：python3 'docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/证据/文档检查脚本.py'
+中文文档：149
+本地链接：956
+Shell 示例：66
+Python 示例：1
+TOML 示例：4
+文档静态检查通过；示例语法检查不会执行示例中的构建或安装命令。
+
+结束时间：2026-10-03T17:30:50.572585+08:00
+退出码：0

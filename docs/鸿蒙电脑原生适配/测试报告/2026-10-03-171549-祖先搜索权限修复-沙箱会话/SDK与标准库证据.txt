@@ -1,0 +1,157 @@
+来源：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/aarch64-linux-ohos/bits/fcntl.h
+文件 SHA256：66c37030b995805fb951315d3b0935d5fb6d0c3e1ddcf651ddf42c6e418b61b7
+1: #define O_CREAT        0100
+2: #define O_EXCL         0200
+3: #define O_NOCTTY       0400
+4: #define O_TRUNC       01000
+5: #define O_APPEND      02000
+6: #define O_NONBLOCK    04000
+7: #define O_DSYNC      010000
+8: #define O_SYNC     04010000
+9: #define O_RSYNC    04010000
+10: #define O_DIRECTORY  040000
+11: #define O_NOFOLLOW  0100000
+12: #define O_CLOEXEC  02000000
+13:
+14: #define O_ASYNC      020000
+15: #define O_DIRECT    0200000
+16: #define O_LARGEFILE 0400000
+17: #define O_NOATIME  01000000
+18: #define O_PATH    010000000
+19: #define O_TMPFILE 020040000
+20: #define O_NDELAY O_NONBLOCK
+21:
+22: #define F_DUPFD  0
+23: #define F_GETFD  1
+24: #define F_SETFD  2
+25: #define F_GETFL  3
+
+来源：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/fcntl.h
+文件 SHA256：ea90e0d85136139de418021cba80f51195bee20bbbf899811af35a36d5947c5d
+33: int creat(const char *, mode_t);
+34: int fcntl(int, int, ...);
+35: int open(const char *, int, ...);
+36: int openat(int, const char *, int, ...);
+37: int posix_fadvise(int, off_t, off_t, int);
+38: int posix_fallocate(int, off_t, off_t);
+39:
+40: #define O_SEARCH   O_PATH
+41: #define O_EXEC     O_PATH
+42: #define O_TTY_INIT 0
+43:
+44: #define O_ACCMODE (03|O_SEARCH)
+45: #define O_RDONLY  00
+46: #define O_WRONLY  01
+47: #define O_RDWR    02
+48:
+49: #define F_OFD_GETLK 36
+50: #define F_OFD_SETLK 37
+51: #define F_OFD_SETLKW 38
+52:
+53: #define F_DUPFD_CLOEXEC 1030
+54:
+55: #define F_RDLCK 0
+56: #define F_WRLCK 1
+57: #define F_UNLCK 2
+58:
+59: #define FD_CLOEXEC 1
+
+来源：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/sys/stat.h
+文件 SHA256：df3b97ec16c82f77ff7a54349dfdf34709c49c33271508351246a849fd031069
+63: #define S_IRWXG 0070
+64: #define S_IROTH 0004
+65: #define S_IWOTH 0002
+66: #define S_IXOTH 0001
+67: #define S_IRWXO 0007
+68: #endif
+69:
+70: #define UTIME_NOW  0x3fffffff
+71: #define UTIME_OMIT 0x3ffffffe
+72:
+73: int stat(const char *__restrict, struct stat *__restrict);
+74: int fstat(int, struct stat *);
+75: int lstat(const char *__restrict, struct stat *__restrict);
+76: int fstatat(int, const char *__restrict, struct stat *__restrict, int);
+77: int chmod(const char *, mode_t);
+78: int fchmod(int, mode_t);
+79: int fchmodat(int, const char *, mode_t, int);
+
+来源：/Volumes/MacSSD/dev/rust/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.186/src/unix/linux_like/linux/musl/mod.rs
+文件 SHA256：56c79797cafb7949f639f84a5a34676b34d776c843f0ad49ddca0684092580f4
+570: pub const FOPEN_MAX: c_uint = 1000;
+571: pub const FILENAME_MAX: c_uint = 4096;
+572: pub const O_PATH: c_int = 0o10000000;
+573: pub const O_EXEC: c_int = 0o10000000;
+574: pub const O_SEARCH: c_int = 0o10000000;
+575: pub const O_ACCMODE: c_int = 0o10000003;
+576: pub const O_NDELAY: c_int = O_NONBLOCK;
+
+来源：/Volumes/MacSSD/dev/rust/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/libc-0.2.186/src/unix/linux_like/linux/mod.rs
+文件 SHA256：3d293f05bfb6f9605e238399e404bf77ca91f4f7def6596f77f404c71b80b572
+4421:
+4422: cfg_if! {
+4423:     if #[cfg(target_env = "uclibc")] {
+4424:         mod uclibc;
+4425:         pub use self::uclibc::*;
+4426:     } else if #[cfg(any(target_env = "musl", target_env = "ohos"))] {
+4427:         mod musl;
+4428:         pub use self::musl::*;
+4429:     } else if #[cfg(target_env = "gnu")] {
+4430:         mod gnu;
+4431:         pub use self::gnu::*;
+4432:     }
+
+来源：/Volumes/MacSSD/dev/rust/rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/src/rust/library/std/src/sys/fs/unix.rs
+文件 SHA256：77c6419ee048c348d9ed4bef226ce6ceb735d6077d0eb9f6bcac0ef46fa7b86d
+1343:
+1344: impl File {
+1345:     pub fn open(path: &Path, opts: &OpenOptions) -> io::Result<File> {
+1346:         run_path_with_cstr(path, &|path| File::open_c(path, opts))
+1347:     }
+1348:
+1349:     pub fn open_c(path: &CStr, opts: &OpenOptions) -> io::Result<File> {
+1350:         let flags = libc::O_CLOEXEC
+1351:             | opts.get_access_mode()?
+1352:             | opts.get_creation_mode()?
+1353:             | (opts.custom_flags as c_int & !libc::O_ACCMODE);
+1354:         // The third argument of `open64` is documented to have type `mode_t`. On
+1355:         // some platforms (like macOS, where `open64` is actually `open`), `mode_t` is `u16`.
+1356:         // However, since this is a variadic function, C integer promotion rules mean that on
+1357:         // the ABI level, this still gets passed as `c_int` (aka `u32` on Unix platforms).
+1358:         let fd = cvt_r(|| unsafe { open64(path.as_ptr(), flags, opts.mode as c_int) })?;
+1359:         Ok(File(unsafe { FileDesc::from_raw_fd(fd) }))
+1360:     }
+1361:
+1362:     pub fn file_attr(&self) -> io::Result<FileAttr> {
+1363:         let fd = self.as_raw_fd();
+1364:
+1365:         cfg_has_statx! {
+1366:             if let Some(ret) = unsafe { try_statx(
+1367:                 fd,
+1368:                 c"".as_ptr() as *const c_char,
+1369:                 libc::AT_EMPTY_PATH | libc::AT_STATX_SYNC_AS_STAT,
+1370:                 libc::STATX_BASIC_STATS | libc::STATX_BTIME,
+1371:             ) } {
+1372:                 return ret;
+1373:             }
+1374:         }
+1375:
+1376:         let mut stat: stat64 = unsafe { mem::zeroed() };
+1377:         cvt(unsafe { fstat64(fd, &mut stat) })?;
+1378:         Ok(FileAttr::from_stat64(stat))
+1379:     }
+1380:
+
+来源：/Volumes/MacSSD/dev/rust/rustup/toolchains/1.95.0-aarch64-apple-darwin/lib/rustlib/src/rust/library/std/src/sys/fd/unix.rs
+文件 SHA256：2ee7c01303945c9ab29c6d6269b07d7c244f6d6e689e3de2c2acc72cddf3415a
+628:             Ok(())
+629:         }
+630:     }
+631:
+632:     #[inline]
+633:     pub fn duplicate(&self) -> io::Result<FileDesc> {
+634:         Ok(Self(self.0.try_clone()?))
+635:     }
+636: }
+637:
+638: impl<'a> Read for &'a FileDesc {
