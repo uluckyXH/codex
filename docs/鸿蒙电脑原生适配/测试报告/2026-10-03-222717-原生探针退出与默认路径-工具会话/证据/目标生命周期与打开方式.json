@@ -1,0 +1,26 @@
+{
+  "sdk_constants": {
+    "sdk_ancestor_flags": 2670592,
+    "sdk_readable_directory_flags": 573440
+  },
+  "actual_calls": {
+    "inspect_chain": [
+      "%22 = call i32 (ptr, i32, ...) @open(ptr noundef @.str.76, i32 noundef 2670592)",
+      "%162 = call i32 (i32, ptr, i32, ...) @openat(i32 noundef %160, ptr noundef %161, i32 noundef 2670592)"
+    ],
+    "create_test": [
+      "%60 = call i32 (ptr, i32, ...) @open(ptr noundef @.str.140, i32 noundef 557056)",
+      "%138 = call i32 (i32, ptr, i32, ...) @openat(i32 noundef %136, ptr noundef %137, i32 noundef 573440)",
+      "%193 = call i32 (i32, ptr, i32, ...) @openat(i32 noundef %192, ptr noundef @.str.151, i32 noundef 557250, i32 noundef 384)"
+    ],
+    "native_context": [
+      "%31 = call ptr @dlopen(ptr noundef %30, i32 noundef 2)"
+    ],
+    "native_worker_exit": [
+      "%13 = call i32 @fflush(ptr noundef %12)",
+      "%18 = call i32 @fclose(ptr noundef %17)",
+      "call void @_Exit(i32 noundef %28) #7"
+    ]
+  },
+  "meaning": "实际 SDK 的静态 IR；不是 OHOS 运行测试。"
+}

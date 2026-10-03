@@ -1,0 +1,22 @@
+{
+  "host": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "cases": [
+    {
+      "case": "宿主01",
+      "command": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "-B",
+        "scripts/test_harmony_runtime_probe.py"
+      ],
+      "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具",
+      "started": "2026-10-03T22:29:00.826763+08:00",
+      "finished": "2026-10-03T22:29:17.288902+08:00",
+      "exit_code": 0
+    },
+    {
+      "compiler": "Apple clang version 21.0.0 (clang-2100.3.34.2)\nTarget: arm64-apple-darwin27.0.0\nThread model: posix\nInstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin\n",
+      "python": "3.14.7 (main, Aug  5 2026, 10:29:49) [Clang 21.0.0 (clang-2100.1.1.101)]"
+    }
+  ],
+  "runner_exit_code": 0
+}

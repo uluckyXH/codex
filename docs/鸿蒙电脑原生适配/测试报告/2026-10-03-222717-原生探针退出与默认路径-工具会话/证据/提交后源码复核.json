@@ -1,0 +1,11 @@
+{
+  "code_commit": "31e006251bbae3a6731bd3f482b7abf4e7062cba",
+  "file_sha256": {
+    "scripts/harmony_runtime_probe.c": "42d13ba710310298315e290de17d25424fdaf3884116e01e16c5ac0b8a979e25",
+    "scripts/test_harmony_runtime_probe.py": "945ffc451033d7aab8e296d8cabb8cb039b1a314c3bba5358a9b712189b1e9a1",
+    "scripts/harmony_runtime_probe_context.h": "b9117304bc7aa7547f9e05461f5d81e97fe7193e6bb3c0a786cd421ff2c5dce7",
+    "scripts/harmony_runtime_probe_sdk_check.cpp": "10fda23c756cbc7f3c89b09dc75d57dc35f170f5d5d435fb6273e88919529b29"
+  },
+  "matches_tested_source": true,
+  "scope": "C 探针及 Python 宿主回归；SDK 头与类型门禁源码未改"
+}
