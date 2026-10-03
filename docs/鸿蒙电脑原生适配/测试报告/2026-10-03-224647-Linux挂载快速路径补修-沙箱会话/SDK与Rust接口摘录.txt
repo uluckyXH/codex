@@ -1,0 +1,169 @@
+来源：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/linux/stat.h
+SHA256：2c12afc1e2496c41376c583adb6d9374808f0e0d90bcdb3334aefe7ee43e8e57
+54: struct statx_timestamp {
+55:   __s64 tv_sec;
+56:   __u32 tv_nsec;
+57:   __s32 __reserved;
+58: };
+59: struct statx {
+60:   __u32 stx_mask;
+61:   __u32 stx_blksize;
+62:   __u64 stx_attributes;
+63:   __u32 stx_nlink;
+64:   __u32 stx_uid;
+65:   __u32 stx_gid;
+66:   __u16 stx_mode;
+67:   __u16 __spare0[1];
+68:   __u64 stx_ino;
+69:   __u64 stx_size;
+70:   __u64 stx_blocks;
+71:   __u64 stx_attributes_mask;
+72:   struct statx_timestamp stx_atime;
+73:   struct statx_timestamp stx_btime;
+74:   struct statx_timestamp stx_ctime;
+75:   struct statx_timestamp stx_mtime;
+76:   __u32 stx_rdev_major;
+77:   __u32 stx_rdev_minor;
+78:   __u32 stx_dev_major;
+79:   __u32 stx_dev_minor;
+80:   __u64 stx_mnt_id;
+81:   __u64 __spare2;
+82:   __u64 __spare3[12];
+83: };
+84: #define STATX_TYPE 0x00000001U
+85: #define STATX_MODE 0x00000002U
+86: #define STATX_NLINK 0x00000004U
+87: #define STATX_UID 0x00000008U
+88: #define STATX_GID 0x00000010U
+89: #define STATX_ATIME 0x00000020U
+90: #define STATX_MTIME 0x00000040U
+91: #define STATX_CTIME 0x00000080U
+92: #define STATX_INO 0x00000100U
+93: #define STATX_SIZE 0x00000200U
+94: #define STATX_BLOCKS 0x00000400U
+95: #define STATX_BASIC_STATS 0x000007ffU
+96: #define STATX_BTIME 0x00000800U
+97: #define STATX_MNT_ID 0x00001000U
+98: #define STATX__RESERVED 0x80000000U
+99: #define STATX_ALL 0x00000fffU
+100: #define STATX_ATTR_COMPRESSED 0x00000004
+
+来源：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/sys/sysmacros.h
+SHA256：3b8c27051204fadd9ca661c1cb3aa54c6d4a61d062cdb1b78eb1766581ff5017
+1: #ifndef _SYS_SYSMACROS_H
+2: #define _SYS_SYSMACROS_H
+3:
+4: #define major(x) \
+5: 	((unsigned)( (((x)>>31>>1) & 0xfffff000) | (((x)>>8) & 0x00000fff) ))
+6: #define minor(x) \
+7: 	((unsigned)( (((x)>>12) & 0xffffff00) | ((x) & 0x000000ff) ))
+8:
+9: #define makedev(x,y) ( \
+10:         (((x)&0xfffff000ULL) << 32) | \
+11: 	(((x)&0x00000fffULL) << 8) | \
+12:         (((y)&0xffffff00ULL) << 12) | \
+13: 	(((y)&0x000000ffULL)) )
+14:
+15: #endif
+
+来源：/Volumes/MacSSD/dev/rust/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rustix-1.1.4/src/fs/statx.rs
+SHA256：49023d382193d3041c330b5ef54e6cefe8c1f90280134d141a6f7d4274c43ea4
+14: /// `struct statx` for use with [`statx`].
+15: #[repr(C)]
+16: #[derive(Debug, Copy, Clone)]
+17: #[allow(missing_docs)]
+18: #[non_exhaustive]
+19: pub struct Statx {
+20:     pub stx_mask: u32,
+21:     pub stx_blksize: u32,
+22:     pub stx_attributes: StatxAttributes,
+23:     pub stx_nlink: u32,
+24:     pub stx_uid: u32,
+25:     pub stx_gid: u32,
+26:     pub stx_mode: u16,
+27:     pub(crate) __spare0: [u16; 1],
+28:     pub stx_ino: u64,
+29:     pub stx_size: u64,
+30:     pub stx_blocks: u64,
+31:     pub stx_attributes_mask: StatxAttributes,
+32:     pub stx_atime: StatxTimestamp,
+33:     pub stx_btime: StatxTimestamp,
+34:     pub stx_ctime: StatxTimestamp,
+35:     pub stx_mtime: StatxTimestamp,
+36:     pub stx_rdev_major: u32,
+37:     pub stx_rdev_minor: u32,
+38:     pub stx_dev_major: u32,
+39:     pub stx_dev_minor: u32,
+40:     pub stx_mnt_id: u64,
+41:     pub stx_dio_mem_align: u32,
+42:     pub stx_dio_offset_align: u32,
+43:     pub stx_subvol: u64,
+44:     pub stx_atomic_write_unit_min: u32,
+45:     pub stx_atomic_write_unit_max: u32,
+46:     pub stx_atomic_write_segments_max: u32,
+47:     pub stx_dio_read_offset_align: u32,
+48:     pub stx_atomic_write_unit_max_opt: u32,
+49:     pub __spare2: [u32; 1usize],
+50:     pub __spare3: [u64; 8usize],
+51: }
+
+来源：/Volumes/MacSSD/dev/rust/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rustix-1.1.4/src/backend/linux_raw/fs/syscalls.rs
+SHA256：ae953d9db65865e04fa07b707376aa28e31ca8afb294c30b533af788bf2e0987
+818: pub(crate) fn statx(
+819:     dirfd: BorrowedFd<'_>,
+820:     path: &CStr,
+821:     flags: AtFlags,
+822:     mask: StatxFlags,
+823: ) -> io::Result<Statx> {
+824:     // If a future Linux kernel adds more fields to `struct statx` and users
+825:     // passing flags unknown to rustix in `StatxFlags`, we could end up
+826:     // writing outside of the buffer. To prevent this possibility, we mask off
+827:     // any flags that we don't know about.
+828:     //
+829:     // This includes `STATX__RESERVED`, which has a value that we know, but
+830:     // which could take on arbitrary new meaning in the future. Linux currently
+831:     // rejects this flag with `EINVAL`, so we do the same.
+832:     //
+833:     // This doesn't rely on `STATX_ALL` because [it's deprecated] and already
+834:     // doesn't represent all the known flags.
+835:     //
+836:     // [it's deprecated]: https://patchwork.kernel.org/project/linux-fsdevel/patch/20200505095915.11275-7-mszeredi@redhat.com/
+837:     if (mask.bits() & STATX__RESERVED) == STATX__RESERVED {
+838:         return Err(io::Errno::INVAL);
+839:     }
+840:     let mask = mask & StatxFlags::all();
+841:
+842:     unsafe {
+843:         let mut statx_buf = MaybeUninit::<Statx>::uninit();
+844:         ret(syscall!(
+845:             __NR_statx,
+846:             dirfd,
+847:             path,
+848:             flags,
+849:             mask,
+850:             &mut statx_buf
+851:         ))?;
+852:         Ok(statx_buf.assume_init())
+853:     }
+
+来源：/Volumes/MacSSD/dev/rust/cargo/registry/src/index.crates.io-1949cf8c6b5b557f/rustix-1.1.4/src/backend/libc/fs/syscalls.rs
+SHA256：35ff1ef84e1ae46182e771e0fd4bb7f67f85311ba46e84e336def370bcf1217e
+2035: }
+2036:
+2037: #[cfg(linux_kernel)]
+2038: #[allow(non_upper_case_globals)]
+2039: mod sys {
+2040:     use super::{c, ffi, BorrowedFd, Statx};
+2041:
+2042:     weak_or_syscall! {
+2043:         pub(super) fn statx(
+2044:             dirfd_: BorrowedFd<'_>,
+2045:             path: *const ffi::c_char,
+2046:             flags: c::c_int,
+2047:             mask: c::c_uint,
+2048:             buf: *mut Statx
+2049:         ) via SYS_statx -> c::c_int
+2050:     }
+2051: }
+2052:
+2053: #[cfg(linux_kernel)]

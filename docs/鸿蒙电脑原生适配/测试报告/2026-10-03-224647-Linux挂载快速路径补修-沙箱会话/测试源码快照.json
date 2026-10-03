@@ -1,0 +1,12 @@
+{
+  "HEAD": "99fde6f792f66dcb1d48c1413d66e403e3c6ccb7",
+  "files": {
+    "codex-rs/linux-sandbox/src/daemon_mounts.rs": "172b39751f87f7147816d1d5ed20f18220e27e804dbf460f68beb720fa63be56",
+    "codex-rs/linux-sandbox/src/daemon_mounts_tests.rs": "701f01b5598370ca0cfac4a02cd552d111d899f6493b60e1591edb45d6b9e22d",
+    "codex-rs/linux-sandbox/src/bwrap.rs": "046c62c8c37a9c310f6a20f8fd74060f1c3720b9adbb740bebd17db620c2a8b9",
+    "codex-rs/linux-sandbox/Cargo.toml": "e3d44565bd26eda8317131d2052bfc50258c08ab50d0414cbe20b96b9798f9ed",
+    "codex-rs/Cargo.toml": "b6bf30f11f75095d9687fd44a907e6404e7f374a60fb53ca8e371cb9d2226d41",
+    "codex-rs/Cargo.lock": "3ef08f101aa3af277ee0e82acc6b70bede97675e36a578107cf885b8fd964712",
+    "scripts/build_harmony.py": "8871154efe99c8a2985d161b8ea71ae33167971038e404f7a823124d2b3a1edf"
+  }
+}

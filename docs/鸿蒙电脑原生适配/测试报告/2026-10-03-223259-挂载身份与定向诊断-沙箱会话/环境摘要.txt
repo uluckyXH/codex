@@ -1,0 +1,52 @@
+采样时间：2026-10-03T22:42:44.498332+08:00
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱
+Python：3.14.7
+sw_vers
+ProductName:		macOS
+ProductVersion:		27.0.1
+BuildVersion:		26A434
+
+uname -m
+arm64
+
+id -u
+501
+
+rustup run 1.95.0 rustc --version --verbose
+rustc 1.95.0 (59807616e 2026-04-14)
+binary: rustc
+commit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860
+commit-date: 2026-04-14
+host: aarch64-apple-darwin
+release: 1.95.0
+LLVM version: 22.1.2
+
+rustup run 1.95.0 cargo --version
+cargo 1.95.0 (f2d3ce0bd 2026-03-21)
+
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/clang --version
+OHOS (dev) clang version 15.0.4 (llvm-project 99548401bd80576251755b185ab95945e5fe7884)
+Target: arm64-apple-darwin27.0.0
+Thread model: posix
+InstalledDir: /Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin
+
+/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/ld.lld --version
+LLD 15.0.4 (compatible with GNU linkers)
+
+SDK metadata：
+{
+  "apiVersion": "24",
+  "displayName": "Native",
+  "meta": {
+    "metaVersion": "3.0.0"
+  },
+  "path": "native",
+  "releaseType": "Release",
+  "version": "6.1.1.125"
+}
+宿主目标：aarch64-apple-darwin；交叉目标：aarch64-unknown-linux-ohos
+默认features；dev/test profile；--locked --offline；jobs=2。任务指定环境见验证入口.py。
+目标编译契约：CODEX_OHOS_RUNTIME_BASE=/data/storage/el2/base/files。
+本批没有设置 CODEX_HARMONY_BUILD_ID，不作为发布候选身份。
+构建、临时文件和日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-223259-挂载身份与定向诊断-沙箱会话
+仅宿主运行合成挂载表及逻辑测试；无设备、签名、安装、认证、登录或模型测试。

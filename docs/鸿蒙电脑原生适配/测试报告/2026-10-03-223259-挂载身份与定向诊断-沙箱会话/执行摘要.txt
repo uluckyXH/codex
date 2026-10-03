@@ -1,0 +1,335 @@
+原始完整日志位于本会话独立外置盘目录；本文件保留关键输出和日志摘要。
+
+用例：格式化
+命令：rustup run 1.95.0 rustfmt --edition 2024 codex-rs/linux-sandbox/src/daemon_mounts.rs codex-rs/linux-sandbox/src/bwrap.rs
+开始：2026-10-03T22:33:33.710738+08:00
+结束：2026-10-03T22:33:33.978509+08:00
+退出码：0
+原始日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/日志/格式化.log
+原始日志 SHA256：94b3b1bc855b2cfd1f52f98a26cef0b66312f1f8910acf653fdf22472323692f
+关键输出（末尾最多75行）：
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱
+开始时间：2026-10-03T22:33:33.710738+08:00
+命令：rustup run 1.95.0 rustfmt --edition 2024 codex-rs/linux-sandbox/src/daemon_mounts.rs codex-rs/linux-sandbox/src/bwrap.rs
+Warning: can't set `imports_granularity = Item`, unstable features are only available in nightly channel.
+Warning: can't set `imports_granularity = Item`, unstable features are only available in nightly channel.
+
+结束时间：2026-10-03T22:33:33.978509+08:00
+退出码：0
+
+用例：宿主挂载回归
+命令：rustup run 1.95.0 cargo test --manifest-path codex-rs/Cargo.toml --locked --offline --target aarch64-apple-darwin -p codex-linux-sandbox --lib -- --nocapture
+开始：2026-10-03T22:34:19.370270+08:00
+结束：2026-10-03T22:34:27.659532+08:00
+退出码：0
+原始日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/日志/宿主挂载回归.log
+原始日志 SHA256：657ea0b7874f26c9929d9bb0fbdc3e92fff8b02ebd7a4cfda42ced5f09963b3e
+关键输出（末尾最多75行）：
+   Compiling pretty_assertions v1.4.1
+   Compiling test-case-core v3.3.1
+   Compiling test-case-macros v3.3.1
+   Compiling test-case v3.3.1
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 7.92s
+     Running unittests src/lib.rs (.harmony-build/测试批次/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/宿主产物/aarch64-apple-darwin/debug/deps/codex_linux_sandbox-db71888be6eacb17)
+
+running 61 tests
+test daemon_mounts::tests::accepts_only_mounts_that_can_keep_the_directory_masked::escaped_alias ... ok
+test daemon_mounts::tests::accepts_only_mounts_that_can_keep_the_directory_masked::unrelated_project_bind ... ok
+test daemon_mounts::tests::accepts_only_mounts_that_can_keep_the_directory_masked::same_location ... ok
+test daemon_mounts::tests::accepts_only_mounts_that_can_keep_the_directory_masked::socket_alias ... ok
+test daemon_mounts::tests::accepts_only_mounts_that_can_keep_the_directory_masked::root_alias ... ok
+test daemon_mounts::tests::accepts_only_mounts_that_can_keep_the_directory_masked::nested_mount ... ok
+test daemon_mounts::tests::accepts_only_mounts_that_can_keep_the_directory_masked::directory_alias ... ok
+test daemon_mounts::tests::accepts_only_mounts_that_can_keep_the_directory_masked::ancestor_alias ... ok
+test daemon_mounts::tests::accepts_private_tmp_bind_and_maskable_aliases::tmp_on_root_filesystem ... ok
+test daemon_mounts::tests::accepts_private_tmp_bind_and_maskable_aliases::tmp_on_separate_filesystem ... ok
+test daemon_mounts::tests::btrfs_device_mismatch_rejects_duplicate_mount_id ... ok
+test daemon_mounts::tests::accepts_private_tmp_filesystem_and_resolves_stacked_mounts ... ok
+test daemon_mounts::tests::btrfs_bind_mount_masks_aliases_for_both_device_numbers ... ok
+test daemon_mounts::tests::btrfs_device_mismatch_still_rejects_unsafe_mounts::mount_device_directory_alias ... ok
+test daemon_mounts::tests::btrfs_device_mismatch_still_rejects_unsafe_mounts::stat_device_socket_alias ... ok
+test daemon_mounts::tests::changing_or_unreadable_namespace_is_rejected ... ok
+test daemon_mounts::tests::device_mismatch_requires_verified_btrfs_mount::inconsistent_mount_filesystem ... ok
+test daemon_mounts::tests::device_mismatch_requires_verified_btrfs_mount::missing_mount_id ... ok
+test daemon_mounts::tests::device_mismatch_requires_verified_btrfs_mount::unverified_descriptor_filesystem ... ok
+test daemon_mounts::tests::device_mismatch_requires_verified_btrfs_mount::unavailable_mount_id ... ok
+test daemon_mounts::tests::fdinfo_requires_one_complete_positive_mount_id ... ok
+test daemon_mounts::tests::malformed_tables_and_unrelated_duplicate_ids_have_specific_rejections ... ok
+test daemon_mounts::tests::masks_alias_when_tmp_is_itself_a_bind_mount ... ok
+test daemon_mounts::tests::ohos_account_root_masks_storage_mount_aliases ... ok
+test daemon_mounts::tests::ohos_account_socket_alias_cannot_bypass_the_mask ... ok
+test daemon_mounts::tests::ohos_identity_requires_both_mount_id_sources_and_available_statx ... ok
+test daemon_mounts::tests::ohos_statx_conflicting_identity_is_rejected::gid_conflict ... ok
+test daemon_mounts::tests::masked_wslg_alias_does_not_skip_other_socket_masks ... ok
+test daemon_mounts::tests::ohos_statx_conflicting_identity_is_rejected::inode_conflict ... ok
+test daemon_mounts::tests::ohos_statx_conflicting_identity_is_rejected::mode_conflict ... ok
+test daemon_mounts::tests::ohos_statx_conflicting_identity_is_rejected::not_a_directory ... ok
+test daemon_mounts::tests::ohos_statx_conflicting_identity_is_rejected::uid_conflict ... ok
+test daemon_mounts::tests::ohos_statx_missing_fields_cannot_authorize_identity::missing_gid ... ok
+test daemon_mounts::tests::ohos_statx_missing_fields_cannot_authorize_identity::missing_inode ... ok
+test daemon_mounts::tests::ohos_statx_missing_fields_cannot_authorize_identity::missing_mount_id ... ok
+test daemon_mounts::tests::ohos_statx_missing_fields_cannot_authorize_identity::missing_type_or_mode ... ok
+test daemon_mounts::tests::ohos_statx_missing_fields_cannot_authorize_identity::missing_uid ... ok
+test daemon_mounts::tests::rejects_mount_hidden_by_an_ancestor_overmount ... ok
+test daemon_mounts::tests::synthetic_ohos_identity_retains_mount_rejections::covered_selected_mount ... ok
+test daemon_mounts::tests::synthetic_ohos_identity_retains_mount_rejections::directory_alias ... ok
+test daemon_mounts::tests::synthetic_ohos_identity_retains_mount_rejections::duplicate_selected_id ... ok
+test daemon_mounts::tests::synthetic_ohos_identity_retains_mount_rejections::socket_alias ... ok
+test daemon_mounts::tests::synthetic_ohos_identity_retains_mount_rejections::nested_other_filesystem ... ok
+test daemon_mounts::tests::unrelated_namespace_mount_does_not_hide_a_socket_alias ... ok
+test daemon_mounts::tests::rejects_open_mount_that_has_been_covered ... ok
+test daemon_mounts::tests::validates_namespace_mounts_by_device_and_destination::invalid_destination_escape ... ok
+test daemon_mounts::tests::synthetic_ohos_statx_identity_resolves_device_encoding_without_losing_aliases ... ok
+test daemon_mounts::tests::validates_namespace_mounts_by_device_and_destination::non_path_root_on_socket_filesystem ... ok
+test daemon_mounts::tests::validates_namespace_mounts_by_device_and_destination::nested_namespace_mount ... ok
+test daemon_mounts::tests::validates_namespace_mounts_by_device_and_destination::relative_destination ... ok
+test daemon_mounts::tests::validates_namespace_mounts_by_device_and_destination::unrelated_mount_namespace ... ok
+test mode_validation::tests::filesystem_restrictions_cannot_use_legacy_mode ... ok
+test daemon_mounts::tests::validates_namespace_mounts_by_device_and_destination::unrelated_network_namespace ... ok
+test mode_validation::tests::supported_mode_combinations_remain_allowed ... ok
+test ohos_runtime_mounts::tests::conflicting_rules_reject_without_partial_mounts ... ok
+test ohos_runtime_mounts::tests::dev_recreation_restores_only_aliases_readonly ... ok
+test ohos_runtime_mounts::tests::every_visible_alias_receives_its_own_protection ... ok
+test ohos_runtime_mounts::tests::unreadable_alias_is_not_reopened_and_writable_exposure_is_rejected ... ok
+test ohos_runtime_mounts::tests::writable_mount_alias_ancestor_is_rejected_before_any_restoration ... ok
+test mode_validation::tests::invalid_mode_exits_two_with_explanation_and_without_panic ... ok
+test daemon_mounts::tests::diagnostics_are_bounded_lossless_and_cannot_inject_log_lines ... ok
+
+test result: ok. 61 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+
+
+结束时间：2026-10-03T22:34:27.659532+08:00
+退出码：0
+
+用例：SDK字段布局编译
+命令：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/clang --target=aarch64-linux-ohos --sysroot=/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot -D__MUSL__ -std=c11 -fsyntax-only 'docs/鸿蒙电脑原生适配/测试报告/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/目标字段布局核对.c'
+开始：2026-10-03T22:36:41.459590+08:00
+结束：2026-10-03T22:36:41.477789+08:00
+退出码：0
+原始日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/日志/SDK字段布局编译.log
+原始日志 SHA256：f7664dc66dc025b760fcb183359e92c245369d66153b7b149f57785f492817ca
+关键输出（末尾最多75行）：
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱
+开始时间：2026-10-03T22:36:41.459590+08:00
+命令：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/clang --target=aarch64-linux-ohos --sysroot=/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot -D__MUSL__ -std=c11 -fsyntax-only 'docs/鸿蒙电脑原生适配/测试报告/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/目标字段布局核对.c'
+
+结束时间：2026-10-03T22:36:41.477789+08:00
+退出码：0
+
+用例：鸿蒙沙箱检查
+命令：env CODEX_OHOS_RUNTIME_BASE=/data/storage/el2/base/files rustup run 1.95.0 cargo check --manifest-path codex-rs/Cargo.toml --locked --offline --target aarch64-unknown-linux-ohos -p codex-linux-sandbox --lib
+开始：2026-10-03T22:34:19.381524+08:00
+结束：2026-10-03T22:36:51.551289+08:00
+退出码：0
+原始日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/日志/鸿蒙沙箱检查.log
+原始日志 SHA256：8a06831053cf1034739c579392f8f0571d770b0dfbb1409ae627dac5d91a1068
+关键输出（末尾最多75行）：
+    Checking portable-pty v0.9.0
+    Checking windows-core v0.58.0
+    Checking rand_chacha v0.3.1
+    Checking opentelemetry-otlp v0.31.0
+    Checking os_info v3.14.0
+    Checking gethostname v1.1.0
+    Checking opentelemetry-appender-tracing v0.31.1
+    Checking dirs-sys-next v0.1.2
+   Compiling codex-windows-sandbox v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/windows-sandbox-rs)
+    Checking codex-utils-stream-parser v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/utils/stream-parser)
+    Checking opentelemetry-semantic-conventions v0.31.0
+    Checking dirs-next v2.0.0
+    Checking rand v0.8.6
+    Checking windows v0.58.0
+    Checking codex-utils-pty v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/utils/pty)
+    Checking tracing-appender v0.2.4
+    Checking mxc_config_contract v0.8.0 (https://github.com/microsoft/mxc?rev=6cd3d58f05d3447e67109cfb75e042803b843ca4#6cd3d58f)
+    Checking serde_path_to_error v0.1.20
+    Checking codex-api v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/codex-api)
+    Checking codex-utils-process v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/utils/process)
+    Checking cidr v0.3.2
+    Checking glob v0.3.3
+    Checking wxc_common v0.8.0 (https://github.com/microsoft/mxc?rev=6cd3d58f05d3447e67109cfb75e042803b843ca4#6cd3d58f)
+    Checking env_home v0.1.0
+    Checking which v8.0.0
+    Checking codex-install-context v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/install-context)
+    Checking codex-uds v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/uds)
+    Checking codex-otel v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/otel)
+   Compiling codex-linux-sandbox v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/linux-sandbox)
+    Checking codex-process-hardening v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/process-hardening)
+    Checking codex-mxc-sandbox v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/mxc-sandbox)
+    Checking codex-sandboxing v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/sandboxing)
+warning: constant `MISSING_BWRAP_WARNING` is never used
+  --> sandboxing/src/bwrap.rs:12:7
+   |
+12 | const MISSING_BWRAP_WARNING: &str = concat!(
+   |       ^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: constant `USER_NAMESPACE_WARNING` is never used
+  --> sandboxing/src/bwrap.rs:19:7
+   |
+19 | const USER_NAMESPACE_WARNING: &str =
+   |       ^^^^^^^^^^^^^^^^^^^^^^
+
+warning: constant `USER_NAMESPACE_FAILURES` is never used
+  --> sandboxing/src/bwrap.rs:26:7
+   |
+26 | const USER_NAMESPACE_FAILURES: [&str; 4] = [
+   |       ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `system_bwrap_warning_for_path` is never used
+  --> sandboxing/src/bwrap.rs:68:4
+   |
+68 | fn system_bwrap_warning_for_path(system_bwrap_path: Option<&Path>) -> Option<String> {
+   |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `warning_for_probe_result` is never used
+  --> sandboxing/src/bwrap.rs:83:4
+   |
+83 | fn warning_for_probe_result(result: std::io::Result<Output>) -> Option<String> {
+   |    ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `is_user_namespace_failure` is never used
+   --> sandboxing/src/bwrap.rs:136:4
+    |
+136 | fn is_user_namespace_failure(output: &Output) -> bool {
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `codex-sandboxing` (lib) generated 6 warnings
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2m 32s
+
+结束时间：2026-10-03T22:36:51.551289+08:00
+退出码：0
+
+用例：鸿蒙沙箱测试链接
+命令：env CODEX_OHOS_RUNTIME_BASE=/data/storage/el2/base/files rustup run 1.95.0 cargo test --manifest-path codex-rs/Cargo.toml --locked --offline --target aarch64-unknown-linux-ohos -p codex-linux-sandbox --lib --no-run
+开始：2026-10-03T22:37:18.136557+08:00
+结束：2026-10-03T22:42:03.680935+08:00
+退出码：0
+原始日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/日志/鸿蒙沙箱测试链接.log
+原始日志 SHA256：0bfc7ddeeeb26c8d5607a4aa8bc9422ad1afc6ae66d0b696ada3a84bc6fc0191
+关键输出（末尾最多75行）：
+   Compiling codex-app-server-protocol-noop-macros v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/app-server-protocol-noop-macros)
+   Compiling codex-app-server-protocol v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/app-server-protocol)
+   Compiling symphonia-common v0.6.0
+   Compiling darling_core v0.20.11
+   Compiling lzma-sys v0.1.20
+   Compiling bzip2-sys v0.1.13+1.0.8
+   Compiling darling_macro v0.20.11
+   Compiling codex-extension-api v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/ext/extension-api)
+   Compiling darling v0.20.11
+   Compiling codex-analytics v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/analytics)
+   Compiling stop-words v0.9.0
+   Compiling extended v0.1.0
+   Compiling pulldown-cmark v0.10.3
+   Compiling predicates-core v1.0.9
+   Compiling zip v2.4.2
+   Compiling symphonia-format-riff v0.6.0
+   Compiling bzip2 v0.5.2
+   Compiling xz2 v0.1.7
+   Compiling cached_proc_macro v0.25.0
+   Compiling symphonia-format-isomp4 v0.6.0
+   Compiling symphonia-format-ogg v0.6.0
+   Compiling symphonia-format-mkv v0.6.0
+   Compiling symphonia-bundle-mp3 v0.6.0
+   Compiling caseless v0.2.2
+   Compiling zopfli v0.8.3
+   Compiling lzma-rs v0.3.0
+   Compiling filetime v0.2.27
+   Compiling difflib v0.4.0
+   Compiling cached_proc_macro_types v0.1.1
+   Compiling deflate64 v0.1.10
+   Compiling termtree v0.5.1
+   Compiling web-time v1.1.0
+   Compiling assert_cmd v2.1.2
+   Compiling cached v0.56.0
+   Compiling predicates-tree v1.0.12
+   Compiling predicates v3.1.3
+   Compiling tar v0.4.45
+   Compiling codex-agent-message-board-extension v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/ext/agent-message-board)
+   Compiling symphonia v0.6.0
+   Compiling codex-hooks v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/hooks)
+   Compiling test-case-core v3.3.1
+   Compiling rust-stemmers v1.2.0
+   Compiling wait-timeout v0.2.1
+   Compiling deunicode v1.6.2
+   Compiling bm25 v2.3.2
+   Compiling test-case-macros v3.3.1
+   Compiling codex-core-plugins v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/core-plugins)
+   Compiling codex-agent-message-board-client v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/agent-message-board-client)
+   Compiling codex-thread-store v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/thread-store)
+   Compiling codex-utils-audio v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/utils/audio)
+   Compiling codex-skills-extension v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/ext/skills)
+   Compiling codex-guardian-reviewer v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/ext/guardian-reviewer)
+   Compiling codex-rollout-trace v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/rollout-trace)
+   Compiling codex-agent-graph-store v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/agent-graph-store)
+   Compiling codex-apply-patch v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/apply-patch)
+   Compiling codex-agent-roles v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/agent-roles)
+   Compiling codex-memories-read v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/memories/read)
+   Compiling codex-utils-git-discovery v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/utils/git-discovery)
+   Compiling codex-shell-escalation v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/shell-escalation)
+   Compiling codex-attachment-store v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/attachment-store)
+   Compiling runfiles v0.1.0 (https://github.com/dzbarsky/rules_rust?rev=b56cbaa8465e74127f1ea216f813cd377295ad81#b56cbaa8)
+   Compiling yansi v1.0.1
+   Compiling diff v0.1.13
+   Compiling whoami v1.6.1
+   Compiling pretty_assertions v1.4.1
+   Compiling codex-core v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/core)
+   Compiling codex-utils-cargo-bin v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/utils/cargo-bin)
+   Compiling test-case v3.3.1
+   Compiling codex-process-hardening v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/process-hardening)
+   Compiling codex-linux-sandbox v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/codex-rs/linux-sandbox)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 4m 45s
+  Executable unittests src/lib.rs (.harmony-build/测试批次/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/deps/codex_linux_sandbox-1efeb2aaab26a1f3)
+
+结束时间：2026-10-03T22:42:03.680935+08:00
+退出码：0
+
+用例：环境与源码证据
+命令：python3 'docs/鸿蒙电脑原生适配/测试报告/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/证据采集.py' environment
+开始：2026-10-03T22:42:44.408302+08:00
+结束：2026-10-03T22:42:45.968882+08:00
+退出码：0
+原始日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/日志/环境与源码证据.log
+原始日志 SHA256：5e4a3172f6691e606d617c444e1f86336cfc94d6e2c9ceae089d0d4f53fa0115
+关键输出（末尾最多75行）：
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱
+开始时间：2026-10-03T22:42:44.408302+08:00
+命令：python3 'docs/鸿蒙电脑原生适配/测试报告/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/证据采集.py' environment
+命令：sw_vers
+退出码：0
+命令：uname -m
+退出码：0
+命令：id -u
+退出码：0
+命令：rustup run 1.95.0 rustc --version --verbose
+退出码：0
+命令：rustup run 1.95.0 cargo --version
+退出码：0
+命令：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/clang --version
+退出码：0
+命令：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/ld.lld --version
+退出码：0
+环境与源码证据采集通过；没有执行目标程序。
+
+结束时间：2026-10-03T22:42:45.968882+08:00
+退出码：0
+
+用例：目标ELF静态检查
+命令：python3 'docs/鸿蒙电脑原生适配/测试报告/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/证据采集.py' elf
+开始：2026-10-03T22:44:38.688460+08:00
+结束：2026-10-03T22:44:39.416211+08:00
+退出码：0
+原始日志：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/日志/目标ELF静态检查.log
+原始日志 SHA256：5f1ee8149c190136202ab625788f9cb9eeb6eaac63dce7341c0915694ba43f07
+关键输出（末尾最多75行）：
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱
+开始时间：2026-10-03T22:44:38.688460+08:00
+命令：python3 'docs/鸿蒙电脑原生适配/测试报告/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/证据采集.py' elf
+命令：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-readelf -h -l -d '/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/deps/codex_linux_sandbox-1efeb2aaab26a1f3'
+退出码：0
+命令：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-nm --demangle --defined-only '/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版沙箱/.harmony-build/测试批次/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/鸿蒙构建/target/aarch64-unknown-linux-ohos/debug/deps/codex_linux_sandbox-1efeb2aaab26a1f3'
+退出码：0
+目标 ELF 静态检查完成，未执行测试程序。
+
+结束时间：2026-10-03T22:44:39.416211+08:00
+退出码：0
