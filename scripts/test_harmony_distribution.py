@@ -279,6 +279,8 @@ class DistributionTests(unittest.TestCase):
             "账号登录安装速用.md",
             "升级与专项日志速用.md",
             "七版修复包安装与复测.md",
+            "挂载修复候选安装与复测.md",
+            "鸿蒙沙箱能力与执行方式分析.md",
         ):
             self.assertEqual(
                 (package / name).read_bytes(),
@@ -594,6 +596,38 @@ esac
         self.assertIn("普通终端：退出码 0", summary)
         self.assertIn("受限终端：退出码 159", summary)
         self.assertIn("simulated exit 159", (output / "受限终端.txt").read_text())
+        self.assertIn("未采集到", (output / "挂载诊断.txt").read_text())
+
+    def test_mount_records_are_copied_literally_without_hiding_failure(self):
+        prefix = self.root / "installed"
+        self.assertEqual(self.install(prefix).returncode, 0)
+        sentinel = self.root / "must-not-execute"
+        lines = [
+            '[codex-mount] {"label":"aliases","pid":123,"mountinfo":"a\\nb"}',
+            f"[codex-mount] $(touch '{sentinel}') `touch '{sentinel}'`",
+        ]
+        fixture = prefix / "mount-fixture.txt"
+        # The last record has no terminating newline, as can happen on interruption.
+        fixture.write_text("unrelated output\n" + "\n".join(lines))
+        (prefix / "bin/codex").write_text(
+            '#!/bin/sh\ncase "$1" in\n--version|doctor) exit 0 ;;\n'
+            '-c) cat "$(dirname "$0")/../mount-fixture.txt" >&2; exit 1 ;;\n'
+            "*) exit 99 ;;\nesac\n"
+        )
+        write_checksums(prefix)
+        output = self.root / "挂载记录"
+        result = subprocess.run(
+            ["sh", str(prefix / "诊断.sh"), "--sandbox", "--output-dir", str(output)],
+            text=True,
+            capture_output=True,
+        )
+        self.assertNotEqual(result.returncode, 0)
+        self.assertEqual((output / "挂载诊断.txt").read_text(), "\n".join(lines) + "\n")
+        summary = (output / "检查摘要.txt").read_text()
+        self.assertIn("受限终端：退出码 1", summary)
+        self.assertIn("摘录 2 条", summary)
+        self.assertIn("unrelated output", (output / "受限终端.txt").read_text())
+        self.assertFalse(sentinel.exists())
 
     def test_corrupted_package_never_creates_install_directory(self):
         (self.package / "codex-resources/bwrap").write_text("changed")

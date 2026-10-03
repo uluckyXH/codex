@@ -74,6 +74,20 @@ if [ "$sandbox" -eq 1 ]; then
     # 固定只执行 pwd；保留受限策略，不以危险全盘权限回退。
     run_check 普通终端 sh -c 'cd "$1" && "$2" -c pwd' sh "$output/沙箱工作目录" "$probe_shell"
     run_check 受限终端 sh -c 'cd "$1" && CODEX_HARMONY_PROCESS_DIAGNOSTICS=1 "$2" -c sandbox_mode="\"read-only\"" sandbox -- "$3" -c pwd' sh "$output/沙箱工作目录" "$package/bin/codex" "$probe_shell"
+    # 从原始 stderr 原样摘出失败 Rust 进程的定向证据；不执行日志内容。
+    # 独立 C 探针的挂载观察不能代替这个进程打开目录时看到的身份。
+    mount_records=0
+    while IFS= read -r entry || [ -n "$entry" ]; do
+        case "$entry" in
+            '[codex-mount]'*)
+                printf '%s\n' "$entry" >> "$output/挂载诊断.txt"
+                mount_records=$((mount_records + 1)) ;;
+        esac
+    done < "$output/受限终端.txt"
+    if [ "$mount_records" -eq 0 ]; then
+        printf '%s\n' '未采集到 [codex-mount] 记录；请同时提供受限终端.txt，不能据此判断沙箱支持或挂载校验通过。' > "$output/挂载诊断.txt"
+    fi
+    printf '挂载诊断：摘录 %s 条；原始输出保留在受限终端.txt\n' "$mount_records" >> "$output/检查摘要.txt"
 fi
 printf '\n%s\n' '这些检查不代表真实模型调用或交互工具闭环已通过。' >> "$output/检查摘要.txt"
 cat "$output/检查摘要.txt"

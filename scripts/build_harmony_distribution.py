@@ -193,6 +193,7 @@ def build_runtime_probe(
     env: dict[str, str],
     commit: str,
     version: str,
+    runtime_base: str,
 ) -> tuple[Path, dict]:
     """Build a standalone probe that never enters Codex/arg0/config initialization."""
     source = REPO_ROOT / "scripts/harmony_runtime_probe.c"
@@ -232,6 +233,8 @@ def build_runtime_probe(
             "-pie",
             f'-DCODEX_HARMONY_BUILD_ID="{commit}"',
             f'-DCODEX_HARMONY_VERSION="{version}"',
+            "-DCODEX_OHOS_RUNTIME_BASE="
+            + json.dumps(runtime_base_contract(runtime_base), ensure_ascii=False),
             str(source),
             "-ldl",
             "-o",
@@ -244,6 +247,7 @@ def build_runtime_probe(
     return signed, {
         "源码": "scripts/harmony_runtime_probe.c",
         "源码摘要": digest(source),
+        "编译时运行根": runtime_base,
         "SDK接口类型检查": "三个目录 API 类型均与本次 SDK 声明一致；仅编译检查",
         "相关源码摘要": {
             name: digest(REPO_ROOT / "scripts" / name)
@@ -299,6 +303,8 @@ def assemble(
         "账号登录安装速用.md",
         "升级与专项日志速用.md",
         "七版修复包安装与复测.md",
+        "挂载修复候选安装与复测.md",
+        "鸿蒙沙箱能力与执行方式分析.md",
     ):
         shutil.copyfile(
             REPO_ROOT / "docs/鸿蒙电脑原生适配" / tutorial, directory / tutorial
@@ -317,7 +323,10 @@ def assemble(
         "遇到目录拒绝，可先在安装目录运行 `sh 诊断.sh --paths-only`，"
         "独立原生探针直接输出身份与候选目录信息，不依赖 id，也不进入 Codex 配置初始化。"
         "运行 `sh 诊断.sh --sandbox`，"
-        "将生成本机检查摘要和受限 pwd 的实际退出码；不会调用模型或导出账号配置。\n\n"
+        "将生成本机检查摘要和受限 pwd 的实际退出码；不会调用模型或导出账号配置。"
+        "本轮先按《挂载修复候选安装与复测.md》操作，"
+        "回传目录与身份、受限终端、挂载诊断和检查摘要。"
+        "挂载诊断来自失败 Rust 进程；目录探针是另一个进程的只读观察，二者分别保留。\n\n"
         "保留整个目录：bin/codex、codex-path/rg、codex-resources/bwrap、"
         "codex-resources/harmony-runtime-probe。"
         "任何 ELF 修改或重新签名都可能使摘要失效，必须重新制作整个包。\n\n"
@@ -424,6 +433,7 @@ def build_package(
         env=env,
         commit=identity["提交"],
         version=version,
+        runtime_base=runtime_base,
     )
     verify_source_unchanged(identity)
     directory = output / "鸿蒙Codex"
