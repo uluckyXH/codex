@@ -1,0 +1,146 @@
+鸿蒙 Codex g913098105a40 真机复测报告
+时间：2026-10-03，Asia/Shanghai
+
+结论
+
+完整包安装、包内摘要检查、新版路径选择、版本输出、普通终端执行均通过；受限终端仍失败，真实模型的文件编辑与终端工具闭环尚未验证。
+
+新增实机证据确认：新运行目录及实际的 a/s 子目录存在，原生探针的逐级所有者和 POSIX 权限检查通过。当前高优先级怀疑点是 hmfs 的设备编号与 Linux major/minor 解码规则不一致，导致挂载身份检查保守拒绝。
+
+这仍是源码与 C 探针证据支持的高概率原因：尚未取得失败的 Rust 进程实际 metadata.dev() 值，也未记录 check_mounts 的具体拒绝分支，不能宣称根因已经完全证实。
+
+另有独立诊断缺陷：三个 ApplicationContext 目录查询探针返回 context_not_exist 后，在最后记录 native-dlclose 阶段时发生 SIGSEGV。它们导致“目录与身份”报告整体 incomplete；不能与受限终端的主动退出 1 混为一谈。
+
+1. 构建与安装身份
+
+系统：商业鸿蒙 PC 7.0，ARM64，HiShell/zsh。
+完整构建 ID：913098105a4025d620ddea39648339a0d592a212
+包版本：0.160.0-dev.harmony.g913098105a40
+Rust 目标：aarch64-unknown-linux-ohos
+可执行文件：/storage/Users/currentUser/应用工具/鸿蒙Codex-g913098105a40/bin/codex
+编译绑定运行根：/data/storage/el2/base/files
+本次安装沿用原有账号/API 配置，使用独立安装目录。
+
+2. 原始沙箱诊断
+
+诊断目录：/storage/Users/currentUser/Codex诊断/20261003-195626-34731
+
+检查摘要：
+目录与身份：退出码 1
+版本：退出码 0
+构建与能力：退出码 0
+包内沙箱版本：退出码 0
+安装文件校验：退出码 0
+普通终端：退出码 0
+受限终端：退出码 1
+
+受限终端原始输出：
+[codex-process] pid=34972 stage=main-hardening-dumpable
+[codex-process] pid=34972 stage=main-hardening-core-limit
+[codex-process] pid=34972 stage=main-hardening-complete
+error building bubblewrap command: cannot establish app-server socket mount isolation
+[codex-process] pid=34972 stage=debug-sandbox-wait exit_code=Some(1) signal=None raw_wait_status=256 core_dumped=false
+
+当前失败发生在 bubblewrap 命令构建中的挂载隔离检查。该次外层等待结果是主动退出 1，未报告信号终止；不能从它推导先前退出 159 的根因或宣称先前故障已经修复。
+
+3. 实际运行子目录证据
+
+文件：运行子目录诊断.txt
+探针 supervisor_pid：50013
+探针 supervisor_euid：20020101
+
+目录 A：/data/storage/el2/base/files/c01317b85/a
+作用：可执行工具别名。
+叶目录 UID/GID：20020101 / 20020101
+权限：0700
+dev：66699
+ino：362362
+posix_ancestor_checks：true
+fdinfo.mount_id：3996
+对应 mountinfo.device：0:66699
+对应 mountinfo.type：hmfs
+对应 mount_point：/data/storage/el2/base
+
+目录 S：/data/storage/el2/base/files/c01317b85/s
+作用：受保护控制 socket 与锁。
+叶目录 UID/GID：20020101 / 20020101
+权限：0700
+dev：66699
+ino：362483
+posix_ancestor_checks：true
+fdinfo.mount_id：3996
+对应 mountinfo.device：0:66699
+对应 mountinfo.type：hmfs
+对应 mount_point：/data/storage/el2/base
+
+两个目录的规范路径与观察路径一致；探针没有发现符号链接。相关 mountinfo 观察未截断。共同运行根及 c01317b85 目录同为本进程 UID 所有，权限 0700；更上层祖先为 root 所有，权限 0711。
+
+注意：原生探针在只读观察中固定输出 runtime_root_approved=false。源码并未在这个观察字段中审批运行根，因此该字段本身不代表上述目录权限检查失败，也不代表沙箱安全性通过。
+
+4. 设备编号不一致的高优先级假设
+
+该构建的 codex-rs/linux-sandbox/src/daemon_mounts.rs 中，daemon_socket_mask_paths 读取 Rust File.metadata().dev()，再调用 libc::major / libc::minor 拼成设备编号字符串。
+
+Cargo.lock 锁定 libc 0.2.186。该版本 src/unix/linux_like/linux_l4re_shared.rs 的规则为：
+major = ((dev & 0x00000000000fff00) >> 8) | ((dev & 0xfffff00000000000) >> 32)
+minor = (dev & 0xff) | ((dev & 0x00000ffffff00000) >> 12)
+
+对探针观察到的原生 st_dev=66699 做算术计算：
+major = 260
+minor = 139
+得到 260:139，与该目录挂载表的 0:66699 不同。
+
+check_mounts 用 fdinfo/statx 得到的挂载 ID 查找条目，再比较 mountinfo.device 与上述转换结果。现有例外仅覆盖 Btrfs；hmfs 不适用。若失败 Rust 进程读到与 C 探针相同的 dev=66699，该设备编号比较分支会拒绝并产生当前通用错误。
+
+另一个源码线索：bwrap.rs 先检查 a/ 的挂载路径，再检查 s/。a/ 的错误直接传播；s/ 的错误额外带上目录路径。当前日志只有通用错误，与前者失败相符，但仍需实际阶段日志确认。
+
+建议下一版在拒绝前记录：检查目的（aliases/control sockets）、目录路径、Rust metadata.dev() 原值、major/minor 结果、fdinfo/statx 来源及 mount_id、匹配条目的设备编号与文件系统类型、具体拒绝分支。先确认 OHOS hmfs 的 ABI/挂载语义，再设计目标平台适配；不要直接忽略所有设备编号比较。
+
+5. 独立探针崩溃
+
+下列三个查询均在两次上传的探针报告中复现：
+OH_AbilityRuntime_ApplicationContextGetFilesDir
+OH_AbilityRuntime_ApplicationContextGetCacheDir
+OH_AbilityRuntime_ApplicationContextGetTempDir
+
+共同返回：return_code=16000011、write_length=-1、status=context_not_exist。
+共同终止信息：signal=11、raw_wait_status=139、exit_code=null。
+最后一个阶段：native-dlclose。
+
+源码在输出查询结果后记录 native-dlclose，随后调用 dlclose(handle)。崩溃发生在该阶段之后，但当前没有 dlclose 返回后的标记，不能排除其后代码或进程退出过程；应增加细分日志并排查库卸载生命周期。
+
+context_not_exist 应清楚表达 CLI 当前无应用上下文，不能把它描述成 files/cache 实际路径不可访问。目录报告 incomplete_checks=3 对应这三个崩溃，a/s 的 path 工作进程本身均为退出 0。
+
+6. 下一轮复测目标
+
+先让上述挂载检查给出明确分支与设备编号证据，修复后重新交叉编译、签名并提供完整包。
+
+在同一真机上依次复测：实际 a/s 目录观察；受限 pwd 的退出码；空白项目中的文件编辑、读回与脚本执行。挂载语义的改动还需验证控制 socket 及可见挂载别名仍被隔离，不能仅凭受限 pwd 成功宣布完整隔离通过。
+
+当前包维持原配置；本轮证据不支持通过修改 HOME/.codex 权限、切换全盘权限或重装同一个包来解决该源码分支。
+
+7. 随报告交付的原始材料
+
+目录与身份.txt
+构建与能力.txt
+运行子目录诊断.txt
+以及本报告第 2 节保留的检查摘要与受限终端完整输出。
+
+8. 对照源码
+
+固定构建的挂载识别：
+https://github.com/uluckyXH/codex/blob/913098105a4025d620ddea39648339a0d592a212/codex-rs/linux-sandbox/src/daemon_mounts.rs
+
+固定构建的沙箱调用顺序：
+https://github.com/uluckyXH/codex/blob/913098105a4025d620ddea39648339a0d592a212/codex-rs/linux-sandbox/src/bwrap.rs
+
+固定构建的原生探针：
+https://github.com/uluckyXH/codex/blob/913098105a4025d620ddea39648339a0d592a212/scripts/harmony_runtime_probe.c
+
+依赖锁定：
+https://github.com/uluckyXH/codex/blob/913098105a4025d620ddea39648339a0d592a212/codex-rs/Cargo.lock
+
+libc 0.2.186 的 major/minor 实现：
+https://github.com/rust-lang/libc/blob/0.2.186/src/unix/linux_like/linux_l4re_shared.rs
+
+证据边界：本报告分析了用户上传的真机日志，并对照该构建源码和锁定依赖；报告编写方没有直接控制鸿蒙电脑，也没有在目标上执行新补丁。
