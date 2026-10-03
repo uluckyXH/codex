@@ -1,0 +1,6 @@
+{
+  "scripts/build_harmony_distribution.py": "af302e91037c6f84f1e2749286ce7a00ea11f87f82f1d0751546e40e547b6e04",
+  "scripts/harmony_runtime_probe.c": "2747e88fe2dc0b47662de70974ab1e7686ac6838d702f78fbeda2c18b8ac7012",
+  "scripts/harmony_runtime_probe_context.h": "b9117304bc7aa7547f9e05461f5d81e97fe7193e6bb3c0a786cd421ff2c5dce7",
+  "scripts/harmony_runtime_probe_sdk_check.cpp": "10fda23c756cbc7f3c89b09dc75d57dc35f170f5d5d435fb6273e88919529b29"
+}

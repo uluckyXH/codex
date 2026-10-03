@@ -225,6 +225,14 @@ def build_runtime_probe(
     return signed, {
         "源码": "scripts/harmony_runtime_probe.c",
         "源码摘要": digest(source),
+        "相关源码摘要": {
+            name: digest(REPO_ROOT / "scripts" / name)
+            for name in (
+                "harmony_runtime_probe.c",
+                "harmony_runtime_probe_context.h",
+                "harmony_runtime_probe_sdk_check.cpp",
+            )
+        },
         "签名": record,
     }
 
