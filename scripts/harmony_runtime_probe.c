@@ -279,7 +279,10 @@ static void mounts(const char *path, int fd) {
     } else {
         error_fields(fd < 0 ? EBADF : errno);
     }
-    fprintf(result, "},\"mountinfo\":{");
+    fprintf(result,
+            "},\"mountinfo\":{\"selection\":\"covering_candidate_path\","
+            "\"complete_mount_table\":false,\"entry_limit\":8,\"input_byte_limit\":%d,",
+            MOUNT_BYTES);
     stage("mountinfo");
     FILE *input = fopen("/proc/self/mountinfo", "r");
     if (!input) {
@@ -469,14 +472,21 @@ static void native_context(const char *symbol) {
         fprintf(result, "}");
         return;
     }
+    /* A fresh process performs exactly one query. Keep its library reference
+     * until native_worker_exit() terminates the process without exit handlers.
+     * A marker before dlclose in an older report does not prove dlclose itself
+     * crashed; neither unloading nor process-exit destructors are needed here.
+     */
+    fprintf(result, ",\"library_lifetime\":\"retained_until_worker_exit\"");
+    stage("native-library-retained");
     dlerror();
+    stage("native-dlsym");
     void *address = dlsym(handle, symbol);
     const char *error = dlerror();
     if (error || !address) {
         fprintf(result, ",\"status\":\"symbol_unavailable\",\"loader_error\":");
         json_string(result, error);
         fprintf(result, "}");
-        dlclose(handle);
         return;
     }
     ContextFunction function;
@@ -487,6 +497,7 @@ static void native_context(const char *symbol) {
     int32_t length = -1;
     stage("native-context-call");
     int code = function(path, sizeof(path), &length);
+    stage("native-context-returned");
     fprintf(result, ",\"return_code\":%d,\"write_length\":%d,\"status\":", code, length);
     if (code != 0) {
         json_string(result, code == 16000011 ? "context_not_exist" : "api_error");
@@ -499,8 +510,6 @@ static void native_context(const char *symbol) {
         path_observation(path);
     }
     fprintf(result, "}");
-    stage("native-dlclose");
-    dlclose(handle);
 #else
     fprintf(result, ",\"status\":\"unsupported_platform\"}");
 #endif
@@ -676,8 +685,10 @@ static int create_test(const char *path) {
 
 static int worker(const char *operation, const char *argument) {
     result = fdopen(RESULT_FD, "w");
-    if (!result)
+    if (!result) {
+        fprintf(stderr, "stage=worker-result-open-failed errno=%d\n", errno);
         return 1;
+    }
     setvbuf(result, NULL, _IONBF, 0);
     stage(operation);
     int code = 0;
@@ -692,9 +703,31 @@ static int worker(const char *operation, const char *argument) {
     else
         code = 2;
     fprintf(result, "\n");
-    fclose(result);
+    /* _Exit does not flush stdio. Preserve earlier unbuffered write failures
+     * as well as failures from these explicit final flush/close operations.
+     */
+    int flush_error = ferror(result) ? EIO : 0;
+    if (fflush(result))
+        flush_error = errno ? errno : EIO;
+    fprintf(stderr, "stage=worker-result-flushed errno=%d\n", flush_error);
+    int close_error = fclose(result) ? (errno ? errno : EIO) : 0;
     result = NULL;
-    return code;
+    fprintf(stderr, "stage=worker-result-closed errno=%d\n", close_error);
+    fflush(stderr);
+    return flush_error || close_error ? 1 : code;
+}
+
+static _Noreturn void native_worker_exit(int code) {
+    /* This applies only to the dedicated native-query worker, never the
+     * supervisor. No signal handler or success substitution is involved.
+     */
+    fprintf(stderr, "stage=native-worker-_Exit code=%d\n", code);
+    bool log_ok = !ferror(stderr);
+    if (fflush(stderr))
+        log_ok = false;
+    if (fclose(stderr))
+        log_ok = false;
+    _Exit(log_ok ? code : 1);
 }
 
 static int64_t milliseconds(void) {
@@ -887,8 +920,12 @@ static int self_path(char *path) {
 }
 
 int main(int argc, char **argv) {
-    if (argc == 4 && !strcmp(argv[1], "--probe-worker"))
-        return worker(argv[2], argv[3]);
+    if (argc == 4 && !strcmp(argv[1], "--probe-worker")) {
+        int code = worker(argv[2], argv[3]);
+        if (!strcmp(argv[2], "native"))
+            native_worker_exit(code);
+        return code;
+    }
     const char *paths[MAX_PATHS], *create = NULL;
     size_t count = 0;
     for (int i = 1; i < argc; i++) {
@@ -896,6 +933,7 @@ int main(int argc, char **argv) {
             puts("Usage: harmony-runtime-probe [--json] [--path ABSOLUTE_DIR]... [--create-test "
                  "ABSOLUTE_PARENT]\n"
                  "Default: read-only JSON; at most 12 explicit paths replace default candidates.\n"
+                 "Defaults also observe build-bound runtime a/s paths for the effective UID.\n"
                  "Create-test only touches new disposable objects under a checked parent.\n"
                  "Exit 0: observations collected (not a safe-root approval); 1: incomplete/create "
                  "failure; 2: invalid arguments.");
@@ -918,8 +956,39 @@ int main(int argc, char **argv) {
               stderr);
         return 2;
     }
+    bool explicit_paths = count != 0;
     char codex_home[PATH_BYTES];
-    if (!count) {
+    const char *runtime_selection = "not_configured";
+#if defined(CODEX_OHOS_RUNTIME_BASE)
+    char runtime_paths[2][PATH_BYTES];
+    const char *base = CODEX_OHOS_RUNTIME_BASE;
+    runtime_selection = "explicit_paths_override";
+    if (!explicit_paths) {
+        size_t length = strlen(base);
+        while (length && base[length - 1] == '/')
+            length--;
+        if (!length || !valid_path(base)) {
+            runtime_selection = "invalid_base";
+        } else {
+            /* Match ProtectedRuntimeDirectory's c{euid:08x}/{a,s} names.
+             * Use only the build contract and native identity; never a shell,
+             * environment override, directory creation, or root approval.
+             */
+            int a = snprintf(runtime_paths[0], PATH_BYTES, "%.*s/c%08jx/a", (int)length, base,
+                             (uintmax_t)geteuid());
+            int s = snprintf(runtime_paths[1], PATH_BYTES, "%.*s/c%08jx/s", (int)length, base,
+                             (uintmax_t)geteuid());
+            if (a < 0 || s < 0 || a >= PATH_BYTES || s >= PATH_BYTES) {
+                runtime_selection = "path_too_long";
+            } else {
+                paths[count++] = runtime_paths[0];
+                paths[count++] = runtime_paths[1];
+                runtime_selection = "selected";
+            }
+        }
+    }
+#endif
+    if (!explicit_paths) {
         const char *keys[] = {"HOME", "CODEX_HOME", "TMPDIR"};
         for (unsigned k = 0; k < 3; k++) {
             const char *value = getenv(keys[k]);
@@ -934,6 +1003,8 @@ int main(int argc, char **argv) {
         const char *fixed[] = {"/storage/Users/currentUser", "/data/storage/el2/base/files",
                                "/data/storage/el2/base/cache", "/data/storage/el2/base/temp",
                                "/dev/shm"};
+        _Static_assert(sizeof(fixed) / sizeof(fixed[0]) + 3 + 2 <= MAX_PATHS,
+                       "default candidates including runtime a/s fit MAX_PATHS");
         for (unsigned i = 0; i < sizeof(fixed) / sizeof(fixed[0]); i++)
             paths[count++] = fixed[i];
     }
@@ -951,8 +1022,12 @@ int main(int argc, char **argv) {
     json_string(stdout, CODEX_HARMONY_VERSION);
     fprintf(stdout,
             ",\"read_only\":%s,\"runtime_root_approved\":false,\"supervisor_pid\":%jd,"
-            "\"supervisor_euid\":%ju,\"checks\":[",
-            create ? "false" : "true", (intmax_t)getpid(), (uintmax_t)geteuid());
+            "\"supervisor_euid\":%ju,\"path_selection\":{\"mode\":\"%s\","
+            "\"selected_count\":%zu,\"limit\":%d,\"runtime_paths\":",
+            create ? "false" : "true", (intmax_t)getpid(), (uintmax_t)geteuid(),
+            explicit_paths ? "explicit" : "defaults", count, MAX_PATHS);
+    json_string(stdout, runtime_selection);
+    fprintf(stdout, "},\"checks\":[");
     int failures = supervise(executable, "identity", "", deadline, &remaining);
     const char *symbols[] = {"OH_AbilityRuntime_ApplicationContextGetFilesDir",
                              "OH_AbilityRuntime_ApplicationContextGetCacheDir",

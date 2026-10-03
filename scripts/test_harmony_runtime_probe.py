@@ -122,6 +122,58 @@ class RuntimeProbeTests(unittest.TestCase):
         self.assertEqual(checks[0]["candidate"], str(path))
         self.assertEqual(checks[0]["result"]["ancestors"][-1]["errno"], 2)
 
+    def contract_binary(self, base):
+        binary = self.root / "contract-probe"
+        compile_c(SOURCE, binary, "-DCODEX_OHOS_RUNTIME_BASE=" + json.dumps(str(base), ensure_ascii=False))
+        return binary
+
+    def test_default_runtime_paths_use_build_contract_and_actual_euid_without_writes(self):
+        base = self.root / '运行根 "quoted"'
+        base.mkdir()
+        binary = self.contract_binary(str(base) + "/")
+        # The caller cannot override the build contract, and PATH has no id/shell.
+        self.env["CODEX_OHOS_RUNTIME_BASE"] = str(self.root / "wrong-base")
+        before = sorted(str(path.relative_to(self.root)) for path in self.root.rglob("*"))
+        report = self.run_probe(binary=binary)
+        candidates = [check["candidate"] for check in self.records(report, "path")]
+        expected = [str(base / f"c{os.geteuid():08x}" / leaf) for leaf in ("a", "s")]
+        self.assertEqual(candidates[:2], expected)
+        self.assertEqual(report["supervisor_euid"], os.geteuid())
+        self.assertEqual(report["path_selection"]["runtime_paths"], "selected")
+        self.assertEqual(report["path_selection"]["selected_count"], len(candidates))
+        self.assertLessEqual(len(candidates), 12)
+        self.assertIn("/data/storage/el2/base/files", candidates)
+        self.assertTrue(report["read_only"])
+        self.assertEqual(before, sorted(str(path.relative_to(self.root)) for path in self.root.rglob("*")))
+
+    def test_no_build_contract_does_not_guess_euid_runtime_paths(self):
+        self.env["CODEX_OHOS_RUNTIME_BASE"] = str(self.root / "ignored")
+        report = self.run_probe()
+        self.assertEqual(report["path_selection"]["runtime_paths"], "not_configured")
+        candidates = [check["candidate"] for check in self.records(report, "path")]
+        self.assertFalse(any(f"/c{os.geteuid():08x}/" in candidate for candidate in candidates))
+        self.assertIn("/data/storage/el2/base/files", candidates)
+
+    def test_twelve_explicit_paths_override_configured_defaults(self):
+        binary = self.contract_binary(self.root / "unused")
+        report = self.run_probe(*(["--path", str(self.root)] * 12), binary=binary)
+        checks = self.records(report, "path")
+        self.assertEqual(len(checks), 12)
+        self.assertTrue(all(check["candidate"] == str(self.root) for check in checks))
+        self.assertEqual(report["path_selection"]["mode"], "explicit")
+        self.assertEqual(report["path_selection"]["runtime_paths"], "explicit_paths_override")
+
+    def test_invalid_or_oversized_contract_paths_are_reported_without_truncated_candidates(self):
+        cases = [("relative", "invalid_base"), ("///", "invalid_base"),
+                 ("/tmp/../other", "invalid_base"), ("/" + "x" * 1015, "path_too_long")]
+        for base, status in cases:
+            with self.subTest(base=base[:40], status=status):
+                report = self.run_probe(binary=self.contract_binary(base))
+                self.assertEqual(report["path_selection"]["runtime_paths"], status)
+                candidates = [check["candidate"] for check in self.records(report, "path")]
+                self.assertFalse(any(f"/c{os.geteuid():08x}/" in candidate for candidate in candidates))
+                self.assertTrue(all(len(candidate.encode()) < 1024 for candidate in candidates))
+
     def test_unicode_quotes_and_control_characters_are_valid_json(self):
         path = self.root / '中文 "quoted"\nfolder'
         path.mkdir()
@@ -185,6 +237,43 @@ class RuntimeProbeTests(unittest.TestCase):
         self.assertEqual(observation["ancestors"][-1]["ino"], child.stat().st_ino)
         self.assertNotIn("errno", observation["filesystem"])
         self.assertEqual(ancestor.stat().st_mode, before.st_mode)
+
+    def mount_fixture_report(self, lines):
+        fixture = self.root / "mountinfo.fixture"
+        fixture.write_text("".join(lines))
+        harness = self.root / "mountinfo.c"
+        binary = self.root / "mountinfo-probe"
+        harness.write_text(
+            '#define _GNU_SOURCE 1\n#include <stdio.h>\n#include <string.h>\n'
+            'static FILE *fixture_fopen(const char *path, const char *mode) {\n'
+            ' return fopen(!strcmp(path,"/proc/self/mountinfo") ? '
+            + json.dumps(str(fixture)) + ' : path,mode);\n}\n'
+            '#define fopen fixture_fopen\n#include "' + str(SOURCE) + '"\n'
+        )
+        compile_c(harness, binary)
+        report = self.run_probe("--path", str(self.root), binary=binary)
+        return self.records(report, "path")[0]["result"]["mountinfo"]
+
+    def test_filtered_mountinfo_is_explicitly_not_a_complete_mount_table(self):
+        # Synthetic parser input, not the device's actual mount table or ABI.
+        mountinfo = self.mount_fixture_report([
+            "1 0 0:1 / / rw - fixture none rw\n",
+            "2 1 0:2 / /unrelated-fixture-path rw - fixture none rw\n",
+        ])
+        self.assertEqual(mountinfo["selection"], "covering_candidate_path")
+        self.assertFalse(mountinfo["complete_mount_table"])
+        self.assertFalse(mountinfo["truncated"])
+        self.assertEqual([entry["mount_id"] for entry in mountinfo["entries"]], [1])
+
+    def test_filtered_mountinfo_entry_limit_stays_bounded(self):
+        mountinfo = self.mount_fixture_report([
+            f"{number} 0 0:1 / / rw - fixture none rw\n" for number in range(1, 10)
+        ])
+        self.assertEqual(len(mountinfo["entries"]), 8)
+        self.assertEqual(mountinfo["entry_limit"], 8)
+        self.assertEqual(mountinfo["input_byte_limit"], 1024 * 1024)
+        self.assertTrue(mountinfo["truncated"])
+        self.assertFalse(mountinfo["complete_mount_table"])
 
     def test_changed_opened_ancestor_is_rejected_before_creating_objects(self):
         # Substitute a different real directory FD between fstatat and fstat.
@@ -255,14 +344,20 @@ class RuntimeProbeTests(unittest.TestCase):
         for check in self.records(report, "native"):
             self.assertEqual(check["result"]["status"], "unsupported_platform")
 
-    def context_binary(self, name, body):
+    def context_binary(self, name, body, *, extra_source="", all_symbols=False):
         library_source = self.root / f"{name}.c"
         library = self.root / f"{name}.dylib"
         library_source.write_text(
             "#include <stdint.h>\n#include <signal.h>\n#include <unistd.h>\n"
-            "#include <stdio.h>\n#include <string.h>\n"
+            "#include <stdio.h>\n#include <string.h>\n#include <stdlib.h>\n" + extra_source + "\n"
             "int OH_AbilityRuntime_ApplicationContextGetFilesDir(char *p, int32_t n, int32_t *l) {"
-            "(void)p; (void)n; (void)l;" + body + "}\n"
+            "(void)p; (void)n; (void)l;" + body + "}\n" + (
+                "int OH_AbilityRuntime_ApplicationContextGetCacheDir(char *p, int32_t n, int32_t *l) {"
+                "return OH_AbilityRuntime_ApplicationContextGetFilesDir(p,n,l);}\n"
+                "int OH_AbilityRuntime_ApplicationContextGetTempDir(char *p, int32_t n, int32_t *l) {"
+                "return OH_AbilityRuntime_ApplicationContextGetFilesDir(p,n,l);}\n"
+                if all_symbols else ""
+            )
         )
         compile_c(library_source, library, "-shared", "-fPIC")
         binary = self.root / name
@@ -280,7 +375,88 @@ class RuntimeProbeTests(unittest.TestCase):
         checks = self.records(report, "native")
         self.assertEqual(checks[0]["result"]["status"], "context_not_exist")
         self.assertEqual(checks[0]["result"]["return_code"], 16000011)
+        self.assertEqual(checks[0]["result"]["write_length"], -1)
         self.assertEqual(checks[1]["result"]["status"], "symbol_unavailable")
+
+    def assert_native_finished_without_hooks(self, report):
+        for check in self.records(report, "native"):
+            self.assertEqual(check["status"], "collected")
+            self.assertEqual(check["exit_code"], 0)
+            self.assertIsNone(check["signal"])
+            self.assertTrue(os.WIFEXITED(check["raw_wait_status"]))
+            self.assertEqual(check["result"]["library_lifetime"], "retained_until_worker_exit")
+            phases = ("native-library-retained", "worker-result-flushed errno=0",
+                      "worker-result-closed errno=0", "native-worker-_Exit code=0")
+            positions = [check["stderr"].index("stage=" + phase) for phase in phases]
+            self.assertEqual(positions, sorted(positions))
+            self.assertNotIn("DANGEROUS_HOOK", check["stderr"])
+            self.assertNotIn("native-dlclose", check["stderr"])
+
+    def check_dangerous_library(self, name, hooks, *, unload, expected_signal, all_symbols=False):
+        binary = self.context_binary(name, "return 16000011;", extra_source=hooks, all_symbols=all_symbols)
+        # A separate real loader proves the hook runs and terminates a process.
+        # Without this control, a harmless/inert fixture could hide regressions.
+        driver = self.root / (name + "-control.c")
+        control = self.root / (name + "-control")
+        driver.write_text(
+            "#include <dlfcn.h>\n#include <stdlib.h>\n#include <sys/resource.h>\n"
+            "int main(int argc,char **argv) { if(argc!=2) return 80;"
+            "struct rlimit limit={0,0}; if(setrlimit(RLIMIT_CORE,&limit)) return 84;"
+            "void *h=dlopen(argv[1],RTLD_NOW|RTLD_LOCAL); if(!h) return 81;"
+            + ("if(dlclose(h)) return 82; _Exit(83);" if unload else "return 0;") + "}\n"
+        )
+        compile_c(driver, control)
+        completed = subprocess.run(
+            [str(control), str(self.root / (name + ".dylib"))], env=self.env,
+            capture_output=True, text=True, timeout=3,
+        )
+        self.assertEqual(completed.returncode, -expected_signal, completed.stderr)
+        self.assertIn("DANGEROUS_HOOK", completed.stderr)
+        report = self.run_probe("--path", str(self.root), binary=binary)
+        self.assert_native_finished_without_hooks(report)
+        self.assertEqual(self.records(report, "native")[0]["result"]["status"], "context_not_exist")
+        return report
+
+    def test_dangerous_destructor_is_not_run_for_no_context_or_missing_symbol(self):
+        hooks = ('__attribute__((destructor)) static void dangerous(void) {'
+                 'fputs("DANGEROUS_HOOK destructor\\n",stderr); fflush(stderr);'
+                 'raise(SIGSEGV); _Exit(93);}')
+        report = self.check_dangerous_library("dangerous-destructor", hooks, unload=True,
+                                              expected_signal=signal.SIGSEGV)
+        self.assertEqual(self.records(report, "native")[1]["result"]["status"], "symbol_unavailable")
+
+    def test_dangerous_atexit_is_not_run_after_three_no_context_queries(self):
+        hooks = ('static void dangerous(void) {'
+                 'fputs("DANGEROUS_HOOK atexit\\n",stderr); fflush(stderr); raise(SIGABRT); _Exit(94);}'
+                 '__attribute__((constructor)) static void setup(void) {'
+                 'if(atexit(dangerous)) _Exit(95);}')
+        report = self.check_dangerous_library("dangerous-atexit", hooks, unload=False,
+                                              expected_signal=signal.SIGABRT, all_symbols=True)
+        for check in self.records(report, "native"):
+            self.assertEqual(check["result"]["status"], "context_not_exist")
+            self.assertEqual(check["result"]["return_code"], 16000011)
+            self.assertEqual(check["result"]["write_length"], -1)
+
+    def test_native_result_write_and_close_failure_remains_incomplete(self):
+        binary = self.context_binary("closed-result", "close(3); return 16000011;")
+        report = self.run_probe("--path", str(self.root), binary=binary, code=1)
+        check = self.records(report, "native")[0]
+        self.assertEqual(check["status"], "incomplete")
+        self.assertEqual(check["exit_code"], 1)
+        self.assertEqual(os.WEXITSTATUS(check["raw_wait_status"]), 1)
+        self.assertIn("partial_output", check)
+        self.assertIn("stage=worker-result-flushed errno=", check["stderr"])
+        self.assertNotIn("stage=worker-result-flushed errno=0", check["stderr"])
+        self.assertIn("stage=native-worker-_Exit code=1", check["stderr"])
+        self.assertEqual(self.records(report, "path")[0]["status"], "collected")
+
+    def test_native_stderr_failure_does_not_report_success(self):
+        binary = self.context_binary("closed-stderr", "close(2); return 16000011;")
+        report = self.run_probe("--path", str(self.root), binary=binary, code=1)
+        check = self.records(report, "native")[0]
+        self.assertEqual(check["status"], "incomplete")
+        self.assertEqual(check["exit_code"], 1)
+        self.assertEqual(check["result"]["status"], "context_not_exist")
 
     def test_native_signal_retains_wait_status_and_other_probes_continue(self):
         binary = self.context_binary("signal-context", "raise(SIGSYS); return 1;")
@@ -290,6 +466,8 @@ class RuntimeProbeTests(unittest.TestCase):
         self.assertIsNone(check["exit_code"])
         self.assertTrue(os.WIFSIGNALED(check["raw_wait_status"]))
         self.assertIn("native-context-call", check["stderr"])
+        self.assertNotIn("native-context-returned", check["stderr"])
+        self.assertNotIn("native-worker-_Exit", check["stderr"])
         self.assertEqual(self.records(report, "path")[0]["status"], "collected")
 
     def test_native_timeout_does_not_block_remaining_checks(self):
@@ -299,6 +477,9 @@ class RuntimeProbeTests(unittest.TestCase):
         check = self.records(report, "native")[0]
         self.assertTrue(check["timed_out"])
         self.assertIn("native-context-call", check["stderr"])
+        self.assertNotIn("native-context-returned", check["stderr"])
+        self.assertEqual(check["signal"], signal.SIGKILL)
+        self.assertTrue(os.WIFSIGNALED(check["raw_wait_status"]))
         self.assertLess(time.monotonic() - started, 5)
         self.assertEqual(self.records(report, "path")[0]["status"], "collected")
 
