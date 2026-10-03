@@ -3,14 +3,21 @@
 //! Every listener uses this root, which sandboxes hide even before a daemon
 //! starts. It must not depend on HOME, TMPDIR, CODEX_HOME, or command settings.
 
+#[cfg(any(not(target_env = "ohos"), test))]
 use std::ffi::CString;
+#[cfg(any(not(target_env = "ohos"), test))]
 use std::fs;
 use std::fs::File;
 use std::io;
+#[cfg(any(not(target_env = "ohos"), test))]
 use std::os::fd::AsRawFd;
+#[cfg(any(not(target_env = "ohos"), test))]
 use std::os::fd::FromRawFd;
+#[cfg(any(not(target_env = "ohos"), test))]
 use std::os::unix::ffi::OsStrExt;
+#[cfg(any(not(target_env = "ohos"), test))]
 use std::os::unix::fs::MetadataExt;
+#[cfg(any(not(target_env = "ohos"), test))]
 use std::os::unix::fs::OpenOptionsExt;
 use std::path::Path;
 use std::path::PathBuf;
@@ -171,6 +178,7 @@ fn prepare_directory(directory: &Path, uid: libc::uid_t) -> io::Result<()> {
     Ok(())
 }
 
+#[cfg(any(not(target_env = "ohos"), test))]
 fn directory_error(operation: &str, path: &Path, error: io::Error) -> io::Error {
     io::Error::new(
         error.kind(),

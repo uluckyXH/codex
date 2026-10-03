@@ -325,7 +325,7 @@ fn open_base(base: &Path, uid: libc::uid_t) -> io::Result<ProtectedRuntimeDirect
 
 /// Compatibility entry point for other OHOS private-directory callers.
 /// Existing directories are validated, never repaired.
-#[cfg(target_env = "ohos")]
+#[cfg(any(target_env = "ohos", test))]
 pub(crate) fn prepare_private_directory(path: &Path) -> io::Result<ProtectedRuntimeDirectory> {
     let parent = path.parent().ok_or_else(|| {
         io::Error::new(

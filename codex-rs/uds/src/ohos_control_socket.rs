@@ -97,7 +97,15 @@ impl ProtectedRuntimeDirectory {
             Err(error) => return Err(error),
         }
         self.revalidate()?;
-        let listener = UnixListener::bind(&path).await?;
+        let listener = UnixListener::bind(&path).await.map_err(|error| {
+            io::Error::new(
+                error.kind(),
+                format!(
+                    "OHOS control socket stage=bind path={}: {error}",
+                    path.display()
+                ),
+            )
+        })?;
         let identity = socket_identity(&self, &name, false)?;
         let guard = ProtectedControlSocket {
             directory: self,

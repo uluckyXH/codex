@@ -180,7 +180,7 @@ async fn prepare_private_socket_directory_creates_directory() {
     assert!(socket_dir.is_dir());
 }
 
-#[cfg(unix)]
+#[cfg(all(unix, not(target_env = "ohos")))]
 #[tokio::test]
 async fn prepare_private_socket_directory_sets_existing_permissions_to_owner_only() {
     use std::os::unix::fs::PermissionsExt;

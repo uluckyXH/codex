@@ -318,3 +318,35 @@ fn replaced_lock_and_every_cloned_descriptor_are_checked() {
         .validate_lock_file(OsStr::new("session.lock"), &replacement)
         .unwrap();
 }
+
+#[test]
+fn private_directory_compatibility_entry_never_repairs_existing_modes() {
+    let (_temporary, base, _uid) = fixture();
+    let path = base.join("private-socket-parent");
+    prepare_private_directory(&path)
+        .unwrap()
+        .revalidate()
+        .unwrap();
+    assert_eq!(fs::metadata(&path).unwrap().mode() & 0o7777, 0o700);
+    fs::set_permissions(&path, fs::Permissions::from_mode(0o770)).unwrap();
+    assert!(prepare_private_directory(&path).is_err());
+    assert_eq!(fs::metadata(&path).unwrap().mode() & 0o7777, 0o770);
+    fs::set_permissions(&path, fs::Permissions::from_mode(0o700)).unwrap();
+}
+
+#[test]
+fn read_only_parent_fails_without_changing_it() {
+    let (_temporary, base, uid) = fixture();
+    if uid == 0 {
+        eprintln!("read-only mode test needs an unprivileged user");
+        return;
+    }
+    fs::set_permissions(&base, fs::Permissions::from_mode(0o500)).unwrap();
+    let result = prepare_fixed_base(&base, uid, OhosRuntimePurpose::Aliases);
+    let mode = fs::metadata(&base).unwrap().mode() & 0o7777;
+    let children = fs::read_dir(&base).unwrap().count();
+    fs::set_permissions(&base, fs::Permissions::from_mode(0o700)).unwrap();
+    assert_eq!(result.unwrap_err().kind(), io::ErrorKind::PermissionDenied);
+    assert_eq!(mode, 0o500);
+    assert_eq!(children, 0);
+}

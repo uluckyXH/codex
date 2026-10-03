@@ -40,6 +40,7 @@ use tokio::io::ReadBuf;
 
 /// Creates `socket_dir` if needed and restricts it to the current user as
 /// supported by the platform (0700 on Unix, a protected user-only DACL on Windows).
+/// OHOS rejects unsafe existing owners/modes and validates every ancestor.
 /// Windows rejects existing directories unless they already have that owner and DACL;
 /// changing permissions cannot revoke access held through preexisting handles.
 pub async fn prepare_private_socket_directory(socket_dir: impl AsRef<Path>) -> IoResult<()> {
@@ -121,10 +122,12 @@ impl AsyncWrite for UnixStream {
 
 #[cfg(unix)]
 mod platform {
+    #[cfg(not(target_env = "ohos"))]
     use std::io;
     use std::io::ErrorKind;
     use std::io::Result as IoResult;
     use std::os::unix::fs::FileTypeExt;
+    #[cfg(not(target_env = "ohos"))]
     use std::os::unix::fs::PermissionsExt;
     use std::path::Path;
 
