@@ -16,6 +16,7 @@ from unittest.mock import patch
 
 from build_harmony import REPO_ROOT, TARGET
 from build_harmony_distribution import (
+    assemble,
     build_package,
     package_version,
     verify_source_unchanged,
@@ -255,6 +256,39 @@ class DistributionTests(unittest.TestCase):
                 resolve_zsh_bin(spec, zsh_bin=self.root / "zsh")
             fetch.assert_not_called()
 
+    def test_distribution_includes_signed_probe_and_copyable_tutorials(self):
+        binary = elf_fixture(self.root / "input")
+        helpers = self.root / "helpers"
+        (helpers / "已签名").mkdir(parents=True)
+        (helpers / "许可原文").mkdir()
+        for name in ("rg", "bwrap"):
+            shutil.copyfile(binary, helpers / "已签名" / name)
+        package = self.root / "full-package"
+        assemble(
+            package,
+            cli=binary,
+            helpers=helpers,
+            runtime_probe=binary,
+            version="0.160.0-dev.harmony.gaaaaaaaaaaaa",
+        )
+        probe = package / "codex-resources/harmony-runtime-probe"
+        self.assertEqual(probe.read_bytes(), binary.read_bytes())
+        self.assertTrue(os.access(probe, os.X_OK))
+        for name in (
+            "接口密钥安装速用.md",
+            "账号登录安装速用.md",
+            "升级与专项日志速用.md",
+            "七版修复包安装与复测.md",
+        ):
+            self.assertEqual(
+                (package / name).read_bytes(),
+                (REPO_ROOT / "docs/鸿蒙电脑原生适配" / name).read_bytes(),
+            )
+        write_checksums(package)
+        manifest = (package / "文件校验清单.sha256").read_text()
+        self.assertIn("  codex-resources/harmony-runtime-probe\n", manifest)
+        self.assertIn("  升级与专项日志速用.md\n", manifest)
+
     def test_source_cache_rejects_corruption_without_network(self):
         (self.root / "libcap-2.78.tar.xz").write_bytes(b"bad archive")
         with patch("build_harmony_helpers.urlopen") as download:
@@ -335,9 +369,14 @@ class InstallerTests(unittest.TestCase):
         self.package.mkdir()
         for name in ("安装.sh", "启用终端.sh", "诊断.sh"):
             shutil.copyfile(REPO_ROOT / "scripts/harmony" / name, self.package / name)
-        for name in ("bin/codex", "codex-path/rg", "codex-resources/bwrap"):
+        for name in (
+            "bin/codex",
+            "codex-path/rg",
+            "codex-resources/bwrap",
+            "codex-resources/harmony-runtime-probe",
+        ):
             path = self.package / name
-            path.parent.mkdir()
+            path.parent.mkdir(exist_ok=True)
             path.write_text("#!/bin/sh\nexit 97\n")
             path.chmod(0o755)
         write_checksums(self.package)
@@ -470,6 +509,7 @@ class InstallerTests(unittest.TestCase):
         summary = (output / "检查摘要.txt").read_text()
         self.assertIn("版本：退出码 97", summary)
         self.assertIn("包内沙箱版本：退出码 97", summary)
+        self.assertIn("目录与身份：退出码 97", summary)
         texts = "".join(p.read_text() for p in output.glob("*.txt"))
         self.assertNotIn("private-sentinel-do-not-export", texts)
         self.assertFalse((output / "受限终端.txt").exists())
@@ -480,6 +520,48 @@ class InstallerTests(unittest.TestCase):
         )
         self.assertNotEqual(again.returncode, 0)
         self.assertEqual((output / "检查摘要.txt").read_text(), summary)
+
+    def test_path_only_probe_does_not_initialize_codex_or_need_a_report_directory(self):
+        prefix = self.root / "installed"
+        self.assertEqual(self.install(prefix).returncode, 0)
+        (prefix / "bin/codex").write_text("#!/bin/sh\nexit 98\n")
+        (prefix / "codex-resources/harmony-runtime-probe").write_text(
+            '#!/bin/sh\n[ "$#" -eq 1 ] && [ "$1" = --json ] || exit 99\n'
+            'printf \'{"fixture":"no-target-code-executed","uid":20020101}\\n\'\n'
+        )
+        env = dict(os.environ)
+        env.pop("HOME", None)
+        result = subprocess.run(
+            ["sh", str(prefix / "诊断.sh"), "--paths-only"],
+            env=env,
+            text=True,
+            capture_output=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(json.loads(result.stdout)["uid"], 20020101)
+        self.assertEqual(result.stderr, "")
+        conflict = self.root / "must-not-create"
+        result = subprocess.run(
+            [
+                "sh",
+                str(prefix / "诊断.sh"),
+                "--paths-only",
+                "--output-dir",
+                str(conflict),
+            ],
+            env=env,
+            text=True,
+            capture_output=True,
+        )
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse(conflict.exists())
+
+    def test_new_package_cannot_install_without_standalone_probe(self):
+        (self.package / "codex-resources/harmony-runtime-probe").unlink()
+        prefix = self.root / "missing-probe"
+        result = self.install(prefix)
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse(prefix.exists())
 
     def test_diagnostic_sandbox_probe_preserves_policy_and_exit_159(self):
         prefix = self.root / "installed"

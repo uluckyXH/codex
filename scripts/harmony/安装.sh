@@ -25,7 +25,7 @@ case "$prefix" in *'
 [ ! -e "$prefix" ] && [ ! -L "$prefix" ] || fail '安装目录已存在，请使用新的版本目录'
 package=$(CDPATH='' cd -P -- "$(dirname -- "$0")" && pwd)
 [ -f "$package/文件校验清单.sha256" ] && [ ! -L "$package/文件校验清单.sha256" ] || fail '缺少文件校验清单'
-[ -f "$package/bin/codex" ] && [ -f "$package/codex-resources/bwrap" ] && [ -f "$package/codex-path/rg" ] || fail '程序包不完整'
+[ -f "$package/bin/codex" ] && [ -f "$package/codex-resources/bwrap" ] && [ -f "$package/codex-path/rg" ] && [ -f "$package/codex-resources/harmony-runtime-probe" ] || fail '程序包不完整（含独立目录探针）'
 
 
 # 只消费校验清单的普通文件，额外文件不会进入安装目录。
@@ -72,7 +72,7 @@ mkdir -- "$prefix" || fail '无法创建新的安装目录'
 each_file copy_file
 cp -p -- "$package/文件校验清单.sha256" "$prefix/文件校验清单.sha256"
 verify "$prefix" || fail '安装后校验失败；保留目录供排查'
-[ -x "$prefix/bin/codex" ] && [ -x "$prefix/codex-resources/bwrap" ] && [ -x "$prefix/codex-path/rg" ] || fail '复制后可执行权限丢失'
+[ -x "$prefix/bin/codex" ] && [ -x "$prefix/codex-resources/bwrap" ] && [ -x "$prefix/codex-path/rg" ] && [ -x "$prefix/codex-resources/harmony-runtime-probe" ] || fail '复制后可执行权限丢失'
 
 # 单引号中的路径字面量不展开 $、反引号或命令替换。
 quote() { printf "'"; printf '%s' "$1" | sed "s/'/'\\\\''/g"; printf "'"; }

@@ -5,15 +5,22 @@ umask 077
 fail() { printf '%s\n' "诊断失败：$*" >&2; exit 1; }
 output=''
 sandbox=0
+paths_only=0
 while [ "$#" -gt 0 ]; do
     case "$1" in
         --output-dir) [ "$#" -ge 2 ] || fail '缺少输出路径'; output=$2; shift 2 ;;
         --sandbox) sandbox=1; shift ;;
-        --help) printf '%s\n' '用法：sh 诊断.sh [--sandbox] [--output-dir 全新绝对目录]'; exit 0 ;;
+        --paths-only) paths_only=1; shift ;;
+        --help) printf '%s\n' '用法：sh 诊断.sh [--sandbox] [--output-dir 全新绝对目录]' '只读目录信息直接输出（不初始化 Codex）：sh 诊断.sh --paths-only'; exit 0 ;;
         *) fail "未知参数：$1" ;;
     esac
 done
 package=$(CDPATH='' cd -P -- "$(dirname -- "$0")" && pwd)
+[ -x "$package/codex-resources/harmony-runtime-probe" ] || fail '缺少独立目录探针，请使用新版完整目录包'
+if [ "$paths_only" -eq 1 ]; then
+    [ "$sandbox" -eq 0 ] && [ -z "$output" ] || fail '--paths-only 单独使用，输出直接发往终端'
+    exec "$package/codex-resources/harmony-runtime-probe" --json
+fi
 [ -x "$package/bin/codex" ] || fail '缺少可执行主程序，请使用完整安装目录'
 if [ -z "$output" ]; then
     output="${HOME:?缺少 HOME}/Codex诊断/$(date +%Y%m%d-%H%M%S)-$$"
@@ -48,6 +55,7 @@ run_check() {
     if [ -f "$ca_path" ] && [ -r "$ca_path" ]; then printf 'CA 文件可读\n'; else printf 'CA 文件不存在或不可读\n'; fi
     printf '未采集 API Key、认证文件、配置正文、提示词或全部环境变量。\n'
 } > "$output/运行环境.txt"
+run_check 目录与身份 "$package/codex-resources/harmony-runtime-probe" --json
 run_check 版本 "$package/bin/codex" --version
 run_check 构建与能力 "$package/bin/codex" doctor --capabilities --json
 run_check 包内沙箱版本 "$package/codex-resources/bwrap" --version

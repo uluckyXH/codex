@@ -21,6 +21,21 @@ TOOLCHAIN = tomllib.loads((REPO_ROOT / "codex-rs/rust-toolchain.toml").read_text
 ]["channel"]
 
 
+def runtime_base_contract(value: str) -> str:
+    """Validate the target path lexically, without resolving it on the Mac host."""
+    if (
+        not value.startswith("/")
+        or any(part in ("", ".", "..") for part in value[1:].split("/"))
+        or any(ord(char) < 32 or ord(char) == 127 for char in value)
+    ):
+        raise argparse.ArgumentTypeError("运行根须为无空段、点段或控制字符的绝对路径")
+    # OHOS sockaddr_un has 108 bytes. Keep the complete 64-hex socket identity,
+    # an 8-hex UID plus c prefix, purpose directory, separators and final NUL.
+    if len(value.encode("utf-8")) + len("/cffffffff/s/" + "f" * 64) + 1 > 108:
+        raise argparse.ArgumentTypeError("运行根过长，无法保留完整 socket 摘要和终止符")
+    return value
+
+
 def native_sdk(path: Path) -> Path:
     """接受 native 目录、openharmony 目录或 DevEco 的 SDK 版本目录。"""
     for candidate in (path, path / "native", path / "openharmony/native"):
@@ -120,6 +135,11 @@ def main() -> int:
     parser.add_argument(
         "--release", action="store_true", help="check/build 使用 release 配置"
     )
+    parser.add_argument(
+        "--runtime-base",
+        type=runtime_base_contract,
+        help="编译时绑定的 OHOS 私有目录候选；不是 Mac 路径，运行时仍严格校验",
+    )
     args = parser.parse_args()
     try:
         if args.sdk is None:
@@ -132,6 +152,10 @@ def main() -> int:
             raise ValueError("找不到 rustup；请先按中文构建环境文档安装并配置 PATH")
         output = args.output_dir.expanduser().resolve()
         base = dict(os.environ)
+        # Never silently bind a production root from a developer's shell.
+        base.pop("CODEX_OHOS_RUNTIME_BASE", None)
+        if args.runtime_base is not None:
+            base["CODEX_OHOS_RUNTIME_BASE"] = args.runtime_base
         if args.native_deps is not None:
             native_deps = args.native_deps.expanduser().resolve()
             pkgconfig = native_deps / "lib/pkgconfig"

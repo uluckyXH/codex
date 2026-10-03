@@ -13,7 +13,14 @@ import sys
 import tarfile
 import tomllib
 
-from build_harmony import REPO_ROOT, TARGET, TOOLCHAIN, native_sdk
+from build_harmony import (
+    CLANG_TARGET,
+    REPO_ROOT,
+    TARGET,
+    TOOLCHAIN,
+    native_sdk,
+    runtime_base_contract,
+)
 from build_harmony_helpers import SOURCES, digest
 from harmony_elf import inspect_ohos_elf
 from sign_harmony import check_signature, sign_elf, signing_tool
@@ -178,7 +185,53 @@ def write_checksums(directory: Path) -> None:
     (directory / "文件校验清单.sha256").write_text("".join(lines))
 
 
-def assemble(directory: Path, *, cli: Path, helpers: Path, version: str) -> None:
+def build_runtime_probe(
+    output: Path,
+    *,
+    sdk: Path,
+    java: str,
+    env: dict[str, str],
+    commit: str,
+    version: str,
+) -> tuple[Path, dict]:
+    """Build a standalone probe that never enters Codex/arg0/config initialization."""
+    source = REPO_ROOT / "scripts/harmony_runtime_probe.c"
+    unsigned = output / "探针编译/harmony-runtime-probe"
+    unsigned.parent.mkdir()
+    run(
+        [
+            str(sdk / "llvm/bin/clang"),
+            f"--target={CLANG_TARGET}",
+            f"--sysroot={sdk / 'sysroot'}",
+            "-D__MUSL__",
+            "-std=c11",
+            "-Wall",
+            "-Wextra",
+            "-Werror",
+            "-O2",
+            "-fPIE",
+            "-pie",
+            f'-DCODEX_HARMONY_BUILD_ID="{commit}"',
+            f'-DCODEX_HARMONY_VERSION="{version}"',
+            str(source),
+            "-ldl",
+            "-o",
+            str(unsigned),
+        ],
+        env,
+    )
+    signed = output / "已签名/harmony-runtime-probe"
+    record = strip_and_sign(unsigned, signed, sdk=sdk, java=java)
+    return signed, {
+        "源码": "scripts/harmony_runtime_probe.c",
+        "源码摘要": digest(source),
+        "签名": record,
+    }
+
+
+def assemble(
+    directory: Path, *, cli: Path, helpers: Path, runtime_probe: Path, version: str
+) -> None:
     # Reuse the upstream layout and validation, while explicitly selecting OHOS.
     os.environ["CODEX_REPO_ROOT"] = str(REPO_ROOT)
     from codex_package.layout import build_package_dir, validate_package_dir
@@ -203,12 +256,25 @@ def assemble(directory: Path, *, cli: Path, helpers: Path, version: str) -> None
         ),
     )
     validate_package_dir(directory, variant, spec, include_zsh=False)
+    if not inspect_ohos_elf(runtime_probe)["签名节存在"]:
+        raise RuntimeError("目录探针缺少签名节，不能加入交付包")
+    shutil.copyfile(runtime_probe, directory / "codex-resources/harmony-runtime-probe")
+    (directory / "codex-resources/harmony-runtime-probe").chmod(0o755)
     shutil.copytree(helpers / "许可原文", directory / "许可原文")
     shutil.copyfile(REPO_ROOT / "LICENSE", directory / "许可原文/项目许可.txt")
     shutil.copyfile(REPO_ROOT / "NOTICE", directory / "许可原文/项目声明.txt")
     for script in ("安装.sh", "启用终端.sh", "诊断.sh"):
         shutil.copyfile(REPO_ROOT / "scripts/harmony" / script, directory / script)
         (directory / script).chmod(0o755)
+    for tutorial in (
+        "接口密钥安装速用.md",
+        "账号登录安装速用.md",
+        "升级与专项日志速用.md",
+        "七版修复包安装与复测.md",
+    ):
+        shutil.copyfile(
+            REPO_ROOT / "docs/鸿蒙电脑原生适配" / tutorial, directory / tutorial
+        )
     (directory / "安装说明.md").write_text(
         "# 鸿蒙 PC 原生候选包\n\n"
         "本包为 ARM64 OHOS ELF，已用 SDK 官方工具自签名。旧包已有 PC 7.0 启动和显式 CA 后请求成功的用户反馈；"
@@ -220,9 +286,12 @@ def assemble(directory: Path, *, cli: Path, helpers: Path, version: str) -> None
         "即可备份 ~/.zshrc 并更新专用启动块；重复执行不叠加，升级时更新为新版路径。"
         "撤销用 `sh 启用终端.sh --remove`。安装脚本本身不修改用户配置、不运行 Codex。\n\n"
         "默认读取鸿蒙系统 CA，仍支持 CODEX_CA_CERTIFICATE 和 SSL_CERT_FILE 覆盖。"
-        "遇到启动或工具问题，在安装目录运行 `sh 诊断.sh --sandbox`，"
+        "遇到目录拒绝，可先在安装目录运行 `sh 诊断.sh --paths-only`，"
+        "独立原生探针直接输出身份与候选目录信息，不依赖 id，也不进入 Codex 配置初始化。"
+        "运行 `sh 诊断.sh --sandbox`，"
         "将生成本机检查摘要和受限 pwd 的实际退出码；不会调用模型或导出账号配置。\n\n"
-        "保留整个目录：bin/codex、codex-path/rg、codex-resources/bwrap。"
+        "保留整个目录：bin/codex、codex-path/rg、codex-resources/bwrap、"
+        "codex-resources/harmony-runtime-probe。"
         "任何 ELF 修改或重新签名都可能使摘要失效，必须重新制作整个包。\n\n"
         "Codex 使用原生 Shell；Git 和项目工具链由设备环境提供。"
         "本包不含 V8 代码模式宿主、定制 zsh、语音宿主或桌面自动化。"
@@ -270,6 +339,12 @@ def build_package(
         raise ValueError("工作区版本与版本来源记录不一致；请先核对上游 tag 和源码")
     identity = source_identity()
     version = package_version(upstream_version, identity["提交"])
+    runtime_base = runtime_base_contract(args.runtime_base)
+    runtime_contract = {
+        "编译时固定候选": runtime_base,
+        "环境变量回退": False,
+        "设备验证": "待同一鸿蒙 PC 验证目录身份、权限、生命周期与隔离；不保证路径可用",
+    }
     helpers = args.helpers_dir.resolve()
     helper_record = validate_helpers(helpers, sdk, args.java)
     bwrap_digest = helper_record["程序"]["bwrap"]["输出"]["SHA-256"]
@@ -288,6 +363,7 @@ def build_package(
             "目标": TARGET,
             "Rust": TOOLCHAIN,
             "SDK": str(sdk),
+            "受保护运行根契约": runtime_contract,
         },
     )
     run(
@@ -300,6 +376,8 @@ def build_package(
             "--output-dir",
             str(build_dir),
             "--release",
+            "--runtime-base",
+            runtime_base,
         ],
         env,
     )
@@ -311,11 +389,31 @@ def build_package(
         sdk=sdk,
         java=args.java,
     )
+    signed_probe, probe_record = build_runtime_probe(
+        output,
+        sdk=sdk,
+        java=args.java,
+        env=env,
+        commit=identity["提交"],
+        version=version,
+    )
+    verify_source_unchanged(identity)
     directory = output / "鸿蒙Codex"
-    assemble(directory, cli=signed_cli, helpers=helpers, version=version)
+    assemble(
+        directory,
+        cli=signed_cli,
+        helpers=helpers,
+        runtime_probe=signed_probe,
+        version=version,
+    )
     files = {
         name: inspect_ohos_elf(directory / name)
-        for name in ("bin/codex", "codex-path/rg", "codex-resources/bwrap")
+        for name in (
+            "bin/codex",
+            "codex-path/rg",
+            "codex-resources/bwrap",
+            "codex-resources/harmony-runtime-probe",
+        )
     }
     if files["codex-resources/bwrap"]["SHA-256"] != bwrap_digest:
         raise RuntimeError("打包后的 bwrap 摘要与编入 CLI 的摘要不一致")
@@ -327,6 +425,8 @@ def build_package(
         "Rust": TOOLCHAIN,
         "SDK": json.loads((sdk / "oh-uni-package.json").read_text()),
         "CLI签名": cli_record,
+        "目录探针": probe_record,
+        "受保护运行根契约": runtime_contract,
         "辅助程序": helper_record,
         "文件": files,
         "编入CLI的沙箱摘要": bwrap_digest,
@@ -337,6 +437,7 @@ def build_package(
     archive = output / f"鸿蒙Codex-{version}-未真机验证.tar.gz"
     with tarfile.open(archive, "w:gz", compresslevel=6) as stream:
         stream.add(directory, arcname=directory.name)
+    (output / "安装包校验.sha256").write_text(f"{digest(archive)}  {archive.name}\n")
     write_record(
         output / "交付摘要.json",
         {
@@ -363,6 +464,11 @@ def main() -> int:
         "--build-dir", type=Path, help="可选的独立编译目录；用于保留或复用构建缓存"
     )
     parser.add_argument("--offline", action="store_true")
+    parser.add_argument(
+        "--runtime-base",
+        type=runtime_base_contract,
+        help="package 必须显式绑定的目标私有目录候选；设备仍需验证",
+    )
     args = parser.parse_args()
     if not args.java:
         parser.error("缺少 Java；请通过 --java 指定 SDK 签名工具使用的 Java")
@@ -374,6 +480,10 @@ def main() -> int:
         )
     if args.action == "package" and (not args.helpers_dir or args.source_cache):
         parser.error("package 要求 --helpers-dir，且不接受 --source-cache")
+    if args.action == "package" and args.runtime_base is None:
+        parser.error("package 要求 --runtime-base，不能隐式选择运行目录")
+    if args.action == "helpers" and args.runtime_base is not None:
+        parser.error("helpers 不使用 --runtime-base")
     sdk = native_sdk(args.sdk)
     signing_tool(sdk)
     strip = sdk / "llvm/bin/llvm-strip"

@@ -1,4 +1,5 @@
 import json
+import argparse
 import os
 from pathlib import Path
 import subprocess
@@ -9,9 +10,34 @@ import unittest
 from build_harmony import TARGET
 from build_harmony import build_environment
 from build_harmony import native_sdk
+from build_harmony import runtime_base_contract
 
 
 class HarmonyBuildTests(unittest.TestCase):
+    def test_runtime_contract_keeps_target_path_and_full_socket_identity(self):
+        self.assertEqual(
+            runtime_base_contract("/data/storage/el2/base/files"),
+            "/data/storage/el2/base/files",
+        )
+        self.assertEqual(runtime_base_contract("/" + "x" * 29), "/" + "x" * 29)
+        for value in (
+            "/",
+            "relative",
+            "/a/../b",
+            "/a/./b",
+            "/a//b",
+            "/a/",
+            "/a\nb",
+            "/a\x00b",
+            "/" + "x" * 30,
+            "/" + "中" * 11,
+        ):
+            with (
+                self.subTest(value=value),
+                self.assertRaises(argparse.ArgumentTypeError),
+            ):
+                runtime_base_contract(value)
+
     def setUp(self):
         self.temporary = tempfile.TemporaryDirectory()
         self.addCleanup(self.temporary.cleanup)

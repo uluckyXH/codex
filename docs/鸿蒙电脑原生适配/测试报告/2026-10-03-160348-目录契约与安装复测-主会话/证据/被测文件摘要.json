@@ -1,0 +1,8 @@
+{
+  "scripts/build_harmony.py": "8871154efe99c8a2985d161b8ea71ae33167971038e404f7a823124d2b3a1edf",
+  "scripts/build_harmony_distribution.py": "322b61bdba0b0c01ee3a702bd1386a9fe9a37271c7b281473e3f0abf01661fff",
+  "scripts/test_build_harmony.py": "12b83081dfd209bfb23c5cd359f2fc0dc05aa01acedb30d0f9466b3c57412c9f",
+  "scripts/test_harmony_distribution.py": "722399bd4a89660708f9bb8a9599e17a4b4baf6d0471992b25c48244c6c6a99d",
+  "scripts/harmony/安装.sh": "e5c0f561aaf523beddce9d040c73144c56af0129f7752704448f4754246963ed",
+  "scripts/harmony/诊断.sh": "b504a55dc2fbdf47e468d9379262b6dbdc41aea911fd9a0ee0f3ebf73b19b135"
+}
