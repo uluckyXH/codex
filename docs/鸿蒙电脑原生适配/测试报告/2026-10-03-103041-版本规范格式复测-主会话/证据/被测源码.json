@@ -1,0 +1,11 @@
+{
+  "基线": "20e8556199712832c912d3bea9374dc278a352df",
+  "状态": "含本轮未提交版本改动",
+  "文件摘要": {
+    "codex-rs/Cargo.lock": "da948feb3be540f25620b20c8290623dbc583cd597352137850afdaceaa2052a",
+    "codex-rs/Cargo.toml": "b6bf30f11f75095d9687fd44a907e6404e7f374a60fb53ca8e371cb9d2226d41",
+    "scripts/build_harmony_distribution.py": "e8bce27b73c736f92a659598e8aaf0160f628429b858e4567c2f239fb8a6d84a",
+    "scripts/test_harmony_distribution.py": "a58d4dbefd4eda0847c7d730db7e08447d0983f6ecdc0d7c1edea982e6c0cf9c",
+    "scripts/harmony/版本来源.json": "d7825ed23f7c70e57c29a24c0de94c1f64cbe2074fb62a5701ae8ff56d0f7f54"
+  }
+}

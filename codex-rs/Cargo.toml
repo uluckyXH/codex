@@ -160,7 +160,9 @@ members = [
 resolver = "2"
 
 [workspace.package]
-version = "0.0.0"
+# This fork follows the 0.160.0 release family, but uses an upstream mainline
+# snapshot. Keep the development suffix until a release tag is actually adopted.
+version = "0.160.0-dev"
 # Track the edition for all workspace crates in one place. Individual
 # crates can still override this value, but keeping it here means new
 # crates created with `cargo new -w ...` automatically inherit the 2024

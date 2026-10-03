@@ -1,0 +1,13 @@
+发布脚本格式复测
+2 files already formatted
+
+发布脚本静态复测
+All checks passed!
+
+中文文档静态检查
+中文文档：134
+本地链接：848
+Shell 示例：61
+Python 示例：1
+TOML 示例：4
+文档静态检查通过；示例语法检查不会执行示例中的构建或安装命令。

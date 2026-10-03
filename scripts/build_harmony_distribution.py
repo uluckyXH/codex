@@ -242,25 +242,45 @@ def verify_source_unchanged(identity: dict) -> None:
 
 
 def package_version(upstream_version: str, commit: str) -> str:
+    from codex_package.cli import parse_package_version
+
+    parse_package_version(upstream_version)
+    if upstream_version.split("-", 1)[0].split("+", 1)[0] == "0.0.0":
+        raise ValueError("不能发布 0.0.0 占位版本；请先核对并记录官方版本来源")
+    if len(commit) != 40 or any(char not in "0123456789abcdef" for char in commit):
+        raise ValueError("发布版本要求完整的小写 Git 提交 SHA")
     base, separator, metadata = upstream_version.partition("+")
-    version = base + (".harmony." if "-" in base else "-harmony.") + commit[:12]
-    return version + ("+" + metadata if separator else "")
+    # The g prefix also keeps an all-numeric SHA with a leading zero valid SemVer.
+    version = base + (".harmony.g" if "-" in base else "-harmony.g") + commit[:12]
+    return parse_package_version(version + ("+" + metadata if separator else ""))
 
 
 def build_package(
     args: argparse.Namespace, output: Path, sdk: Path, env: dict[str, str]
 ) -> None:
+    upstream_version = tomllib.loads((REPO_ROOT / "codex-rs/Cargo.toml").read_text())[
+        "workspace"
+    ]["package"]["version"]
+    version_source = json.loads(
+        (REPO_ROOT / "scripts/harmony/版本来源.json").read_text()
+    )
+    if version_source["工作区版本"] != upstream_version:
+        raise ValueError("工作区版本与版本来源记录不一致；请先核对上游 tag 和源码")
+    identity = source_identity()
+    version = package_version(upstream_version, identity["提交"])
     helpers = args.helpers_dir.resolve()
     helper_record = validate_helpers(helpers, sdk, args.java)
     bwrap_digest = helper_record["程序"]["bwrap"]["输出"]["SHA-256"]
     env["CODEX_BWRAP_SHA256"] = bwrap_digest
-    identity = source_identity()
     env["CODEX_HARMONY_BUILD_ID"] = identity["提交"]
+    env["STABLE_GIT_COMMIT"] = identity["提交"]
     build_dir = args.build_dir.resolve() if args.build_dir else output / "主程序编译"
     write_record(
         output / "构建输入.json",
         {
             "源码": identity,
+            "版本": version,
+            "版本来源": version_source,
             "沙箱摘要": bwrap_digest,
             "构建目录": str(build_dir),
             "目标": TARGET,
@@ -289,10 +309,6 @@ def build_package(
         sdk=sdk,
         java=args.java,
     )
-    upstream_version = tomllib.loads((REPO_ROOT / "codex-rs/Cargo.toml").read_text())[
-        "workspace"
-    ]["package"]["version"]
-    version = package_version(upstream_version, identity["提交"])
     directory = output / "鸿蒙Codex"
     assemble(directory, cli=signed_cli, helpers=helpers, version=version)
     files = {
@@ -303,6 +319,7 @@ def build_package(
         raise RuntimeError("打包后的 bwrap 摘要与编入 CLI 的摘要不一致")
     record = {
         "版本": version,
+        "版本来源": version_source,
         "目标": TARGET,
         "源码": identity,
         "Rust": TOOLCHAIN,

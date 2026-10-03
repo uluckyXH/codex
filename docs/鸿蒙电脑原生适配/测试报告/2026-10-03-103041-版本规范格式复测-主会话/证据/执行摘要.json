@@ -1,0 +1,55 @@
+[
+  {
+    "命令": [
+      ".harmony-build/工具/python/bin/ruff",
+      "format",
+      "--check",
+      "scripts/build_harmony_distribution.py",
+      "scripts/test_harmony_distribution.py"
+    ],
+    "开始": "2026-10-03T10:29:07+08:00",
+    "结束": "2026-10-03T10:29:07+08:00",
+    "退出码": 0,
+    "主机": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "源码": "20e8556199712832c912d3bea9374dc278a352df",
+    "日志": ".harmony-build/版本号调整/执行记录/发布脚本格式复测.log",
+    "日志字节数": 26,
+    "日志摘要": "3bc53bf3e981a98a34a852e175bf9b77af841edea74fca595d9aedcbaf9a4938",
+    "并行编译数": 2,
+    "工具链与下载缓存": "外置盘 /Volumes/MacSSD/dev/rust；未运行目标程序"
+  },
+  {
+    "命令": [
+      ".harmony-build/工具/python/bin/ruff",
+      "check",
+      "scripts/build_harmony_distribution.py",
+      "scripts/test_harmony_distribution.py"
+    ],
+    "开始": "2026-10-03T10:29:07+08:00",
+    "结束": "2026-10-03T10:29:07+08:00",
+    "退出码": 0,
+    "主机": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "源码": "20e8556199712832c912d3bea9374dc278a352df",
+    "日志": ".harmony-build/版本号调整/执行记录/发布脚本静态复测.log",
+    "日志字节数": 19,
+    "日志摘要": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "并行编译数": 2,
+    "工具链与下载缓存": "外置盘 /Volumes/MacSSD/dev/rust；未运行目标程序"
+  },
+  {
+    "命令": [
+      "python3",
+      "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/证据/文档检查脚本.py"
+    ],
+    "开始": "2026-10-03T10:28:24+08:00",
+    "结束": "2026-10-03T10:28:24+08:00",
+    "退出码": 0,
+    "主机": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "源码": "20e8556199712832c912d3bea9374dc278a352df",
+    "日志": ".harmony-build/版本号调整/执行记录/中文文档静态检查.log",
+    "日志字节数": 184,
+    "日志摘要": "8ea306a581b03aea67e3c062e4e896bc02e732a798c94645f91f7e41967d7517",
+    "并行编译数": 2,
+    "工具链与下载缓存": "外置盘 /Volumes/MacSSD/dev/rust；未运行目标程序"
+  }
+]

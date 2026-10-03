@@ -1,0 +1,37 @@
+内部包版本刷新
+    Updating codex-websocket-client v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/websocket-client) -> v0.160.0-dev
+    Updating codex-windows-sandbox v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/windows-sandbox-rs) -> v0.160.0-dev
+    Updating codex-windows-sandbox-service v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/windows-sandbox-service) -> v0.160.0-dev
+    Updating codex-windows-sandbox-test-support v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/windows-sandbox-rs/tests/support) -> v0.160.0-dev
+    Updating codex-workload-identity v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/workload-identity) -> v0.160.0-dev
+    Updating codex-worktree v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/worktree) -> v0.160.0-dev
+    Updating core_test_support v0.0.0 (/Volumes/MacSSD/Repositories/codex/codex-rs/core/tests/common) -> v0.160.0-dev
+note: pass `--verbose` to see 58 unchanged dependencies behind latest
+
+版本与打包回归
+test_manifest_rejects_escape_and_reserved_names_before_install (scripts.test_harmony_distribution.InstallerTests.test_manifest_rejects_escape_and_reserved_names_before_install) ... ok
+test_missing_resource_or_newline_prefix_is_rejected (scripts.test_harmony_distribution.InstallerTests.test_missing_resource_or_newline_prefix_is_rejected) ... ok
+test_unlisted_files_and_environment_symlink_are_not_copied (scripts.test_harmony_distribution.InstallerTests.test_unlisted_files_and_environment_symlink_are_not_copied) ... ok
+
+----------------------------------------------------------------------
+Ran 34 tests in 4.861s
+
+OK
+
+版本显示回归
+test cli::tests::build_identity_distinguishes_missing_and_invalid_values ... ok
+test cli::tests::version_keeps_upstream_version_and_target_provenance ... ok
+test cli_and_tui_share_the_workspace_version ... ok
+
+test result: ok. 4 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+Cargo metadata 确认 CLI/TUI 统一版本：0.160.0-dev
+执行的是共享版本模块宿主测试，没有运行登录、API 或鸿蒙程序。
+
+发布脚本静态检查
+All checks passed!
+
+发布脚本格式检查
+Would reformat: scripts/build_harmony_distribution.py
+Would reformat: scripts/test_harmony_distribution.py
+2 files would be reformatted

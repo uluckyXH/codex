@@ -1,6 +1,7 @@
 """无认证、无目标执行的打包、路径和损坏输入回归。"""
 
 import io
+import json
 import os
 from pathlib import Path
 import shutil
@@ -9,10 +10,12 @@ import subprocess
 import tarfile
 import tempfile
 import unittest
+from types import SimpleNamespace
 from unittest.mock import patch
 
 from build_harmony import REPO_ROOT, TARGET
 from build_harmony_distribution import (
+    build_package,
     package_version,
     verify_source_unchanged,
     write_checksums,
@@ -105,13 +108,52 @@ class DistributionTests(unittest.TestCase):
 
         commit = "a" * 40
         for upstream, expected in (
-            ("0.0.0", "0.0.0-harmony.aaaaaaaaaaaa"),
-            ("1.2.3-beta.4", "1.2.3-beta.4.harmony.aaaaaaaaaaaa"),
-            ("1.2.3+build", "1.2.3-harmony.aaaaaaaaaaaa+build"),
+            ("0.160.0-dev", "0.160.0-dev.harmony.gaaaaaaaaaaaa"),
+            ("0.160.0", "0.160.0-harmony.gaaaaaaaaaaaa"),
+            ("1.2.3-beta.4", "1.2.3-beta.4.harmony.gaaaaaaaaaaaa"),
+            ("1.2.3+build", "1.2.3-harmony.gaaaaaaaaaaaa+build"),
         ):
             result = package_version(upstream, commit)
             self.assertEqual(result, expected)
             self.assertEqual(parse_package_version(result), result)
+
+    def test_numeric_and_invalid_commit_identities(self):
+        self.assertEqual(
+            package_version("0.160.0-dev", "012345678901" + "0" * 28),
+            "0.160.0-dev.harmony.g012345678901",
+        )
+        for commit in ("", "short", "G" * 40, "a" * 39 + "\n"):
+            with (
+                self.subTest(commit=commit),
+                self.assertRaisesRegex(ValueError, "提交 SHA"),
+            ):
+                package_version("0.160.0-dev", commit)
+
+    def test_placeholder_versions_cannot_be_released(self):
+        for version in ("0.0.0", "0.0.0-dev", "0.0.0+build"):
+            with (
+                self.subTest(version=version),
+                self.assertRaisesRegex(ValueError, "占位版本"),
+            ):
+                package_version(version, "a" * 40)
+
+    def test_version_provenance_mismatch_stops_before_building_or_signing(self):
+        (self.root / "codex-rs").mkdir()
+        (self.root / "codex-rs/Cargo.toml").write_text(
+            '[workspace.package]\nversion = "0.160.0-dev"\n'
+        )
+        provenance = self.root / "scripts/harmony/版本来源.json"
+        provenance.parent.mkdir(parents=True)
+        provenance.write_text(json.dumps({"工作区版本": "0.159.3"}))
+        with (
+            patch("build_harmony_distribution.REPO_ROOT", self.root),
+            patch("build_harmony_distribution.validate_helpers") as helpers,
+            patch("build_harmony_distribution.run") as run,
+        ):
+            with self.assertRaisesRegex(ValueError, "版本来源记录不一致"):
+                build_package(SimpleNamespace(), self.root, self.root, {})
+            helpers.assert_not_called()
+            run.assert_not_called()
 
     def test_modified_content_cannot_hide_behind_unchanged_git_status(self):
         before = {
@@ -372,7 +414,9 @@ class InstallerTests(unittest.TestCase):
         ).strip()
         self.assertEqual(path, str(new / "bin/codex"))
 
-    def test_activation_rejects_symlink_or_broken_markers_without_changing_original(self):
+    def test_activation_rejects_symlink_or_broken_markers_without_changing_original(
+        self,
+    ):
         prefix = self.root / "installed"
         self.assertEqual(self.install(prefix).returncode, 0)
         original = self.root / "原文件"
