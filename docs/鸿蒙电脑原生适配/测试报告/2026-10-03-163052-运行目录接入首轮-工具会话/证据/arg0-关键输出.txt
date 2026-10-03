@@ -1,0 +1,161 @@
+完整原始日志在执行摘要所列本机路径；以下保留末尾最多160行。
+     |
+     = help: consider using a Cargo feature instead
+     = help: or consider adding in `Cargo.toml` the `check-cfg` lint config for the lint:
+              [lints.rust]
+              unexpected_cfgs = { level = "warn", check-cfg = ['cfg(netbsdlike)'] }
+     = help: or consider adding `println!("cargo::rustc-check-cfg=cfg(netbsdlike)");` to the top of the `build.rs`
+     = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/third_party/rust/nix-0.28.0/src/unistd.rs:3120:5
+     |
+3120 |     freebsdlike,
+     |     ^^^^^^^^^^^
+     |
+     = help: consider using a Cargo feature instead
+     = help: or consider adding in `Cargo.toml` the `check-cfg` lint config for the lint:
+              [lints.rust]
+              unexpected_cfgs = { level = "warn", check-cfg = ['cfg(freebsdlike)'] }
+     = help: or consider adding `println!("cargo::rustc-check-cfg=cfg(freebsdlike)");` to the top of the `build.rs`
+     = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition name: `bsd`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/third_party/rust/nix-0.28.0/src/unistd.rs:3642:7
+     |
+3642 | #[cfg(bsd)]
+     |       ^^^
+     |
+     = help: consider using a Cargo feature instead
+     = help: or consider adding in `Cargo.toml` the `check-cfg` lint config for the lint:
+              [lints.rust]
+              unexpected_cfgs = { level = "warn", check-cfg = ['cfg(bsd)'] }
+     = help: or consider adding `println!("cargo::rustc-check-cfg=cfg(bsd)");` to the top of the `build.rs`
+     = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/third_party/rust/nix-0.28.0/src/sys/select.rs:110:16
+    |
+110 |     pub fn fds(&self, highest: Option<RawFd>) -> Fds {
+    |                ^^^^^                             ^^^
+    |                |                                 |
+    |                |                                 the same lifetime is hidden here
+    |                the lifetime is elided here       the same lifetime is hidden here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+    = note: `#[warn(mismatched_lifetime_syntaxes)]` on by default
+help: use `'_` for type paths
+    |
+110 |     pub fn fds(&self, highest: Option<RawFd>) -> Fds<'_> {
+    |                                                     ++++
+
+warning: function pointer comparisons do not produce meaningful results since their addresses are not guaranteed to be unique
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/third_party/rust/nix-0.28.0/src/sys/signal.rs:748:13
+    |
+741 | #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+    |                                        --------- in this derive macro expansion
+...
+748 |     Handler(extern fn(libc::c_int)),
+    |             ^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: the address of the same function can vary between different codegen units
+    = note: furthermore, different functions could have the same address after being merged together
+    = note: for more information visit <https://doc.rust-lang.org/nightly/core/ptr/fn.fn_addr_eq.html>
+    = note: `#[warn(unpredictable_function_pointer_comparisons)]` on by default
+
+warning: function pointer comparisons do not produce meaningful results since their addresses are not guaranteed to be unique
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/third_party/rust/nix-0.28.0/src/sys/signal.rs:752:15
+    |
+741 | #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+    |                                        --------- in this derive macro expansion
+...
+752 |     SigAction(extern fn(libc::c_int, *mut libc::siginfo_t, *mut libc::c_void))
+    |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: the address of the same function can vary between different codegen units
+    = note: furthermore, different functions could have the same address after being merged together
+    = note: for more information visit <https://doc.rust-lang.org/nightly/core/ptr/fn.fn_addr_eq.html>
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/third_party/rust/nix-0.28.0/src/sys/termios.rs:181:36
+    |
+181 |     pub(crate) fn get_libc_termios(&self) -> Ref<libc::termios> {
+    |                                    ^^^^^     ^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+    |                                    |
+    |                                    the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+    |
+181 |     pub(crate) fn get_libc_termios(&self) -> Ref<'_, libc::termios> {
+    |                                                  +++
+
+warning: `nix` (lib) generated 553 warnings (run `cargo fix --lib -p nix` to apply 14 suggestions)
+   Compiling codex-utils-rustls-provider v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/utils/rustls-provider)
+   Compiling codex-utils-cache v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/utils/cache)
+   Compiling codex-http-client v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/http-client)
+   Compiling codex-utils-string v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/utils/string)
+   Compiling codex-utils-home-dir v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/utils/home-dir)
+   Compiling codex-utils-path-uri v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/utils/path-uri)
+   Compiling codex-extension-items v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/ext/items)
+   Compiling codex-network-proxy v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/network-proxy)
+   Compiling codex-execpolicy v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/execpolicy)
+   Compiling codex-utils-image v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/utils/image)
+   Compiling codex-utils-redacted-string v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/utils/redacted-string)
+   Compiling codex-async-utils v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/async-utils)
+   Compiling codex-client v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/codex-client)
+   Compiling codex-utils-pty v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/utils/pty)
+   Compiling codex-websocket-client v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/websocket-client)
+   Compiling codex-utils-process v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/utils/process)
+   Compiling codex-utils-stream-parser v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/utils/stream-parser)
+   Compiling codex-windows-sandbox v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/windows-sandbox-rs)
+   Compiling codex-install-context v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/install-context)
+   Compiling codex-skills v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/skills)
+   Compiling codex-build-info v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/build-info)
+   Compiling codex-protocol v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/protocol)
+   Compiling codex-utils-path v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/utils/path-utils)
+   Compiling codex-uds v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/uds)
+   Compiling codex-websocket-auth v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/websocket-auth)
+   Compiling codex-file-watcher v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/file-watcher)
+   Compiling codex-core-plugin-common v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/core-plugin-common)
+   Compiling codex-linux-sandbox v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/linux-sandbox)
+   Compiling codex-utils-cargo-bin v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/utils/cargo-bin)
+   Compiling codex-api v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/codex-api)
+   Compiling codex-file-system v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/file-system)
+   Compiling codex-shell-command v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/shell-command)
+   Compiling codex-otel v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/otel)
+   Compiling codex-git-utils v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/git-utils)
+   Compiling codex-model-provider-info v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/model-provider-info)
+   Compiling codex-mxc-sandbox v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/mxc-sandbox)
+   Compiling codex-features v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/features)
+   Compiling codex-sandboxing v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/sandboxing)
+   Compiling codex-exec-server-protocol v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/exec-server-protocol)
+   Compiling codex-config v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/config)
+   Compiling codex-shell-escalation v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/shell-escalation)
+   Compiling codex-exec-server v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/exec-server)
+   Compiling codex-apply-patch v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/apply-patch)
+   Compiling codex-arg0 v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/arg0)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 51.62s
+     Running unittests src/lib.rs (.harmony-build/测试批次/2026-10-03-163052-运行目录接入首轮-工具会话/宿主产物/debug/deps/codex_arg0-bb3768973b238bf3)
+
+running 13 tests
+test tests::linux_sandbox_exe_path_prefers_codex_linux_sandbox_alias ... ok
+test tests::only_read_only_harmony_invocations_skip_startup_files ... ok
+test tests::janitor_skips_dirs_without_lock_file ... ok
+test tests::janitor_removes_dirs_with_unlocked_lock ... ok
+WARNING: proceeding, even though we could not create PATH aliases: alias setup failed
+test tests::janitor_skips_dirs_with_held_lock ... ok
+test harmony_alias_dir::tests::changed_parent_is_rejected_before_creating_a_session ... ok
+test tests::required_aliases_propagate_errors_instead_of_falling_back_to_package_path ... ok
+test tests::run_main_with_arg0_guard_keeps_aliases_alive_until_main_returns ... ok
+test tests::path_env_can_prepend_package_path_before_arg0_alias_dir ... ok
+test tests::package_path_survives_arg0_alias_setup_failure ... ok
+test harmony_alias_dir::tests::replaced_ancestor_prevents_cleanup_of_both_trees ... ok
+test harmony_alias_dir::tests::replaced_alias_and_unknown_content_are_preserved ... ok
+test harmony_alias_dir::tests::aliases_are_executable_and_only_session_objects_are_removed ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.01s
+
+
+退出码：0
+结束：2026-10-03T16:35:38.919283+08:00

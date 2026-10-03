@@ -1,0 +1,8 @@
+{
+  "code_commit": "ed824dc928c1b43be393e95854091f4186fe989a",
+  "matches_recorded_file_hashes": true,
+  "source_unchanged_during_test": true,
+  "host": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "workspace_state": "产品源码已提交且未变化；工作区只有本会话的报告和说明修改。",
+  "scope": "只运行2个doctor capability测试；其余312项过滤，不执行认证或模型请求。"
+}

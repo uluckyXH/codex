@@ -1,0 +1,161 @@
+完整原始日志在执行摘要所列本机路径；以下保留末尾最多160行。
+   |       ^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `system_bwrap_warning_for_path` is never used
+  --> sandboxing/src/bwrap.rs:68:4
+   |
+68 | fn system_bwrap_warning_for_path(system_bwrap_path: Option<&Path>) -> Option<String> {
+   |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `warning_for_probe_result` is never used
+  --> sandboxing/src/bwrap.rs:83:4
+   |
+83 | fn warning_for_probe_result(result: std::io::Result<Output>) -> Option<String> {
+   |    ^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: function `is_user_namespace_failure` is never used
+   --> sandboxing/src/bwrap.rs:136:4
+    |
+136 | fn is_user_namespace_failure(output: &Output) -> bool {
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `codex-sandboxing` (lib) generated 6 warnings
+    Checking codex-agent-identity v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/agent-identity)
+    Checking codex-exec-server-protocol v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/exec-server-protocol)
+    Checking codex-login v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/login)
+    Checking codex-rollout v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/rollout)
+    Checking codex-exec-server v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/exec-server)
+    Checking codex-utils-output-truncation v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/utils/output-truncation)
+    Checking codex-context-fragments v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/context-fragments)
+    Checking codex-guardian-context v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/guardian-context)
+    Checking codex-feedback v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/feedback)
+    Checking codex-prompts v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/prompts)
+    Checking codex-response-debug-context v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/response-debug-context)
+    Checking codex-models-manager v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/models-manager)
+    Checking codex-model-provider v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/model-provider)
+    Checking codex-code-mode v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/code-mode)
+    Checking codex-app-server-protocol v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/app-server-protocol)
+    Checking codex-shell-escalation v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/shell-escalation)
+    Checking codex-rollout-trace v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/rollout-trace)
+    Checking codex-utils-plugins v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/utils/plugins)
+    Checking codex-plugin v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/plugin)
+    Checking codex-connectors v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/connectors)
+    Checking codex-rmcp-client v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/rmcp-client)
+    Checking codex-tools v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/tools)
+    Checking codex-hooks v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/hooks)
+    Checking codex-apply-patch v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/apply-patch)
+    Checking codex-mcp v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/codex-mcp)
+    Checking codex-agent-roles v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/agent-roles)
+    Checking codex-agent-graph-store v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/agent-graph-store)
+    Checking codex-memories-read v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/memories/read)
+    Checking codex-utils-git-discovery v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/utils/git-discovery)
+    Checking codex-utils-audio v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/utils/audio)
+    Checking codex-backend-client v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/backend-client)
+    Checking codex-extension-api v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/ext/extension-api)
+    Checking codex-utils-cli v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/utils/cli)
+    Checking codex-agent-message-board-extension v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/ext/agent-message-board)
+    Checking codex-arg0 v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/arg0)
+warning: unused import: `std::os::unix::fs::symlink`
+  --> arg0/src/lib.rs:18:5
+   |
+18 | use std::os::unix::fs::symlink;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: constant `LOCK_FILENAME` is never used
+  --> arg0/src/lib.rs:28:7
+   |
+28 | const LOCK_FILENAME: &str = ".lock";
+   |       ^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: associated function `new` is never used
+  --> arg0/src/lib.rs:52:8
+   |
+51 | impl Arg0PathEntryGuard {
+   | ----------------------- associated function in this implementation
+52 |     fn new(temp_dir: TempDir, lock_file: File, paths: Arg0DispatchPaths) -> Self {
+   |        ^^^
+
+warning: function `janitor_cleanup` is never used
+   --> arg0/src/lib.rs:585:4
+    |
+585 | fn janitor_cleanup(temp_root: &Path) -> std::io::Result<()> {
+    |    ^^^^^^^^^^^^^^^
+
+warning: function `try_lock_dir` is never used
+   --> arg0/src/lib.rs:614:4
+    |
+614 | fn try_lock_dir(dir: &Path) -> std::io::Result<Option<File>> {
+    |    ^^^^^^^^^^^^
+
+warning: `codex-arg0` (lib) generated 5 warnings (run `cargo fix --lib -p codex-arg0` to apply 1 suggestion)
+    Checking codex-git-attribution v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/ext/git-attribution)
+    Checking codex-agent-message-board-client v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/agent-message-board-client)
+    Checking codex-home v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/codex-home)
+    Checking codex-cloud-config v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/cloud-config)
+    Checking codex-worktree v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/worktree)
+    Checking codex-utils-sandbox-summary v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/utils/sandbox-summary)
+    Checking codex-cloud-tasks-client v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/cloud-tasks-client)
+    Checking codex-message-history v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/message-history)
+    Checking codex-utils-approval-presets v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/utils/approval-presets)
+    Checking codex-cloud-tasks-mock-client v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/cloud-tasks-mock-client)
+    Checking codex-analytics v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/analytics)
+    Checking codex-thread-store v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/thread-store)
+    Checking codex-core-plugins v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/core-plugins)
+    Checking codex-skills-extension v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/ext/skills)
+    Checking codex-guardian-reviewer v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/ext/guardian-reviewer)
+    Checking codex-connectors-extension v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/ext/connectors)
+    Checking codex-core v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/core)
+    Checking codex-app-server-transport v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/app-server-transport)
+    Checking codex-memories-write v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/memories/write)
+    Checking codex-web-search-extension v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/ext/web-search)
+    Checking codex-queue-extension v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/ext/queue)
+    Checking codex-external-agent-migration v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/external-agent-migration)
+    Checking codex-agent-extension v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/ext/agent)
+    Checking codex-chatgpt v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/chatgpt)
+    Checking codex-memories-extension v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/ext/memories)
+    Checking codex-mcp-extension v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/ext/mcp)
+    Checking codex-goal-extension v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/ext/goal)
+    Checking codex-history-notes-extension v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/ext/history-notes)
+    Checking codex-guardian-v2 v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/ext/guardian-v2)
+    Checking codex-image-generation-extension v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/ext/image-generation)
+    Checking codex-lmstudio v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/lmstudio)
+    Checking codex-ollama v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/ollama)
+    Checking codex-app-server-daemon v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/app-server-daemon)
+    Checking codex-utils-oss v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/utils/oss)
+    Checking codex-app-server v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/app-server)
+    Checking codex-app-server-test-client v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/app-server-test-client)
+    Checking codex-app-server-client v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/app-server-client)
+    Checking codex-tui v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/tui)
+    Checking codex-exec v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/exec)
+warning: variants `NoImage`, `EncodeFailed`, and `IoError` are never constructed
+  --> tui/src/clipboard_paste.rs:13:5
+   |
+11 | pub enum PasteImageError {
+   |          --------------- variants in this enum
+12 |     ClipboardUnavailable(String),
+13 |     NoImage(String),
+   |     ^^^^^^^
+14 |     EncodeFailed(String),
+   |     ^^^^^^^^^^^^
+15 |     IoError(String),
+   |     ^^^^^^^
+   |
+   = note: `PasteImageError` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `paste_image_as_png` is never used
+   --> tui/src/clipboard_paste.rs:125:8
+    |
+125 | pub fn paste_image_as_png() -> Result<(Vec<u8>, PastedImageInfo), PasteImageError> {
+    |        ^^^^^^^^^^^^^^^^^^
+
+warning: `codex-tui` (lib) generated 2 warnings
+    Checking codex-cloud-tasks v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/cloud-tasks)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 2m 58s
+
+退出码：0
+结束：2026-10-03T16:37:44.975788+08:00

@@ -1,0 +1,16 @@
+{
+  "command": [
+    "/opt/homebrew/opt/rustup/bin/rustfmt",
+    "+1.95.0",
+    "--edition",
+    "2024",
+    "--check",
+    "codex-rs/arg0/src/lib.rs",
+    "codex-rs/arg0/src/harmony_alias_dir.rs",
+    "codex-rs/cli/src/doctor/capabilities.rs"
+  ],
+  "started": "2026-10-03T16:58:07.997291+08:00",
+  "finished": "2026-10-03T16:58:08.054166+08:00",
+  "exit_code": 0,
+  "output": "Warning: can't set `imports_granularity = Item`, unstable features are only available in nightly channel.\nWarning: can't set `imports_granularity = Item`, unstable features are only available in nightly channel.\nWarning: can't set `imports_granularity = Item`, unstable features are only available in nightly channel.\n"
+}

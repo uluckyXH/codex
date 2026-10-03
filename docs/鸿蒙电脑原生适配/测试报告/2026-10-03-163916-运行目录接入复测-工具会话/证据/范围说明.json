@@ -1,0 +1,8 @@
+{
+  "session": "01a0fbd5-774e-76b2-8090-f11b7accb711",
+  "host": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "no_auth_tests": true,
+  "no_model_requests": true,
+  "source_changes_during_run": false,
+  "cache_note": "从本会话旧批次复制到当前独立目录后由 Cargo 校验；没有共享其他会话可变 target。宿主清除 CARGO_BUILD_TARGET，仓库无 build.target，rustc -vV 记录实际 Apple Darwin 目标。"
+}

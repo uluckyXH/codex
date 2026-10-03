@@ -1,0 +1,26 @@
+[
+  {
+    "command": [
+      "cp",
+      "-cR",
+      "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/.harmony-build/测试批次/2026-10-03-024223-七版文件helper与补丁补测-工具会话/宿主产物",
+      "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/.harmony-build/测试批次/2026-10-03-163052-运行目录接入首轮-工具会话/宿主产物"
+    ],
+    "started": "2026-10-03T16:31:11.118822+08:00",
+    "finished": "2026-10-03T16:31:17.013429+08:00",
+    "exit_code": 0,
+    "output": ""
+  },
+  {
+    "command": [
+      "cp",
+      "-cR",
+      "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/.harmony-build/测试批次/2026-10-03-023701-七版资源来源与构建身份-工具会话/鸿蒙检查/target",
+      "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/.harmony-build/测试批次/2026-10-03-163052-运行目录接入首轮-工具会话/鸿蒙检查/target"
+    ],
+    "started": "2026-10-03T16:31:17.013575+08:00",
+    "finished": "2026-10-03T16:31:30.281435+08:00",
+    "exit_code": 0,
+    "output": ""
+  }
+]

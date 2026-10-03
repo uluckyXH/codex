@@ -1,0 +1,21 @@
+{
+  "head": "ed824dc928c1b43be393e95854091f4186fe989a",
+  "api_commit": "2f59e487d7b68344eef80ef94a1c0d75a402767c",
+  "含未提交修改": false,
+  "files": {
+    "codex-rs/arg0/Cargo.toml": "a945f70afc69371c0755065e327ba210e9e6159814c9264a945ac5badaae08fa",
+    "codex-rs/arg0/src/lib.rs": "fc7a5a4b91b9636b714428fa45c50b150d5bfdabd74bc1ba317ce08a52da12f2",
+    "codex-rs/arg0/src/harmony_alias_dir.rs": "6635f509d31b58e8f5c65e6d6dd9adad1926601e691eac727ad246cab7ad4720",
+    "codex-rs/cli/Cargo.toml": "fb5f9b592f37d2e97ffb7cbfef4b5edeca287f61f49fe3f5d40ec99a5f6060aa",
+    "codex-rs/cli/src/doctor.rs": "c7bea55b4d94383a3d5f5bd9083cbdb596db4727d987dbf629f3d61521e45982",
+    "codex-rs/cli/src/doctor/capabilities.rs": "f6ac18501965047a766ca5d01a4ed70a185bcb38608f3126240df60daf3384b4",
+    "codex-rs/Cargo.lock": "3ef08f101aa3af277ee0e82acc6b70bede97675e36a578107cf885b8fd964712"
+  },
+  "additional_api_commits": [
+    "ddb59638f6eaded367c399d297b6fad06ec96b69",
+    "50b633473b99d203ea817caa1bd59eda66473069"
+  ],
+  "tested_code_commit": "ed824dc928c1b43be393e95854091f4186fe989a",
+  "preparation_head": "5b46b1fb0f7fb21e8248b9a4a733ee2f755f086d",
+  "source_committed_before_test_execution": true
+}

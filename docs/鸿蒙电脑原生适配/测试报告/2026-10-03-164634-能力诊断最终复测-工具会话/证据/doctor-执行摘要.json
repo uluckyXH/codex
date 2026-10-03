@@ -1,0 +1,35 @@
+{
+  "case": "doctor",
+  "command": [
+    "rustup",
+    "run",
+    "1.95.0",
+    "cargo",
+    "test",
+    "-p",
+    "codex-cli",
+    "--lib",
+    "--manifest-path",
+    "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/Cargo.toml",
+    "--locked",
+    "--offline",
+    "doctor::capabilities::",
+    "--",
+    "--nocapture"
+  ],
+  "cwd": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具",
+  "started": "2026-10-03T16:47:19.500559+08:00",
+  "finished": "2026-10-03T16:52:08.254310+08:00",
+  "exit_code": 0,
+  "log": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/.harmony-build/测试批次/2026-10-03-164634-能力诊断最终复测-工具会话/日志/doctor.log",
+  "host_toolchain": "rustc 1.95.0 (59807616e 2026-04-14)\nbinary: rustc\ncommit-hash: 59807616e1fa2540724bfbac14d7976d7e4a3860\ncommit-date: 2026-04-14\nhost: aarch64-apple-darwin\nrelease: 1.95.0\nLLVM version: 22.1.2\n",
+  "selected_environment": {
+    "RUSTUP_HOME": "/Volumes/MacSSD/dev/rust/rustup",
+    "CARGO_HOME": "/Volumes/MacSSD/dev/rust/cargo",
+    "CARGO_TARGET_DIR": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/.harmony-build/测试批次/2026-10-03-164634-能力诊断最终复测-工具会话/宿主产物",
+    "TMPDIR": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/.harmony-build/测试批次/2026-10-03-164634-能力诊断最终复测-工具会话/临时目录",
+    "CODEX_HOME": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/.harmony-build/测试批次/2026-10-03-164634-能力诊断最终复测-工具会话/空白配置",
+    "CARGO_NET_OFFLINE": "true",
+    "CARGO_BUILD_JOBS": "3"
+  }
+}

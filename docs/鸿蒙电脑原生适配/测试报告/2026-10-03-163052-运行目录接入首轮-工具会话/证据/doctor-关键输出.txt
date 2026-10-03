@@ -1,0 +1,11 @@
+完整原始日志在执行摘要所列本机路径；以下保留末尾最多160行。
+工作目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具
+开始：2026-10-03T16:36:43.701778+08:00
+命令：rustup run 1.95.0 cargo test -p codex-cli --lib --manifest-path '/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/Cargo.toml' --locked --offline doctor::capabilities:: -- --nocapture
+error: failed to download `console v0.15.11`
+
+Caused by:
+  attempting to make an HTTP request, but --offline was specified
+
+退出码：101
+结束：2026-10-03T16:36:44.543366+08:00

@@ -1,0 +1,5 @@
+包版本	公开来源	字节数	Cargo.lock匹配的SHA256
+console@0.15.11	https://static.crates.io/crates/console/console-0.15.11.crate	37822	054ccb5b10f9f2cbf51eb355ca1d05c2d279ce1804688d0db74b4733a5aeafd8
+insta@1.46.3	https://static.crates.io/crates/insta/insta-1.46.3.crate	114815	e82db8c87c7f1ccecb34ce0c24399b8a73081427f3c7c50a5d597925356115e4
+vt100@0.16.2	https://static.crates.io/crates/vt100/vt100-0.16.2.crate	32355	054ff75fb8fa83e609e685106df4faeffdf3a735d3c74ebce97ec557d5d36fd9
+vte@0.15.0	https://static.crates.io/crates/vte/vte-0.15.0.crate	57487	a5924018406ce0063cd67f8e008104968b74b563ee1b85dde3ed1f7cb87d3dbd

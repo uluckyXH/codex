@@ -1,0 +1,22 @@
+[
+  {
+    "command": [
+      "git",
+      "show",
+      "--format=",
+      "--check",
+      "ed824dc928c1b43be393e95854091f4186fe989a"
+    ],
+    "exit_code": 0,
+    "output": ""
+  },
+  {
+    "command": [
+      "git",
+      "diff",
+      "--check"
+    ],
+    "exit_code": 0,
+    "output": ""
+  }
+]

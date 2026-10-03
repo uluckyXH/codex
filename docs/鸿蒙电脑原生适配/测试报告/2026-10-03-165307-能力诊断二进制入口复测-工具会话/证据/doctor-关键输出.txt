@@ -1,0 +1,161 @@
+完整原始日志在执行摘要所列本机路径；以下保留末尾最多160行。
+     |
+1380 | #[cfg(any(freebsdlike, linux_android, netbsdlike))]
+     |                                       ^^^^^^^^^^
+     |
+     = help: consider using a Cargo feature instead
+     = help: or consider adding in `Cargo.toml` the `check-cfg` lint config for the lint:
+              [lints.rust]
+              unexpected_cfgs = { level = "warn", check-cfg = ['cfg(netbsdlike)'] }
+     = help: or consider adding `println!("cargo::rustc-check-cfg=cfg(netbsdlike)");` to the top of the `build.rs`
+     = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition name: `linux_android`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/third_party/rust/nix-0.28.0/src/unistd.rs:1389:7
+     |
+1389 | #[cfg(linux_android)]
+     |       ^^^^^^^^^^^^^
+     |
+     = help: consider using a Cargo feature instead
+     = help: or consider adding in `Cargo.toml` the `check-cfg` lint config for the lint:
+              [lints.rust]
+              unexpected_cfgs = { level = "warn", check-cfg = ['cfg(linux_android)'] }
+     = help: or consider adding `println!("cargo::rustc-check-cfg=cfg(linux_android)");` to the top of the `build.rs`
+     = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition name: `linux_android`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/third_party/rust/nix-0.28.0/src/unistd.rs:1411:5
+     |
+1411 |     linux_android,
+     |     ^^^^^^^^^^^^^
+     |
+     = help: consider using a Cargo feature instead
+     = help: or consider adding in `Cargo.toml` the `check-cfg` lint config for the lint:
+              [lints.rust]
+              unexpected_cfgs = { level = "warn", check-cfg = ['cfg(linux_android)'] }
+     = help: or consider adding `println!("cargo::rustc-check-cfg=cfg(linux_android)");` to the top of the `build.rs`
+     = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition name: `solarish`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/third_party/rust/nix-0.28.0/src/unistd.rs:1412:5
+     |
+1412 |     solarish,
+     |     ^^^^^^^^
+     |
+     = help: consider using a Cargo feature instead
+     = help: or consider adding in `Cargo.toml` the `check-cfg` lint config for the lint:
+              [lints.rust]
+              unexpected_cfgs = { level = "warn", check-cfg = ['cfg(solarish)'] }
+     = help: or consider adding `println!("cargo::rustc-check-cfg=cfg(solarish)");` to the top of the `build.rs`
+     = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition name: `netbsdlike`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/third_party/rust/nix-0.28.0/src/unistd.rs:1413:5
+     |
+1413 |     netbsdlike,
+     |     ^^^^^^^^^^
+     |
+     = help: consider using a Cargo feature instead
+     = help: or consider adding in `Cargo.toml` the `check-cfg` lint config for the lint:
+              [lints.rust]
+              unexpected_cfgs = { level = "warn", check-cfg = ['cfg(netbsdlike)'] }
+     = help: or consider adding `println!("cargo::rustc-check-cfg=cfg(netbsdlike)");` to the top of the `build.rs`
+     = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition name: `freebsdlike`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/third_party/rust/nix-0.28.0/src/unistd.rs:3120:5
+     |
+3120 |     freebsdlike,
+     |     ^^^^^^^^^^^
+     |
+     = help: consider using a Cargo feature instead
+     = help: or consider adding in `Cargo.toml` the `check-cfg` lint config for the lint:
+              [lints.rust]
+              unexpected_cfgs = { level = "warn", check-cfg = ['cfg(freebsdlike)'] }
+     = help: or consider adding `println!("cargo::rustc-check-cfg=cfg(freebsdlike)");` to the top of the `build.rs`
+     = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: unexpected `cfg` condition name: `bsd`
+    --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/third_party/rust/nix-0.28.0/src/unistd.rs:3642:7
+     |
+3642 | #[cfg(bsd)]
+     |       ^^^
+     |
+     = help: consider using a Cargo feature instead
+     = help: or consider adding in `Cargo.toml` the `check-cfg` lint config for the lint:
+              [lints.rust]
+              unexpected_cfgs = { level = "warn", check-cfg = ['cfg(bsd)'] }
+     = help: or consider adding `println!("cargo::rustc-check-cfg=cfg(bsd)");` to the top of the `build.rs`
+     = note: see <https://doc.rust-lang.org/nightly/rustc/check-cfg/cargo-specifics.html> for more information about checking conditional configuration
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/third_party/rust/nix-0.28.0/src/sys/select.rs:110:16
+    |
+110 |     pub fn fds(&self, highest: Option<RawFd>) -> Fds {
+    |                ^^^^^                             ^^^
+    |                |                                 |
+    |                |                                 the same lifetime is hidden here
+    |                the lifetime is elided here       the same lifetime is hidden here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+    = note: `#[warn(mismatched_lifetime_syntaxes)]` on by default
+help: use `'_` for type paths
+    |
+110 |     pub fn fds(&self, highest: Option<RawFd>) -> Fds<'_> {
+    |                                                     ++++
+
+warning: function pointer comparisons do not produce meaningful results since their addresses are not guaranteed to be unique
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/third_party/rust/nix-0.28.0/src/sys/signal.rs:748:13
+    |
+741 | #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+    |                                        --------- in this derive macro expansion
+...
+748 |     Handler(extern fn(libc::c_int)),
+    |             ^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: the address of the same function can vary between different codegen units
+    = note: furthermore, different functions could have the same address after being merged together
+    = note: for more information visit <https://doc.rust-lang.org/nightly/core/ptr/fn.fn_addr_eq.html>
+    = note: `#[warn(unpredictable_function_pointer_comparisons)]` on by default
+
+warning: function pointer comparisons do not produce meaningful results since their addresses are not guaranteed to be unique
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/third_party/rust/nix-0.28.0/src/sys/signal.rs:752:15
+    |
+741 | #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq)]
+    |                                        --------- in this derive macro expansion
+...
+752 |     SigAction(extern fn(libc::c_int, *mut libc::siginfo_t, *mut libc::c_void))
+    |               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    |
+    = note: the address of the same function can vary between different codegen units
+    = note: furthermore, different functions could have the same address after being merged together
+    = note: for more information visit <https://doc.rust-lang.org/nightly/core/ptr/fn.fn_addr_eq.html>
+
+warning: hiding a lifetime that's elided elsewhere is confusing
+   --> /Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/third_party/rust/nix-0.28.0/src/sys/termios.rs:181:36
+    |
+181 |     pub(crate) fn get_libc_termios(&self) -> Ref<libc::termios> {
+    |                                    ^^^^^     ^^^^^^^^^^^^^^^^^^ the same lifetime is hidden here
+    |                                    |
+    |                                    the lifetime is elided here
+    |
+    = help: the same lifetime is referred to in inconsistent ways, making the signature confusing
+help: use `'_` for type paths
+    |
+181 |     pub(crate) fn get_libc_termios(&self) -> Ref<'_, libc::termios> {
+    |                                                  +++
+
+warning: `nix` (lib) generated 553 warnings (run `cargo fix --lib -p nix` to apply 14 suggestions)
+   Compiling codex-cli v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具/codex-rs/cli)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 55.22s
+     Running unittests src/main.rs (.harmony-build/测试批次/2026-10-03-165307-能力诊断二进制入口复测-工具会话/宿主产物/debug/deps/codex-afaa21b6e87b6dc1)
+
+running 2 tests
+test doctor::capabilities::runtime_contract_is_diagnostic_and_never_claims_device_acceptance ... ok
+test doctor::capabilities::capability_report_has_no_auth_or_network_probe ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 312 filtered out; finished in 0.00s
+
+
+退出码：0
+结束：2026-10-03T16:55:33.112103+08:00
