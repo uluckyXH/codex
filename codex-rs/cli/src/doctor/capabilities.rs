@@ -19,6 +19,14 @@ pub(super) fn capabilities_check() -> DoctorCheck {
     let (status, contract_details) = runtime_contract(codex_uds::ohos_runtime_base_contract());
     #[cfg(target_env = "ohos")]
     details.extend(contract_details);
+    #[cfg(target_env = "ohos")]
+    {
+        let profile = codex_uds::ohos_runtime_profile_contract();
+        details.push(format!("runtime directory build profile: {profile}"));
+        if profile == "hdc-debug" {
+            details.push("runtime directory deployment: HDC shell UID 2000 only; trusts platform system and shell-group services at fixed ancestors; not a commercial PC default and does not enable command isolation".to_owned());
+        }
+    }
     #[cfg(not(target_env = "ohos"))]
     let status = CheckStatus::Ok;
     if cfg!(target_env = "ohos") {

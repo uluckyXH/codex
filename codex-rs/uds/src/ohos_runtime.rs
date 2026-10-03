@@ -39,6 +39,61 @@ pub fn ohos_runtime_base_contract() -> Option<&'static str> {
     option_env!("CODEX_OHOS_RUNTIME_BASE")
 }
 
+/// A deployment trust boundary selected by the builder, not by a child tool.
+pub fn ohos_runtime_profile_contract() -> &'static str {
+    option_env!("CODEX_OHOS_RUNTIME_PROFILE").unwrap_or("strict")
+}
+
+const HDC_DEBUG_BASE: &str = "/data/local/tmp/cdx";
+const HDC_SHELL_UID: libc::uid_t = 2000;
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+enum RuntimeProfile {
+    Strict,
+    HdcDebug,
+}
+
+impl RuntimeProfile {
+    fn from_contract(profile: &str, base: &Path, uid: libc::uid_t) -> io::Result<Self> {
+        match profile {
+            "strict" => Ok(Self::Strict),
+            "hdc-debug" if base == Path::new(HDC_DEBUG_BASE) && uid == HDC_SHELL_UID => {
+                Ok(Self::HdcDebug)
+            }
+            _ => Err(at_path(
+                "profile-contract",
+                base,
+                io::Error::new(
+                    io::ErrorKind::PermissionDenied,
+                    "unknown runtime profile, or hdc-debug requires the compiled base /data/local/tmp/cdx and effective UID 2000; no fallback is allowed",
+                ),
+            )),
+        }
+    }
+
+    fn validate_scope(self, base: &Path, uid: libc::uid_t) -> io::Result<()> {
+        if self == Self::HdcDebug && (uid != HDC_SHELL_UID || !base.starts_with(HDC_DEBUG_BASE)) {
+            return Err(at_path(
+                "profile-scope",
+                base,
+                io::Error::new(
+                    io::ErrorKind::PermissionDenied,
+                    "hdc-debug may only open the fixed shell-owned private runtime subtree",
+                ),
+            ));
+        }
+        Ok(())
+    }
+}
+
+fn compiled_runtime_profile(uid: libc::uid_t) -> io::Result<RuntimeProfile> {
+    RuntimeProfile::from_contract(
+        ohos_runtime_profile_contract(),
+        Path::new(ohos_runtime_base_contract().unwrap_or("")),
+        uid,
+    )
+}
+
 #[derive(Debug)]
 struct Directory {
     path: PathBuf,
@@ -52,6 +107,7 @@ struct Directory {
 pub struct ProtectedRuntimeDirectory {
     directories: Vec<Directory>,
     uid: libc::uid_t,
+    profile: RuntimeProfile,
 }
 
 impl ProtectedRuntimeDirectory {
@@ -78,8 +134,20 @@ impl ProtectedRuntimeDirectory {
             }
             let held = directory.file.metadata()?;
             let named = current.metadata()?;
-            validate_metadata(&directory.path, &held, self.uid, directory.private)?;
-            validate_metadata(&directory.path, &named, self.uid, directory.private)?;
+            validate_profile_metadata(
+                &directory.path,
+                &held,
+                self.uid,
+                directory.private,
+                self.profile,
+            )?;
+            validate_profile_metadata(
+                &directory.path,
+                &named,
+                self.uid,
+                directory.private,
+                self.profile,
+            )?;
             if held.dev() != named.dev() || held.ino() != named.ino() {
                 return Err(at_path(
                     "identity-changed",
@@ -100,6 +168,7 @@ impl ProtectedRuntimeDirectory {
         let child = Self {
             directories,
             uid: self.uid,
+            profile: self.profile,
         };
         child.revalidate()?;
         Ok(child)
@@ -242,21 +311,34 @@ pub fn prepare_ohos_runtime_directory(
         io::ErrorKind::Unsupported,
         "OHOS runtime-dir stage=contract: CODEX_OHOS_RUNTIME_BASE was not bound at build time; no verified platform base is available; HOME/Context/temp fallback is disabled",
     ))?;
-    prepare_fixed_base(Path::new(base), unsafe { libc::geteuid() }, purpose)
+    let uid = unsafe { libc::geteuid() };
+    let profile = compiled_runtime_profile(uid)?;
+    prepare_fixed_base_with_profile(Path::new(base), uid, purpose, profile)
 }
 
 /// Read-only verification for diagnostic callers. Does not create or change
 /// the candidate, and does not bind it as the application's runtime contract.
 pub fn validate_ohos_runtime_base(base: &Path) -> io::Result<ProtectedRuntimeDirectory> {
-    open_base(base, unsafe { libc::geteuid() })
+    let uid = unsafe { libc::geteuid() };
+    open_base_with_profile(base, uid, compiled_runtime_profile(uid)?)
 }
 
+#[cfg(test)]
 fn prepare_fixed_base(
     base: &Path,
     uid: libc::uid_t,
     purpose: OhosRuntimePurpose,
 ) -> io::Result<ProtectedRuntimeDirectory> {
-    let mut guard = open_base(base, uid)?;
+    prepare_fixed_base_with_profile(base, uid, purpose, RuntimeProfile::Strict)
+}
+
+fn prepare_fixed_base_with_profile(
+    base: &Path,
+    uid: libc::uid_t,
+    purpose: OhosRuntimePurpose,
+    profile: RuntimeProfile,
+) -> io::Result<ProtectedRuntimeDirectory> {
+    let mut guard = open_base_with_profile(base, uid, profile)?;
     let user_directory = format!("c{uid:08x}");
     let path = base.join(&user_directory).join(purpose.basename());
     // Reject an overlong socket address before creating runtime objects.
@@ -280,7 +362,17 @@ fn prepare_fixed_base(
     Ok(guard)
 }
 
+#[cfg(test)]
 fn open_base(base: &Path, uid: libc::uid_t) -> io::Result<ProtectedRuntimeDirectory> {
+    open_base_with_profile(base, uid, RuntimeProfile::Strict)
+}
+
+fn open_base_with_profile(
+    base: &Path,
+    uid: libc::uid_t,
+    profile: RuntimeProfile,
+) -> io::Result<ProtectedRuntimeDirectory> {
+    profile.validate_scope(base, uid)?;
     if !base.is_absolute()
         || base.parent().is_none()
         || base
@@ -313,14 +405,18 @@ fn open_base(base: &Path, uid: libc::uid_t) -> io::Result<ProtectedRuntimeDirect
         let path = parent.path.join(name);
         let file = open_directory_at(&parent.file, name, DIRECTORY_TRAVERSAL_ACCESS)
             .map_err(|error| at_path("open-ancestor", &path, error))?;
-        validate_metadata(&path, &file.metadata()?, uid, false)?;
+        validate_profile_metadata(&path, &file.metadata()?, uid, false, profile)?;
         directories.push(Directory {
             path,
             file,
             private: false,
         });
     }
-    let guard = ProtectedRuntimeDirectory { directories, uid };
+    let guard = ProtectedRuntimeDirectory {
+        directories,
+        uid,
+        profile,
+    };
     guard.revalidate()?;
     Ok(guard)
 }
@@ -342,7 +438,7 @@ pub(crate) fn prepare_private_directory(path: &Path) -> io::Result<ProtectedRunt
         )
     })?;
     let uid = unsafe { libc::geteuid() };
-    let mut guard = open_base(parent, uid)?;
+    let mut guard = open_base_with_profile(parent, uid, compiled_runtime_profile(uid)?)?;
     create_private_child(&mut guard.directories, name, uid, true)?;
     guard.revalidate()?;
     Ok(guard)
@@ -403,8 +499,26 @@ fn validate_metadata(
     uid: libc::uid_t,
     private: bool,
 ) -> io::Result<()> {
+    validate_profile_metadata(path, metadata, uid, private, RuntimeProfile::Strict)
+}
+
+fn validate_profile_metadata(
+    path: &Path,
+    metadata: &Metadata,
+    uid: libc::uid_t,
+    private: bool,
+    profile: RuntimeProfile,
+) -> io::Result<()> {
     let mode = metadata.mode() & 0o7777;
-    let safe = directory_mode_is_safe(metadata.uid(), uid, mode, private);
+    let safe = directory_profile_mode_is_safe(
+        path,
+        metadata.uid(),
+        metadata.gid(),
+        uid,
+        mode,
+        private,
+        profile,
+    );
     if !metadata.is_dir() || !safe {
         return Err(at_path(
             if private {
@@ -416,10 +530,13 @@ fn validate_metadata(
             io::Error::new(
                 io::ErrorKind::PermissionDenied,
                 format!(
-                    "owner={} euid={uid} mode={mode:04o}; require {}; no existing permissions were changed",
+                    "owner={} group={} euid={uid} mode={mode:04o} profile={profile:?}; require {}; no existing permissions were changed",
                     metadata.uid(),
+                    metadata.gid(),
                     if private {
                         "current-user-owned directory with mode 0700"
+                    } else if profile == RuntimeProfile::HdcDebug {
+                        "the exact platform ancestor UID/GID/mode contract and a shell-owned 0700 runtime base"
                     } else {
                         "root/current-user-owned directory without group/other writes, or root-owned sticky directory"
                     }
@@ -428,6 +545,40 @@ fn validate_metadata(
         ));
     }
     Ok(())
+}
+
+fn directory_profile_mode_is_safe(
+    path: &Path,
+    owner: u32,
+    group: u32,
+    uid: u32,
+    mode: u32,
+    private: bool,
+    profile: RuntimeProfile,
+) -> bool {
+    if profile == RuntimeProfile::HdcDebug {
+        if uid != HDC_SHELL_UID {
+            return false;
+        }
+        if !private {
+            // OpenHarmony startup_init/services/etc/init.cfg creates these
+            // exact ancestors. The explicit debugging deployment trusts the
+            // OS system principal and the hdc shell group (including platform
+            // diagnostic services), never arbitrary group-writable paths.
+            // Production packages retain the Strict policy. This grants no
+            // OS permission and does not claim command sandbox support.
+            match path.to_str() {
+                Some("/data") => return owner == 1000 && group == 1000 && mode == 0o771,
+                Some("/data/local") => return owner == 0 && group == 0 && mode == 0o751,
+                Some("/data/local/tmp") => {
+                    return owner == HDC_SHELL_UID && group == HDC_SHELL_UID && mode == 0o771;
+                }
+                Some(HDC_DEBUG_BASE) => return owner == uid && mode == 0o700,
+                _ => {}
+            }
+        }
+    }
+    directory_mode_is_safe(owner, uid, mode, private)
 }
 
 fn directory_mode_is_safe(owner: u32, uid: u32, mode: u32, private: bool) -> bool {

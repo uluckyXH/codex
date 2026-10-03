@@ -16,10 +16,12 @@ import tomllib
 from build_harmony import (
     CLANG_TARGET,
     REPO_ROOT,
+    RUNTIME_PROFILES,
     TARGET,
     TOOLCHAIN,
     native_sdk,
     runtime_base_contract,
+    runtime_build_environment,
 )
 from build_harmony_helpers import SOURCES, digest
 from harmony_elf import inspect_ohos_elf
@@ -194,6 +196,7 @@ def build_runtime_probe(
     commit: str,
     version: str,
     runtime_base: str,
+    runtime_profile: str = "strict",
 ) -> tuple[Path, dict]:
     """Build a standalone probe that never enters Codex/arg0/config initialization."""
     source = REPO_ROOT / "scripts/harmony_runtime_probe.c"
@@ -248,6 +251,7 @@ def build_runtime_probe(
         "源码": "scripts/harmony_runtime_probe.c",
         "源码摘要": digest(source),
         "编译时运行根": runtime_base,
+        "主程序运行目录策略": runtime_profile,
         "SDK接口类型检查": "三个目录 API 类型均与本次 SDK 声明一致；仅编译检查",
         "相关源码摘要": {
             name: digest(REPO_ROOT / "scripts" / name)
@@ -262,7 +266,13 @@ def build_runtime_probe(
 
 
 def assemble(
-    directory: Path, *, cli: Path, helpers: Path, runtime_probe: Path, version: str
+    directory: Path,
+    *,
+    cli: Path,
+    helpers: Path,
+    runtime_probe: Path,
+    version: str,
+    runtime_profile: str = "strict",
 ) -> None:
     # Reuse the upstream layout and validation, while explicitly selecting OHOS.
     os.environ["CODEX_REPO_ROOT"] = str(REPO_ROOT)
@@ -298,6 +308,39 @@ def assemble(
     for script in ("安装.sh", "启用终端.sh", "诊断.sh"):
         shutil.copyfile(REPO_ROOT / "scripts/harmony" / script, directory / script)
         (directory / script).chmod(0o755)
+    if runtime_profile == "hdc-debug":
+        emulator_docs = REPO_ROOT / "docs/鸿蒙电脑模拟器"
+        tools = directory / "emulator-tools"
+        tools.mkdir()
+        for name in (
+            "start-codex.sh",
+            "run-harmony-codex.sh",
+            "run-harmony-codex.command",
+            "run-harmony-codex.exp",
+        ):
+            shutil.copyfile(emulator_docs / name, tools / name)
+            (tools / name).chmod(0o755)
+        shutil.copyfile(
+            emulator_docs / "模拟器使用与日志速用.md",
+            directory / "模拟器使用与日志速用.md",
+        )
+        (directory / "安装说明.md").write_text(
+            "# 鸿蒙模拟器调试包\n\n"
+            f"版本：`{version}`。目标：ARM64 OHOS；部署策略：`hdc-debug`。\n\n"
+            "本包只适用于 HDC shell UID 2000；不能替换商业 PC HiShell 的正式候选包。"
+            "运行根固定为 `/data/local/tmp/cdx`，须由该身份创建为 0700，"
+            "并保留平台祖先的既有身份和权限。程序仍检查目录链、私有锁和控制套接字。"
+            "此调试部署信任系统身份及 shell 调试组中的平台服务，不授予系统权限。\n\n"
+            "按《模拟器使用与日志速用.md》连接已经部署的模拟器。"
+            "`emulator-tools` 内包含 Mac 交互入口和设备启动脚本，不包含用户配置、URL 或 Key。"
+            "首次部署还需要单独传入 config.toml、安装完整目录包、创建专用数据目录，"
+            "并写入 active-package 安装记录；只复制 bin/codex 不能完成安装。\n\n"
+            "本包全部 ELF 均通过 SDK 自签名和签名信息检查。"
+            "受限执行仍依赖内核提供 user namespace 等能力，目录检查通过不代表隔离可用。"
+            "构建完成时尚未执行设备验收；实际运行结果以随本次发布提供的测试报告为准。"
+            "不能自动把沙箱失败回退为完全权限。\n"
+        )
+        return
     for tutorial in (
         "接口密钥安装速用.md",
         "账号登录安装速用.md",
@@ -377,11 +420,28 @@ def build_package(
     identity = source_identity()
     version = package_version(upstream_version, identity["提交"])
     runtime_base = runtime_base_contract(args.runtime_base)
+    runtime_profile = args.runtime_profile
+    env = runtime_build_environment(env, runtime_base, runtime_profile)
     runtime_contract = {
         "编译时固定候选": runtime_base,
+        "编译时策略": runtime_profile,
         "环境变量回退": False,
         "设备验证": "待同一鸿蒙 PC 验证目录身份、权限、生命周期与隔离；不保证路径可用",
     }
+    if runtime_profile == "hdc-debug":
+        runtime_contract.update(
+            {
+                "部署范围": "仅 HDC shell UID 2000 的调试包；不是商业 PC 默认配置",
+                "固定祖先": {
+                    "/data": {"UID": 1000, "GID": 1000, "权限": "0771"},
+                    "/data/local": {"UID": 0, "GID": 0, "权限": "0751"},
+                    "/data/local/tmp": {"UID": 2000, "GID": 2000, "权限": "0771"},
+                },
+                "私有运行根": {"UID": 2000, "权限": "0700", "须预先创建": True},
+                "信任边界": "信任系统 system 身份及 shell 调试组中的系统服务；不信任任意共享目录",
+                "沙箱能力": "此策略只处理运行目录，不授予系统权限，也不代表受限命令可以执行",
+            }
+        )
     helpers = args.helpers_dir.resolve()
     helper_record = validate_helpers(helpers, sdk, args.java)
     bwrap_digest = helper_record["程序"]["bwrap"]["输出"]["SHA-256"]
@@ -415,6 +475,8 @@ def build_package(
             "--release",
             "--runtime-base",
             runtime_base,
+            "--runtime-profile",
+            runtime_profile,
         ],
         env,
     )
@@ -434,6 +496,7 @@ def build_package(
         commit=identity["提交"],
         version=version,
         runtime_base=runtime_base,
+        runtime_profile=runtime_profile,
     )
     verify_source_unchanged(identity)
     directory = output / "鸿蒙Codex"
@@ -443,6 +506,7 @@ def build_package(
         helpers=helpers,
         runtime_probe=signed_probe,
         version=version,
+        runtime_profile=runtime_profile,
     )
     files = {
         name: inspect_ohos_elf(directory / name)
@@ -483,6 +547,8 @@ def build_package(
             "字节数": archive.stat().st_size,
             "SHA-256": digest(archive),
             "版本": version,
+            "运行目录策略": runtime_profile,
+            "受保护运行根": runtime_base,
             "签名": "SDK 自签名并检查签名信息",
             "真机验收": "未执行",
         },
@@ -507,6 +573,12 @@ def main() -> int:
         type=runtime_base_contract,
         help="package 必须显式绑定的目标私有目录候选；设备仍需验证",
     )
+    parser.add_argument(
+        "--runtime-profile",
+        choices=RUNTIME_PROFILES,
+        default="strict",
+        help="默认 strict；hdc-debug 仅为 UID 2000 制作独立 HDC 调试包",
+    )
     args = parser.parse_args()
     if not args.java:
         parser.error("缺少 Java；请通过 --java 指定 SDK 签名工具使用的 Java")
@@ -522,6 +594,12 @@ def main() -> int:
         parser.error("package 要求 --runtime-base，不能隐式选择运行目录")
     if args.action == "helpers" and args.runtime_base is not None:
         parser.error("helpers 不使用 --runtime-base")
+    if args.action == "helpers" and args.runtime_profile != "strict":
+        parser.error("helpers 不使用 --runtime-profile")
+    try:
+        runtime_build_environment({}, args.runtime_base, args.runtime_profile)
+    except (ValueError, argparse.ArgumentTypeError) as error:
+        parser.error(str(error))
     sdk = native_sdk(args.sdk)
     signing_tool(sdk)
     strip = sdk / "llvm/bin/llvm-strip"

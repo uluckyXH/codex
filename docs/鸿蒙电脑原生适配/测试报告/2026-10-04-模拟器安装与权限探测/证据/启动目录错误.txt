@@ -1,0 +1,8 @@
+执行目录：/data/local/tmp/codex-emulator/workspace
+配置目录：/data/local/tmp/codex-emulator/state
+命令：/data/local/tmp/codex-emulator/real-pc-candidate/bin/codex --strict-config features list
+
+ERROR: OHOS helper aliases unavailable: OHOS runtime-dir stage=validate-ancestor path=/data: owner=1000 euid=2000 mode=0771; require root/current-user-owned directory without group/other writes, or root-owned sticky directory; no existing permissions were changed; run codex-resources/harmony-runtime-probe for independent diagnostics
+config_check_exit=1
+
+设备 Shell 捕获退出码为 1；宿主 hdc 本次返回 0，不作为程序成功依据。

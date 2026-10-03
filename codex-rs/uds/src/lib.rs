@@ -24,6 +24,8 @@ pub use ohos_runtime::ProtectedRuntimeDirectory;
 #[cfg(unix)]
 pub use ohos_runtime::ohos_runtime_base_contract;
 #[cfg(unix)]
+pub use ohos_runtime::ohos_runtime_profile_contract;
+#[cfg(unix)]
 pub use ohos_runtime::prepare_ohos_runtime_directory;
 #[cfg(unix)]
 pub use ohos_runtime::validate_ohos_runtime_base;

@@ -15,6 +15,8 @@ import tomllib
 REPO_ROOT = Path(__file__).resolve().parents[1]
 TARGET = "aarch64-unknown-linux-ohos"
 CLANG_TARGET = "aarch64-linux-ohos"
+RUNTIME_PROFILES = ("strict", "hdc-debug")
+HDC_DEBUG_RUNTIME_BASE = "/data/local/tmp/cdx"
 # 跟随仓库的上游版本锁，避免每次合并 Rust 升级时维护第二份版本号。
 TOOLCHAIN = tomllib.loads((REPO_ROOT / "codex-rs/rust-toolchain.toml").read_text())[
     "toolchain"
@@ -34,6 +36,25 @@ def runtime_base_contract(value: str) -> str:
     if len(value.encode("utf-8")) + len("/cffffffff/s/" + "f" * 64) + 1 > 108:
         raise argparse.ArgumentTypeError("运行根过长，无法保留完整 socket 摘要和终止符")
     return value
+
+
+def runtime_build_environment(
+    original: dict[str, str], runtime_base: str | None, runtime_profile: str = "strict"
+) -> dict[str, str]:
+    """Bind only explicit build inputs; shell variables cannot select a profile."""
+    if runtime_profile not in RUNTIME_PROFILES:
+        raise ValueError("未知的运行目录信任策略")
+    if runtime_profile == "hdc-debug" and runtime_base != HDC_DEBUG_RUNTIME_BASE:
+        raise ValueError(
+            "hdc-debug 调试包必须显式指定 --runtime-base /data/local/tmp/cdx"
+        )
+    env = original.copy()
+    env.pop("CODEX_OHOS_RUNTIME_BASE", None)
+    env.pop("CODEX_OHOS_RUNTIME_PROFILE", None)
+    if runtime_base is not None:
+        env["CODEX_OHOS_RUNTIME_BASE"] = runtime_base_contract(runtime_base)
+    env["CODEX_OHOS_RUNTIME_PROFILE"] = runtime_profile
+    return env
 
 
 def native_sdk(path: Path) -> Path:
@@ -140,6 +161,12 @@ def main() -> int:
         type=runtime_base_contract,
         help="编译时绑定的 OHOS 私有目录候选；不是 Mac 路径，运行时仍严格校验",
     )
+    parser.add_argument(
+        "--runtime-profile",
+        choices=RUNTIME_PROFILES,
+        default="strict",
+        help="默认 strict；hdc-debug 仅供 UID 2000 的显式 HDC 调试部署，不用于正式 PC 包",
+    )
     args = parser.parse_args()
     try:
         if args.sdk is None:
@@ -151,11 +178,9 @@ def main() -> int:
         if rustup is None:
             raise ValueError("找不到 rustup；请先按中文构建环境文档安装并配置 PATH")
         output = args.output_dir.expanduser().resolve()
-        base = dict(os.environ)
-        # Never silently bind a production root from a developer's shell.
-        base.pop("CODEX_OHOS_RUNTIME_BASE", None)
-        if args.runtime_base is not None:
-            base["CODEX_OHOS_RUNTIME_BASE"] = args.runtime_base
+        base = runtime_build_environment(
+            dict(os.environ), args.runtime_base, args.runtime_profile
+        )
         if args.native_deps is not None:
             native_deps = args.native_deps.expanduser().resolve()
             pkgconfig = native_deps / "lib/pkgconfig"

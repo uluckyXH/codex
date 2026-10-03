@@ -1,0 +1,127 @@
+#!/usr/bin/expect -f
+# 交互 hdc shell 提供远端 TTY；单条 hdc shell COMMAND 不提供相同行为。
+# 不写会话日志，也不读取 config.toml。路径按单个 Shell 参数安全引用。
+if {$argc != 3} {
+    puts stderr "错误：需要 hdc 路径、目标标识和远端启动脚本。"
+    exit 2
+}
+lassign $argv hdc target remote_entry
+if {[file pathtype $hdc] ne "absolute" || ![file executable $hdc] || ![file isfile $hdc]} {
+    puts stderr "错误：hdc 不可执行。"
+    exit 127
+}
+if {![string match {/*} $remote_entry] || [regexp {[\x00-\x1f\x7f]} $remote_entry]} {
+    puts stderr "错误：远端入口须为不含控制字符的绝对路径。"
+    exit 2
+}
+
+proc shell_quote {value} {
+    return "'[string map [list "'" "'\\''"] $value]'"
+}
+
+proc stop_client {} {
+    global spawn_id child_pid
+    catch {close -i $spawn_id}
+    # 只结束本次创建的 hdc 客户端，不操作服务或模拟器。
+    catch {exec /bin/kill -TERM $child_pid}
+    catch {wait -nowait -i $spawn_id}
+}
+
+proc client_exit {} {
+    global spawn_id
+    if {[catch {wait -i $spawn_id} result]} {
+        return 125
+    }
+    if {[lindex $result 2] == 0 && [llength $result] == 4} {
+        set code [lindex $result 3]
+        if {$code > 0 && $code < 256} { return $code }
+    }
+    # 没有收到远端退出标记时，hdc 返回 0 也不能当作 Codex 成功退出。
+    return 125
+}
+
+proc sync_window {} {
+    global spawn_out
+    if {![catch {stty size} size] &&
+        [regexp {^([0-9]+) ([0-9]+)$} $size _ rows columns] &&
+        $rows > 0 && $columns > 0} {
+        catch {stty rows $rows columns $columns < $spawn_out(slave,name)}
+    }
+}
+
+log_user 0
+set timeout 20
+if {[catch {spawn -noecho $hdc -t $target shell} message]} {
+    puts stderr "错误：无法创建 hdc 交互连接：$message"
+    exit 127
+}
+set child_pid [exp_pid]
+sync_window
+trap sync_window WINCH
+
+# 先等待系统 Shell 提示符再发送命令，避免连接尚未建立时输入丢失。
+expect {
+    -re {[$#] ?$} {}
+    timeout {
+        puts stderr "错误：20 秒内没有收到设备 Shell 提示符，请检查模拟器和 hdc 连接。"
+        stop_client
+        exit 124
+    }
+    eof {
+        puts stderr "错误：hdc 在进入设备 Shell 前已断开。$expect_out(buffer)"
+        exit [client_exit]
+    }
+}
+
+set marker [format {__HARMONY_CODEX_%d_%d__} [pid] [clock clicks]]
+set start_marker "${marker}START"
+set exit_marker "${marker}EXIT"
+set entry [shell_quote $remote_entry]
+set command [format {printf '\n%s\n'; if test -x %s; then %s; harmony_codex_status=$?; else printf '错误：模拟器中的 Codex 启动脚本不存在或不可执行。\n' >&2; harmony_codex_status=127; fi; printf '\n%s:%%s\n' "$harmony_codex_status"; exit "$harmony_codex_status"} $start_marker $entry $entry $exit_marker]
+send -- "$command\r"
+
+# 消耗 Shell 的命令回显；真正程序输出从 START 标记之后开始交给用户。
+set start_pattern [format {\r*\n%s\r*\n} $start_marker]
+expect {
+    -re $start_pattern {}
+    timeout {
+        puts stderr "错误：设备 Shell 没有确认启动命令。"
+        stop_client
+        exit 124
+    }
+    eof {
+        puts stderr "错误：hdc 在启动 Codex 前已断开。$expect_out(buffer)"
+        exit [client_exit]
+    }
+}
+
+set remote_status ""
+set input_closed 0
+set exit_pattern [format {\r*\n%s:([0-9]{1,3})\r*\n} $exit_marker]
+interact {
+    eof { set input_closed 1; return }
+    -o -re $exit_pattern { set remote_status $interact_out(1,string); return }
+    eof { return }
+}
+
+if {$remote_status eq ""} {
+    if {$input_closed} {
+        puts stderr "错误：本地终端输入已关闭，未收到 Codex 退出状态。"
+        stop_client
+        exit 125
+    }
+    puts stderr "错误：hdc 连接已断开，未收到 Codex 退出状态。"
+    exit [client_exit]
+}
+set remote_status [expr {int($remote_status)}]
+if {$remote_status < 0 || $remote_status > 255} {
+    puts stderr "错误：设备返回了无效的 Codex 退出状态。"
+    stop_client
+    exit 125
+}
+set timeout 5
+expect {
+    eof { catch {wait -i $spawn_id} }
+    timeout { stop_client }
+}
+exit $remote_status

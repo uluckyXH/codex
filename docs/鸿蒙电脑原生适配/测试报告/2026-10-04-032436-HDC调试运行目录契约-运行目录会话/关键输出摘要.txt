@@ -1,0 +1,18 @@
+来源：本目录本地原始 .log；以下仅保留用例结果、绑定失败和设备退出状态。其余输出已省略。
+
+来源文件：模拟器运行目录测试.log
+test ohos_runtime::tests::hdc_debug_profile_prepares_private_runtime_on_target ... ok
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 32 filtered out; finished in 0.00s
+remote_exit=0
+
+来源文件：模拟器控制套接字失败.log
+test ohos_runtime::tests::hdc_debug_profile_socket_lifecycle_on_target ...
+called `Result::unwrap()` on an `Err` value: Custom { kind: PermissionDenied, error: "OHOS control socket stage=bind path=/data/local/tmp/cdx/c000007d0/s/00000000000000000000000000000000000000000000000000000000000068f0: Permission denied (os error 13)" }
+test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 32 filtered out; finished in 0.00s
+remote_exit=101
+
+来源文件：最小系统调用探针.log
+socketpair status=0 errno=0
+socket status=5 errno=0
+bind status=-1 errno=13 description=Permission denied
+remote_exit=1

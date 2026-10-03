@@ -253,6 +253,10 @@ fn runtime_environment_cannot_bind_or_replace_the_build_contract() {
             ohos_runtime_base_contract(),
             option_env!("CODEX_OHOS_RUNTIME_BASE")
         );
+        assert_eq!(
+            ohos_runtime_profile_contract(),
+            option_env!("CODEX_OHOS_RUNTIME_PROFILE").unwrap_or("strict")
+        );
         if ohos_runtime_base_contract().is_none() {
             let error = prepare_ohos_runtime_directory(OhosRuntimePurpose::Aliases).unwrap_err();
             assert_eq!(error.kind(), io::ErrorKind::Unsupported);
@@ -268,6 +272,7 @@ fn runtime_environment_cannot_bind_or_replace_the_build_contract() {
         ])
         .env(CHILD, "1")
         .env("CODEX_OHOS_RUNTIME_BASE", &base)
+        .env("CODEX_OHOS_RUNTIME_PROFILE", "hdc-debug")
         .env("HOME", &base)
         .env("CODEX_HOME", &base)
         .env("TMPDIR", &base)
@@ -291,6 +296,195 @@ fn reported_device_identity_and_setgid_are_not_sticky_protection() {
     assert!(!directory_mode_is_safe(0, 20020101, 0o2777, false));
     assert!(!directory_mode_is_safe(20020101, 20020101, 0o2700, true));
     assert!(directory_mode_is_safe(20020101, 20020101, 0o700, true));
+}
+
+#[test]
+fn hdc_debug_contract_requires_an_explicit_fixed_base_and_shell_identity() {
+    let base = Path::new(HDC_DEBUG_BASE);
+    assert_eq!(
+        RuntimeProfile::from_contract("strict", base, 2000).unwrap(),
+        RuntimeProfile::Strict
+    );
+    assert_eq!(
+        RuntimeProfile::from_contract("hdc-debug", base, 2000).unwrap(),
+        RuntimeProfile::HdcDebug
+    );
+    for (profile, path, uid) in [
+        ("automatic", HDC_DEBUG_BASE, 2000),
+        ("hdc-debug", "/data/local/tmp", 2000),
+        ("hdc-debug", "/data/local/tmp/cdx-other", 2000),
+        ("hdc-debug", "/data/storage/el2/base/files", 2000),
+        ("hdc-debug", HDC_DEBUG_BASE, 0),
+        ("hdc-debug", HDC_DEBUG_BASE, 20020101),
+    ] {
+        let error = RuntimeProfile::from_contract(profile, Path::new(path), uid).unwrap_err();
+        assert_eq!(error.kind(), io::ErrorKind::PermissionDenied);
+        assert!(error.to_string().contains("profile-contract"));
+    }
+    RuntimeProfile::HdcDebug
+        .validate_scope(&base.join("c000007d0/a"), 2000)
+        .unwrap();
+    assert!(
+        RuntimeProfile::HdcDebug
+            .validate_scope(Path::new("/data/local/tmp/cdx-other"), 2000)
+            .is_err()
+    );
+}
+
+#[test]
+fn hdc_debug_platform_ancestors_require_exact_paths_owners_groups_and_modes() {
+    for (path, owner, group, mode) in [
+        ("/data", 1000, 1000, 0o771),
+        ("/data/local", 0, 0, 0o751),
+        ("/data/local/tmp", 2000, 2000, 0o771),
+    ] {
+        let path = Path::new(path);
+        let accepts = |owner, group, uid, mode, private| {
+            directory_profile_mode_is_safe(
+                path,
+                owner,
+                group,
+                uid,
+                mode,
+                private,
+                RuntimeProfile::HdcDebug,
+            )
+        };
+        assert!(accepts(owner, group, 2000, mode, false));
+        assert!(!accepts(owner + 1, group, 2000, mode, false));
+        assert!(!accepts(owner, group + 1, 2000, mode, false));
+        assert!(!accepts(owner, group, 20020101, mode, false));
+        assert!(!accepts(owner, group, 2000, mode | 0o002, false));
+        assert!(!accepts(owner, group, 2000, mode | 0o2000, false));
+        assert!(!accepts(owner, group, 2000, mode, true));
+    }
+    // The same ownership and mode at any other pathname receive no exception.
+    for path in [
+        "/data-copy",
+        "/data/local/tmp-other",
+        "/data/local/tmp/cdx/shared",
+    ] {
+        assert!(!directory_profile_mode_is_safe(
+            Path::new(path),
+            2000,
+            2000,
+            2000,
+            0o771,
+            false,
+            RuntimeProfile::HdcDebug,
+        ));
+    }
+    assert!(!directory_profile_mode_is_safe(
+        Path::new("/data"),
+        1000,
+        1000,
+        2000,
+        0o771,
+        false,
+        RuntimeProfile::Strict,
+    ));
+    assert!(!directory_profile_mode_is_safe(
+        Path::new("/data/local/tmp"),
+        2000,
+        2000,
+        2000,
+        0o771,
+        false,
+        RuntimeProfile::Strict,
+    ));
+}
+
+#[test]
+fn hdc_debug_private_base_and_leaves_keep_strict_private_permissions() {
+    for path in [HDC_DEBUG_BASE, "/data/local/tmp/cdx/c000007d0/a"] {
+        for mode in [0o700, 0o755, 0o770, 0o771, 0o777, 0o1700, 0o2700] {
+            assert_eq!(
+                directory_profile_mode_is_safe(
+                    Path::new(path),
+                    2000,
+                    2000,
+                    2000,
+                    mode,
+                    true,
+                    RuntimeProfile::HdcDebug,
+                ),
+                mode == 0o700
+            );
+        }
+    }
+    assert!(!directory_profile_mode_is_safe(
+        Path::new(HDC_DEBUG_BASE),
+        2000,
+        2000,
+        2000,
+        0o755,
+        false,
+        RuntimeProfile::HdcDebug,
+    ));
+}
+
+#[cfg(target_env = "ohos")]
+#[test]
+#[ignore = "requires an explicitly compiled hdc-debug test binary and precreated 0700 base"]
+fn hdc_debug_profile_prepares_private_runtime_on_target() {
+    assert_eq!(ohos_runtime_profile_contract(), "hdc-debug");
+    assert_eq!(ohos_runtime_base_contract(), Some(HDC_DEBUG_BASE));
+    assert_eq!(unsafe { libc::geteuid() }, HDC_SHELL_UID);
+    assert!(open_base(Path::new(HDC_DEBUG_BASE), HDC_SHELL_UID).is_err());
+    let aliases = prepare_ohos_runtime_directory(OhosRuntimePurpose::Aliases).unwrap();
+    assert_eq!(aliases.path(), Path::new("/data/local/tmp/cdx/c000007d0/a"));
+    let child_name = format!("udstest-{}", std::process::id());
+    let child = aliases
+        .create_new_subdirectory(OsStr::new(&child_name))
+        .unwrap();
+    let lock = child.open_lock_file(OsStr::new("probe.lock")).unwrap();
+    lock.lock().unwrap();
+    child
+        .validate_lock_file(OsStr::new("probe.lock"), &lock)
+        .unwrap();
+    let link = child.path().join("symlink");
+    symlink(aliases.path(), &link).unwrap();
+    assert!(validate_ohos_runtime_base(&link).is_err());
+    fs::remove_file(link).unwrap();
+    drop(lock);
+    child.remove_child(OsStr::new("probe.lock")).unwrap();
+    let child_path = child.path().to_path_buf();
+    drop(child);
+    fs::remove_dir(child_path).unwrap();
+    aliases.revalidate().unwrap();
+    let sockets = prepare_ohos_runtime_directory(OhosRuntimePurpose::ControlSockets).unwrap();
+    sockets.revalidate().unwrap();
+    assert_eq!(sockets.path(), Path::new("/data/local/tmp/cdx/c000007d0/s"));
+}
+
+#[cfg(target_env = "ohos")]
+#[tokio::test(flavor = "current_thread")]
+#[ignore = "requires hdc-debug deployment and OS permission to bind pathname Unix sockets"]
+async fn hdc_debug_profile_socket_lifecycle_on_target() {
+    use tokio::io::AsyncReadExt;
+    use tokio::io::AsyncWriteExt;
+
+    assert_eq!(ohos_runtime_profile_contract(), "hdc-debug");
+    let sockets = prepare_ohos_runtime_directory(OhosRuntimePurpose::ControlSockets).unwrap();
+    let name = format!("{:064x}", std::process::id());
+    let lock_path = sockets.path().join(format!("{name}.lock"));
+    let (mut listener, guard) = sockets
+        .bind_control_socket(OsStr::new(&name))
+        .await
+        .unwrap();
+    let socket_path = guard.path();
+    let mut client = crate::UnixStream::connect(&socket_path).await.unwrap();
+    let mut server = listener.accept().await.unwrap();
+    client.write_all(b"runtime-ok").await.unwrap();
+    let mut reply = [0; 10];
+    server.read_exact(&mut reply).await.unwrap();
+    assert_eq!(&reply, b"runtime-ok");
+    drop(client);
+    drop(server);
+    drop(listener);
+    drop(guard);
+    assert!(!socket_path.exists());
+    fs::remove_file(lock_path).unwrap();
 }
 
 #[test]

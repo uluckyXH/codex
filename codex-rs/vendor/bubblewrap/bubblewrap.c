@@ -2936,7 +2936,12 @@ main (int    argc,
   /* The initial code is run with high permissions
      (i.e. CAP_SYS_ADMIN), so take lots of care. */
 
-  read_overflowids ();
+  /* Overflow IDs are used only by the setuid parent's map_root path in
+   * write_uid_gid_map().  Unprivileged user-namespace mappings never consume
+   * them.  In particular, OHOS can deny access to these sysctls even though
+   * normal argument parsing and namespace capability checks are permitted. */
+  if (is_privileged)
+    read_overflowids ();
 
   argv0 = argv[0];
 
@@ -3150,10 +3155,17 @@ main (int    argc,
     {
       if (opt_unshare_user)
         {
+#ifdef __OHOS__
+          if (errno == EINVAL)
+            die ("Creating sandbox namespaces failed (EINVAL): this HarmonyOS execution environment may not support the required user namespace. Restricted commands were not run.");
+          else if (errno == EPERM && !is_privileged)
+            die ("Creating sandbox namespaces failed (EPERM): this HarmonyOS process is not permitted to create the required namespaces. Restricted commands were not run.");
+#else
           if (errno == EINVAL)
             die ("Creating new namespace failed, likely because the kernel does not support user namespaces.  bwrap must be installed setuid on such systems.");
           else if (errno == EPERM && !is_privileged)
             die ("No permissions to create a new namespace, likely because the kernel does not allow non-privileged user namespaces. On e.g. debian this can be enabled with 'sysctl kernel.unprivileged_userns_clone=1'.");
+#endif
         }
 
       if (errno == ENOSPC)

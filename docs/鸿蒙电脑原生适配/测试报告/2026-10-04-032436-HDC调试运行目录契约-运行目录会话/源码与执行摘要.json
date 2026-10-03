@@ -1,0 +1,42 @@
+{
+  "基础提交": "98ced04162acedb315d5a29a64d734a5eabcc850",
+  "说明": "工作区源码摘要；完整提交及最终交付 SHA 由主会话统一冻结后记录。打包文件已交回主会话，可含集成说明改动。",
+  "源码SHA256": {
+    "codex-rs/uds/src/lib.rs": "68377a2845420a89286e16de231ab70b70e8805ee7f99eb5d4e2dc0172c92aea",
+    "codex-rs/uds/src/ohos_runtime.rs": "1f48bcfd99271ebe56b5036a4d43c115e23f7297938cb6a099dcbc4e67a77992",
+    "codex-rs/uds/src/ohos_runtime_tests.rs": "d68b4044405fc1b454db8a977c10f292c472dc2a6c641134b3f052fc4c6664a3",
+    "scripts/build_harmony.py": "d1de5e90ef6866eb99f60126e8c0f243690c10bce983c102753821b70d9cbb9b",
+    "scripts/build_harmony_distribution.py": "c5bf96c62fd662baa420910d5d9db3b6338c83edb10d1f71b1120e4da8c9c6ca",
+    "scripts/test_build_harmony.py": "e828856975f1e814c97108bd3dbae24ea7d13310676b373bc480c8d0b625046e",
+    "scripts/test_harmony_distribution.py": "1a31446169701aaa69dabb39c5f27836407974ca9817247fa2865b2d8d600c7b"
+  },
+  "目标测试": {
+    "目录": {
+      "通过数": 1,
+      "失败数": 0,
+      "远程退出码": 0
+    },
+    "控制socket": {
+      "通过数": 0,
+      "失败数": 1,
+      "远程退出码": 101,
+      "errno": 13
+    },
+    "最小系统调用": {
+      "socketpair": "成功",
+      "socket": "成功",
+      "bind": "EACCES13",
+      "远程退出码": 1
+    }
+  },
+  "宿主测试": {
+    "codex-uds": {
+      "通过数": 31,
+      "失败数": 0
+    },
+    "Python构建与打包": {
+      "通过数": 43,
+      "失败数": 0
+    }
+  }
+}

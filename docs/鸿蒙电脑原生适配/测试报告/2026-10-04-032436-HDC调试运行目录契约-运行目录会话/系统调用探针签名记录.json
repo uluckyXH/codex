@@ -1,0 +1,33 @@
+{
+  "方式": "官方 binary-sign-tool.jar 自签名",
+  "工具": "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/lib/binary-sign-tool.jar",
+  "输入": {
+    "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/runtime-profile-tests/socket-probe-unsigned",
+    "字节数": 15688,
+    "SHA-256": "849838646942c605a1930c8368ac8c851aaccd9a5bb7a86cc1950227c4715c58",
+    "架构": "AArch64",
+    "解释器": "/lib/ld-musl-aarch64.so.1",
+    "动态依赖": [
+      "libc.so"
+    ],
+    "OHOS标识": true,
+    "签名节存在": false,
+    "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+  },
+  "输出": {
+    "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/runtime-profile-tests/socket-probe",
+    "字节数": 22912,
+    "SHA-256": "36f72fcd11f8f9afd07d01d0a97580ab39198ebd44e22377a8854a93f591186b",
+    "架构": "AArch64",
+    "解释器": "/lib/ld-musl-aarch64.so.1",
+    "动态依赖": [
+      "libc.so"
+    ],
+    "OHOS标识": true,
+    "签名节存在": true,
+    "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+  },
+  "签名日志": "10-04 03:32:03.243  INFO - Start sign\n10-04 03:32:03.249  INFO - Using SelfSignSignProvider\n10-04 03:32:03.251  INFO - Start signing ELF file...\n10-04 03:32:03.253  INFO - Self-sign mode enabled, skip writing .profile and .permission sections\n10-04 03:32:03.254  INFO - Added .codesign section placeholder, offset: 16384, size: 4096 bytes\n10-04 03:32:03.258  INFO - Start to sign elf code.\n10-04 03:32:03.258  INFO - Self-sign mode enabled, setting FLAG_SELF_SIGN\n10-04 03:32:03.263  INFO - Self-sign mode: using descriptor digest as signature, size: 32 bytes\n10-04 03:32:03.263  INFO - Sign elf successfully, code sign block size: 296 bytes\n10-04 03:32:03.263  INFO - Generate code sign block successfully, size: 296 bytes\n10-04 03:32:03.263  INFO - Replace code sign data at offset: 16384, size: 296\n10-04 03:32:03.272  INFO - Self-sign elf success\n10-04 03:32:03.272  INFO - sign success\n10-04 03:32:03.257  WARN - Segment 7 properties changed (before .shstrtab)\n10-04 03:32:03.257  WARN - Original Segment[type=0x6474e552, flags=0x4, vaddr=0x3020, paddr=0x3020, offset=0x1020, filesz=0x290, memsz=0xfe0, align=0x1]\n10-04 03:32:03.257  WARN - Saved Segment[type=0x6474e552, flags=0x4, vaddr=0x3020, paddr=0x3020, offset=0x1020, filesz=0x290, memsz=0xfe0, align=0x8]\n",
+  "签名信息检查": "10-04 03:32:03.452  INFO - Start display-sign\n10-04 03:32:03.466  INFO - ELF verification started for file: /Volumes/MacSSD/Repositories/codex/.harmony-build/runtime-profile-tests/socket-probe\n10-04 03:32:03.468  INFO - permission is not found\n10-04 03:32:03.468  INFO - code signature is self-sign\n10-04 03:32:03.468  INFO - verify: Self-sign signature\n10-04 03:32:03.469  INFO - display-sign success\n",
+  "真机状态": "未验证；本机签名检查不代表商业鸿蒙 PC 接受加载"
+}

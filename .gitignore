@@ -55,6 +55,8 @@ yarn-error.log*
 .env*
 !.env.example
 .venv/
+# Local emulator credentials
+/docs/鸿蒙电脑模拟器/config.toml
 
 # package
 *.tgz

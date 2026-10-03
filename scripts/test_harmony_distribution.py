@@ -175,6 +175,65 @@ class DistributionTests(unittest.TestCase):
             helpers.assert_not_called()
             run.assert_not_called()
 
+    def test_distribution_preserves_explicit_runtime_profile_in_input_and_build(self):
+        (self.root / "codex-rs").mkdir()
+        (self.root / "codex-rs/Cargo.toml").write_text(
+            '[workspace.package]\nversion = "0.160.0-dev"\n'
+        )
+        provenance = self.root / "scripts/harmony/版本来源.json"
+        provenance.parent.mkdir(parents=True)
+        provenance.write_text(json.dumps({"工作区版本": "0.160.0-dev"}))
+        for profile, base in (
+            ("strict", "/data/storage/el2/base/files"),
+            ("hdc-debug", "/data/local/tmp/cdx"),
+        ):
+            output = self.root / profile
+            output.mkdir()
+            args = SimpleNamespace(
+                runtime_base=base,
+                runtime_profile=profile,
+                helpers_dir=self.root / "helpers",
+                java="java",
+                build_dir=None,
+            )
+            helper_record = {"程序": {"bwrap": {"输出": {"SHA-256": "b" * 64}}}}
+            with (
+                self.subTest(profile=profile),
+                patch("build_harmony_distribution.REPO_ROOT", self.root),
+                patch(
+                    "build_harmony_distribution.source_identity",
+                    return_value={"提交": "a" * 40},
+                ),
+                patch(
+                    "build_harmony_distribution.validate_helpers",
+                    return_value=helper_record,
+                ),
+                patch(
+                    "build_harmony_distribution.run",
+                    side_effect=RuntimeError("stopped after build dispatch"),
+                ) as run,
+            ):
+                with self.assertRaisesRegex(RuntimeError, "build dispatch"):
+                    build_package(
+                        args,
+                        output,
+                        self.root,
+                        {"CODEX_OHOS_RUNTIME_PROFILE": "host-shell-must-not-win"},
+                    )
+                command, env = run.call_args.args
+                self.assertEqual(command[command.index("--runtime-profile") + 1], profile)
+                self.assertEqual(command[command.index("--runtime-base") + 1], base)
+                self.assertEqual(env["CODEX_OHOS_RUNTIME_PROFILE"], profile)
+                contract = json.loads((output / "构建输入.json").read_text())[
+                    "受保护运行根契约"
+                ]
+                self.assertEqual(contract["编译时策略"], profile)
+                self.assertEqual(contract["编译时固定候选"], base)
+                self.assertFalse(contract["环境变量回退"])
+                if profile == "hdc-debug":
+                    self.assertEqual(contract["私有运行根"]["权限"], "0700")
+                    self.assertEqual(contract["固定祖先"]["/data"]["GID"], 1000)
+
     def test_modified_content_cannot_hide_behind_unchanged_git_status(self):
         before = {
             "提交": "a" * 40,
@@ -290,6 +349,41 @@ class DistributionTests(unittest.TestCase):
         manifest = (package / "文件校验清单.sha256").read_text()
         self.assertIn("  codex-resources/harmony-runtime-probe\n", manifest)
         self.assertIn("  升级与专项日志速用.md\n", manifest)
+
+    def test_hdc_debug_package_has_its_own_instructions_and_no_user_config(self):
+        binary = elf_fixture(self.root / "input")
+        helpers = self.root / "helpers"
+        (helpers / "已签名").mkdir(parents=True)
+        (helpers / "许可原文").mkdir()
+        for name in ("rg", "bwrap"):
+            shutil.copyfile(binary, helpers / "已签名" / name)
+        package = self.root / "debug-package"
+        assemble(
+            package,
+            cli=binary,
+            helpers=helpers,
+            runtime_probe=binary,
+            version="0.160.0-dev.harmony.gaaaaaaaaaaaa",
+            runtime_profile="hdc-debug",
+        )
+        instructions = (package / "安装说明.md").read_text()
+        self.assertIn("hdc-debug", instructions)
+        self.assertIn("UID 2000", instructions)
+        self.assertIn("不能替换商业 PC", instructions)
+        self.assertNotIn("$HOME/应用工具", instructions)
+        self.assertEqual(list(package.rglob("config.toml")), [])
+        self.assertFalse((package / "接口密钥安装速用.md").exists())
+        for name in (
+            "start-codex.sh",
+            "run-harmony-codex.sh",
+            "run-harmony-codex.command",
+            "run-harmony-codex.exp",
+        ):
+            self.assertTrue(os.access(package / "emulator-tools" / name, os.X_OK))
+        write_checksums(package)
+        manifest = (package / "文件校验清单.sha256").read_text()
+        self.assertIn("  emulator-tools/run-harmony-codex.exp\n", manifest)
+        self.assertIn("  模拟器使用与日志速用.md\n", manifest)
 
     def test_source_cache_rejects_corruption_without_network(self):
         (self.root / "libcap-2.78.tar.xz").write_bytes(b"bad archive")

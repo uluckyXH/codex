@@ -1,0 +1,11 @@
+执行目录：/data/local/tmp/codex-emulator/workspace
+命令：/data/local/tmp/codex-emulator/real-pc-candidate/codex-resources/bwrap --unshare-user --unshare-pid --die-with-parent --ro-bind / / --proc /proc --dev /dev -- /system/bin/sh -c pwd
+
+bwrap: Can't read /proc/sys/kernel/overflowuid: Permission denied
+bwrap_isolated_pwd_exit=1
+
+额外直接读取：cat /proc/sys/kernel/overflowuid
+/bin/sh: cat: /proc/sys/kernel/overflowuid: Permission denied
+overflowuid_read_exit=1
+
+两个设备命令退出码均为 1。尚未执行到成功隔离或 pwd 阶段。

@@ -1,0 +1,62 @@
+来源：本批 .harmony-build/emulator-sandbox 的实际设备日志。只保留能力结果、退出码和错误；命令详情见测试报告。未读取认证配置；展示时省略行尾空白。
+
+identity：
+host_hdc_exit=0
+OpenHarmony-7.0.0.105
+2in1
+aarch64
+u:r:sh:s0\0ls: /proc/self/ns/user: No such file or directory
+ls: /proc/self/uid_map: No such file or directory
+ls: /proc/self/gid_map: No such file or directory
+/bin/sh: cat: /proc/sys/kernel/overflowuid: Permission denied
+
+probe：
+host_hdc_exit=0
+uid=2000 gid=2000
+probe=unshare_none result=0 errno=0
+probe=unshare_none child_exit=0 child_signal=0 raw_wait_status=0
+probe=unshare_user result=-1 errno=22
+probe=unshare_user child_exit=0 child_signal=0 raw_wait_status=0
+probe=unshare_mount result=-1 errno=1
+probe=unshare_mount child_exit=0 child_signal=0 raw_wait_status=0
+probe=unshare_user_mount result=-1 errno=22
+probe=unshare_user_mount child_exit=0 child_signal=0 raw_wait_status=0
+probe=unshare_net result=-1 errno=1
+probe=unshare_net child_exit=0 child_signal=0 raw_wait_status=0
+probe=unshare_pid result=-1 errno=1
+probe=unshare_pid child_exit=0 child_signal=0 raw_wait_status=0
+probe=clone_none result=0 errno=0
+probe=clone_none child_exit=0 child_signal=0 raw_wait_status=0
+probe=clone_user result=-1 errno=22
+probe=clone_user child_exit=0 child_signal=0 raw_wait_status=0
+probe=clone_user_mount result=-1 errno=22
+probe=clone_user_mount child_exit=0 child_signal=0 raw_wait_status=0
+probe=no_new_privs result=0 errno=0
+probe=seccomp_install result=0 errno=0
+probe=seccomp_denied_getpid result=-1 errno=1
+probe=seccomp child_exit=0 child_signal=0 raw_wait_status=0
+probe=landlock_abi result=-1 errno=38
+probe=landlock child_exit=0 child_signal=0 raw_wait_status=0
+device_probe_exit=0
+
+help：
+host_hdc_exit=0
+device_bwrap_help_exit=0
+usage: /data/local/tmp/codex-emulator/sandbox-agent/bwrap-fixed [OPTIONS...] [--] COMMAND [ARGS...]
+
+    --help                       Print this help
+    --version                    Print version
+    --args FD                    Parse NUL-separated args from FD
+
+restricted：
+host_hdc_exit=0
+bwrap: Creating sandbox namespaces failed (EINVAL): this HarmonyOS execution environment may not support the required user namespace. Restricted commands were not run.
+device_bwrap_restricted_exit=1
+payload_executed=no
+
+可写目录对照与加强复测：
+host_hdc_exit=0
+device_direct_write_exit=0
+bwrap: Creating sandbox namespaces failed (EINVAL): this HarmonyOS execution environment may not support the required user namespace. Restricted commands were not run.
+device_bwrap_restricted_exit=1
+payload_executed=no

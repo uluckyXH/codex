@@ -11,9 +11,33 @@ from build_harmony import TARGET
 from build_harmony import build_environment
 from build_harmony import native_sdk
 from build_harmony import runtime_base_contract
+from build_harmony import runtime_build_environment
 
 
 class HarmonyBuildTests(unittest.TestCase):
+    def test_runtime_profile_must_be_explicit_and_cannot_leak_from_shell(self):
+        original = {
+            "CODEX_OHOS_RUNTIME_BASE": "/data/local/tmp/cdx",
+            "CODEX_OHOS_RUNTIME_PROFILE": "hdc-debug",
+            "UNRELATED": "keep",
+        }
+        env = runtime_build_environment(original, None)
+        self.assertNotIn("CODEX_OHOS_RUNTIME_BASE", env)
+        self.assertEqual(env["CODEX_OHOS_RUNTIME_PROFILE"], "strict")
+        self.assertEqual(env["UNRELATED"], "keep")
+        self.assertEqual(original["CODEX_OHOS_RUNTIME_PROFILE"], "hdc-debug")
+        env = runtime_build_environment(original, "/data/local/tmp/cdx", "hdc-debug")
+        self.assertEqual(env["CODEX_OHOS_RUNTIME_PROFILE"], "hdc-debug")
+        self.assertEqual(env["CODEX_OHOS_RUNTIME_BASE"], "/data/local/tmp/cdx")
+        for profile, base in (
+            ("unknown", "/data/local/tmp/cdx"),
+            ("hdc-debug", None),
+            ("hdc-debug", "/data/storage/el2/base/files"),
+            ("hdc-debug", "/data/local/tmp/cdx-other"),
+        ):
+            with self.subTest(profile=profile, base=base), self.assertRaises(ValueError):
+                runtime_build_environment(original, base, profile)
+
     def test_runtime_contract_keeps_target_path_and_full_socket_identity(self):
         self.assertEqual(
             runtime_base_contract("/data/storage/el2/base/files"),
