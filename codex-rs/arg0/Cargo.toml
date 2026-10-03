@@ -29,6 +29,7 @@ tempfile = { workspace = true }
 tokio = { workspace = true, features = ["rt-multi-thread"] }
 
 [target.'cfg(unix)'.dependencies]
+codex-uds = { workspace = true }
 libc = { workspace = true }
 
 [target.'cfg(windows)'.dependencies]

@@ -1,5 +1,5 @@
 //! Capability-only diagnostics never load Config, auth, clipboard data or devices.
-//! Normal CLI startup environment initialization runs before this report is selected.
+//! On OHOS, the standard capability-only invocation bypasses dotenv and aliases.
 
 use super::CheckStatus;
 use super::DoctorCheck;
@@ -15,6 +15,12 @@ pub(super) fn capabilities_check() -> DoctorCheck {
     }
     #[cfg(target_env = "ohos")]
     details.extend(codex_sandboxing::bwrap_resource_diagnostics());
+    #[cfg(target_env = "ohos")]
+    let (status, contract_details) = runtime_contract(codex_uds::ohos_runtime_base_contract());
+    #[cfg(target_env = "ohos")]
+    details.extend(contract_details);
+    #[cfg(not(target_env = "ohos"))]
+    let status = CheckStatus::Ok;
     if cfg!(target_env = "ohos") {
         let shell = codex_core::shell::default_user_shell();
         details.push(format!(
@@ -35,7 +41,7 @@ pub(super) fn capabilities_check() -> DoctorCheck {
     DoctorCheck::new(
         "runtime.capabilities",
         "runtime",
-        CheckStatus::Ok,
+        status,
         if cfg!(target_env = "ohos") {
             "native HarmonyOS capability policy; runtime support is not verified"
         } else {
@@ -43,6 +49,27 @@ pub(super) fn capabilities_check() -> DoctorCheck {
         },
     )
     .details(details)
+}
+
+#[cfg(any(target_env = "ohos", test))]
+fn runtime_contract(base: Option<&str>) -> (CheckStatus, Vec<String>) {
+    let (status, contract) = match base {
+        Some(base) => (
+            CheckStatus::Warning,
+            format!("runtime directory build contract: CODEX_OHOS_RUNTIME_BASE={base}"),
+        ),
+        None => (
+            CheckStatus::Fail,
+            "runtime directory build contract: not set; normal startup is blocked".to_owned(),
+        ),
+    };
+    (status, vec![
+        contract,
+        "runtime directory selection: build-bound; no HOME/CODEX_HOME/TMPDIR/Context fallback".to_owned(),
+        "runtime directory validation: commercial HarmonyOS PC acceptance pending; this report does not approve a safe root or create runtime directories".to_owned(),
+        "runtime layout: base/c<effective-uid-hex>/a for executable aliases; base/c<effective-uid-hex>/s for protected control sockets and locks".to_owned(),
+        "runtime path evidence: run codex-resources/harmony-runtime-probe independently; native context and mount semantics are not probed by doctor --capabilities".to_owned(),
+    ])
 }
 
 pub(super) fn report() -> DoctorReport {
@@ -81,4 +108,22 @@ fn capability_report_has_no_auth_or_network_probe() {
         assert!(detail.contains("features.code_mode_host: unavailable"));
         assert!(detail.contains("not probed"));
     }
+}
+
+#[cfg(test)]
+#[test]
+fn runtime_contract_is_diagnostic_and_never_claims_device_acceptance() {
+    let (missing, missing_details) = runtime_contract(None);
+    assert_eq!(missing, CheckStatus::Fail);
+    assert!(
+        missing_details
+            .join("\n")
+            .contains("normal startup is blocked")
+    );
+    let (bound, details) = runtime_contract(Some("/fixed/fixture"));
+    assert_eq!(bound, CheckStatus::Warning);
+    let details = details.join("\n");
+    assert!(details.contains("CODEX_OHOS_RUNTIME_BASE=/fixed/fixture"));
+    assert!(details.contains("acceptance pending"));
+    assert!(details.contains("no HOME/CODEX_HOME/TMPDIR/Context fallback"));
 }

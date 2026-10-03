@@ -160,7 +160,7 @@ const NARROW_TERMINAL_ROWS: u16 = 24;
 pub struct DoctorCommand {
     /// Inspect compiled capabilities and local tool paths, skipping Config loading
     /// and authentication, network, and device diagnostics.
-    /// Normal CLI startup environment initialization still runs.
+    /// On OHOS, the standard capability-only invocation also skips dotenv and helper aliases.
     #[arg(long, default_value_t = false)]
     capabilities: bool,
     /// Internal isolated filesystem probe; exits before loading configuration.

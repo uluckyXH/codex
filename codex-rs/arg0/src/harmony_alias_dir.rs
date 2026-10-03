@@ -1,222 +1,243 @@
-//! OHOS may report the user's entire home as the OS temporary directory.
-//! Keep helper aliases in an owned CODEX_HOME/tmp/arg0 directory, without
-//! treating a validated home as a shared temporary root or changing HOME's mode.
-//! Existing directories are checked, never repaired by following a symlink.
+//! Per-process aliases below the shared, build-bound OHOS runtime contract.
+//! Hold every validated directory FD. Never janitor old CODEX_HOME directories
+//! or recursively remove names that may now identify somebody else's objects.
 
-use std::fs;
+use codex_uds::ProtectedRuntimeDirectory;
+use std::ffi::CString;
+use std::ffi::OsStr;
+use std::fs::File;
 use std::io;
-use std::os::unix::fs::DirBuilderExt;
-use std::os::unix::fs::MetadataExt;
+use std::io::Read;
+use std::os::fd::AsRawFd;
+use std::os::unix::ffi::OsStrExt;
 use std::path::Path;
-use std::path::PathBuf;
 
-pub(super) fn prepare(
-    codex_home: &Path,
-    system_temp: &Path,
-    user_home: Option<&Path>,
-    uid: u32,
-) -> io::Result<PathBuf> {
-    let resolved_config = resolve_location(codex_home)?;
-    let resolved_temp = resolve_location(system_temp)?;
-    if resolved_config.starts_with(&resolved_temp) {
-        let owned_home_is_temp = user_home
-            .map(resolve_location)
-            .transpose()?
-            .filter(|home| home == &resolved_temp && home != &resolved_config)
-            .map(|home| validate_directory(&home, uid, false))
-            .transpose()?
-            .is_some();
-        if !owned_home_is_temp {
+struct LinkIdentity {
+    name: CString,
+    dev: libc::dev_t,
+    ino: libc::ino_t,
+}
+
+pub(super) struct SessionAliases {
+    root: ProtectedRuntimeDirectory,
+    session: ProtectedRuntimeDirectory,
+    name: CString,
+    links: Vec<LinkIdentity>,
+}
+
+impl SessionAliases {
+    pub(super) fn path(&self) -> &Path {
+        self.session.path()
+    }
+}
+
+#[cfg(target_env = "ohos")]
+pub(super) fn prepare(executable: &Path, aliases: &[&str]) -> io::Result<SessionAliases> {
+    let root = codex_uds::prepare_ohos_runtime_directory(codex_uds::OhosRuntimePurpose::Aliases)?;
+    prepare_in(root, executable, aliases)
+}
+
+fn prepare_in(
+    root: ProtectedRuntimeDirectory,
+    executable: &Path,
+    aliases: &[&str],
+) -> io::Result<SessionAliases> {
+    let target = c_string(executable.as_os_str())?;
+    let mut random = [0_u8; 16];
+    File::open("/dev/urandom")?.read_exact(&mut random)?;
+    let random = u128::from_ne_bytes(random);
+    let name = format!("p{}-{random:032x}", std::process::id());
+    let session = root.create_new_subdirectory(OsStr::new(&name))?;
+    let mut guard = SessionAliases {
+        root,
+        session,
+        name: c_string(OsStr::new(&name))?,
+        links: Vec::new(),
+    };
+    for alias in aliases {
+        if alias.is_empty() || alias.contains('/') || matches!(*alias, "." | "..") {
             return Err(io::Error::new(
                 io::ErrorKind::InvalidInput,
-                format!(
-                    "alias-root: refusing CODEX_HOME {} under temporary root {}; only a non-writable-by-others, current-user-owned HOME may serve as the OHOS temporary root",
-                    resolved_config.display(),
-                    resolved_temp.display()
-                ),
+                "invalid alias component",
             ));
         }
-    }
-
-    // These directories are not shared daemon paths. The final alias root is
-    // private even when an existing CODEX_HOME or tmp parent is readable.
-    prepare_directory(codex_home, uid, false, true)?;
-    let temporary = codex_home.join("tmp");
-    prepare_directory(&temporary, uid, false, false)?;
-    let aliases = temporary.join("arg0");
-    prepare_directory(&aliases, uid, true, false)?;
-    Ok(aliases)
-}
-
-/// Resolve existing ancestors as well, so a path alias cannot bypass the
-/// temporary-root check when CODEX_HOME has not yet been created.
-fn resolve_location(path: &Path) -> io::Result<PathBuf> {
-    if !path.is_absolute()
-        || path
-            .components()
-            .any(|part| matches!(part, std::path::Component::ParentDir))
-    {
-        return Err(io::Error::new(
-            io::ErrorKind::InvalidInput,
-            "alias-root: an absolute path without '..' is required",
-        ));
-    }
-    match fs::canonicalize(path) {
-        Ok(path) => Ok(path),
-        Err(error) if error.kind() == io::ErrorKind::NotFound => {
-            let parent = path.parent().ok_or(error)?;
-            let name = path.file_name().ok_or_else(|| {
-                io::Error::new(
-                    io::ErrorKind::InvalidInput,
-                    "alias-root: missing directory name",
-                )
-            })?;
-            Ok(resolve_location(parent)?.join(name))
+        let name = c_string(OsStr::new(alias))?;
+        guard.session.revalidate()?;
+        if unsafe { libc::symlinkat(target.as_ptr(), guard.session.as_raw_fd(), name.as_ptr()) }
+            != 0
+        {
+            return Err(io::Error::last_os_error());
         }
-        Err(error) => Err(at_path("resolve", path, error)),
+        let metadata = stat_at(&guard.session, &name)?;
+        if metadata.st_mode & libc::S_IFMT != libc::S_IFLNK {
+            return Err(io::Error::new(
+                io::ErrorKind::PermissionDenied,
+                "created alias changed type",
+            ));
+        }
+        guard.links.push(LinkIdentity {
+            name,
+            dev: metadata.st_dev,
+            ino: metadata.st_ino,
+        });
     }
+    guard.session.revalidate()?;
+    Ok(guard)
 }
 
-fn prepare_directory(path: &Path, uid: u32, private: bool, recursive: bool) -> io::Result<()> {
-    match fs::symlink_metadata(path) {
-        Ok(_) => {}
-        Err(error) if error.kind() == io::ErrorKind::NotFound => {
-            match fs::DirBuilder::new()
-                .recursive(recursive)
-                .mode(0o700)
-                .create(path)
+fn c_string(value: &OsStr) -> io::Result<CString> {
+    CString::new(value.as_bytes())
+        .map_err(|_| io::Error::new(io::ErrorKind::InvalidInput, "path contains NUL"))
+}
+
+fn stat_at(directory: &ProtectedRuntimeDirectory, name: &CString) -> io::Result<libc::stat> {
+    let mut metadata = std::mem::MaybeUninit::<libc::stat>::uninit();
+    if unsafe {
+        libc::fstatat(
+            directory.as_raw_fd(),
+            name.as_ptr(),
+            metadata.as_mut_ptr(),
+            libc::AT_SYMLINK_NOFOLLOW,
+        )
+    } != 0
+    {
+        return Err(io::Error::last_os_error());
+    }
+    Ok(unsafe { metadata.assume_init() })
+}
+
+impl Drop for SessionAliases {
+    fn drop(&mut self) {
+        // A changed ancestor invalidates cleanup through the original pathname.
+        // Preserve both trees rather than recursively following the new name.
+        if self.root.revalidate().is_err() || self.session.revalidate().is_err() {
+            return;
+        }
+        for link in &self.links {
+            let Ok(current) = stat_at(&self.session, &link.name) else {
+                continue;
+            };
+            if current.st_dev == link.dev
+                && current.st_ino == link.ino
+                && current.st_mode & libc::S_IFMT == libc::S_IFLNK
             {
-                Ok(()) => {}
-                Err(error) if error.kind() == io::ErrorKind::AlreadyExists => {}
-                Err(error) => return Err(at_path("create", path, error)),
+                unsafe {
+                    libc::unlinkat(self.session.as_raw_fd(), link.name.as_ptr(), 0);
+                }
             }
         }
-        Err(error) => return Err(at_path("inspect", path, error)),
+        // revalidate compares the root's child name with the pinned session FD.
+        // AT_REMOVEDIR refuses unexpected content; no recursive cleanup occurs.
+        if self.session.revalidate().is_ok() {
+            unsafe {
+                libc::unlinkat(
+                    self.root.as_raw_fd(),
+                    self.name.as_ptr(),
+                    libc::AT_REMOVEDIR,
+                );
+            }
+        }
     }
-    validate_directory(path, uid, private)
-}
-
-fn validate_directory(path: &Path, uid: u32, private: bool) -> io::Result<()> {
-    let metadata = fs::symlink_metadata(path).map_err(|error| at_path("inspect", path, error))?;
-    let mode = metadata.mode() & 0o7777;
-    if !metadata.is_dir()
-        || metadata.file_type().is_symlink()
-        || metadata.uid() != uid
-        || mode & 0o022 != 0
-        || (private && mode != 0o700)
-    {
-        return Err(io::Error::new(
-            io::ErrorKind::PermissionDenied,
-            format!(
-                "alias-root: refusing unsafe directory {} (owner {}, expected {}; mode {mode:04o}; require {}); no permissions were changed",
-                path.display(),
-                metadata.uid(),
-                uid,
-                if private {
-                    "a non-symlink directory with mode 0700"
-                } else {
-                    "a non-symlink directory not writable by group or others"
-                }
-            ),
-        ));
-    }
-    Ok(())
-}
-
-fn at_path(operation: &str, path: &Path, error: io::Error) -> io::Error {
-    io::Error::new(
-        error.kind(),
-        format!("alias-root: {operation} {}: {error}", path.display()),
-    )
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::fs;
     use std::os::unix::fs::PermissionsExt;
-    use std::os::unix::fs::symlink;
 
-    fn fixture() -> (tempfile::TempDir, PathBuf, u32) {
-        let root = tempfile::tempdir().unwrap();
-        let home = root.path().join("home");
-        fs::create_dir(&home).unwrap();
-        fs::set_permissions(&home, fs::Permissions::from_mode(0o700)).unwrap();
-        let uid = fs::metadata(&home).unwrap().uid();
-        (root, home, uid)
+    fn fixture() -> (tempfile::TempDir, std::path::PathBuf) {
+        #[cfg(target_os = "macos")]
+        let temporary = tempfile::tempdir_in("/private/tmp").unwrap();
+        #[cfg(not(target_os = "macos"))]
+        let temporary = tempfile::tempdir().unwrap();
+        let path = temporary.path().canonicalize().unwrap().join("aliases");
+        fs::create_dir(&path).unwrap();
+        fs::set_permissions(&path, fs::Permissions::from_mode(0o700)).unwrap();
+        (temporary, path)
+    }
+
+    fn aliases(path: &Path) -> SessionAliases {
+        let root = codex_uds::validate_ohos_runtime_base(path).unwrap();
+        prepare_in(
+            root,
+            Path::new("/usr/bin/true"),
+            &["apply_patch", "applypatch"],
+        )
+        .unwrap()
     }
 
     #[test]
-    fn home_as_temp_creates_private_aliases_without_changing_home() {
-        let (_root, home, uid) = fixture();
-        fs::set_permissions(&home, fs::Permissions::from_mode(0o755)).unwrap();
-        let aliases = prepare(&home.join(".codex"), &home, Some(&home), uid).unwrap();
-        assert_eq!(aliases, home.join(".codex/tmp/arg0"));
-        assert_eq!(fs::metadata(aliases).unwrap().mode() & 0o777, 0o700);
-        assert_eq!(fs::metadata(home).unwrap().mode() & 0o777, 0o755);
+    fn aliases_are_executable_and_only_session_objects_are_removed() {
+        let (_temporary, path) = fixture();
+        fs::write(path.join("existing"), "keep").unwrap();
+        let aliases = aliases(&path);
+        let session = aliases.path().to_owned();
+        assert_eq!(
+            fs::read_link(session.join("apply_patch")).unwrap(),
+            Path::new("/usr/bin/true")
+        );
+        assert!(
+            std::process::Command::new(session.join("apply_patch"))
+                .status()
+                .unwrap()
+                .success()
+        );
+        assert!(!session.join(".lock").exists());
+        assert_ne!(
+            unsafe { libc::fcntl(aliases.session.as_raw_fd(), libc::F_GETFD) } & libc::FD_CLOEXEC,
+            0
+        );
+        drop(aliases);
+        assert!(!session.exists());
+        assert_eq!(fs::read_to_string(path.join("existing")).unwrap(), "keep");
     }
 
     #[test]
-    fn separate_temp_keeps_configuration_out_of_temp() {
-        let (_root, home, uid) = fixture();
-        let temp = home.join("temporary");
-        fs::create_dir(&temp).unwrap();
-        prepare(&home.join("custom-config"), &temp, Some(&home), uid).unwrap();
-        assert!(prepare(&temp.join("config"), &temp, Some(&home), uid).is_err());
-        assert!(!temp.join("config").exists());
+    fn replaced_alias_and_unknown_content_are_preserved() {
+        let (_temporary, path) = fixture();
+        let aliases = aliases(&path);
+        let session = aliases.path().to_owned();
+        fs::remove_file(session.join("apply_patch")).unwrap();
+        fs::write(session.join("apply_patch"), "replacement").unwrap();
+        fs::write(session.join("unrelated"), "keep").unwrap();
+        drop(aliases);
+        assert_eq!(
+            fs::read_to_string(session.join("apply_patch")).unwrap(),
+            "replacement"
+        );
+        assert_eq!(
+            fs::read_to_string(session.join("unrelated")).unwrap(),
+            "keep"
+        );
+        assert!(!session.join("applypatch").exists());
     }
 
     #[test]
-    fn temporary_root_exception_requires_matching_owned_home() {
-        let (root, home, uid) = fixture();
-        for alternative in [None, Some(root.path())] {
-            assert!(prepare(&home.join(".codex"), &home, alternative, uid).is_err());
-        }
-        assert!(prepare(&home.join(".codex"), &home, Some(&home), uid + 1).is_err());
-        fs::set_permissions(&home, fs::Permissions::from_mode(0o777)).unwrap();
-        assert!(prepare(&home.join(".codex"), &home, Some(&home), uid).is_err());
-        assert!(!home.join(".codex").exists());
+    fn replaced_ancestor_prevents_cleanup_of_both_trees() {
+        let (_temporary, path) = fixture();
+        let aliases = aliases(&path);
+        let name = aliases.path().file_name().unwrap().to_owned();
+        let original = path.with_file_name("original");
+        fs::rename(&path, &original).unwrap();
+        fs::create_dir(&path).unwrap();
+        fs::set_permissions(&path, fs::Permissions::from_mode(0o700)).unwrap();
+        fs::create_dir(path.join(&name)).unwrap();
+        fs::write(path.join(&name).join("keep"), "replacement").unwrap();
+        drop(aliases);
+        assert!(original.join(&name).join("apply_patch").exists());
+        assert_eq!(
+            fs::read_to_string(path.join(name).join("keep")).unwrap(),
+            "replacement"
+        );
     }
 
     #[test]
-    fn directory_symlink_cannot_redirect_creation_or_chmod() {
-        let (_root, home, uid) = fixture();
-        let config = home.join(".codex");
-        fs::create_dir(&config).unwrap();
-        let outside = home.join("unrelated");
-        fs::create_dir(&outside).unwrap();
-        fs::set_permissions(&outside, fs::Permissions::from_mode(0o755)).unwrap();
-        symlink(&outside, config.join("tmp")).unwrap();
-        assert!(prepare(&config, &home, Some(&home), uid).is_err());
-        assert!(!outside.join("arg0").exists());
-        assert_eq!(fs::metadata(outside).unwrap().mode() & 0o777, 0o755);
-    }
-
-    #[test]
-    fn canonical_home_alias_is_recognized_but_config_alias_into_temp_is_rejected() {
-        let (root, home, uid) = fixture();
-        let home_alias = root.path().join("home-alias");
-        symlink(&home, &home_alias).unwrap();
-        prepare(&home.join(".codex"), &home_alias, Some(&home), uid).unwrap();
-        let temp = home.join("temporary");
-        fs::create_dir(&temp).unwrap();
-        let config_alias = home.join("config-alias");
-        symlink(&temp, &config_alias).unwrap();
-        assert!(prepare(&config_alias.join("config"), &temp, Some(&home), uid).is_err());
-    }
-
-    #[test]
-    fn unsafe_existing_alias_directory_is_not_repaired() {
-        let (_root, home, uid) = fixture();
-        let config = home.join(".codex");
-        let aliases = prepare(&config, &home, Some(&home), uid).unwrap();
-        for mode in [0o755, 0o777] {
-            fs::set_permissions(&aliases, fs::Permissions::from_mode(mode)).unwrap();
-            assert!(prepare(&config, &home, Some(&home), uid).is_err());
-            assert_eq!(fs::metadata(&aliases).unwrap().mode() & 0o777, mode);
-        }
-        fs::remove_dir(&aliases).unwrap();
-        fs::write(&aliases, "keep").unwrap();
-        assert!(prepare(&config, &home, Some(&home), uid).is_err());
-        assert_eq!(fs::read_to_string(aliases).unwrap(), "keep");
+    fn changed_parent_is_rejected_before_creating_a_session() {
+        let (_temporary, path) = fixture();
+        let root = codex_uds::validate_ohos_runtime_base(&path).unwrap();
+        fs::set_permissions(&path, fs::Permissions::from_mode(0o2771)).unwrap();
+        assert!(prepare_in(root, Path::new("/usr/bin/true"), &["apply_patch"]).is_err());
+        assert_eq!(fs::read_dir(path).unwrap().count(), 0);
     }
 }

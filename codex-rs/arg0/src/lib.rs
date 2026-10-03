@@ -14,7 +14,7 @@ use codex_sandboxing::landlock::CODEX_LINUX_SANDBOX_ARG0;
 use codex_utils_home_dir::find_codex_home;
 #[cfg(target_os = "windows")]
 use codex_windows_sandbox::CODEX_WINDOWS_SANDBOX_ARG1;
-#[cfg(unix)]
+#[cfg(all(unix, not(target_env = "ohos")))]
 use std::os::unix::fs::symlink;
 use tempfile::TempDir;
 
@@ -25,6 +25,7 @@ const APPLY_PATCH_ARG0: &str = "apply_patch";
 const MISSPELLED_APPLY_PATCH_ARG0: &str = "applypatch";
 #[cfg(unix)]
 const EXECVE_WRAPPER_ARG0: &str = "codex-execve-wrapper";
+#[cfg(any(not(target_env = "ohos"), test))]
 const LOCK_FILENAME: &str = ".lock";
 
 #[derive(Clone, Debug, Default, Eq, PartialEq)]
@@ -39,18 +40,23 @@ pub struct Arg0DispatchPaths {
     pub main_execve_wrapper_exe: Option<PathBuf>,
 }
 
-/// Keeps the per-session PATH entry alive and locked for the process lifetime.
+/// Keeps per-session aliases alive; OHOS pins its validated directory FDs.
 pub struct Arg0PathEntryGuard {
-    _temp_dir: TempDir,
-    _lock_file: File,
+    _temp_dir: Option<TempDir>,
+    _lock_file: Option<File>,
+    #[cfg(any(target_env = "ohos", all(test, unix)))]
+    _harmony_aliases: Option<harmony_alias_dir::SessionAliases>,
     paths: Arg0DispatchPaths,
 }
 
 impl Arg0PathEntryGuard {
+    #[cfg(any(not(target_env = "ohos"), test))]
     fn new(temp_dir: TempDir, lock_file: File, paths: Arg0DispatchPaths) -> Self {
         Self {
-            _temp_dir: temp_dir,
-            _lock_file: lock_file,
+            _temp_dir: Some(temp_dir),
+            _lock_file: Some(lock_file),
+            #[cfg(any(target_env = "ohos", all(test, unix)))]
+            _harmony_aliases: None,
             paths,
         }
     }
@@ -162,6 +168,14 @@ pub fn arg0_dispatch() -> Option<Arg0PathEntryGuard> {
         std::process::exit(exit_code);
     }
 
+    // The narrow diagnostic grammar cannot execute user tools. Keep it usable
+    // when the runtime root is unavailable, without opening dotenv/config.
+    #[cfg(target_env = "ohos")]
+    if harmony_read_only_startup(std::env::args_os().skip(1)) {
+        codex_linux_sandbox::pre_main_hardening();
+        return None;
+    }
+
     // This modifies the environment, which is not thread-safe, so do this
     // before creating any threads/the Tokio runtime.
     load_dotenv();
@@ -176,8 +190,12 @@ pub fn arg0_dispatch() -> Option<Arg0PathEntryGuard> {
     let (path_entry_guard, updated_path_env_var) = prepare_path_env_var_with_aliases(
         InstallContext::current(),
         std::env::var_os("PATH"),
+        cfg!(target_env = "ohos"),
         prepare_path_entry_for_codex_aliases,
-    );
+    ).unwrap_or_else(|error| {
+        eprintln!("ERROR: OHOS helper aliases unavailable: {error}; run codex-resources/harmony-runtime-probe for independent diagnostics");
+        std::process::exit(1);
+    });
     if let Some(updated_path_env_var) = updated_path_env_var {
         // It is safe to call set_var() because our process is single-threaded at
         // this point in its execution.
@@ -191,20 +209,47 @@ pub fn arg0_dispatch() -> Option<Arg0PathEntryGuard> {
 fn prepare_path_env_var_with_aliases(
     install_context: &InstallContext,
     existing_path: Option<OsString>,
+    require_aliases: bool,
     prepare_aliases: impl FnOnce(Option<OsString>) -> std::io::Result<(Arg0PathEntryGuard, OsString)>,
-) -> (Option<Arg0PathEntryGuard>, Option<OsString>) {
+) -> std::io::Result<(Option<Arg0PathEntryGuard>, Option<OsString>)> {
     let package_path = path_env_with_package_path_dir(install_context, existing_path.clone());
     let path_for_aliases = package_path.clone().or(existing_path);
 
     match prepare_aliases(path_for_aliases) {
-        Ok((path_entry, updated_path_env_var)) => (Some(path_entry), Some(updated_path_env_var)),
+        Ok((path_entry, updated_path_env_var)) => {
+            Ok((Some(path_entry), Some(updated_path_env_var)))
+        }
+        Err(error) if require_aliases => Err(error),
         Err(err) => {
             // It is possible that Codex will proceed successfully even if
             // creating helper aliases fails, so warn the user and move on.
             eprintln!("WARNING: proceeding, even though we could not create PATH aliases: {err}");
-            (None, package_path)
+            Ok((None, package_path))
         }
     }
+}
+
+#[cfg(any(target_env = "ohos", all(test, unix)))]
+fn harmony_read_only_startup(arguments: impl IntoIterator<Item = OsString>) -> bool {
+    let arguments: Vec<_> = arguments.into_iter().collect();
+    if arguments.len() == 1
+        && matches!(
+            arguments[0].to_str(),
+            Some("--help" | "-h" | "--version" | "-V")
+        )
+    {
+        return true;
+    }
+    arguments.first().is_some_and(|value| value == "doctor")
+        && arguments.iter().any(|value| value == "--capabilities")
+        && arguments.iter().skip(1).all(|value| {
+            matches!(
+                value.to_str(),
+                Some(
+                    "--capabilities" | "--json" | "--summary" | "--all" | "--no-color" | "--ascii"
+                )
+            )
+        })
 }
 
 /// While we want to deploy the Codex CLI as a single executable for simplicity,
@@ -352,6 +397,7 @@ where
 /// Note: In debug builds the temp-dir guard is disabled to ease local testing.
 ///
 /// IMPORTANT: Callers must update PATH before multiple threads are spawned.
+#[cfg(not(target_env = "ohos"))]
 fn prepare_path_entry_for_codex_aliases(
     existing_path: Option<OsString>,
 ) -> std::io::Result<(Arg0PathEntryGuard, OsString)> {
@@ -370,14 +416,6 @@ fn prepare_path_entry_for_codex_aliases(
         }
     }
 
-    #[cfg(target_env = "ohos")]
-    let temp_root = harmony_alias_dir::prepare(
-        codex_home.as_path(),
-        &std::env::temp_dir(),
-        std::env::var_os("HOME").as_deref().map(Path::new),
-        // SAFETY: geteuid only reads the effective user identity.
-        unsafe { libc::geteuid() },
-    )?;
     #[cfg(not(target_env = "ohos"))]
     std::fs::create_dir_all(&codex_home)?;
     // Use a CODEX_HOME-scoped temp root to avoid cluttering the top-level directory.
@@ -475,6 +513,38 @@ fn prepare_path_entry_for_codex_aliases(
     ))
 }
 
+#[cfg(target_env = "ohos")]
+fn prepare_path_entry_for_codex_aliases(
+    existing_path: Option<OsString>,
+) -> std::io::Result<(Arg0PathEntryGuard, OsString)> {
+    let executable = std::env::current_exe()?;
+    let aliases = harmony_alias_dir::prepare(
+        &executable,
+        &[
+            APPLY_PATCH_ARG0,
+            MISSPELLED_APPLY_PATCH_ARG0,
+            CODEX_LINUX_SANDBOX_ARG0,
+            EXECVE_WRAPPER_ARG0,
+        ],
+    )?;
+    let path = aliases.path();
+    let updated_path = path_env_with_entry(path, existing_path);
+    let paths = Arg0DispatchPaths {
+        codex_self_exe: Some(executable),
+        codex_linux_sandbox_exe: Some(path.join(CODEX_LINUX_SANDBOX_ARG0)),
+        main_execve_wrapper_exe: Some(path.join(EXECVE_WRAPPER_ARG0)),
+    };
+    Ok((
+        Arg0PathEntryGuard {
+            _temp_dir: None,
+            _lock_file: None,
+            _harmony_aliases: Some(aliases),
+            paths,
+        },
+        updated_path,
+    ))
+}
+
 #[cfg(windows)]
 fn windows_batch_executable_path(executable: &Path, alias_directory: &Path) -> String {
     pathdiff::diff_paths(executable, alias_directory)
@@ -514,6 +584,7 @@ fn path_env_with_entry(path_entry: &Path, existing_path: Option<OsString>) -> Os
     path_env_var
 }
 
+#[cfg(any(not(target_env = "ohos"), test))]
 fn janitor_cleanup(temp_root: &Path) -> std::io::Result<()> {
     let entries = match std::fs::read_dir(temp_root) {
         Ok(entries) => entries,
@@ -543,6 +614,7 @@ fn janitor_cleanup(temp_root: &Path) -> std::io::Result<()> {
     Ok(())
 }
 
+#[cfg(any(not(target_env = "ohos"), test))]
 fn try_lock_dir(dir: &Path) -> std::io::Result<Option<File>> {
     let lock_path = dir.join(LOCK_FILENAME);
     let lock_file = match File::options().read(true).write(true).open(&lock_path) {
@@ -726,6 +798,7 @@ mod tests {
         let (path_entry_guard, updated_path_env_var) = super::prepare_path_env_var_with_aliases(
             &fixture.install_context,
             Some(fixture.existing_dir.as_os_str().to_owned()),
+            false,
             |path_for_aliases| {
                 assert_eq!(
                     std::env::split_paths(
@@ -739,7 +812,7 @@ mod tests {
                 );
                 Err(std::io::Error::other("alias setup failed"))
             },
-        );
+        )?;
 
         assert!(path_entry_guard.is_none());
         let updated_path_env_var =
@@ -752,6 +825,70 @@ mod tests {
             ],
         );
         Ok(())
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn required_aliases_propagate_errors_instead_of_falling_back_to_package_path() {
+        let fixture = package_path_test_fixture().unwrap();
+        let error = super::prepare_path_env_var_with_aliases(
+            &fixture.install_context,
+            Some("/fixture/bin".into()),
+            true,
+            |_| {
+                Err(std::io::Error::new(
+                    std::io::ErrorKind::PermissionDenied,
+                    "unsafe runtime root",
+                ))
+            },
+        )
+        .err()
+        .expect("OHOS startup must stop");
+        assert_eq!(error.kind(), std::io::ErrorKind::PermissionDenied);
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn only_read_only_harmony_invocations_skip_startup_files() {
+        for args in [
+            vec!["doctor", "--capabilities"],
+            vec![
+                "doctor",
+                "--json",
+                "--capabilities",
+                "--ascii",
+                "--no-color",
+            ],
+            vec!["--help"],
+            vec!["-h"],
+            vec!["--version"],
+            vec!["-V"],
+        ] {
+            assert!(super::harmony_read_only_startup(
+                args.into_iter().map(Into::into)
+            ));
+        }
+        for args in [
+            vec![],
+            vec!["doctor"],
+            vec!["exec", "doctor", "--capabilities"],
+            vec![
+                "doctor",
+                "--capabilities",
+                "--probe-filesystem-path",
+                "/fixture",
+            ],
+            vec!["--help", "exec", "anything"],
+            vec!["--version", "--capabilities"],
+            vec!["sandbox", "--help"],
+            vec!["--codex-run-as-exec-helper", "--help"],
+            vec!["doctor", "--capabilities", "--", "anything"],
+            vec!["doctor", "--capabilities", "-c", "key=value"],
+        ] {
+            assert!(!super::harmony_read_only_startup(
+                args.into_iter().map(Into::into)
+            ));
+        }
     }
 
     #[cfg(unix)]
