@@ -156,6 +156,17 @@ fn fdinfo_mount_id(capture: &Captured) -> io::Result<Option<u64>> {
     Ok(id)
 }
 
+fn collect_statx<T>(
+    ohos: bool,
+    diagnostics: bool,
+    fd_mount_id: Option<u64>,
+    query: impl FnOnce() -> T,
+) -> Option<T> {
+    // Preserve Linux's fdinfo fast path: a new syscall may be prohibited by
+    // an existing container seccomp policy, even if its errno is ignored.
+    (ohos || diagnostics || fd_mount_id.is_none()).then(query)
+}
+
 #[cfg(any(target_env = "ohos", test))]
 #[derive(Clone, Copy)]
 struct DirectoryIdentity {
@@ -305,7 +316,8 @@ fn inspect_directory_mounts(
             metadata.mode()
         ),
     );
-    let namespace_before = fs::read_link("/proc/self/ns/mnt");
+    let collect_namespace = cfg!(target_env = "ohos") || diagnostics.enabled;
+    let namespace_before = collect_namespace.then(|| fs::read_link("/proc/self/ns/mnt"));
     diagnostics.event(
         "namespace-before",
         format_args!("result={namespace_before:?}"),
@@ -318,15 +330,21 @@ fn inspect_directory_mounts(
         .map_err(|error| invalid("fdinfo-read", error))
         .and_then(fdinfo_mount_id);
     diagnostics.event("fdinfo-id", format_args!("result={fd_mount_id:?}"));
-    let stat = statx(
-        &directory_file,
-        "",
-        AtFlags::EMPTY_PATH,
-        StatxFlags::BASIC_STATS | StatxFlags::MNT_ID,
+    let statx_mask = if cfg!(target_env = "ohos") || diagnostics.enabled {
+        StatxFlags::BASIC_STATS | StatxFlags::MNT_ID
+    } else {
+        StatxFlags::MNT_ID
+    };
+    let stat = collect_statx(
+        cfg!(target_env = "ohos"),
+        diagnostics.enabled,
+        fd_mount_id.as_ref().ok().copied().flatten(),
+        || statx(&directory_file, "", AtFlags::EMPTY_PATH, statx_mask),
     );
     match &stat {
-        Ok(stat) => diagnostics.event("statx", format_args!("flags={:#x} requested_mask={:#x} returned_mask={:#x} dev_major={} dev_minor={} ino={} mode={:#o} uid={} gid={} mount_id={} mount_id_valid={}", AtFlags::EMPTY_PATH.bits(), (StatxFlags::BASIC_STATS | StatxFlags::MNT_ID).bits(), stat.stx_mask, stat.stx_dev_major, stat.stx_dev_minor, stat.stx_ino, stat.stx_mode, stat.stx_uid, stat.stx_gid, stat.stx_mnt_id, stat.stx_mask & StatxFlags::MNT_ID.bits() != 0)),
-        Err(error) => diagnostics.event("statx", format_args!("requested_mask={:#x} errno={} error={error}", (StatxFlags::BASIC_STATS | StatxFlags::MNT_ID).bits(), error.raw_os_error())),
+        Some(Ok(stat)) => diagnostics.event("statx", format_args!("status=ok flags={:#x} requested_mask={:#x} returned_mask={:#x} dev_major={} dev_minor={} ino={} mode={:#o} uid={} gid={} mount_id={} mount_id_valid={}", AtFlags::EMPTY_PATH.bits(), statx_mask.bits(), stat.stx_mask, stat.stx_dev_major, stat.stx_dev_minor, stat.stx_ino, stat.stx_mode, stat.stx_uid, stat.stx_gid, stat.stx_mnt_id, stat.stx_mask & StatxFlags::MNT_ID.bits() != 0)),
+        Some(Err(error)) => diagnostics.event("statx", format_args!("status=error requested_mask={:#x} errno={} error={error}", statx_mask.bits(), error.raw_os_error())),
+        None => diagnostics.event("statx", "status=not-requested source=fdinfo"),
     }
     let filesystem_stat = fstatfs(&directory_file);
     match &filesystem_stat {
@@ -339,7 +357,7 @@ fn inspect_directory_mounts(
     let mountinfo =
         fs::File::open("/proc/self/mountinfo").and_then(|file| read_bounded(file, MOUNTINFO_LIMIT));
     diagnostics.capture("mountinfo", &mountinfo);
-    let namespace_after = fs::read_link("/proc/self/ns/mnt");
+    let namespace_after = collect_namespace.then(|| fs::read_link("/proc/self/ns/mnt"));
     diagnostics.event(
         "namespace-after",
         format_args!("result={namespace_after:?}"),
@@ -353,7 +371,20 @@ fn inspect_directory_mounts(
     }
     #[cfg(target_env = "ohos")]
     let (device, mount_id, filesystem) = {
-        check_namespace(namespace_before, namespace_after)?;
+        check_namespace(
+            namespace_before.ok_or_else(|| {
+                invalid(
+                    "namespace-not-requested",
+                    "OHOS requires namespace identity",
+                )
+            })?,
+            namespace_after.ok_or_else(|| {
+                invalid(
+                    "namespace-not-requested",
+                    "OHOS requires namespace identity",
+                )
+            })?,
+        )?;
         let (device, mount_id) = ohos_mount_identity(
             DirectoryIdentity {
                 inode: metadata.ino(),
@@ -362,19 +393,20 @@ fn inspect_directory_mounts(
                 gid: metadata.gid(),
             },
             fd_mount_id,
-            stat.map(|stat| {
-                let has = |flags: StatxFlags| stat.stx_mask & flags.bits() == flags.bits();
-                StatxIdentity {
-                    inode: has(StatxFlags::INO).then_some(stat.stx_ino),
-                    mode: has(StatxFlags::TYPE | StatxFlags::MODE)
-                        .then_some(u32::from(stat.stx_mode)),
-                    uid: has(StatxFlags::UID).then_some(stat.stx_uid),
-                    gid: has(StatxFlags::GID).then_some(stat.stx_gid),
-                    mount_id: has(StatxFlags::MNT_ID).then_some(stat.stx_mnt_id),
-                    device: format!("{}:{}", stat.stx_dev_major, stat.stx_dev_minor),
-                }
-            })
-            .map_err(io::Error::from),
+            stat.ok_or_else(|| invalid("statx-not-requested", "OHOS requires statx identity"))?
+                .map(|stat| {
+                    let has = |flags: StatxFlags| stat.stx_mask & flags.bits() == flags.bits();
+                    StatxIdentity {
+                        inode: has(StatxFlags::INO).then_some(stat.stx_ino),
+                        mode: has(StatxFlags::TYPE | StatxFlags::MODE)
+                            .then_some(u32::from(stat.stx_mode)),
+                        uid: has(StatxFlags::UID).then_some(stat.stx_uid),
+                        gid: has(StatxFlags::GID).then_some(stat.stx_gid),
+                        mount_id: has(StatxFlags::MNT_ID).then_some(stat.stx_mnt_id),
+                        device: format!("{}:{}", stat.stx_dev_major, stat.stx_dev_minor),
+                    }
+                })
+                .map_err(io::Error::from),
         )?;
         // OHOS uses the explicit, cross-checked statx identity, not a filesystem
         // name exception. The selected mountinfo device must match exactly.
@@ -390,7 +422,7 @@ fn inspect_directory_mounts(
             .ok()
             .flatten()
             .or_else(|| {
-                stat.ok()
+                stat.and_then(Result::ok)
                     .filter(|stat| stat.stx_mask & StatxFlags::MNT_ID.bits() != 0)
                     .map(|stat| stat.stx_mnt_id)
             })

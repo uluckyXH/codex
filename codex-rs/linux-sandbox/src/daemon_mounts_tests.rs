@@ -2,6 +2,28 @@ use super::*;
 use pretty_assertions::assert_eq;
 use test_case::test_case;
 
+#[test]
+fn linux_fdinfo_fast_path_does_not_issue_statx_but_ohos_always_does() {
+    let result: Option<()> = collect_statx(false, false, Some(3996), || {
+        panic!("statx must not run on the quiet Linux fdinfo fast path")
+    });
+    assert_eq!(result, None);
+    for (ohos, diagnostics, id) in [
+        (false, false, None),
+        (false, true, Some(3996)),
+        (true, false, Some(3996)),
+        (true, false, None),
+    ] {
+        let calls = std::cell::Cell::new(0);
+        let result = collect_statx(ohos, diagnostics, id, || {
+            calls.set(calls.get() + 1);
+            Err::<(), _>(io::ErrorKind::Unsupported)
+        });
+        assert_eq!(calls.get(), 1);
+        assert_eq!(result, Some(Err(io::ErrorKind::Unsupported)));
+    }
+}
+
 // Synthetic data informed by the summary report, not a replay of a device
 // mount table. No original Rust-process mountinfo or statx dump was received.
 fn synthetic_ohos_identity() -> (DirectoryIdentity, StatxIdentity) {
