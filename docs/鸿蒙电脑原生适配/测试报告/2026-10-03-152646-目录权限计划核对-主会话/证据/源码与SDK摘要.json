@@ -1,0 +1,46 @@
+{
+  "源码基线": "8e6756628d6e59c8ab4aa181bc0bd82553eb8321",
+  "SDK": "6.1.1.125 / API 24；声明不代表PC调用通过",
+  "文件": [
+    {
+      "文件": "codex-rs/arg0/src/harmony_alias_dir.rs",
+      "SHA256": "d26e90f6d89c3a94e038b6a5895f85d8018794ed3eb4410f30eb32621e4da8b5"
+    },
+    {
+      "文件": "codex-rs/uds/src/daemon_directory.rs",
+      "SHA256": "17ebb473184b7059eaf5df02130875da9a96248641333afa5456d7962ff0e8e5"
+    },
+    {
+      "文件": "codex-rs/linux-sandbox/src/bwrap.rs",
+      "SHA256": "8ca74e004e12676124fe6e620206ed78e54e18cad0fdeb5b445702c1412f3c4d"
+    },
+    {
+      "文件": "codex-rs/linux-sandbox/src/daemon_mounts.rs",
+      "SHA256": "44848a612e60e0c16d29a2d2ea4f26e9f5a142a62d0437a844c7db553dd1de2e"
+    },
+    {
+      "文件": "codex-rs/app-server-transport/src/transport/unix_socket.rs",
+      "SHA256": "9dfe2f4428e7e21f5c7d9469f608d4c9777be4cefeb3cac65470130e7214bff3"
+    },
+    {
+      "文件": "scripts/harmony_probe.rs",
+      "SHA256": "1b99cfa349a3a6405f467475bb4b14449788e5f205cc384c94f1c7db0b8ff9f8"
+    },
+    {
+      "文件": "scripts/harmony/诊断.sh",
+      "SHA256": "9f36ac25b6d9994db24dd8a008cb065fed132ef7e1242c198e641838bb30c1d6"
+    },
+    {
+      "文件": "docs/鸿蒙电脑原生适配/鸿蒙七版目录权限阻塞分析与修复计划.md",
+      "SHA256": "9044dc134abe62c4a4c3472b9058c1bc7ea13ec5d4ff3b40242391e8bfa4f6f2"
+    },
+    {
+      "文件": "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/application_context.h",
+      "SHA256": "8e40584bee15db4c269a7d3e1a45c1547bfc30020f77e67817050055f2619d58"
+    },
+    {
+      "文件": "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot/usr/include/AbilityKit/ability_runtime/ability_runtime_common.h",
+      "SHA256": "b4bd0aa880c385537d9fcc55f53dbce6f90dc53e6e9ede28d5fa9141309f6a8d"
+    }
+  ]
+}
