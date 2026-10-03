@@ -1,0 +1,39 @@
+{
+  "reviewed_commit": "99fde6f792f66dcb1d48c1413d66e403e3c6ccb7",
+  "reviewer_session": "01a0fbd5-774e-76b2-8090-f11b7accb711",
+  "report_worktree": "/Volumes/MacSSD/Repositories/codex/.harmony-build/工作副本/七版工具",
+  "report_branch": "codex/harmony-probe-exit-lifecycle",
+  "report_head": "6f983db69b59275ea6fb2a6a4cae8f274bdd8b15",
+  "review_type": "固定提交只读源码交叉审查；本批未执行功能测试或目标程序",
+  "time": "2026-10-03T22:50:50.281352+08:00",
+  "sources": {
+    "codex-rs/linux-sandbox/src/daemon_mounts.rs": {
+      "blob": "f220bb210559ae593fa866d1a2272309e126b62e",
+      "sha256": "77ad574da5527645a6ab86aa0ac92167df46ade02759b79219635ba7cb9c8715"
+    },
+    "codex-rs/linux-sandbox/src/daemon_mounts_tests.rs": {
+      "blob": "f5e7dd1132754f72f3919a4b1e288c3d98330f18",
+      "sha256": "70bd6aeea99aebc776311746a77ec5ce30efa88e0383574ef2df5ea6cae6ff07"
+    },
+    "codex-rs/linux-sandbox/src/bwrap.rs": {
+      "blob": "e95ed6bac9c893d51b611b4c260204d25ef15965",
+      "sha256": "046c62c8c37a9c310f6a20f8fd74060f1c3720b9adbb740bebd17db620c2a8b9"
+    },
+    "codex-rs/linux-sandbox/src/ohos_runtime_mounts.rs": {
+      "blob": "4357ad7f7b80bf49ae2978072a73b6b58f47a0ef",
+      "sha256": "3ad93e4bab318f05e22804c3f29b98d538c5aa7bd551820a7da35520931ee132"
+    },
+    "codex-rs/linux-sandbox/src/linux_run_main.rs": {
+      "blob": "d044348c291d7aa7f7b3c494f45b7dffd8206c55",
+      "sha256": "77086f926a95589c0c778609bc9673f3492bc25832003f890b559014060c1051"
+    },
+    "codex-rs/uds/src/ohos_runtime.rs": {
+      "blob": "cca4a40b23f36b3a4784a62d82e2ec63670da50d",
+      "sha256": "d86daea603f4b1368056552d26f40a6f7a2c73159f6bfb181a33a70de63560d7"
+    },
+    "codex-rs/uds/src/daemon_directory.rs": {
+      "blob": "1adf35aabf94bc5f796bc71f801ea52b1f73af24",
+      "sha256": "ff9a1d2676214d0947451c0d00160717ea3210c0a6d816f942501cb826c38b5e"
+    }
+  }
+}
