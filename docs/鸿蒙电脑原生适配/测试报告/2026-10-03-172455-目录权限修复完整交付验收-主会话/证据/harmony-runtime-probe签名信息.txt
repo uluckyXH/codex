@@ -1,0 +1,6 @@
+10-03 17:56:21.348  INFO - Start display-sign
+10-03 17:56:21.359  INFO - ELF verification started for file: /Volumes/MacSSD/Repositories/codex/.harmony-build/目录权限修复/独立包验收/鸿蒙Codex/codex-resources/harmony-runtime-probe
+10-03 17:56:21.362  INFO - permission is not found
+10-03 17:56:21.363  INFO - code signature is self-sign
+10-03 17:56:21.363  INFO - verify: Self-sign signature
+10-03 17:56:21.363  INFO - display-sign success

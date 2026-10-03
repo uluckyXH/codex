@@ -1,0 +1,39 @@
+{
+  "源码": "913098105a4025d620ddea39648339a0d592a212",
+  "时刻": "2026-10-03T17:26:00+08:00",
+  "结果": "各模块与对应定向测试实现一致；不替代最终完整构建或真机验证",
+  "模块": [
+    {
+      "模块": "运行目录和沙箱",
+      "被测提交": "51dd76fc8d932a8cf402cbe892380787a9b1a8b7",
+      "范围": [
+        "codex-rs/uds",
+        "codex-rs/linux-sandbox",
+        "codex-rs/app-server-transport"
+      ],
+      "整合后变化文件": []
+    },
+    {
+      "模块": "别名与能力诊断",
+      "被测提交": "ed824dc928c1b43be393e95854091f4186fe989a",
+      "范围": [
+        "codex-rs/arg0",
+        "codex-rs/cli/src/doctor.rs",
+        "codex-rs/cli/src/doctor/capabilities.rs",
+        "codex-rs/cli/Cargo.toml"
+      ],
+      "整合后变化文件": []
+    },
+    {
+      "模块": "独立探针",
+      "被测提交": "f5cf25ebc0ac0df87a8a99e8e57e1f863e7c54eb",
+      "范围": [
+        "scripts/harmony_runtime_probe.c",
+        "scripts/harmony_runtime_probe_context.h",
+        "scripts/harmony_runtime_probe_sdk_check.cpp",
+        "scripts/test_harmony_runtime_probe.py"
+      ],
+      "整合后变化文件": []
+    }
+  ]
+}

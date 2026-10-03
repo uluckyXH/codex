@@ -1,0 +1,74 @@
+{
+  "归档": "鸿蒙Codex-0.160.0-dev.harmony.g913098105a40-未真机验证.tar.gz",
+  "压缩包摘要": "8f3322821d07e66ea3697bac2aadbd87137df7cece4e73aca655900ad92f2a28",
+  "清单文件数": 21,
+  "源码": "913098105a4025d620ddea39648339a0d592a212",
+  "版本": "0.160.0-dev.harmony.g913098105a40",
+  "程序": {
+    "bin/codex": {
+      "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/目录权限修复/独立包验收/鸿蒙Codex/bin/codex",
+      "字节数": 250623744,
+      "SHA-256": "df4d77def007c6070bda7031f8d1f0d3c11a2ee8e3329a59c6fe44f25005cdb9",
+      "架构": "AArch64",
+      "解释器": "/lib/ld-musl-aarch64.so.1",
+      "动态依赖": [
+        "libtime_service_ndk.so",
+        "libc.so"
+      ],
+      "OHOS标识": true,
+      "签名节存在": true,
+      "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+    },
+    "codex-path/rg": {
+      "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/目录权限修复/独立包验收/鸿蒙Codex/codex-path/rg",
+      "字节数": 4638464,
+      "SHA-256": "7272d96c1c584807cc4f0cf99bf830f381be2d35bd1ffd93842f054514953b02",
+      "架构": "AArch64",
+      "解释器": "/lib/ld-musl-aarch64.so.1",
+      "动态依赖": [
+        "libc.so"
+      ],
+      "OHOS标识": true,
+      "签名节存在": true,
+      "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+    },
+    "codex-resources/bwrap": {
+      "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/目录权限修复/独立包验收/鸿蒙Codex/codex-resources/bwrap",
+      "字节数": 423680,
+      "SHA-256": "b4df52de80db80b47e0aa8fe28d69c5f63aa27bc7bb57e6f9eba603d28cf3314",
+      "架构": "AArch64",
+      "解释器": "/lib/ld-musl-aarch64.so.1",
+      "动态依赖": [
+        "libc.so"
+      ],
+      "OHOS标识": true,
+      "签名节存在": true,
+      "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+    },
+    "codex-resources/harmony-runtime-probe": {
+      "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/目录权限修复/独立包验收/鸿蒙Codex/codex-resources/harmony-runtime-probe",
+      "字节数": 34496,
+      "SHA-256": "395ce3cfcc533ff3355e3311d56746260cd7c8eca2cafca4f850a81fb02b9222",
+      "架构": "AArch64",
+      "解释器": "/lib/ld-musl-aarch64.so.1",
+      "动态依赖": [
+        "libc.so"
+      ],
+      "OHOS标识": true,
+      "签名节存在": true,
+      "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+    }
+  },
+  "结果": [
+    "归档路径与普通文件校验通过",
+    "完整清单逐项 SHA256 通过",
+    "四个 OHOS ELF 与 SDK 签名信息检查通过",
+    "CLI 含冻结源码身份",
+    "包内 bwrap 与编入摘要一致",
+    "实际包安装到中文/空格/单引号路径通过",
+    "现有目录拒绝覆盖",
+    "终端启用幂等与撤销通过",
+    "Shell 路径解析通过"
+  ],
+  "设备运行": "未执行；没有运行登录、模型调用、目标 ELF 或用户认证文件测试"
+}

@@ -1,0 +1,6 @@
+10-03 17:56:21.126  INFO - Start display-sign
+10-03 17:56:21.137  INFO - ELF verification started for file: /Volumes/MacSSD/Repositories/codex/.harmony-build/目录权限修复/独立包验收/鸿蒙Codex/codex-resources/bwrap
+10-03 17:56:21.141  INFO - permission is not found
+10-03 17:56:21.141  INFO - code signature is self-sign
+10-03 17:56:21.141  INFO - verify: Self-sign signature
+10-03 17:56:21.141  INFO - display-sign success

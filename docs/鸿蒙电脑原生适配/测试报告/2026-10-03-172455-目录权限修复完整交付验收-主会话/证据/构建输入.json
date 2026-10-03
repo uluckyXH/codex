@@ -1,0 +1,29 @@
+{
+  "源码": {
+    "提交": "913098105a4025d620ddea39648339a0d592a212",
+    "工作区状态": "",
+    "工作区补丁摘要": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "新增文件摘要": {},
+    "时间": "2026-10-03T09:24:56.157302+00:00"
+  },
+  "版本": "0.160.0-dev.harmony.g913098105a40",
+  "版本来源": {
+    "工作区版本": "0.160.0-dev",
+    "官方参考标签": "rust-v0.160.0",
+    "官方参考提交": "a956835d020762cb2b570053af06f643a11c0ecc",
+    "上游源码提交": "a20fe6335f960a350483d0079db2ec281c68202c",
+    "共同祖先": "c248f6d48b97eb4a2aa56147a0b11b7d763278b9",
+    "版本类型": "主线开发快照的鸿蒙适配版，不等同于官方稳定版",
+    "核对日期": "2026-10-03"
+  },
+  "沙箱摘要": "b4df52de80db80b47e0aa8fe28d69c5f63aa27bc7bb57e6f9eba603d28cf3314",
+  "构建目录": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译",
+  "目标": "aarch64-unknown-linux-ohos",
+  "Rust": "1.95.0",
+  "SDK": "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native",
+  "受保护运行根契约": {
+    "编译时固定候选": "/data/storage/el2/base/files",
+    "环境变量回退": false,
+    "设备验证": "待同一鸿蒙 PC 验证目录身份、权限、生命周期与隔离；不保证路径可用"
+  }
+}

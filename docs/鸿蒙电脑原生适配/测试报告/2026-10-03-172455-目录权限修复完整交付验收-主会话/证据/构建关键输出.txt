@@ -1,0 +1,45 @@
+   |          --------------- variants in this enum
+12 |     ClipboardUnavailable(String),
+13 |     NoImage(String),
+   |     ^^^^^^^
+14 |     EncodeFailed(String),
+   |     ^^^^^^^^^^^^
+15 |     IoError(String),
+   |     ^^^^^^^
+   |
+   = note: `PasteImageError` has derived impls for the traits `Clone` and `Debug`, but these are intentionally ignored during dead code analysis
+   = note: `#[warn(dead_code)]` (part of `#[warn(unused)]`) on by default
+
+warning: function `paste_image_as_png` is never used
+   --> tui/src/clipboard_paste.rs:125:8
+    |
+125 | pub fn paste_image_as_png() -> Result<(Vec<u8>, PastedImageInfo), PasteImageError> {
+    |        ^^^^^^^^^^^^^^^^^^
+
+warning: `codex-app-server` (lib) generated 1 warning (run `cargo fix --lib -p codex-app-server` to apply 1 suggestion)
+   Compiling codex-cloud-tasks v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/codex-rs/cloud-tasks)
+warning: unused import: `codex_http_client::HttpClientFactory`
+  --> cloud-tasks/src/lib.rs:16:5
+   |
+16 | use codex_http_client::HttpClientFactory;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `codex_http_client::OutboundProxyPolicy`
+  --> cloud-tasks/src/lib.rs:17:5
+   |
+17 | use codex_http_client::OutboundProxyPolicy;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `codex-cloud-tasks` (lib) generated 2 warnings (run `cargo fix --lib -p codex-cloud-tasks` to apply 2 suggestions)
+   Compiling codex-exec v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/codex-rs/exec)
+warning: `codex-tui` (lib) generated 2 warnings
+    Finished `release` profile [optimized + debuginfo] target(s) in 30m 17s
+build 成功；产物与缓存目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译
+此结果不代表已签名或通过鸿蒙 PC 真机验证。
+执行：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-strip --strip-unneeded '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/target/aarch64-unknown-linux-ohos/release/codex' -o '/Volumes/MacSSD/Repositories/codex/releases/2026-10-03-鸿蒙Codex-目录权限修复候选/已签名/codex-未签名'
+执行：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/clang --target=aarch64-linux-ohos --sysroot=/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot -D__MUSL__ -Wall -Wextra -Werror -x c++ -std=c++17 -fsyntax-only /Volumes/MacSSD/Repositories/codex/scripts/harmony_runtime_probe_sdk_check.cpp
+执行：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/clang --target=aarch64-linux-ohos --sysroot=/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/sysroot -D__MUSL__ -std=c11 -Wall -Wextra -Werror -O2 -fPIE -pie '-DCODEX_HARMONY_BUILD_ID="913098105a4025d620ddea39648339a0d592a212"' '-DCODEX_HARMONY_VERSION="0.160.0-dev.harmony.g913098105a40"' /Volumes/MacSSD/Repositories/codex/scripts/harmony_runtime_probe.c -ldl -o '/Volumes/MacSSD/Repositories/codex/releases/2026-10-03-鸿蒙Codex-目录权限修复候选/探针编译/harmony-runtime-probe'
+执行：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native/llvm/bin/llvm-strip --strip-unneeded '/Volumes/MacSSD/Repositories/codex/releases/2026-10-03-鸿蒙Codex-目录权限修复候选/探针编译/harmony-runtime-probe' -o '/Volumes/MacSSD/Repositories/codex/releases/2026-10-03-鸿蒙Codex-目录权限修复候选/已签名/harmony-runtime-probe-未签名'
+候选包制作完成：/Volumes/MacSSD/Repositories/codex/releases/2026-10-03-鸿蒙Codex-目录权限修复候选/鸿蒙Codex-0.160.0-dev.harmony.g913098105a40-未真机验证.tar.gz；商业鸿蒙 PC 运行待验收
