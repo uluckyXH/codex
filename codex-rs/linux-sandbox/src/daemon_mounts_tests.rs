@@ -2,6 +2,307 @@ use super::*;
 use pretty_assertions::assert_eq;
 use test_case::test_case;
 
+// Synthetic data informed by the summary report, not a replay of a device
+// mount table. No original Rust-process mountinfo or statx dump was received.
+fn synthetic_ohos_identity() -> (DirectoryIdentity, StatxIdentity) {
+    (
+        DirectoryIdentity {
+            inode: 362362,
+            mode: 0o40700,
+            uid: 20020101,
+            gid: 20020101,
+        },
+        StatxIdentity {
+            inode: Some(362362),
+            mode: Some(0o40700),
+            uid: Some(20020101),
+            gid: Some(20020101),
+            mount_id: Some(3996),
+            device: "0:66699".to_owned(),
+        },
+    )
+}
+
+const SYNTHETIC_OHOS_DIRECTORY: &str = "/data/storage/el2/base/files/c01317b85/a";
+const SYNTHETIC_OHOS_MOUNTS: &str = "1 0 8:1 / / rw - ext4 system rw\n3996 1 0:66699 / /data/storage/el2/base rw - hmfs storage rw\n";
+
+#[test]
+fn synthetic_ohos_statx_identity_resolves_device_encoding_without_losing_aliases() {
+    let directory = Path::new(SYNTHETIC_OHOS_DIRECTORY);
+    let legacy = check_mounts(
+        directory,
+        "260:139",
+        Some("3996"),
+        SYNTHETIC_OHOS_MOUNTS.as_bytes(),
+    )
+    .unwrap_err();
+    assert!(legacy.to_string().contains("reason=device-mismatch"));
+    assert!(
+        legacy
+            .to_string()
+            .contains("expected=260:139 observed=0:66699")
+    );
+    let (metadata, statx) = synthetic_ohos_identity();
+    let (device, mount_id) = ohos_mount_identity(metadata, Ok(Some(3996)), Ok(statx)).unwrap();
+    let mounts =
+        format!("{SYNTHETIC_OHOS_MOUNTS}5000 1 0:66699 / /storage-alias rw - hmfs storage rw\n");
+    assert_eq!(
+        check_mounts(
+            directory,
+            &device,
+            Some(&mount_id.to_string()),
+            mounts.as_bytes()
+        )
+        .unwrap(),
+        BTreeSet::from([
+            directory.to_path_buf(),
+            PathBuf::from("/storage-alias/files/c01317b85/a")
+        ])
+    );
+    // The alternative source does not authorize a second device mismatch.
+    let conflict = mounts.replace("0:66699", "0:66700");
+    assert!(
+        check_mounts(directory, &device, Some("3996"), conflict.as_bytes())
+            .unwrap_err()
+            .to_string()
+            .contains("reason=device-mismatch")
+    );
+}
+
+#[test_case("inode"; "missing inode")]
+#[test_case("mode"; "missing type or mode")]
+#[test_case("uid"; "missing uid")]
+#[test_case("gid"; "missing gid")]
+#[test_case("mount"; "missing mount id")]
+fn ohos_statx_missing_fields_cannot_authorize_identity(field: &str) {
+    let (metadata, mut statx) = synthetic_ohos_identity();
+    match field {
+        "inode" => statx.inode = None,
+        "mode" => statx.mode = None,
+        "uid" => statx.uid = None,
+        "gid" => statx.gid = None,
+        "mount" => statx.mount_id = None,
+        _ => unreachable!(),
+    }
+    assert!(
+        ohos_mount_identity(metadata, Ok(Some(3996)), Ok(statx))
+            .unwrap_err()
+            .to_string()
+            .contains("reason=statx-fields-missing")
+    );
+}
+
+#[test_case("inode"; "inode conflict")]
+#[test_case("mode"; "mode conflict")]
+#[test_case("uid"; "uid conflict")]
+#[test_case("gid"; "gid conflict")]
+#[test_case("type"; "not a directory")]
+fn ohos_statx_conflicting_identity_is_rejected(field: &str) {
+    let (mut metadata, mut statx) = synthetic_ohos_identity();
+    match field {
+        "inode" => statx.inode = Some(1),
+        "mode" => statx.mode = Some(0o40750),
+        "uid" => statx.uid = Some(1),
+        "gid" => statx.gid = Some(1),
+        "type" => {
+            metadata.mode = 0o100700;
+            statx.mode = Some(metadata.mode);
+        }
+        _ => unreachable!(),
+    }
+    assert!(
+        ohos_mount_identity(metadata, Ok(Some(3996)), Ok(statx))
+            .unwrap_err()
+            .to_string()
+            .contains("reason=statx-identity-conflict")
+    );
+}
+
+#[test]
+fn ohos_identity_requires_both_mount_id_sources_and_available_statx() {
+    let (metadata, statx) = synthetic_ohos_identity();
+    for id in [0, 3997] {
+        let mut conflicting = statx.clone();
+        conflicting.mount_id = Some(id);
+        assert!(
+            ohos_mount_identity(metadata, Ok(Some(3996)), Ok(conflicting))
+                .unwrap_err()
+                .to_string()
+                .contains("reason=statx-mount-id-conflict")
+        );
+    }
+    assert!(
+        ohos_mount_identity(metadata, Ok(None), Ok(statx.clone()))
+            .unwrap_err()
+            .to_string()
+            .contains("reason=fdinfo-mount-id-missing")
+    );
+    assert!(
+        ohos_mount_identity(metadata, Err(invalid("fdinfo-read", "denied")), Ok(statx))
+            .unwrap_err()
+            .to_string()
+            .contains("reason=fdinfo-read")
+    );
+    assert!(
+        ohos_mount_identity(
+            metadata,
+            Ok(Some(3996)),
+            Err(io::Error::from_raw_os_error(38))
+        )
+        .unwrap_err()
+        .to_string()
+        .contains("reason=statx-unavailable")
+    );
+}
+
+#[test_case("5000 1 0:66699 /files/c01317b85/a /direct rw - hmfs storage rw\n", "direct-bind-alias"; "directory alias")]
+#[test_case("5000 1 0:66699 /files/c01317b85/a/rpc /socket rw - hmfs storage rw\n", "direct-bind-alias"; "socket alias")]
+#[test_case("5000 3996 0:5 / /data/storage/el2/base/files/c01317b85/a/child rw - tmpfs tmpfs rw\n", "nested-mount"; "nested other filesystem")]
+#[test_case("5000 3996 0:66699 /other /data/storage/el2/base rw - hmfs storage rw\n", "mount-covered"; "covered selected mount")]
+#[test_case("3996 1 0:66699 / /duplicate rw - hmfs storage rw\n", "mount-id-duplicate"; "duplicate selected id")]
+fn synthetic_ohos_identity_retains_mount_rejections(extra: &str, reason: &str) {
+    let (metadata, statx) = synthetic_ohos_identity();
+    let (device, mount_id) = ohos_mount_identity(metadata, Ok(Some(3996)), Ok(statx)).unwrap();
+    let mounts = format!("{SYNTHETIC_OHOS_MOUNTS}{extra}");
+    let error = check_mounts(
+        Path::new(SYNTHETIC_OHOS_DIRECTORY),
+        &device,
+        Some(&mount_id.to_string()),
+        mounts.as_bytes(),
+    )
+    .unwrap_err();
+    assert!(
+        error.to_string().contains(&format!("reason={reason}")),
+        "{error}"
+    );
+}
+
+#[test]
+fn malformed_tables_and_unrelated_duplicate_ids_have_specific_rejections() {
+    let directory = Path::new(SYNTHETIC_OHOS_DIRECTORY);
+    for malformed in [
+        "1 0 0:1 / /",
+        "1 0 0:1 / / rw - hmfs",
+        "bad 0 0:1 / / rw - hmfs dev rw",
+        "1 0 nope / / rw - hmfs dev rw",
+    ] {
+        assert!(
+            check_mounts(directory, "0:1", Some("1"), malformed.as_bytes())
+                .unwrap_err()
+                .to_string()
+                .contains("reason=mountinfo-parse")
+        );
+    }
+    let duplicate = format!(
+        "{SYNTHETIC_OHOS_MOUNTS}2 1 0:8 / /other rw - tmpfs tmpfs rw\n2 1 0:9 / /unrelated rw - tmpfs tmpfs rw\n"
+    );
+    assert!(
+        check_mounts(directory, "0:66699", Some("3996"), duplicate.as_bytes())
+            .unwrap_err()
+            .to_string()
+            .contains("reason=mount-id-duplicate")
+    );
+    assert!(
+        check_mounts(
+            directory,
+            "0:66699",
+            Some("3997"),
+            SYNTHETIC_OHOS_MOUNTS.as_bytes()
+        )
+        .unwrap_err()
+        .to_string()
+        .contains("reason=mount-id-not-found")
+    );
+}
+
+#[test]
+fn fdinfo_requires_one_complete_positive_mount_id() {
+    for bytes in [
+        b"mnt_id:\t0\n".as_slice(),
+        b"mnt_id: bad\n",
+        b"mnt_id: 1\nmnt_id: 1\n",
+    ] {
+        assert!(
+            fdinfo_mount_id(&Captured {
+                bytes: bytes.to_vec(),
+                truncated: false
+            })
+            .is_err()
+        );
+    }
+    assert_eq!(
+        fdinfo_mount_id(&Captured {
+            bytes: b"pos:\t0\nmnt_id:\t3996\n".to_vec(),
+            truncated: false
+        })
+        .unwrap(),
+        Some(3996)
+    );
+    assert_eq!(
+        fdinfo_mount_id(&Captured {
+            bytes: b"pos: 0\n".to_vec(),
+            truncated: false
+        })
+        .unwrap(),
+        None
+    );
+    assert!(
+        fdinfo_mount_id(&Captured {
+            bytes: b"mnt_id: 3996\n".to_vec(),
+            truncated: true
+        })
+        .is_err()
+    );
+}
+
+#[test]
+fn diagnostics_are_bounded_lossless_and_cannot_inject_log_lines() {
+    let bytes = b"line\\040with space\n\"\\\xff\x1b[31m\r[codex-mount] forged";
+    let capture = read_bounded(bytes.as_slice(), bytes.len()).unwrap();
+    assert!(!capture.truncated);
+    let mut output = Vec::new();
+    write_capture(&mut output, "aliases", "mountinfo", &capture).unwrap();
+    let text = String::from_utf8(output).unwrap();
+    assert_eq!(text.lines().count(), 3);
+    assert!(text.contains("stage=mountinfo-begin"));
+    assert!(text.contains("stage=mountinfo-end"));
+    assert!(text.contains("truncated=false"));
+    assert!(text.contains("\\xff\\x1b[31m\\r[codex-mount] forged"));
+    assert!(!text.contains('\x1b'));
+    let oversized = vec![b'x'; MOUNTINFO_LIMIT + 1];
+    let capture = read_bounded(oversized.as_slice(), MOUNTINFO_LIMIT).unwrap();
+    assert!(capture.truncated);
+    assert_eq!(capture.bytes.len(), MOUNTINFO_LIMIT);
+    let mut output = Vec::new();
+    write_capture(&mut output, "control-sockets", "mountinfo", &capture).unwrap();
+    let text = String::from_utf8(output).unwrap();
+    assert!(text.ends_with("truncated=true\n"));
+    assert!(
+        text.lines()
+            .all(|line| line.contains("purpose=control-sockets"))
+    );
+}
+
+#[test]
+fn changing_or_unreadable_namespace_is_rejected() {
+    assert!(check_namespace(Ok("mnt:[1]".into()), Ok("mnt:[1]".into())).is_ok());
+    assert!(
+        check_namespace(Ok("mnt:[1]".into()), Ok("mnt:[2]".into()))
+            .unwrap_err()
+            .to_string()
+            .contains("reason=namespace-changed")
+    );
+    assert!(
+        check_namespace(
+            Err(io::Error::from(io::ErrorKind::PermissionDenied)),
+            Ok("mnt:[1]".into())
+        )
+        .unwrap_err()
+        .to_string()
+        .contains("reason=namespace-read")
+    );
+}
+
 // Most cases have no independently masked subtree.
 fn check_mounts(
     directory: &Path,

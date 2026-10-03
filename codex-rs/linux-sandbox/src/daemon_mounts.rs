@@ -14,11 +14,17 @@ use std::collections::BTreeSet;
 #[cfg(target_os = "linux")]
 use std::fs;
 use std::io;
+use std::io::Read;
+use std::io::Write;
 #[cfg(target_os = "linux")]
 use std::os::fd::AsRawFd;
+#[cfg(target_os = "linux")]
+use std::os::unix::ffi::OsStrExt;
 use std::os::unix::ffi::OsStringExt;
 #[cfg(target_os = "linux")]
 use std::os::unix::fs::MetadataExt;
+#[cfg(target_os = "linux")]
+use std::os::unix::fs::OpenOptionsExt;
 use std::path::Path;
 use std::path::PathBuf;
 
@@ -28,46 +34,387 @@ enum SocketFilesystem {
     Other,
 }
 
+const MOUNTINFO_LIMIT: usize = 1024 * 1024;
+
+fn invalid(reason: &str, detail: impl std::fmt::Display) -> io::Error {
+    io::Error::other(format!(
+        "cannot establish runtime mount isolation: reason={reason} {detail}"
+    ))
+}
+
+fn escaped(bytes: &[u8]) -> String {
+    bytes
+        .iter()
+        .flat_map(|byte| std::ascii::escape_default(*byte))
+        .map(char::from)
+        .collect()
+}
+
+struct Captured {
+    bytes: Vec<u8>,
+    truncated: bool,
+}
+
+fn read_bounded(reader: impl Read, limit: usize) -> io::Result<Captured> {
+    let mut bytes = Vec::new();
+    reader.take(limit as u64 + 1).read_to_end(&mut bytes)?;
+    let truncated = bytes.len() > limit;
+    bytes.truncate(limit);
+    Ok(Captured { bytes, truncated })
+}
+
+struct MountDiagnostics {
+    enabled: bool,
+    purpose: &'static str,
+}
+
+impl MountDiagnostics {
+    fn event(&self, stage: &str, detail: impl std::fmt::Display) {
+        if self.enabled {
+            // Diagnostics must not turn a broken stderr pipe into a panic.
+            let _ = writeln!(
+                io::stderr().lock(),
+                "[codex-mount] pid={} purpose={} stage={stage} {detail}",
+                std::process::id(),
+                self.purpose
+            );
+        }
+    }
+
+    #[cfg(target_os = "linux")]
+    fn capture(&self, name: &str, result: &io::Result<Captured>) {
+        if !self.enabled {
+            return;
+        }
+        match result {
+            Ok(capture) => {
+                let _ = write_capture(&mut io::stderr().lock(), self.purpose, name, capture);
+            }
+            Err(error) => self.event(
+                name,
+                format_args!(
+                    "status=error errno={:?} error=\"{}\"",
+                    error.raw_os_error(),
+                    escaped(error.to_string().as_bytes())
+                ),
+            ),
+        }
+    }
+}
+
+fn write_capture(
+    writer: &mut impl Write,
+    purpose: &str,
+    name: &str,
+    capture: &Captured,
+) -> io::Result<()> {
+    let prefix = format!("[codex-mount] pid={} purpose={purpose}", std::process::id());
+    writeln!(
+        writer,
+        "{prefix} stage={name}-begin captured_bytes={} truncated={} encoding=ascii-escape",
+        capture.bytes.len(),
+        capture.truncated
+    )?;
+    for (index, chunk) in capture.bytes.chunks(1024).enumerate() {
+        writeln!(
+            writer,
+            "{prefix} stage={name}-data offset={} data=\"{}\"",
+            index * 1024,
+            escaped(chunk)
+        )?;
+    }
+    writeln!(
+        writer,
+        "{prefix} stage={name}-end captured_bytes={} truncated={}",
+        capture.bytes.len(),
+        capture.truncated
+    )
+}
+
+fn fdinfo_mount_id(capture: &Captured) -> io::Result<Option<u64>> {
+    if capture.truncated {
+        return Err(invalid("fdinfo-truncated", "mount ID unavailable"));
+    }
+    let mut id = None;
+    for value in capture
+        .bytes
+        .split(|byte| *byte == b'\n')
+        .filter_map(|line| line.strip_prefix(b"mnt_id:"))
+    {
+        let parsed = std::str::from_utf8(value)
+            .ok()
+            .and_then(|value| value.trim().parse::<u64>().ok())
+            .filter(|id| *id != 0)
+            .ok_or_else(|| invalid("fdinfo-mount-id-invalid", "expected a positive integer"))?;
+        if id.replace(parsed).is_some() {
+            return Err(invalid(
+                "fdinfo-mount-id-duplicate",
+                "multiple mnt_id fields",
+            ));
+        }
+    }
+    Ok(id)
+}
+
+#[cfg(any(target_env = "ohos", test))]
+#[derive(Clone, Copy)]
+struct DirectoryIdentity {
+    inode: u64,
+    mode: u32,
+    uid: u32,
+    gid: u32,
+}
+
+#[cfg(any(target_env = "ohos", test))]
+#[derive(Clone)]
+struct StatxIdentity {
+    inode: Option<u64>,
+    mode: Option<u32>,
+    uid: Option<u32>,
+    gid: Option<u32>,
+    mount_id: Option<u64>,
+    device: String,
+}
+
+#[cfg(any(target_env = "ohos", test))]
+fn ohos_mount_identity(
+    metadata: DirectoryIdentity,
+    fdinfo: io::Result<Option<u64>>,
+    statx: io::Result<StatxIdentity>,
+) -> io::Result<(String, u64)> {
+    let stat = statx.map_err(|error| invalid("statx-unavailable", error))?;
+    let (Some(inode), Some(mode), Some(uid), Some(gid), Some(mount_id)) =
+        (stat.inode, stat.mode, stat.uid, stat.gid, stat.mount_id)
+    else {
+        return Err(invalid(
+            "statx-fields-missing",
+            "require TYPE MODE UID GID INO MNT_ID",
+        ));
+    };
+    if metadata.mode & 0o170000 != 0o040000
+        || inode != metadata.inode
+        || mode != metadata.mode
+        || uid != metadata.uid
+        || gid != metadata.gid
+    {
+        return Err(invalid(
+            "statx-identity-conflict",
+            "inode/type/mode/uid/gid differ from the same FD metadata",
+        ));
+    }
+    let fd_mount_id = fdinfo?.ok_or_else(|| {
+        invalid(
+            "fdinfo-mount-id-missing",
+            "OHOS requires an independent mount ID",
+        )
+    })?;
+    if mount_id == 0 || mount_id != fd_mount_id {
+        return Err(invalid(
+            "statx-mount-id-conflict",
+            format_args!("fdinfo={fd_mount_id} statx={mount_id}"),
+        ));
+    }
+    Ok((stat.device, mount_id))
+}
+
+#[cfg(any(target_env = "ohos", test))]
+fn check_namespace(before: io::Result<PathBuf>, after: io::Result<PathBuf>) -> io::Result<()> {
+    let before = before.map_err(|error| invalid("namespace-read", error))?;
+    let after = after.map_err(|error| invalid("namespace-read", error))?;
+    if before != after {
+        return Err(invalid(
+            "namespace-changed",
+            "mount namespace changed during observation",
+        ));
+    }
+    Ok(())
+}
+
 #[cfg(target_os = "linux")]
 pub(crate) fn daemon_socket_mask_paths(
     directory: &Path,
     masked_root: Option<&Path>,
+    purpose: &'static str,
 ) -> io::Result<BTreeSet<PathBuf>> {
-    let directory_file = fs::File::open(directory)?;
-    let device = directory_file.metadata()?.dev();
-    let filesystem =
-        if fstatfs(&directory_file).is_ok_and(|stat| stat.f_type == libc::BTRFS_SUPER_MAGIC) {
+    let diagnostics = MountDiagnostics {
+        enabled: std::env::var_os("CODEX_HARMONY_PROCESS_DIAGNOSTICS")
+            .is_some_and(|value| value == "1"),
+        purpose,
+    };
+    diagnostics.event(
+        "begin",
+        format_args!(
+            "path=\"{}\" euid={} build=\"{}\"",
+            escaped(directory.as_os_str().as_bytes()),
+            unsafe { libc::geteuid() },
+            escaped(
+                option_env!("CODEX_HARMONY_BUILD_ID")
+                    .unwrap_or("unknown")
+                    .as_bytes()
+            )
+        ),
+    );
+    let result = inspect_directory_mounts(directory, masked_root, &diagnostics);
+    match &result {
+        Ok(paths) => diagnostics.event("accepted", format_args!("mask_paths={paths:?}")),
+        Err(error) => diagnostics.event(
+            "rejected",
+            format_args!("error=\"{}\"", escaped(error.to_string().as_bytes())),
+        ),
+    }
+    result.map_err(|error| {
+        io::Error::new(
+            error.kind(),
+            format!(
+                "mount isolation purpose={purpose} path=\"{}\": {error}",
+                escaped(directory.as_os_str().as_bytes())
+            ),
+        )
+    })
+}
+
+#[cfg(target_os = "linux")]
+fn inspect_directory_mounts(
+    directory: &Path,
+    masked_root: Option<&Path>,
+    diagnostics: &MountDiagnostics,
+) -> io::Result<BTreeSet<PathBuf>> {
+    let directory_file = fs::File::options()
+        .read(true)
+        .custom_flags(libc::O_DIRECTORY | libc::O_NOFOLLOW | libc::O_CLOEXEC)
+        .open(directory)
+        .map_err(|error| invalid("open-directory", error))?;
+    let metadata = directory_file
+        .metadata()
+        .map_err(|error| invalid("metadata", error))?;
+    let device = format!(
+        "{}:{}",
+        libc::major(metadata.dev()),
+        libc::minor(metadata.dev())
+    );
+    diagnostics.event(
+        "metadata",
+        format_args!(
+            "fd={} dev={} dev_hex={:#x} decoded_device={device} ino={} uid={} gid={} mode={:#o}",
+            directory_file.as_raw_fd(),
+            metadata.dev(),
+            metadata.dev(),
+            metadata.ino(),
+            metadata.uid(),
+            metadata.gid(),
+            metadata.mode()
+        ),
+    );
+    let namespace_before = fs::read_link("/proc/self/ns/mnt");
+    diagnostics.event(
+        "namespace-before",
+        format_args!("result={namespace_before:?}"),
+    );
+    let fdinfo = fs::File::open(format!("/proc/self/fdinfo/{}", directory_file.as_raw_fd()))
+        .and_then(|file| read_bounded(file, 64 * 1024));
+    diagnostics.capture("fdinfo", &fdinfo);
+    let fd_mount_id = fdinfo
+        .as_ref()
+        .map_err(|error| invalid("fdinfo-read", error))
+        .and_then(fdinfo_mount_id);
+    diagnostics.event("fdinfo-id", format_args!("result={fd_mount_id:?}"));
+    let stat = statx(
+        &directory_file,
+        "",
+        AtFlags::EMPTY_PATH,
+        StatxFlags::BASIC_STATS | StatxFlags::MNT_ID,
+    );
+    match &stat {
+        Ok(stat) => diagnostics.event("statx", format_args!("flags={:#x} requested_mask={:#x} returned_mask={:#x} dev_major={} dev_minor={} ino={} mode={:#o} uid={} gid={} mount_id={} mount_id_valid={}", AtFlags::EMPTY_PATH.bits(), (StatxFlags::BASIC_STATS | StatxFlags::MNT_ID).bits(), stat.stx_mask, stat.stx_dev_major, stat.stx_dev_minor, stat.stx_ino, stat.stx_mode, stat.stx_uid, stat.stx_gid, stat.stx_mnt_id, stat.stx_mask & StatxFlags::MNT_ID.bits() != 0)),
+        Err(error) => diagnostics.event("statx", format_args!("requested_mask={:#x} errno={} error={error}", (StatxFlags::BASIC_STATS | StatxFlags::MNT_ID).bits(), error.raw_os_error())),
+    }
+    let filesystem_stat = fstatfs(&directory_file);
+    match &filesystem_stat {
+        Ok(stat) => diagnostics.event("fstatfs", format_args!("type={:#x}", stat.f_type)),
+        Err(error) => diagnostics.event(
+            "fstatfs",
+            format_args!("errno={} error={error}", error.raw_os_error()),
+        ),
+    }
+    let mountinfo =
+        fs::File::open("/proc/self/mountinfo").and_then(|file| read_bounded(file, MOUNTINFO_LIMIT));
+    diagnostics.capture("mountinfo", &mountinfo);
+    let namespace_after = fs::read_link("/proc/self/ns/mnt");
+    diagnostics.event(
+        "namespace-after",
+        format_args!("result={namespace_after:?}"),
+    );
+    let mountinfo = mountinfo.map_err(|error| invalid("mountinfo-read", error))?;
+    if mountinfo.truncated {
+        return Err(invalid(
+            "mountinfo-truncated",
+            format_args!("limit={MOUNTINFO_LIMIT}"),
+        ));
+    }
+    #[cfg(target_env = "ohos")]
+    let (device, mount_id, filesystem) = {
+        check_namespace(namespace_before, namespace_after)?;
+        let (device, mount_id) = ohos_mount_identity(
+            DirectoryIdentity {
+                inode: metadata.ino(),
+                mode: metadata.mode(),
+                uid: metadata.uid(),
+                gid: metadata.gid(),
+            },
+            fd_mount_id,
+            stat.map(|stat| {
+                let has = |flags: StatxFlags| stat.stx_mask & flags.bits() == flags.bits();
+                StatxIdentity {
+                    inode: has(StatxFlags::INO).then_some(stat.stx_ino),
+                    mode: has(StatxFlags::TYPE | StatxFlags::MODE)
+                        .then_some(u32::from(stat.stx_mode)),
+                    uid: has(StatxFlags::UID).then_some(stat.stx_uid),
+                    gid: has(StatxFlags::GID).then_some(stat.stx_gid),
+                    mount_id: has(StatxFlags::MNT_ID).then_some(stat.stx_mnt_id),
+                    device: format!("{}:{}", stat.stx_dev_major, stat.stx_dev_minor),
+                }
+            })
+            .map_err(io::Error::from),
+        )?;
+        // OHOS uses the explicit, cross-checked statx identity, not a filesystem
+        // name exception. The selected mountinfo device must match exactly.
+        diagnostics.event(
+            "identity",
+            format_args!("source=statx-verified device={device} mount_id={mount_id}"),
+        );
+        (device, Some(mount_id.to_string()), SocketFilesystem::Other)
+    };
+    #[cfg(not(target_env = "ohos"))]
+    let (device, mount_id, filesystem) = {
+        let mount_id = fd_mount_id
+            .ok()
+            .flatten()
+            .or_else(|| {
+                stat.ok()
+                    .filter(|stat| stat.stx_mask & StatxFlags::MNT_ID.bits() != 0)
+                    .map(|stat| stat.stx_mnt_id)
+            })
+            .map(|id| id.to_string());
+        let filesystem = if filesystem_stat.is_ok_and(|stat| stat.f_type == libc::BTRFS_SUPER_MAGIC)
+        {
             SocketFilesystem::Btrfs
         } else {
             SocketFilesystem::Other
         };
-    let mount_id = fs::read_to_string(format!("/proc/self/fdinfo/{}", directory_file.as_raw_fd()))
-        .ok()
-        .and_then(|fdinfo| {
-            fdinfo
-                .lines()
-                .find_map(|line| line.strip_prefix("mnt_id:"))
-                .and_then(|id| id.trim().parse::<u64>().ok())
-        })
-        .or_else(|| {
-            // Query the same open directory, using the ID shared with mountinfo.
-            // Older kernels may succeed without returning the requested field.
-            statx(&directory_file, "", AtFlags::EMPTY_PATH, StatxFlags::MNT_ID)
-                .ok()
-                .filter(|stat| stat.stx_mask & StatxFlags::MNT_ID.bits() != 0)
-                .map(|stat| stat.stx_mnt_id)
-        })
-        .map(|id| id.to_string());
-    check_mounts(
+        (device, mount_id, filesystem)
+    };
+    check_mounts_observed(
         directory,
-        &format!("{}:{}", libc::major(device), libc::minor(device)),
+        &device,
         filesystem,
         mount_id.as_deref(),
-        &fs::read("/proc/self/mountinfo")?,
+        &mountinfo.bytes,
         masked_root,
+        diagnostics,
     )
 }
 
+#[cfg(test)]
 fn check_mounts(
     directory: &Path,
     device: &str,
@@ -76,22 +423,77 @@ fn check_mounts(
     mountinfo: &[u8],
     masked_root: Option<&Path>,
 ) -> io::Result<BTreeSet<PathBuf>> {
-    let invalid = || io::Error::other("cannot establish app-server socket mount isolation");
+    check_mounts_observed(
+        directory,
+        device,
+        filesystem,
+        mount_id,
+        mountinfo,
+        masked_root,
+        &MountDiagnostics {
+            enabled: false,
+            purpose: "test",
+        },
+    )
+}
+
+fn check_mounts_observed(
+    directory: &Path,
+    device: &str,
+    filesystem: SocketFilesystem,
+    mount_id: Option<&str>,
+    mountinfo: &[u8],
+    masked_root: Option<&Path>,
+    diagnostics: &MountDiagnostics,
+) -> io::Result<BTreeSet<PathBuf>> {
     let mut mounts = Vec::new();
-    for line in mountinfo
+    let mut ids = BTreeSet::new();
+    for (line_number, line) in mountinfo
         .split(|byte| *byte == b'\n')
         .filter(|line| !line.is_empty())
+        .enumerate()
     {
-        let mut fields = line.split(|byte| *byte == b' ');
-        let prefix: Vec<_> = fields.by_ref().take(5).collect();
-        let [id, parent, mount_device, root, destination] = prefix.as_slice() else {
-            return Err(invalid());
+        let fields: Vec<_> = line.split(|byte| *byte == b' ').collect();
+        let separator = fields.iter().position(|field| *field == b"-");
+        let parse_error = || invalid("mountinfo-parse", format_args!("line={}", line_number + 1));
+        let Some(separator) = separator.filter(|index| *index >= 6 && fields.len() == *index + 4)
+        else {
+            return Err(parse_error());
         };
-        let destination = mount_path(destination)?;
-        let mount_filesystem = fields
-            .skip_while(|field| *field != b"-")
-            .nth(1)
-            .ok_or_else(invalid)?;
+        if fields.iter().any(|field| field.is_empty()) {
+            return Err(parse_error());
+        }
+        let [id, parent, mount_device, root, destination] = &fields[..5] else {
+            unreachable!()
+        };
+        let number = |bytes: &[u8]| {
+            std::str::from_utf8(bytes)
+                .ok()
+                .and_then(|value| value.parse::<u64>().ok())
+                .filter(|value| value.to_string().as_bytes() == bytes)
+        };
+        if number(id).is_none_or(|id| id == 0)
+            || number(parent).is_none()
+            || mount_device.split(|byte| *byte == b':').count() != 2
+            || mount_device
+                .split(|byte| *byte == b':')
+                .any(|part| number(part).is_none_or(|value| value > u64::from(u32::MAX)))
+        {
+            return Err(parse_error());
+        }
+        if !ids.insert(*id) {
+            return Err(invalid(
+                "mount-id-duplicate",
+                format_args!("id={}", escaped(id)),
+            ));
+        }
+        let destination = mount_path(destination).map_err(|error| {
+            invalid(
+                "mount-destination-invalid",
+                format_args!("line={} {error}", line_number + 1),
+            )
+        })?;
+        let mount_filesystem = fields[separator + 1];
         mounts.push((
             *id,
             *parent,
@@ -107,13 +509,12 @@ fn check_mounts(
                 .iter()
                 .enumerate()
                 .filter(|(_, (id, ..))| *id == mount_id.as_bytes());
-            let (index, (_, _, mount_device, _, _, mount_filesystem)) =
-                matching.next().ok_or_else(invalid)?;
-            if matching.next().is_some()
-                || (*mount_device != device.as_bytes()
-                    && (filesystem != SocketFilesystem::Btrfs || *mount_filesystem != b"btrfs"))
-            {
-                return Err(invalid());
+            let (index, (id, parent, mount_device, root, destination, mount_filesystem)) =
+                matching.next().ok_or_else(|| invalid("mount-id-not-found", format_args!("id={mount_id}")))?;
+            diagnostics.event("selected-mount", format_args!("id={} parent={} device={} root=\"{}\" destination={destination:?} filesystem=\"{}\"", escaped(id), escaped(parent), escaped(mount_device), escaped(root), escaped(mount_filesystem)));
+            if *mount_device != device.as_bytes()
+                && (filesystem != SocketFilesystem::Btrfs || *mount_filesystem != b"btrfs") {
+                return Err(invalid("device-mismatch", format_args!("id={mount_id} expected={device} observed={} filesystem=\"{}\"", escaped(mount_device), escaped(mount_filesystem))));
             }
             Ok(index)
         })
@@ -132,7 +533,13 @@ fn check_mounts(
             // their destinations still matter for ancestry and nested-mount checks.
             let root = (candidate_device == device.as_bytes() || candidate_device == mount_device)
                 .then(|| mount_path(root))
-                .transpose()?;
+                .transpose()
+                .map_err(|error| {
+                    invalid(
+                        "mount-root-invalid",
+                        format_args!("id={} {error}", escaped(id)),
+                    )
+                })?;
             Ok((id, parent, candidate_device, root, destination))
         })
         .collect::<io::Result<Vec<_>>>()?;
@@ -142,21 +549,32 @@ fn check_mounts(
         // by another mount before we read mountinfo.
         let selected = &mounts[index];
         let (_, _, _, root, destination) = selected;
-        let root = root.as_ref().ok_or_else(invalid)?;
-        let relative = directory.strip_prefix(destination).map_err(|_| invalid())?;
+        let root = root
+            .as_ref()
+            .ok_or_else(|| invalid("selected-root-missing", format_args!("id={mount_id}")))?;
+        let relative = directory.strip_prefix(destination).map_err(|_| {
+            invalid(
+                "path-outside-mount",
+                format_args!("id={mount_id} destination={destination:?}"),
+            )
+        })?;
         let mut current = Some(selected);
         let mut visible_child: Option<&Path> = None;
         let mut visited = BTreeSet::new();
         while let Some((id, parent, _, _, destination)) = current {
-            if !visited.insert(id)
-                || mounts.iter().any(|(child_id, child_parent, _, _, child)| {
-                    child_id != id
-                        && child_parent == id
-                        && directory.starts_with(child)
-                        && !visible_child.is_some_and(|visible| child.starts_with(visible))
-                })
-            {
-                return Err(invalid());
+            if !visited.insert(id) {
+                return Err(invalid(
+                    "mount-parent-cycle",
+                    format_args!("id={}", escaped(id)),
+                ));
+            }
+            if mounts.iter().any(|(child_id, child_parent, _, _, child)| {
+                child_id != id
+                    && child_parent == id
+                    && directory.starts_with(child)
+                    && !visible_child.is_some_and(|visible| child.starts_with(visible))
+            }) {
+                return Err(invalid("mount-covered", format_args!("id={}", escaped(id))));
             }
             if id == parent {
                 break;
@@ -181,9 +599,18 @@ fn check_mounts(
             })
             .collect();
         if locations.len() != 1 {
-            return Err(invalid());
+            return Err(invalid(
+                "mount-location-ambiguous",
+                format_args!("candidate_locations={}", locations.len()),
+            ));
         }
-        (locations.into_iter().next().ok_or_else(invalid)?, None)
+        (
+            locations
+                .into_iter()
+                .next()
+                .ok_or_else(|| invalid("mount-location-missing", "no containing mount"))?,
+            None,
+        )
     };
     let mut mask_paths = BTreeSet::from([directory.to_path_buf()]);
     for (id, _, _, root, destination) in &mounts {
@@ -220,8 +647,13 @@ fn check_mounts(
             return Err(io::Error::new(
                 io::ErrorKind::PermissionDenied,
                 format!(
-                    "app-server socket directory has an unsupported host mount at {}; remove the bind-mount alias or nested mount before starting the sandbox",
-                    destination.display()
+                    "runtime directory has an unsupported host mount: reason={} id={} destination={destination:?}; remove the bind-mount alias or nested mount before starting the sandbox",
+                    if nested {
+                        "nested-mount"
+                    } else {
+                        "direct-bind-alias"
+                    },
+                    escaped(id)
                 ),
             ));
         }
@@ -246,7 +678,12 @@ fn mount_path(encoded: &[u8]) -> io::Result<PathBuf> {
                 b"011" => b'\t',
                 b"012" => b'\n',
                 b"134" => b'\\',
-                _ => return Err(io::Error::other("invalid mountinfo path escape")),
+                _ => {
+                    return Err(invalid(
+                        "path-escape-invalid",
+                        "invalid mountinfo octal escape",
+                    ));
+                }
             }
         } else {
             byte
@@ -254,7 +691,10 @@ fn mount_path(encoded: &[u8]) -> io::Result<PathBuf> {
     }
     let path = PathBuf::from(std::ffi::OsString::from_vec(decoded));
     if !path.is_absolute() {
-        return Err(io::Error::other("mountinfo path is not absolute"));
+        return Err(invalid(
+            "path-not-absolute",
+            "mountinfo path is not absolute",
+        ));
     }
     Ok(path)
 }
