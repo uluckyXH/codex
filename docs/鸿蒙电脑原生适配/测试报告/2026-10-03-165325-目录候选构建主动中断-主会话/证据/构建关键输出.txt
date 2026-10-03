@@ -1,0 +1,45 @@
+
+warning: `codex-app-server` (lib) generated 1 warning (run `cargo fix --lib -p codex-app-server` to apply 1 suggestion)
+   Compiling codex-cloud-tasks v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/codex-rs/cloud-tasks)
+warning: unused import: `codex_http_client::HttpClientFactory`
+  --> cloud-tasks/src/lib.rs:16:5
+   |
+16 | use codex_http_client::HttpClientFactory;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: unused import: `codex_http_client::OutboundProxyPolicy`
+  --> cloud-tasks/src/lib.rs:17:5
+   |
+17 | use codex_http_client::OutboundProxyPolicy;
+   |     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: `codex-cloud-tasks` (lib) generated 2 warnings (run `cargo fix --lib -p codex-cloud-tasks` to apply 2 suggestions)
+   Compiling codex-exec v0.160.0-dev (/Volumes/MacSSD/Repositories/codex/codex-rs/exec)
+warning: `codex-tui` (lib) generated 2 warnings
+构建失败：Command '['/opt/homebrew/opt/rustup/bin/rustup', 'run', '1.95.0', 'cargo', 'build', '--locked', '--target', 'aarch64-unknown-linux-ohos', '--package', 'codex-cli', '--release']' died with <Signals.SIGTERM: 15>.
+Traceback (most recent call last):
+  File "/Volumes/MacSSD/Repositories/codex/scripts/build_harmony_distribution.py", line 535, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Volumes/MacSSD/Repositories/codex/scripts/build_harmony_distribution.py", line 530, in main
+    build_package(args, output, sdk, env)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/MacSSD/Repositories/codex/scripts/build_harmony_distribution.py", line 397, in build_package
+    run(
+    ~~~^
+        [
+        ^
+    ...<11 lines>...
+        env,
+        ^^^^
+    )
+    ^
+  File "/Volumes/MacSSD/Repositories/codex/scripts/build_harmony_distribution.py", line 59, in run
+    subprocess.run(arguments, cwd=REPO_ROOT, env=env, check=True)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/homebrew/Cellar/python@3.14/3.14.7/Frameworks/Python.framework/Versions/3.14/lib/python3.14/subprocess.py", line 578, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['/opt/homebrew/opt/python@3.14/bin/python3.14', '/Volumes/MacSSD/Repositories/codex/scripts/build_harmony.py', 'build', '--sdk', '/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native', '--output-dir', '/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译', '--release', '--runtime-base', '/data/storage/el2/base/files']' returned non-zero exit status 1.

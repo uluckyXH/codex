@@ -1,0 +1,22 @@
+{
+  "时刻": "2026-10-03T17:10:32+08:00",
+  "原因": "定向复核确认 OHOS 祖先 O_RDONLY 额外要求读取权限；主动中断旧候选编译，等待 O_PATH 最小修复，不是编译器错误",
+  "Cargo": [
+    34932,
+    34927,
+    "/Volumes/MacSSD/dev/rust/rustup/toolchains/1.95.0-aarch64-apple-darwin/bin/cargo"
+  ],
+  "Rust子进程": [
+    [
+      58171,
+      34932,
+      "/Volumes/MacSSD/dev/rust/rustup/toolchains/1.95.0-aarch64-apple-darwin/bin/rustc"
+    ],
+    [
+      58172,
+      34932,
+      "/Volumes/MacSSD/dev/rust/rustup/toolchains/1.95.0-aarch64-apple-darwin/bin/rustc"
+    ]
+  ],
+  "源码": "1dbdd0ca98b98773c721ff380d71fa7f1c1e706a"
+}

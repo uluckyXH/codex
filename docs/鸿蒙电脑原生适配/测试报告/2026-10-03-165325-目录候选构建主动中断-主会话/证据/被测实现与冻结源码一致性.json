@@ -1,0 +1,38 @@
+{
+  "时刻": "2026-10-03T17:04:00+08:00",
+  "最终源码": "1dbdd0ca98b98773c721ff380d71fa7f1c1e706a",
+  "说明": "比较已测试实现与冻结源码；不执行认证、模型或目标程序。不是替代完整交叉构建或真机验证。",
+  "模块": [
+    {
+      "模块": "沙箱实现",
+      "被测提交": "50b633473b99d203ea817caa1bd59eda66473069",
+      "范围": [
+        "codex-rs/uds",
+        "codex-rs/linux-sandbox",
+        "codex-rs/app-server-transport"
+      ],
+      "整合后变化文件": []
+    },
+    {
+      "模块": "工具入口",
+      "被测提交": "ed824dc928c1b43be393e95854091f4186fe989a",
+      "范围": [
+        "codex-rs/arg0",
+        "codex-rs/cli/src/doctor.rs",
+        "codex-rs/cli/src/doctor/capabilities.rs",
+        "codex-rs/cli/Cargo.toml"
+      ],
+      "整合后变化文件": []
+    },
+    {
+      "模块": "独立原生探针",
+      "被测提交": "5867a826bdea081515d8568e91a8e00b90f410ed",
+      "范围": [
+        "scripts/harmony_runtime_probe.c",
+        "scripts/harmony_runtime_probe_context.h",
+        "scripts/harmony_runtime_probe_sdk_check.cpp"
+      ],
+      "整合后变化文件": []
+    }
+  ]
+}
