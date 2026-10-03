@@ -242,6 +242,8 @@ def verify_source_unchanged(identity: dict) -> None:
 
 
 def package_version(upstream_version: str, commit: str) -> str:
+    # The upstream parser imports the package layout, which requires this root.
+    os.environ["CODEX_REPO_ROOT"] = str(REPO_ROOT)
     from codex_package.cli import parse_package_version
 
     parse_package_version(upstream_version)

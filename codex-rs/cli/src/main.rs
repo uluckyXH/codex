@@ -862,6 +862,10 @@ fn resolve_windows_update_command_from_path(
 }
 
 fn run_update_command() -> anyhow::Result<()> {
+    anyhow::ensure!(
+        !cfg!(target_env = "ohos"),
+        "Updates are unavailable for this HarmonyOS build. Install a compatible HarmonyOS release manually."
+    );
     #[cfg(debug_assertions)]
     {
         anyhow::bail!(

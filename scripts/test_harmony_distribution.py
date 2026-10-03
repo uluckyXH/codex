@@ -7,6 +7,7 @@ from pathlib import Path
 import shutil
 import struct
 import subprocess
+import sys
 import tarfile
 import tempfile
 import unittest
@@ -128,6 +129,24 @@ class DistributionTests(unittest.TestCase):
                 self.assertRaisesRegex(ValueError, "提交 SHA"),
             ):
                 package_version("0.160.0-dev", commit)
+
+    def test_version_resolution_does_not_require_a_preset_repository_env(self):
+        env = dict(os.environ)
+        env.pop("CODEX_REPO_ROOT", None)
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                "from build_harmony_distribution import package_version; "
+                "print(package_version('0.160.0-dev', 'a' * 40))",
+            ],
+            cwd=REPO_ROOT / "scripts",
+            env=env,
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stdout.strip(), "0.160.0-dev.harmony.gaaaaaaaaaaaa")
 
     def test_placeholder_versions_cannot_be_released(self):
         for version in ("0.0.0", "0.0.0-dev", "0.0.0+build"):

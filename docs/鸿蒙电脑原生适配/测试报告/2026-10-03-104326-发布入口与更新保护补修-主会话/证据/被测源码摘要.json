@@ -1,0 +1,5 @@
+{
+  "scripts/build_harmony_distribution.py": "6cdedf0ff0ae9ad4677da75072b4ff88784a5e98fb2b7a65502177964f8eadad",
+  "scripts/test_harmony_distribution.py": "f3b34a4dda1a7fc978a758c8f8896250881445a96a7229ab9411bd3cd68d305e",
+  "codex-rs/cli/src/main.rs": "4a03a4b809b30219624717a91945aeb6eae819037c47ba90d4538dfeea27b4b4"
+}

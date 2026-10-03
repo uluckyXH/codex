@@ -1,0 +1,100 @@
+[
+  {
+    "命令": [
+      "python3",
+      "-m",
+      "unittest",
+      "-v",
+      "scripts.test_build_harmony",
+      "scripts.test_harmony_distribution"
+    ],
+    "开始": "2026-10-03T10:36:45+08:00",
+    "结束": "2026-10-03T10:36:47+08:00",
+    "退出码": 0,
+    "主机": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "源码": "861125c585be733d850a27062309aa55fd291bef",
+    "日志": ".harmony-build/版本号调整/执行记录/无预置环境与更新保护补修回归.log",
+    "日志字节数": 6216,
+    "日志摘要": "96ceaa54555f05d777aea8ad28d2e063fce29a988fef38f6345a7cd2efe7eb7c",
+    "并行编译数": 2,
+    "工具链与下载缓存": "外置盘 /Volumes/MacSSD/dev/rust；未运行目标程序"
+  },
+  {
+    "命令": [
+      "env",
+      "RUSTFLAGS=--cfg target_env=\"ohos\" -Aexplicit_builtin_cfgs_in_flags",
+      "cargo",
+      "test",
+      "--manifest-path",
+      ".harmony-build/版本号调整/更新入口回归/Cargo.toml",
+      "--offline",
+      "--release"
+    ],
+    "开始": "2026-10-03T10:37:47+08:00",
+    "结束": "2026-10-03T10:37:49+08:00",
+    "退出码": 0,
+    "主机": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "源码": "861125c585be733d850a27062309aa55fd291bef",
+    "日志": ".harmony-build/版本号调整/执行记录/更新入口拒绝回归.log",
+    "日志字节数": 751,
+    "日志摘要": "693831a8440a65cb4d292066a7860a18a1bee6a9625d9aee964cb1173848aa0b",
+    "并行编译数": 2,
+    "工具链与下载缓存": "外置盘 /Volumes/MacSSD/dev/rust；未运行目标程序"
+  },
+  {
+    "命令": [
+      "rustfmt",
+      "--edition",
+      "2024",
+      "--check",
+      "codex-rs/cli/src/main.rs"
+    ],
+    "开始": "2026-10-03T10:37:48+08:00",
+    "结束": "2026-10-03T10:37:48+08:00",
+    "退出码": 0,
+    "主机": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "源码": "861125c585be733d850a27062309aa55fd291bef",
+    "日志": ".harmony-build/版本号调整/执行记录/更新入口Rust格式检查.log",
+    "日志字节数": 106,
+    "日志摘要": "46e6296365b301e2eb16bb5b40f88b1aab521b90ae30c5631fe41d6319ca14c8",
+    "并行编译数": 2,
+    "工具链与下载缓存": "外置盘 /Volumes/MacSSD/dev/rust；未运行目标程序"
+  },
+  {
+    "命令": [
+      ".harmony-build/工具/python/bin/ruff",
+      "format",
+      "--check",
+      "scripts/build_harmony_distribution.py",
+      "scripts/test_harmony_distribution.py"
+    ],
+    "开始": "2026-10-03T10:37:48+08:00",
+    "结束": "2026-10-03T10:37:48+08:00",
+    "退出码": 0,
+    "主机": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "源码": "861125c585be733d850a27062309aa55fd291bef",
+    "日志": ".harmony-build/版本号调整/执行记录/前置环境补修格式检查.log",
+    "日志字节数": 26,
+    "日志摘要": "3bc53bf3e981a98a34a852e175bf9b77af841edea74fca595d9aedcbaf9a4938",
+    "并行编译数": 2,
+    "工具链与下载缓存": "外置盘 /Volumes/MacSSD/dev/rust；未运行目标程序"
+  },
+  {
+    "命令": [
+      ".harmony-build/工具/python/bin/ruff",
+      "check",
+      "scripts/build_harmony_distribution.py",
+      "scripts/test_harmony_distribution.py"
+    ],
+    "开始": "2026-10-03T10:37:48+08:00",
+    "结束": "2026-10-03T10:37:48+08:00",
+    "退出码": 0,
+    "主机": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "源码": "861125c585be733d850a27062309aa55fd291bef",
+    "日志": ".harmony-build/版本号调整/执行记录/前置环境补修静态检查.log",
+    "日志字节数": 19,
+    "日志摘要": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18",
+    "并行编译数": 2,
+    "工具链与下载缓存": "外置盘 /Volumes/MacSSD/dev/rust；未运行目标程序"
+  }
+]

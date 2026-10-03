@@ -1,0 +1,51 @@
+正式版本完整发布
+openjdk version "17.0.20.1" 2026-08-18
+OpenJDK Runtime Environment Homebrew (build 17.0.20.1+0)
+OpenJDK 64-Bit Server VM Homebrew (build 17.0.20.1+0, mixed mode, sharing)
+Traceback (most recent call last):
+  File "/Volumes/MacSSD/Repositories/codex/scripts/build_harmony_distribution.py", line 395, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/Volumes/MacSSD/Repositories/codex/scripts/build_harmony_distribution.py", line 390, in main
+    build_package(args, output, sdk, env)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/MacSSD/Repositories/codex/scripts/build_harmony_distribution.py", line 270, in build_package
+    version = package_version(upstream_version, identity["提交"])
+              ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Volumes/MacSSD/Repositories/codex/scripts/build_harmony_distribution.py", line 245, in package_version
+    from codex_package.cli import parse_package_version
+  File "/Volumes/MacSSD/Repositories/codex/scripts/codex_package/cli.py", line 8, in <module>
+    from .archive import write_archive
+  File "/Volumes/MacSSD/Repositories/codex/scripts/codex_package/archive.py", line 11, in <module>
+    from .targets import REPO_ROOT
+  File "/Volumes/MacSSD/Repositories/codex/scripts/codex_package/targets.py", line 11, in <module>
+    raise RuntimeError(
+    ...<2 lines>...
+    )
+RuntimeError: CODEX_REPO_ROOT must point to the repository root; run `just assemble-codex-package` to set it automatically
+
+冻结版本打包回归
+test_placeholder_versions_cannot_be_released (scripts.test_harmony_distribution.DistributionTests.test_placeholder_versions_cannot_be_released) ... ok
+test_signing_requires_exit_status_and_success_marker (scripts.test_harmony_distribution.DistributionTests.test_signing_requires_exit_status_and_success_marker) ... ok
+test_source_cache_rejects_corruption_without_network (scripts.test_harmony_distribution.DistributionTests.test_source_cache_rejects_corruption_without_network) ... ok
+test_source_extraction_rejects_parent_path (scripts.test_harmony_distribution.DistributionTests.test_source_extraction_rejects_parent_path) ... ok
+test_upstream_versions_remain_semver_when_suffixing_fork_identity (scripts.test_harmony_distribution.DistributionTests.test_upstream_versions_remain_semver_when_suffixing_fork_identity) ... ok
+test_version_provenance_mismatch_stops_before_building_or_signing (scripts.test_harmony_distribution.DistributionTests.test_version_provenance_mismatch_stops_before_building_or_signing) ... ok
+test_activation_preserves_zsh_content_and_is_idempotent_and_reversible (scripts.test_harmony_distribution.InstallerTests.test_activation_preserves_zsh_content_and_is_idempotent_and_reversible) ... ok
+test_activation_rejects_symlink_or_broken_markers_without_changing_original (scripts.test_harmony_distribution.InstallerTests.test_activation_rejects_symlink_or_broken_markers_without_changing_original) ... ok
+test_activation_updates_to_new_install_and_does_not_duplicate_block (scripts.test_harmony_distribution.InstallerTests.test_activation_updates_to_new_install_and_does_not_duplicate_block) ... ok
+test_corrupted_package_never_creates_install_directory (scripts.test_harmony_distribution.InstallerTests.test_corrupted_package_never_creates_install_directory) ... ok
+test_diagnostic_retains_failures_without_dumping_environment (scripts.test_harmony_distribution.InstallerTests.test_diagnostic_retains_failures_without_dumping_environment) ... ok
+test_diagnostic_sandbox_probe_preserves_policy_and_exit_159 (scripts.test_harmony_distribution.InstallerTests.test_diagnostic_sandbox_probe_preserves_policy_and_exit_159) ... ok
+test_environment_can_be_sourced_repeatedly_without_path_growth (scripts.test_harmony_distribution.InstallerTests.test_environment_can_be_sourced_repeatedly_without_path_growth) ... ok
+test_existing_prefix_is_preserved (scripts.test_harmony_distribution.InstallerTests.test_existing_prefix_is_preserved) ... ok
+test_install_preserves_bytes_permissions_and_quotes_path (scripts.test_harmony_distribution.InstallerTests.test_install_preserves_bytes_permissions_and_quotes_path) ... ok
+test_manifest_files_and_parent_directories_cannot_be_symlinks (scripts.test_harmony_distribution.InstallerTests.test_manifest_files_and_parent_directories_cannot_be_symlinks) ... ok
+test_manifest_rejects_escape_and_reserved_names_before_install (scripts.test_harmony_distribution.InstallerTests.test_manifest_rejects_escape_and_reserved_names_before_install) ... ok
+test_missing_resource_or_newline_prefix_is_rejected (scripts.test_harmony_distribution.InstallerTests.test_missing_resource_or_newline_prefix_is_rejected) ... ok
+test_unlisted_files_and_environment_symlink_are_not_copied (scripts.test_harmony_distribution.InstallerTests.test_unlisted_files_and_environment_symlink_are_not_copied) ... ok
+
+----------------------------------------------------------------------
+Ran 35 tests in 2.414s
+
+OK

@@ -1,0 +1,5 @@
+{
+  "生产文件": "codex-rs/cli/src/main.rs",
+  "SHA256": "4a03a4b809b30219624717a91945aeb6eae819037c47ba90d4538dfeea27b4b4",
+  "范围": "提取原始 run_update_command；仅在 Mac 模拟 OHOS 条件，不能替代设备执行。更新发现与执行替身若被调用即 panic。"
+}

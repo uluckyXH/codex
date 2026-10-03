@@ -1,0 +1,53 @@
+无预置环境与更新保护补修回归
+test_signing_requires_exit_status_and_success_marker (scripts.test_harmony_distribution.DistributionTests.test_signing_requires_exit_status_and_success_marker) ... ok
+test_source_cache_rejects_corruption_without_network (scripts.test_harmony_distribution.DistributionTests.test_source_cache_rejects_corruption_without_network) ... ok
+test_source_extraction_rejects_parent_path (scripts.test_harmony_distribution.DistributionTests.test_source_extraction_rejects_parent_path) ... ok
+test_upstream_versions_remain_semver_when_suffixing_fork_identity (scripts.test_harmony_distribution.DistributionTests.test_upstream_versions_remain_semver_when_suffixing_fork_identity) ... ok
+test_version_provenance_mismatch_stops_before_building_or_signing (scripts.test_harmony_distribution.DistributionTests.test_version_provenance_mismatch_stops_before_building_or_signing) ... ok
+test_version_resolution_does_not_require_a_preset_repository_env (scripts.test_harmony_distribution.DistributionTests.test_version_resolution_does_not_require_a_preset_repository_env) ... ok
+test_activation_preserves_zsh_content_and_is_idempotent_and_reversible (scripts.test_harmony_distribution.InstallerTests.test_activation_preserves_zsh_content_and_is_idempotent_and_reversible) ... ok
+test_activation_rejects_symlink_or_broken_markers_without_changing_original (scripts.test_harmony_distribution.InstallerTests.test_activation_rejects_symlink_or_broken_markers_without_changing_original) ... ok
+test_activation_updates_to_new_install_and_does_not_duplicate_block (scripts.test_harmony_distribution.InstallerTests.test_activation_updates_to_new_install_and_does_not_duplicate_block) ... ok
+test_corrupted_package_never_creates_install_directory (scripts.test_harmony_distribution.InstallerTests.test_corrupted_package_never_creates_install_directory) ... ok
+test_diagnostic_retains_failures_without_dumping_environment (scripts.test_harmony_distribution.InstallerTests.test_diagnostic_retains_failures_without_dumping_environment) ... ok
+test_diagnostic_sandbox_probe_preserves_policy_and_exit_159 (scripts.test_harmony_distribution.InstallerTests.test_diagnostic_sandbox_probe_preserves_policy_and_exit_159) ... ok
+test_environment_can_be_sourced_repeatedly_without_path_growth (scripts.test_harmony_distribution.InstallerTests.test_environment_can_be_sourced_repeatedly_without_path_growth) ... ok
+test_existing_prefix_is_preserved (scripts.test_harmony_distribution.InstallerTests.test_existing_prefix_is_preserved) ... ok
+test_install_preserves_bytes_permissions_and_quotes_path (scripts.test_harmony_distribution.InstallerTests.test_install_preserves_bytes_permissions_and_quotes_path) ... ok
+test_manifest_files_and_parent_directories_cannot_be_symlinks (scripts.test_harmony_distribution.InstallerTests.test_manifest_files_and_parent_directories_cannot_be_symlinks) ... ok
+test_manifest_rejects_escape_and_reserved_names_before_install (scripts.test_harmony_distribution.InstallerTests.test_manifest_rejects_escape_and_reserved_names_before_install) ... ok
+test_missing_resource_or_newline_prefix_is_rejected (scripts.test_harmony_distribution.InstallerTests.test_missing_resource_or_newline_prefix_is_rejected) ... ok
+test_unlisted_files_and_environment_symlink_are_not_copied (scripts.test_harmony_distribution.InstallerTests.test_unlisted_files_and_environment_symlink_are_not_copied) ... ok
+
+----------------------------------------------------------------------
+Ran 36 tests in 1.808s
+
+OK
+
+更新入口拒绝回归
+     Locking 1 package to latest Rust 1.95.0 compatible version
+   Compiling anyhow v1.0.103
+   Compiling harmony-update-gate-test v1.0.0 (/Volumes/MacSSD/Repositories/codex/.harmony-build/版本号调整/更新入口回归)
+    Finished `release` profile [optimized] target(s) in 1.95s
+     Running unittests src/lib.rs (.harmony-build/版本号调整/宿主产物/release/deps/harmony_update_gate_test-3305d2502b8907b2)
+
+running 1 test
+test harmony_refuses_updates_before_discovery_or_execution ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+   Doc-tests harmony_update_gate_test
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+
+更新入口Rust格式检查
+Warning: can't set `imports_granularity = Item`, unstable features are only available in nightly channel.
+
+前置环境补修格式检查
+2 files already formatted
+
+前置环境补修静态检查
+All checks passed!
