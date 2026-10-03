@@ -350,3 +350,89 @@ fn read_only_parent_fails_without_changing_it() {
     assert_eq!(mode, 0o500);
     assert_eq!(children, 0);
 }
+
+#[test]
+fn new_private_directory_keeps_a_chmod_capable_descriptor() {
+    let (_temporary, base, uid) = fixture();
+    let guard = prepare_fixed_base(&base, uid, OhosRuntimePurpose::Aliases).unwrap();
+    // Even a no-op fchmod would fail with EBADF on an O_PATH descriptor.
+    set_new_mode(&guard.leaf().file, guard.path(), 0o700).unwrap();
+    guard.revalidate().unwrap();
+    let child = guard
+        .create_new_subdirectory(OsStr::new("cloned-chain"))
+        .unwrap();
+    for directory in &child.directories {
+        let flags = unsafe { libc::fcntl(directory.file.as_raw_fd(), libc::F_GETFD) };
+        assert!(flags >= 0);
+        assert_ne!(flags & libc::FD_CLOEXEC, 0);
+        #[cfg(target_env = "ohos")]
+        {
+            let status = unsafe { libc::fcntl(directory.file.as_raw_fd(), libc::F_GETFL) };
+            assert!(status >= 0);
+            assert_eq!(
+                status & libc::O_PATH,
+                if directory.private { 0 } else { libc::O_PATH }
+            );
+        }
+    }
+    let file = child.open_lock_file(OsStr::new("relative.lock")).unwrap();
+    file.lock().unwrap();
+    child
+        .validate_lock_file(OsStr::new("relative.lock"), &file)
+        .unwrap();
+}
+
+// macOS has no O_PATH. Compile/link this test for OHOS; only an actual OHOS
+// test execution can verify the platform's path-only descriptor semantics.
+#[cfg(target_env = "ohos")]
+#[test]
+fn search_only_ancestor_supports_path_handles_without_weakening_validation() {
+    let (_temporary, base, uid) = fixture();
+    let ancestor = base.join("search-only");
+    let candidate = ancestor.join("known-private-child");
+    fs::create_dir(&ancestor).unwrap();
+    fs::create_dir(&candidate).unwrap();
+    fs::set_permissions(&candidate, fs::Permissions::from_mode(0o700)).unwrap();
+    struct RestorePermissions(PathBuf);
+    impl Drop for RestorePermissions {
+        fn drop(&mut self) {
+            let _ = fs::set_permissions(&self.0, fs::Permissions::from_mode(0o700));
+        }
+    }
+    let _restore = RestorePermissions(ancestor.clone());
+    // Owned 0111 gives an unprivileged test user the same lack of read access
+    // as a root-owned 0711 ancestor, without chown or elevated fixtures.
+    fs::set_permissions(&ancestor, fs::Permissions::from_mode(0o111)).unwrap();
+    if uid != 0 {
+        assert_eq!(
+            File::open(&ancestor).unwrap_err().kind(),
+            io::ErrorKind::PermissionDenied
+        );
+    }
+    let base_guard = open_base(&candidate, uid).unwrap();
+    let flags = unsafe { libc::fcntl(base_guard.as_raw_fd(), libc::F_GETFL) };
+    assert!(flags >= 0);
+    assert_ne!(flags & libc::O_PATH, 0);
+    let lock = base_guard
+        .open_lock_file(OsStr::new("path-handle.lock"))
+        .unwrap();
+    lock.lock().unwrap();
+    base_guard
+        .validate_lock_file(OsStr::new("path-handle.lock"), &lock)
+        .unwrap();
+    let guard = prepare_fixed_base(&candidate, uid, OhosRuntimePurpose::Aliases).unwrap();
+    guard.revalidate().unwrap();
+    let child = guard
+        .create_new_subdirectory(OsStr::new("session"))
+        .unwrap();
+    child.revalidate().unwrap();
+    set_new_mode(&child.leaf().file, child.path(), 0o700).unwrap();
+    fs::set_permissions(&ancestor, fs::Permissions::from_mode(0o771)).unwrap();
+    assert!(guard.revalidate().is_err());
+    assert_eq!(fs::metadata(&ancestor).unwrap().mode() & 0o7777, 0o771);
+    assert!(
+        child
+            .create_new_subdirectory(OsStr::new("must-not-create"))
+            .is_err()
+    );
+}

@@ -11,6 +11,7 @@ use std::os::fd::AsRawFd;
 use std::os::fd::FromRawFd;
 use std::os::unix::ffi::OsStrExt;
 use std::os::unix::fs::MetadataExt;
+#[cfg(not(target_env = "ohos"))]
 use std::os::unix::fs::OpenOptionsExt;
 use std::path::Component;
 use std::path::Path;
@@ -71,6 +72,7 @@ impl ProtectedRuntimeDirectory {
                 current = open_directory_at(
                     &current,
                     directory.path.file_name().expect("non-root component"),
+                    DIRECTORY_TRAVERSAL_ACCESS,
                 )
                 .map_err(|error| at_path("reopen", &directory.path, error))?;
             }
@@ -309,7 +311,7 @@ fn open_base(base: &Path, uid: libc::uid_t) -> io::Result<ProtectedRuntimeDirect
         };
         let parent = directories.last().expect("root is present");
         let path = parent.path.join(name);
-        let file = open_directory_at(&parent.file, name)
+        let file = open_directory_at(&parent.file, name, DIRECTORY_TRAVERSAL_ACCESS)
             .map_err(|error| at_path("open-ancestor", &path, error))?;
         validate_metadata(&path, &file.metadata()?, uid, false)?;
         directories.push(Directory {
@@ -346,10 +348,28 @@ pub(crate) fn prepare_private_directory(path: &Path) -> io::Result<ProtectedRunt
     Ok(guard)
 }
 
+const DIRECTORY_FLAGS: libc::c_int = libc::O_DIRECTORY | libc::O_NOFOLLOW | libc::O_CLOEXEC;
+#[cfg(target_env = "ohos")]
+const DIRECTORY_TRAVERSAL_ACCESS: libc::c_int = libc::O_PATH;
+#[cfg(not(target_env = "ohos"))]
+const DIRECTORY_TRAVERSAL_ACCESS: libc::c_int = libc::O_RDONLY;
+
+#[cfg(target_env = "ohos")]
+fn open_root() -> io::Result<File> {
+    // OHOS/musl includes O_PATH in O_ACCMODE. OpenOptions::custom_flags
+    // masks access-mode bits, so use libc directly to retain O_PATH.
+    let fd = unsafe { libc::open(c"/".as_ptr(), DIRECTORY_TRAVERSAL_ACCESS | DIRECTORY_FLAGS) };
+    if fd < 0 {
+        return Err(io::Error::last_os_error());
+    }
+    Ok(unsafe { File::from_raw_fd(fd) })
+}
+
+#[cfg(not(target_env = "ohos"))]
 fn open_root() -> io::Result<File> {
     File::options()
         .read(true)
-        .custom_flags(libc::O_DIRECTORY | libc::O_NOFOLLOW | libc::O_CLOEXEC)
+        .custom_flags(DIRECTORY_FLAGS)
         .open("/")
 }
 
@@ -368,15 +388,9 @@ pub(crate) fn component_name(name: &OsStr) -> io::Result<CString> {
     })
 }
 
-fn open_directory_at(parent: &File, name: &OsStr) -> io::Result<File> {
+fn open_directory_at(parent: &File, name: &OsStr, access: libc::c_int) -> io::Result<File> {
     let name = component_name(name)?;
-    let fd = unsafe {
-        libc::openat(
-            parent.as_raw_fd(),
-            name.as_ptr(),
-            libc::O_RDONLY | libc::O_DIRECTORY | libc::O_NOFOLLOW | libc::O_CLOEXEC,
-        )
-    };
+    let fd = unsafe { libc::openat(parent.as_raw_fd(), name.as_ptr(), access | DIRECTORY_FLAGS) };
     if fd < 0 {
         return Err(io::Error::last_os_error());
     }
@@ -440,7 +454,9 @@ fn create_private_child(
             return Err(at_path("mkdirat", &path, error));
         }
     }
-    let file = open_directory_at(&parent.file, name)
+    // A path-only FD is sufficient for ancestor traversal, fstat and *at
+    // operations, but fchmod of a newly created leaf needs an ordinary FD.
+    let file = open_directory_at(&parent.file, name, libc::O_RDONLY)
         .map_err(|error| at_path("open-private", &path, error))?;
     let metadata = file.metadata()?;
     if created && metadata.is_dir() && metadata.uid() == uid && metadata.mode() & 0o7777 != 0o700 {
