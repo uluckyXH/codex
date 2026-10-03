@@ -1,0 +1,12 @@
+{
+  "冻结源码": "d6024ba27aafceb4bda439a2a816e628edc21dcf",
+  "工具会话只读复核": "TUI横幅/弹窗、doctor、CLI update、daemon手动/定时/--from-cli均在更新前按target_env=ohos拒绝；0.160.0-dev不会解除拦截。",
+  "验证边界": "源码路径核对，不是OHOS程序执行、抓包或设备网络验证。",
+  "审查入口": [
+    "codex-rs/tui/src/updates.rs",
+    "codex-rs/tui/src/update_action.rs",
+    "codex-rs/cli/src/doctor/updates.rs",
+    "codex-rs/cli/src/main.rs",
+    "codex-rs/app-server-daemon/src/lib.rs"
+  ]
+}

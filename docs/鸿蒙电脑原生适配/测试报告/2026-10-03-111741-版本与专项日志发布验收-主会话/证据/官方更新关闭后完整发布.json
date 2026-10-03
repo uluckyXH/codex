@@ -1,0 +1,28 @@
+{
+  "命令": [
+    "python3",
+    "scripts/build_harmony_distribution.py",
+    "package",
+    "--sdk",
+    "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native",
+    "--java",
+    "/opt/homebrew/opt/openjdk@17/bin/java",
+    "--helpers-dir",
+    ".harmony-build/七版发布/原生资源复测",
+    "--build-dir",
+    ".harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译",
+    "--output-dir",
+    "releases/2026-10-03-鸿蒙Codex-0.160.0开发候选",
+    "--offline"
+  ],
+  "开始": "2026-10-03T10:44:45+08:00",
+  "结束": "2026-10-03T11:15:28+08:00",
+  "退出码": 0,
+  "主机": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "源码": "d6024ba27aafceb4bda439a2a816e628edc21dcf",
+  "日志": ".harmony-build/版本号调整/执行记录/官方更新关闭后完整发布.log",
+  "日志字节数": 445911,
+  "日志摘要": "093adde088a7e121c7b1efec6cd609b021298303eec6b73e9c1b317a82f5719c",
+  "并行编译数": 2,
+  "工具链与下载缓存": "外置盘 /Volumes/MacSSD/dev/rust；未运行目标程序"
+}

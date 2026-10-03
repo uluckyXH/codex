@@ -1,0 +1,20 @@
+{
+  "命令": [
+    "python3",
+    "-m",
+    "unittest",
+    "-v",
+    "scripts.test_build_harmony",
+    "scripts.test_harmony_distribution"
+  ],
+  "开始": "2026-10-03T10:36:45+08:00",
+  "结束": "2026-10-03T10:36:47+08:00",
+  "退出码": 0,
+  "主机": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "源码": "861125c585be733d850a27062309aa55fd291bef",
+  "日志": ".harmony-build/版本号调整/执行记录/无预置环境与更新保护补修回归.log",
+  "日志字节数": 6216,
+  "日志摘要": "96ceaa54555f05d777aea8ad28d2e063fce29a988fef38f6345a7cd2efe7eb7c",
+  "并行编译数": 2,
+  "工具链与下载缓存": "外置盘 /Volumes/MacSSD/dev/rust；未运行目标程序"
+}

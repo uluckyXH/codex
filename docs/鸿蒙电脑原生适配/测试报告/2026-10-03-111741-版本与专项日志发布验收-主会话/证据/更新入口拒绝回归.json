@@ -1,0 +1,22 @@
+{
+  "命令": [
+    "env",
+    "RUSTFLAGS=--cfg target_env=\"ohos\" -Aexplicit_builtin_cfgs_in_flags",
+    "cargo",
+    "test",
+    "--manifest-path",
+    ".harmony-build/版本号调整/更新入口回归/Cargo.toml",
+    "--offline",
+    "--release"
+  ],
+  "开始": "2026-10-03T10:37:47+08:00",
+  "结束": "2026-10-03T10:37:49+08:00",
+  "退出码": 0,
+  "主机": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "源码": "861125c585be733d850a27062309aa55fd291bef",
+  "日志": ".harmony-build/版本号调整/执行记录/更新入口拒绝回归.log",
+  "日志字节数": 751,
+  "日志摘要": "693831a8440a65cb4d292066a7860a18a1bee6a9625d9aee964cb1173848aa0b",
+  "并行编译数": 2,
+  "工具链与下载缓存": "外置盘 /Volumes/MacSSD/dev/rust；未运行目标程序"
+}

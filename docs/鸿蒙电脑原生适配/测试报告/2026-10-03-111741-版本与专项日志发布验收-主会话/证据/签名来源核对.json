@@ -1,0 +1,18 @@
+{
+  "bin/codex": {
+    "来源": "releases/2026-10-03-鸿蒙Codex-0.160.0开发候选/已签名/codex",
+    "与签名后文件字节一致": true,
+    "SHA256": "815f388a78d1f57885f08960882017a60bd4d60dedc374ff2b681a3a1724452e"
+  },
+  "codex-path/rg": {
+    "来源": ".harmony-build/七版发布/原生资源复测/已签名/rg",
+    "与签名后文件字节一致": true,
+    "SHA256": "7272d96c1c584807cc4f0cf99bf830f381be2d35bd1ffd93842f054514953b02"
+  },
+  "codex-resources/bwrap": {
+    "来源": ".harmony-build/七版发布/原生资源复测/已签名/bwrap",
+    "与签名后文件字节一致": true,
+    "SHA256": "b4df52de80db80b47e0aa8fe28d69c5f63aa27bc7bb57e6f9eba603d28cf3314"
+  },
+  "未签名中间文件打包数量": 0
+}
