@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.5.0)
 project(harmony_terminal_host)
-add_library(hostprobe SHARED native_module.cpp codex_launcher.cpp secure_config.cpp tool_regression.cpp package_verification.cpp terminal_bridge.cpp pty_session.cpp)
-target_link_libraries(hostprobe PUBLIC libace_napi.z.so)
+add_library(hostprobe SHARED native_module.cpp codex_launcher.cpp secure_config.cpp tool_regression.cpp package_verification.cpp terminal_bridge.cpp pty_session.cpp host_layout.cpp host_json.cpp owned_processes.cpp process_identity.cpp)
+target_compile_features(hostprobe PRIVATE cxx_std_17)
+target_link_libraries(hostprobe PUBLIC libace_napi.z.so libability_runtime.so)

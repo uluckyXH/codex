@@ -1,0 +1,121 @@
+{
+  "batch": "2026-10-04-162232-通用终端源码检查-终端会话",
+  "started": "2026-10-04T16:22:32.706896+08:00",
+  "finished": "2026-10-04T16:22:32.980989+08:00",
+  "head": "8080943a200030b6fbcd5f00c3130bf58888da1a",
+  "branch": "codex/harmony-native",
+  "cwd": "/Volumes/MacSSD/Repositories/codex",
+  "system": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+  "arch": "arm64",
+  "python": "3.14.7",
+  "node": "v24.14.0",
+  "source_unchanged": true,
+  "source_files": {
+    "harmony/terminal-host/.gitignore": "9c3a844bae47f8306e9aa9355f87ff0643e47ece9b6f50fe473a0aba676074d8",
+    "harmony/terminal-host/AppScope/app.json5": "5995b3400d599e7489c480d51b5a37a53c9e86614068630e2ce92a69a8471349",
+    "harmony/terminal-host/AppScope/resources/base/element/string.json": "599d00c2136f33b779f18104cc7fd07581790f0b0f8b00883b0ebc40660ba41e",
+    "harmony/terminal-host/AppScope/resources/base/media/app_icon.png": "79c27214e49332c1e5bcbbe9badeac547c13ee38f597658de313b907fdf2a4e6",
+    "harmony/terminal-host/build-profile.json5": "8ce8766a5a8d221dfd824c604cb8f9c087dc6cf48b575c6cb79aec7635aad1f1",
+    "harmony/terminal-host/build_terminal_host.py": "fdb8b0744d850ed7b298456942a2293f24d90d7c12b5653b05bcbd739e766812",
+    "harmony/terminal-host/config_import_test_main.cpp": "18a08c29b2f29b7323526d353066a05dd09160c99a7627453933a86dee00dee8",
+    "harmony/terminal-host/entry/build-profile.json5": "03a0b8a680a8352ec2923f02e21a1965faebb652edc34e368f48206d19938039",
+    "harmony/terminal-host/entry/hvigorfile.ts": "f547983dcab9c8fff87cc3ddedb22bb98063663c5b8afe18bb32e131311ec289",
+    "harmony/terminal-host/entry/oh-package.json5": "c89cd0f4d80f7cfe719eb4cbd0e19c12e7cd63d01dd94704aa3daaf937152c5a",
+    "harmony/terminal-host/entry/src/main/cpp/CMakeLists.txt": "e561aa13aa34b0cceed4eae3596625971437c6fc4037f354f3525260f4ce9734",
+    "harmony/terminal-host/entry/src/main/cpp/codex_launcher.cpp": "3103441efc24b31090329e0466926af6e11932f860e172e40c9e079264304b28",
+    "harmony/terminal-host/entry/src/main/cpp/codex_launcher.h": "918cffc1fcad5d8e8fdad0dbb36a772fd0d09977b511d98ed02decd41ab75656",
+    "harmony/terminal-host/entry/src/main/cpp/host_json.cpp": "434d5f914afe396df307b768b9a9f91c239f0997757545ae6349248f76b0d7bd",
+    "harmony/terminal-host/entry/src/main/cpp/host_json.h": "06c6b7e3f3555ba5bd3ea5c20a024c99f5a57f776e5e69810a45b4185cf5d0ae",
+    "harmony/terminal-host/entry/src/main/cpp/host_layout.cpp": "66d4f78219f4274845602875cbc30a12f0809bf58b88f242d0989adec10eff37",
+    "harmony/terminal-host/entry/src/main/cpp/host_layout.h": "d01c0fdb756f3ebbeb8b18c47711ef15124ccb8c12bb4fb7fa0de4a383656ad5",
+    "harmony/terminal-host/entry/src/main/cpp/native_module.cpp": "41e92180f13100f2afd41d753f89f113293723e2d548eb87cbd98ee5d6a28830",
+    "harmony/terminal-host/entry/src/main/cpp/native_package.h": "0f218b7eab2051d802caac255f5bfb910188acee676aab0225c1d8f0e24a6428",
+    "harmony/terminal-host/entry/src/main/cpp/owned_processes.cpp": "8ede9db1c6e663747e6162cb7986a4847e218459cbffb9e29c4208311412d191",
+    "harmony/terminal-host/entry/src/main/cpp/owned_processes.h": "a2e92a59451517ec9b60ee75f4e230e469447b8a0248692e675ad20edc88a54e",
+    "harmony/terminal-host/entry/src/main/cpp/package_verification.cpp": "ef9b730073a4e392a4f97db43e5e30f81c52f3a7505b853d5cdf76bd2ee62e89",
+    "harmony/terminal-host/entry/src/main/cpp/package_verification.h": "c364a094767b7045f205b45e17079864cc9af3fd78cf0167411e83168572af4d",
+    "harmony/terminal-host/entry/src/main/cpp/process_identity.cpp": "c3014d371529cc7b686fb2f153c0c1084cc55217a6d25163fbab54f563d897d4",
+    "harmony/terminal-host/entry/src/main/cpp/pty_session.cpp": "e7331c6e3d483e258b5e840507a80ddecd3f1944a84c145afbe6ccbc0594ef9f",
+    "harmony/terminal-host/entry/src/main/cpp/pty_session.h": "f943bc36c06d5eadf1f4dcd70c36512d61ca7cbafe25460f4110c3517c083880",
+    "harmony/terminal-host/entry/src/main/cpp/secure_config.cpp": "313d0a637a9a470bb92be2f9b1076b5726b22cc0d6075fad0a4ebbf23cd19368",
+    "harmony/terminal-host/entry/src/main/cpp/secure_config.h": "ed75a90696669cb37afa7cdf379ec91325461f5b0a8cf9ae9beaf0216065eafb",
+    "harmony/terminal-host/entry/src/main/cpp/terminal_bridge.cpp": "0050f88dc05b4ee2461f23cd61ccc6c966d9b565769417570028ab869a01aa9a",
+    "harmony/terminal-host/entry/src/main/cpp/terminal_bridge.h": "aad3be557ea0ee8b835b3127c44cb87586c35b6de43fdf45bc8506a79e6829f0",
+    "harmony/terminal-host/entry/src/main/cpp/tool_regression.cpp": "272768fcb90963d916e9852a32073cca7abd5fcc8066cbafb1290759a1b7ef95",
+    "harmony/terminal-host/entry/src/main/cpp/tool_regression.h": "59628572b2789f29f10a2e744929ca0bac84715ecd84bd00173a4373ca657f2b",
+    "harmony/terminal-host/entry/src/main/cpp/types/libhostprobe/Index.d.ts": "b3f819e25064141d69d4c29193b347e5d5b5476434fa447a457db4a87c86499c",
+    "harmony/terminal-host/entry/src/main/cpp/types/libhostprobe/oh-package.json5": "54cb8bda1836d5a7c77fa6ae4b9cde253c831718e6c84cf35ccc5b74c3a4b131",
+    "harmony/terminal-host/entry/src/main/ets/entryability/EntryAbility.ets": "bf4e15f46bee24e09744899ca11dbb3d7134da1e1cf2bc71a5b33302f7e3324d",
+    "harmony/terminal-host/entry/src/main/ets/pages/Index.ets": "a326a4fa4f35543904e8e3abf563677fb2481dccf9a1c788cf18f7bb1c525e07",
+    "harmony/terminal-host/entry/src/main/ets/pages/TerminalBridge.ets": "3cc3ef2e4b62c8be29e3a4ff52bfd6922872f638025f164dc0ef7f7034b50d29",
+    "harmony/terminal-host/entry/src/main/module.json5": "e6709af4bd3661373a2a880c0c75da837518b2c0c206a4633a8fb8d3c6c5965a",
+    "harmony/terminal-host/entry/src/main/resources/base/element/color.json": "26f6e195ab88786f18e15ea7a9769faaf968c0a631192ed8100fd2cf17d87d97",
+    "harmony/terminal-host/entry/src/main/resources/base/profile/main_pages.json": "f21984fb1d5096f0db41314da0bb94c573e7ad018e5afae3044f8d5ff71b0bfc",
+    "harmony/terminal-host/entry/src/main/resources/rawfile/addon-fit-LICENSE.txt": "e256f01188af527e4d06d21d06fbf785ae9c50d4b328bf03cbe0ba7f0aa4228f",
+    "harmony/terminal-host/entry/src/main/resources/rawfile/addon-fit.js": "ba3ea256ce0620a0992a197d6c9baea64823fc93d8da07a9e366ca9943c18527",
+    "harmony/terminal-host/entry/src/main/resources/rawfile/terminal-assets.json": "ea6fa26523391d4bba6d83d10e9721e5370a974a525403492bfe52cd145e42f3",
+    "harmony/terminal-host/entry/src/main/resources/rawfile/terminal.css": "b82e1d00934e7a9f19132942c7300f773659ed6a22271f0fbbd5c93e87351cc0",
+    "harmony/terminal-host/entry/src/main/resources/rawfile/terminal.html": "1bdf252086b93125289cb64ad20ef4b640249c1dc6549f32755626cc70dc7e4c",
+    "harmony/terminal-host/entry/src/main/resources/rawfile/terminal.js": "8f5c6f98e33588be6284c629c33e20621a2fbb51dad6b36013bfbd233ee88106",
+    "harmony/terminal-host/entry/src/main/resources/rawfile/xterm-LICENSE.txt": "b569f629d00f2626a8100df2a1798210535621e42164dfd426a6fe5aac7b0ccd",
+    "harmony/terminal-host/entry/src/main/resources/rawfile/xterm.css": "854a7c0fb70e8b1a083c16797ab827299fb18744f5ad34f227b48337e33293c6",
+    "harmony/terminal-host/entry/src/main/resources/rawfile/xterm.js": "14903579ff54664cd72f8e8699e6961a6272c21863ec1c3b118cdc8af5d4a972",
+    "harmony/terminal-host/fetch_terminal_assets.py": "ad9467871bcc44a429bd052150cd67cf55108ad4caf27656e7c807e80f10495f",
+    "harmony/terminal-host/host_protocol_test_main.cpp": "8bb2de0c90385082151f0a4061c949c05f7caf33901c9dc550a0f30e7b171747",
+    "harmony/terminal-host/hvigor/hvigor-config.json5": "19fd4e493f941f2dc8d7f4d0da03cbe22fcd2f7fe3adc099cbbb2bdc2656e88b",
+    "harmony/terminal-host/hvigorfile.ts": "2378c5e0c5246005ada73a67e8c9834fa08adb9ffd6fb6c219051456753bed5a",
+    "harmony/terminal-host/oh-package.json5": "44e4124429350246081aa4b67da2ced8b1c8efc557dd8f5604372599643503e3",
+    "harmony/terminal-host/prepare_codex_hnp.py": "2d1f424fb9fc066a90ed11a81210a3585caba5acabc1948ca88cdad801c818b3",
+    "harmony/terminal-host/test_build_terminal_host.py": "20d64532d0a2ae0b6df9b4b1dfa5ebc95683ee187ffd369f266eb8da5d6b7a9b",
+    "harmony/terminal-host/test_prepare_codex_hnp.py": "1ae2031f8aad5e55d54c2ec100fba50a4782452b7ff495e6a04ffc8f83b1c2c6",
+    "harmony/terminal-host/test_secure_config.py": "1161c6d707abd21fcfd0816f84ada7c4b4a8e23b6f78183559de4c0a6fe77560",
+    "harmony/terminal-host/test_terminal_bridge.cjs": "3f24f082032c675f02b4181d07a0c35c653a14571fd041e48cc9a94b7e04fe06",
+    "harmony/terminal-host/使用与构建说明.md": "4e344f58556890f0d1879bd853a78f715d6a7992e9d6891d5898b8e072c38e99"
+  },
+  "cases": [
+    {
+      "case": "网页桥接",
+      "command": [
+        "node",
+        "harmony/terminal-host/test_terminal_bridge.cjs"
+      ],
+      "start": "2026-10-04T16:22:32.713805+08:00",
+      "end": "2026-10-04T16:22:32.745773+08:00",
+      "exit": 0
+    },
+    {
+      "case": "HNP契约与完整性",
+      "command": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "harmony/terminal-host/test_prepare_codex_hnp.py"
+      ],
+      "start": "2026-10-04T16:22:32.746020+08:00",
+      "end": "2026-10-04T16:22:32.899081+08:00",
+      "exit": 0
+    },
+    {
+      "case": "bundle构建参数",
+      "command": [
+        "/opt/homebrew/opt/python@3.14/bin/python3.14",
+        "harmony/terminal-host/test_build_terminal_host.py"
+      ],
+      "start": "2026-10-04T16:22:32.899300+08:00",
+      "end": "2026-10-04T16:22:32.941980+08:00",
+      "exit": 0
+    },
+    {
+      "case": "差异空白检查",
+      "command": [
+        "git",
+        "diff",
+        "--check",
+        "--",
+        "harmony/terminal-host",
+        "docs/鸿蒙电脑原生适配/终端改造实现进度.md"
+      ],
+      "start": "2026-10-04T16:22:32.942181+08:00",
+      "end": "2026-10-04T16:22:32.953628+08:00",
+      "exit": 0
+    }
+  ]
+}

@@ -74,6 +74,7 @@ use supports_color::Stream;
 
 mod background;
 mod capabilities;
+mod data_directories;
 mod desktop;
 mod disk;
 mod filesystem_paths;
@@ -163,6 +164,11 @@ pub struct DoctorCommand {
     /// On OHOS, the standard capability-only invocation also skips dotenv and helper aliases.
     #[arg(long, default_value_t = false)]
     capabilities: bool,
+    /// Initialize protected OHOS platform data directories and print their
+    /// actual paths. Skips dotenv, config, auth, network and helper aliases
+    /// when invoked as doctor --initialize-data-directories [--json].
+    #[arg(long, default_value_t = false, conflicts_with_all = ["capabilities", "probe_filesystem_path", "feedback", "summary", "all", "no_color", "ascii"])]
+    initialize_data_directories: bool,
     /// Internal isolated filesystem probe; exits before loading configuration.
     #[arg(long, hide = true)]
     probe_filesystem_path: Option<PathBuf>,
@@ -332,6 +338,9 @@ pub async fn run_doctor(
     interactive: &TuiCli,
     arg0_paths: &Arg0DispatchPaths,
 ) -> anyhow::Result<()> {
+    if command.initialize_data_directories {
+        return data_directories::initialize_and_print(command.json);
+    }
     if let Some(path) = &command.probe_filesystem_path {
         std::process::exit(filesystem_paths::probe_exit_code(path));
     }

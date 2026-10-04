@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build an emulator debug HAP from a signed, UID-bound Codex distribution.
+"""Build an emulator debug HAP from a signed platform Codex distribution.
 
 All build state stays below --output. No credentials are packaged, no ELF is
 rewritten, no device is changed, and no system/application signing is invented.
@@ -9,6 +9,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import subprocess
@@ -19,6 +20,21 @@ ROOT = Path(__file__).resolve().parent
 SOURCE_DIRS = ("AppScope", "entry/src", "hvigor")
 SOURCE_FILES = ("build-profile.json5", "hvigorfile.ts", "oh-package.json5",
                 "entry/build-profile.json5", "entry/hvigorfile.ts", "entry/oh-package.json5")
+
+
+def bundle_name(value):
+    if not 7 <= len(value) <= 127 or not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z][A-Za-z0-9_]*)+", value):
+        raise argparse.ArgumentTypeError("Bundle name must be a dotted ASCII application identity (7–127 characters)")
+    return value
+
+
+def configure_bundle(project, value):
+    value = bundle_name(value)
+    path = project / "AppScope/app.json5"
+    declaration = json.loads(path.read_text())
+    declaration["app"]["bundleName"] = value
+    path.write_text(json.dumps(declaration, ensure_ascii=False, indent=2) + "\n")
+    return sha256(path)
 
 
 def sha256(path):
@@ -44,9 +60,11 @@ def source_files():
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--distribution", type=Path, required=True, help="Signed hnp-debug distribution directory")
+    parser.add_argument("--distribution", type=Path, required=True, help="Signed platform distribution with original HNP alias entries")
     parser.add_argument("--deveco", type=Path, required=True, help="DevEco-Studio.app or its Contents directory")
     parser.add_argument("--output", type=Path, required=True, help="New output directory (on an external volume if desired)")
+    parser.add_argument("--bundle-name", type=bundle_name, default="com.codex.emulatorhnp",
+                        help="Debug host identity; changing it never rebuilds or rewrites the signed Codex ELF")
     args = parser.parse_args()
     deveco = args.deveco.resolve(strict=True)
     if (deveco / "Contents").is_dir():
@@ -70,6 +88,7 @@ def main():
         destination.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(path, destination)
         manifest[str(relative)] = sha256(path)
+    generated_app_digest = configure_bundle(project, args.bundle_name)
     # Build state and dependencies are generated only in the copied project.
     env = os.environ.copy()
     env.update(NODE_HOME=str(deveco / "tools/node"), NODE_PATH=str(project / "node_modules"),
@@ -130,6 +149,7 @@ def main():
               "bundle": app["bundleName"], "deployment": "unsigned emulator debug HAP; original ELF signatures preserved",
               "rust_source_sha": build_record["源码"]["提交"], "codex_version": build_record["版本"],
               "hnp": runtime_manifest, "host_source_files": manifest,
+              "build_parameters": {"bundle_name": args.bundle_name, "generated_app_sha256": generated_app_digest},
               "host_source_sha256": hashlib.sha256(json.dumps(manifest, sort_keys=True).encode()).hexdigest()}
     record["build_tools"] = {name: sha256(ROOT / name) for name in
                              ("build_terminal_host.py", "prepare_codex_hnp.py", "fetch_terminal_assets.py")}

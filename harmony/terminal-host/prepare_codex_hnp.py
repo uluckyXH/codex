@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Stage a complete signed hnp-debug runtime using the SDK's normal HNP format.
+"""Stage a complete signed platform runtime using the SDK's normal HNP format.
 
 Chinese delivery documents remain in the outer distribution. This script never
 reads an installed user's config, builds an ELF, or changes signing permissions.
@@ -26,6 +26,33 @@ RUNTIME_FILES = (
     "codex-path/codex-linux-sandbox",
     "codex-path/codex-execve-wrapper",
 )
+ALIAS_FILES = RUNTIME_FILES[4:]
+
+
+def validate_runtime_contract(record, checksums):
+    contract = record.get("受保护运行根契约", {})
+    expected = {
+        "runtime_profile": "platform",
+        "runtime_base": None,
+        "identity_binding": "runtime-getuid-geteuid-getgid-getegid",
+        "platform_files_candidate": "/data/storage/el2/base/files",
+        "directory_source_order": ["native-application-context", "validated-platform-namespace"],
+        "data_layout": {
+            "root": "codex", "state": "codex/state", "runtime_aliases": "codex/r/a",
+            "runtime_sockets": "codex/r/s", "tmp": "codex/tmp", "logs": "codex/logs", "host": "codex/host",
+        },
+    }
+    if not isinstance(contract, dict) or any(key not in contract or contract[key] != value for key, value in expected.items()):
+        raise ValueError("HNP requires the shared platform directory/identity contract")
+    for key in ("绑定应用UID", "application_uid", "runtime_uid", "编译时固定候选", "编译时策略"):
+        if key in contract:
+            raise ValueError("Installation-specific identity/root bindings must not enter a platform HNP")
+    alias = record.get("HNP工具入口")
+    if not isinstance(alias, dict) or not re.fullmatch(r"[0-9a-f]{64}", alias.get("SHA-256", "")) or any(
+        checksums[name] != alias["SHA-256"] for name in ALIAS_FILES
+    ):
+        raise ValueError("HNP requires the original signed alias entry and matching installed aliases")
+    return contract
 
 
 def digest(path):
@@ -130,16 +157,19 @@ def main():
     if output.exists():
         raise SystemExit("Output must be a new directory; existing evidence is never overwritten")
     record, checksums = validate_distribution(source)
-    contract = record["受保护运行根契约"]
-    if contract["编译时策略"] != "hnp-debug" or contract["绑定应用UID"] != 20020059 or contract["编译时固定候选"] != "/data/storage/el2/base/files/r":
-        raise SystemExit("Distribution is not bound to this HNP application's verified UID/root")
+    contract = validate_runtime_contract(record, checksums)
     revision = record["源码"]["提交"]
     if len(revision) != 40 or any(c not in "0123456789abcdef" for c in revision):
         raise SystemExit("Expected a complete lowercase source revision")
     version = re.match(r"^\d+\.\d+\.\d+", record["版本"])
     if version is None:
         raise SystemExit("Distribution version must start with an official semantic version")
-    hnp_version = version.group(0) + ".g" + revision[:12]
+    runtime_identity = hashlib.sha256(json.dumps(
+        {name: checksums[name] for name in RUNTIME_FILES}, sort_keys=True, separators=(",", ":")
+    ).encode()).hexdigest()
+    # Dirty builds can share a Git HEAD. Include the original signed runtime
+    # identity so an installed package cannot retain stale code at that HEAD.
+    hnp_version = version.group(0) + ".g" + revision[:12] + ".r" + runtime_identity[:12]
     inputs = []
     for name in ["bin", "codex-path", "codex-resources"]:
         for path in sorted((source / name).rglob("*")):
@@ -187,7 +217,7 @@ def main():
     if result.returncode:
         raise SystemExit(result.stdout)
     hnp = hnp_output / "codexharmony.hnp"
-    (output / "manifest.json").write_text(json.dumps({"hnp": str(hnp), "hnp_version": hnp_version, "installed_package": installed, "sha256": digest(hnp), "bytes": hnp.stat().st_size, "runtime_files": files}, ensure_ascii=False, indent=2) + "\n")
+    (output / "manifest.json").write_text(json.dumps({"hnp": str(hnp), "hnp_version": hnp_version, "runtime_identity": runtime_identity, "installed_package": installed, "sha256": digest(hnp), "bytes": hnp.stat().st_size, "runtime_files": files}, ensure_ascii=False, indent=2) + "\n")
     print(hnp)
     print("sha256=" + digest(hnp))
 

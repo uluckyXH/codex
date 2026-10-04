@@ -1,15 +1,17 @@
 use codex_utils_absolute_path::AbsolutePathBuf;
 use dirs::home_dir;
+use std::path::Path;
 use std::path::PathBuf;
 
 /// Returns the path to the Codex configuration directory, which can be
 /// specified by the `CODEX_HOME` environment variable. If not set, defaults to
-/// `~/.codex`.
+/// `~/.codex`. The OHOS platform profile uses its initialized `codex/state`.
 ///
 /// - If `CODEX_HOME` is set, the value must exist and be a directory. The
 ///   value will be canonicalized and this function will Err otherwise.
 /// - If `CODEX_HOME` is not set, this function does not verify that the
-///   directory exists.
+///   directory exists on other platforms. OHOS initializes and validates its
+///   own default before returning it, independently of a GUI launcher.
 pub fn find_codex_home() -> std::io::Result<AbsolutePathBuf> {
     let codex_home_env = std::env::var("CODEX_HOME")
         .ok()
@@ -50,6 +52,12 @@ fn find_codex_home_from_env(codex_home_env: Option<&str>) -> std::io::Result<Abs
             }
         }
         None => {
+            #[cfg(target_env = "ohos")]
+            if codex_uds::ohos_runtime_profile_contract() == "platform" {
+                return AbsolutePathBuf::from_absolute_path(
+                    codex_uds::initialize_ohos_data_directories()?.state_dir(),
+                );
+            }
             let mut p = home_dir().ok_or_else(|| {
                 std::io::Error::new(
                     std::io::ErrorKind::NotFound,
@@ -59,6 +67,28 @@ fn find_codex_home_from_env(codex_home_env: Option<&str>) -> std::io::Result<Abs
             p.push(".codex");
             AbsolutePathBuf::from_absolute_path(p)
         }
+    }
+}
+
+/// The default log path; callers keep explicit configuration overrides first.
+/// A custom CODEX_HOME retains the upstream home/log convention.
+pub fn default_log_dir(codex_home: impl AsRef<Path>) -> std::io::Result<PathBuf> {
+    let codex_home = codex_home.as_ref();
+    #[cfg(target_env = "ohos")]
+    if codex_uds::ohos_runtime_profile_contract() == "platform" {
+        let directories = codex_uds::initialize_ohos_data_directories()?;
+        return Ok(log_dir_for_layout(
+            codex_home,
+            Some((directories.state_dir(), directories.logs_dir())),
+        ));
+    }
+    Ok(log_dir_for_layout(codex_home, None))
+}
+
+fn log_dir_for_layout(codex_home: &Path, layout: Option<(&Path, &Path)>) -> PathBuf {
+    match layout {
+        Some((state, logs)) if codex_home == state => logs.to_path_buf(),
+        _ => codex_home.join("log"),
     }
 }
 
@@ -122,6 +152,7 @@ mod tests {
         assert_eq!(resolved, expected);
     }
 
+    #[cfg(not(target_env = "ohos"))]
     #[test]
     fn find_codex_home_without_env_uses_default_home_dir() {
         let resolved =
@@ -130,5 +161,19 @@ mod tests {
         expected.push(".codex");
         let expected = AbsolutePathBuf::from_absolute_path(expected).expect("absolute home");
         assert_eq!(resolved, expected);
+    }
+
+    #[test]
+    fn platform_logs_follow_default_state_and_custom_home_keeps_its_log_dir() {
+        use std::path::Path;
+        let state = Path::new("/platform/files/codex/state");
+        let logs = Path::new("/platform/files/codex/logs");
+        assert_eq!(super::log_dir_for_layout(state, Some((state, logs))), logs);
+        let custom = Path::new("/explicit/codex-home");
+        assert_eq!(
+            super::log_dir_for_layout(custom, Some((state, logs))),
+            custom.join("log")
+        );
+        assert_eq!(super::log_dir_for_layout(state, None), state.join("log"));
     }
 }

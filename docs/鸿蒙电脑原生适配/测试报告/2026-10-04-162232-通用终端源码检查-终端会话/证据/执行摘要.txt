@@ -1,0 +1,68 @@
+用例：网页桥接
+开始：2026-10-04T16:22:32.713805+08:00
+结束：2026-10-04T16:22:32.745773+08:00
+退出码：0
+命令参数：["node", "harmony/terminal-host/test_terminal_bridge.cjs"]
+PASS page never starts or stops a process
+PASS late bridge receives geometry and token
+PASS split UTF8 bytes remain raw bytes
+PASS output backpressure waits for completion
+PASS HTML and escapes stay terminal bytes
+PASS oversized Unicode paste rejected whole
+PASS oversized output rejected
+PASS invalid base64 rejected
+PASS native error text cannot become markup
+PASS exit metadata requires integers
+PASS leader exit alone never claims cleanup complete
+PASS signal failure stays visible
+PASS replacement session resets display and changes input token
+PASS stale native packet discarded
+PASS input pending page refresh cannot reach new session
+PASS late output callback after disposal does not schedule work
+PASS idle page does not send input
+17 checks passed
+
+用例：HNP契约与完整性
+开始：2026-10-04T16:22:32.746020+08:00
+结束：2026-10-04T16:22:32.899081+08:00
+退出码：0
+命令参数：["/opt/homebrew/opt/python@3.14/bin/python3.14", "harmony/terminal-host/test_prepare_codex_hnp.py"]
+/private/var/folders/bj/qgp6f03n14q_tgq85z7d761c0000gn/T/tmp_9m30hy5/staged/hnp/arm64-v8a/codexharmony.hnp
+sha256=889d97e7c731ef3dc338d6369525bef9b2b5ad9dae73ed1bee08a444de760aab
+test_bound_identity_and_old_layout_rejected (__main__.HnpInputIntegrityTests.test_bound_identity_and_old_layout_rejected) ... ok
+test_build_record_and_package_metadata_are_covered_by_checksums (__main__.HnpInputIntegrityTests.test_build_record_and_package_metadata_are_covered_by_checksums) ... ok
+test_copy_is_checked_against_previously_validated_digest (__main__.HnpInputIntegrityTests.test_copy_is_checked_against_previously_validated_digest) ... ok
+test_duplicate_entries_are_rejected (__main__.HnpInputIntegrityTests.test_duplicate_entries_are_rejected) ... ok
+test_escaping_and_ambiguous_checksum_paths_are_rejected (__main__.HnpInputIntegrityTests.test_escaping_and_ambiguous_checksum_paths_are_rejected) ... ok
+test_missing_checksum_entries_and_unlisted_files_are_rejected (__main__.HnpInputIntegrityTests.test_missing_checksum_entries_and_unlisted_files_are_rejected) ... ok
+test_missing_or_stale_signed_alias_record_rejected (__main__.HnpInputIntegrityTests.test_missing_or_stale_signed_alias_record_rejected) ... ok
+test_missing_runtime_file_and_build_digest_are_rejected (__main__.HnpInputIntegrityTests.test_missing_runtime_file_and_build_digest_are_rejected) ... ok
+test_rehashed_runtime_still_requires_original_build_digest (__main__.HnpInputIntegrityTests.test_rehashed_runtime_still_requires_original_build_digest) ... ok
+test_stale_metadata_or_record_rejected_even_after_rehashing (__main__.HnpInputIntegrityTests.test_stale_metadata_or_record_rejected_even_after_rehashing) ... ok
+test_symbolic_links_are_rejected_even_when_bytes_match (__main__.HnpInputIntegrityTests.test_symbolic_links_are_rejected_even_when_bytes_match) ... ok
+test_tampering_each_runtime_is_rejected_by_original_checksums (__main__.HnpInputIntegrityTests.test_tampering_each_runtime_is_rejected_by_original_checksums) ... ok
+test_valid_input_preserves_runtime_and_source_identity (__main__.HnpInputIntegrityTests.test_valid_input_preserves_runtime_and_source_identity) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.082s
+
+OK
+
+用例：bundle构建参数
+开始：2026-10-04T16:22:32.899300+08:00
+结束：2026-10-04T16:22:32.941980+08:00
+退出码：0
+命令参数：["/opt/homebrew/opt/python@3.14/bin/python3.14", "harmony/terminal-host/test_build_terminal_host.py"]
+test_invalid_or_shell_like_bundle_names_rejected (__main__.BundleParameterTests.test_invalid_or_shell_like_bundle_names_rejected) ... ok
+test_two_bundle_identities_only_change_copied_app_metadata (__main__.BundleParameterTests.test_two_bundle_identities_only_change_copied_app_metadata) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.002s
+
+OK
+
+用例：差异空白检查
+开始：2026-10-04T16:22:32.942181+08:00
+结束：2026-10-04T16:22:32.953628+08:00
+退出码：0
+命令参数：["git", "diff", "--check", "--", "harmony/terminal-host", "docs/鸿蒙电脑原生适配/终端改造实现进度.md"]

@@ -16,6 +16,7 @@ from unittest.mock import patch
 
 from build_harmony import REPO_ROOT, TARGET
 from build_harmony_distribution import (
+    INSTALL_TUTORIALS,
     assemble,
     build_package,
     package_version,
@@ -162,7 +163,7 @@ class DistributionTests(unittest.TestCase):
         (self.root / "codex-rs/Cargo.toml").write_text(
             '[workspace.package]\nversion = "0.160.0-dev"\n'
         )
-        provenance = self.root / "scripts/harmony/版本来源.json"
+        provenance = self.root / "scripts/harmony/version-source.json"
         provenance.parent.mkdir(parents=True)
         provenance.write_text(json.dumps({"工作区版本": "0.159.3"}))
         with (
@@ -180,20 +181,21 @@ class DistributionTests(unittest.TestCase):
         (self.root / "codex-rs/Cargo.toml").write_text(
             '[workspace.package]\nversion = "0.160.0-dev"\n'
         )
-        provenance = self.root / "scripts/harmony/版本来源.json"
+        provenance = self.root / "scripts/harmony/version-source.json"
         provenance.parent.mkdir(parents=True)
         provenance.write_text(json.dumps({"工作区版本": "0.160.0-dev"}))
-        for profile, base, uid in (
-            ("strict", "/data/storage/el2/base/files", None),
-            ("hdc-debug", "/data/local/tmp/cdx", None),
-            ("hnp-debug", "/data/storage/el2/base/files/r", 20020059),
+        for profile, base, with_alias in (
+            ("strict", "/data/storage/el2/base/files", False),
+            ("hdc-debug", "/data/local/tmp/cdx", False),
+            ("platform", None, False),
+            ("platform", None, True),
         ):
-            output = self.root / profile
+            output = self.root / f"{profile}-{with_alias}"
             output.mkdir()
             args = SimpleNamespace(
                 runtime_base=base,
                 runtime_profile=profile,
-                runtime_uid=uid,
+                with_hnp_alias=with_alias,
                 helpers_dir=self.root / "helpers",
                 java="java",
                 build_dir=None,
@@ -234,18 +236,18 @@ class DistributionTests(unittest.TestCase):
                 self.assertEqual(
                     command[command.index("--runtime-profile") + 1], profile
                 )
-                self.assertEqual(command[command.index("--runtime-base") + 1], base)
+                if base is None:
+                    self.assertNotIn("--runtime-base", command)
+                    self.assertNotIn("CODEX_OHOS_RUNTIME_BASE", env)
+                else:
+                    self.assertEqual(command[command.index("--runtime-base") + 1], base)
                 self.assertEqual(env["CODEX_OHOS_RUNTIME_PROFILE"], profile)
-                if uid is None:
-                    self.assertNotIn("--runtime-uid", command)
-                    self.assertNotIn("CODEX_OHOS_RUNTIME_UID", env)
+                self.assertNotIn("--runtime-uid", command)
+                self.assertNotIn("CODEX_OHOS_RUNTIME_UID", env)
+                if not with_alias:
                     self.assertNotIn("CODEX_HNP_ALIAS_SHA256", env)
                     alias_builder.assert_not_called()
                 else:
-                    self.assertEqual(
-                        command[command.index("--runtime-uid") + 1], str(uid)
-                    )
-                    self.assertEqual(env["CODEX_OHOS_RUNTIME_UID"], str(uid))
                     self.assertEqual(env["CODEX_HNP_ALIAS_SHA256"], "c" * 64)
                     self.assertEqual(
                         command[command.index("--hnp-alias-sha256") + 1], "c" * 64
@@ -254,15 +256,16 @@ class DistributionTests(unittest.TestCase):
                 contract = json.loads((output / "构建输入.json").read_text())[
                     "受保护运行根契约"
                 ]
-                self.assertEqual(contract["编译时策略"], profile)
-                self.assertEqual(contract["编译时固定候选"], base)
-                self.assertFalse(contract["环境变量回退"])
-                if profile == "hnp-debug":
-                    self.assertEqual(contract["绑定应用UID"], uid)
-                    self.assertEqual(contract["私有运行根"]["权限"], "0700")
-                if profile == "hdc-debug":
-                    self.assertEqual(contract["私有运行根"]["权限"], "0700")
-                    self.assertEqual(contract["固定祖先"]["/data"]["GID"], 1000)
+                self.assertEqual(contract["runtime_profile"], profile)
+                self.assertEqual(contract["runtime_base"], base)
+                self.assertFalse(contract["environment_root_fallback"])
+                self.assertEqual(contract["identity_binding"], "runtime-getuid-geteuid-getgid-getegid")
+                self.assertNotIn("绑定应用UID", contract)
+                if profile == "platform":
+                    self.assertEqual(contract["data_layout"]["runtime_sockets"], "codex/r/s")
+                    self.assertEqual(contract["directory_source_order"], [
+                        "native-application-context", "validated-platform-namespace",
+                    ])
 
     def test_modified_content_cannot_hide_behind_unchanged_git_status(self):
         before = {
@@ -359,26 +362,32 @@ class DistributionTests(unittest.TestCase):
             helpers=helpers,
             runtime_probe=binary,
             version="0.160.0-dev.harmony.gaaaaaaaaaaaa",
+            source_commit="a" * 40,
         )
         probe = package / "codex-resources/harmony-runtime-probe"
         self.assertEqual(probe.read_bytes(), binary.read_bytes())
         self.assertTrue(os.access(probe, os.X_OK))
-        for name in (
-            "接口密钥安装速用.md",
-            "账号登录安装速用.md",
-            "升级与专项日志速用.md",
-            "七版修复包安装与复测.md",
-            "挂载修复候选安装与复测.md",
-            "鸿蒙沙箱能力与执行方式分析.md",
-        ):
-            self.assertEqual(
-                (package / name).read_bytes(),
-                (REPO_ROOT / "docs/鸿蒙电脑原生适配" / name).read_bytes(),
-            )
+        for name in INSTALL_TUTORIALS:
+            content = (package / name).read_text()
+            self.assertNotIn("{{", content)
+            self.assertNotIn("安装.sh", content)
+            self.assertIn("gpt-5.6-terra", content)
+        instructions = (package / "新版安装与运行说明.md").read_text()
+        self.assertIn("0.160.0-dev.harmony.gaaaaaaaaaaaa", instructions)
+        self.assertIn("a" * 40, instructions)
         write_checksums(package)
         manifest = (package / "文件校验清单.sha256").read_text()
         self.assertIn("  codex-resources/harmony-runtime-probe\n", manifest)
-        self.assertIn("  升级与专项日志速用.md\n", manifest)
+        self.assertIn("  新版安装与运行说明.md\n", manifest)
+        for name in ("install.sh", "enable-terminal.sh", "diagnose.sh"):
+            self.assertTrue(os.access(package / name, os.X_OK))
+            self.assertIn(f"  {name}\n", manifest)
+        self.assertFalse(
+            any(
+                any("\u4e00" <= c <= "\u9fff" for c in p.name)
+                for p in package.rglob("*.sh")
+            )
+        )
 
     def test_hdc_debug_package_has_its_own_instructions_and_no_user_config(self):
         binary = elf_fixture(self.root / "input")
@@ -394,12 +403,13 @@ class DistributionTests(unittest.TestCase):
             helpers=helpers,
             runtime_probe=binary,
             version="0.160.0-dev.harmony.gaaaaaaaaaaaa",
+            source_commit="a" * 40,
             runtime_profile="hdc-debug",
         )
         instructions = (package / "安装说明.md").read_text()
         self.assertIn("hdc-debug", instructions)
         self.assertIn("UID 2000", instructions)
-        self.assertIn("不能替换商业 PC", instructions)
+        self.assertIn("不是商业 PC", instructions)
         self.assertNotIn("$HOME/应用工具", instructions)
         self.assertEqual(list(package.rglob("config.toml")), [])
         self.assertFalse((package / "接口密钥安装速用.md").exists())
@@ -415,7 +425,7 @@ class DistributionTests(unittest.TestCase):
         self.assertIn("  emulator-tools/run-harmony-codex.exp\n", manifest)
         self.assertIn("  模拟器使用与日志速用.md\n", manifest)
 
-    def test_hnp_debug_package_has_application_instructions_and_no_shell_installer(
+    def test_platform_package_preserves_cli_install_and_adds_signed_hnp_entries(
         self,
     ):
         binary = elf_fixture(self.root / "input")
@@ -431,17 +441,18 @@ class DistributionTests(unittest.TestCase):
             helpers=helpers,
             runtime_probe=binary,
             version="0.160.0-dev.harmony.gaaaaaaaaaaaa",
-            runtime_profile="hnp-debug",
-            runtime_uid=20020059,
+            source_commit="a" * 40,
+            runtime_profile="platform",
             hnp_alias=binary,
         )
         instructions = (package / "安装说明.md").read_text()
-        self.assertIn("hnp-debug", instructions)
-        self.assertIn("20020059", instructions)
+        self.assertIn("platform", instructions)
+        self.assertNotIn("20020059", instructions)
         self.assertIn("private HNP", instructions)
         self.assertEqual(list(package.rglob("config.toml")), [])
         self.assertFalse((package / "emulator-tools").exists())
-        self.assertFalse((package / "安装.sh").exists())
+        self.assertTrue((package / "install.sh").exists())
+        self.assertTrue((package / "接口密钥安装速用.md").exists())
         for name in (
             "apply_patch",
             "applypatch",
@@ -459,7 +470,7 @@ class DistributionTests(unittest.TestCase):
             "codex-path/rg",
             "codex-resources/bwrap",
             "codex-resources/harmony-runtime-probe",
-            "HNP应用宿主调试速用.md",
+            "新版安装与运行说明.md",
         ):
             self.assertIn(f"  {name}\n", manifest)
 
@@ -541,7 +552,7 @@ class InstallerTests(unittest.TestCase):
         self.root = Path(self.temp.name)
         self.package = self.root / "候选 包"
         self.package.mkdir()
-        for name in ("安装.sh", "启用终端.sh", "诊断.sh"):
+        for name in ("install.sh", "enable-terminal.sh", "diagnose.sh"):
             shutil.copyfile(REPO_ROOT / "scripts/harmony" / name, self.package / name)
         for name in (
             "bin/codex",
@@ -557,7 +568,7 @@ class InstallerTests(unittest.TestCase):
 
     def install(self, prefix: Path) -> subprocess.CompletedProcess:
         return subprocess.run(
-            ["/bin/sh", str(self.package / "安装.sh"), "--prefix", str(prefix)],
+            ["/bin/sh", str(self.package / "install.sh"), "--prefix", str(prefix)],
             text=True,
             capture_output=True,
         )
@@ -572,12 +583,18 @@ class InstallerTests(unittest.TestCase):
                 "-c",
                 '. "$1"; command -v codex',
                 "sh",
-                str(prefix / "环境.sh"),
+                str(prefix / "env.sh"),
             ],
             text=True,
             cwd=self.root,
         ).strip()
         self.assertEqual(path, str(prefix / "bin/codex"))
+        rg = subprocess.check_output(
+            ["/bin/sh", "-c", '. "$1"; command -v rg', "sh", str(prefix / "env.sh")],
+            text=True,
+            cwd=self.root,
+        ).strip()
+        self.assertEqual(rg, str(prefix / "codex-path/rg"))
         self.assertEqual(
             (prefix / "bin/codex").read_bytes(),
             (self.package / "bin/codex").read_bytes(),
@@ -599,11 +616,59 @@ class InstallerTests(unittest.TestCase):
         prefix = self.root / "installed"
         self.assertEqual(self.install(prefix).returncode, 0)
         script = '. "$1"; first=$PATH; . "$1"; test "$first" = "$PATH"'
-        subprocess.run(["sh", "-c", script, "sh", str(prefix / "环境.sh")], check=True)
+        subprocess.run(["sh", "-c", script, "sh", str(prefix / "env.sh")], check=True)
+
+    def test_install_and_environment_preserve_data_settings_and_project_directory(self):
+        prefix = self.root / "installed"
+        home = self.root / "caller-home"
+        config = self.root / "explicit-codex-home"
+        temporary = self.root / "caller-tmp"
+        project = self.root / "用户项目 空格"
+        project.mkdir()
+        self.assertEqual(self.install(prefix).returncode, 0)
+        result = subprocess.run(
+            [
+                "sh",
+                "-c",
+                '. "$1"; printf "%s\\n" "$HOME" "$CODEX_HOME" "$TMPDIR" "$PWD"; command -v codex; command -v rg',
+                "sh",
+                str(prefix / "env.sh"),
+            ],
+            cwd=project,
+            env=dict(
+                os.environ,
+                HOME=str(home),
+                CODEX_HOME=str(config),
+                TMPDIR=str(temporary),
+            ),
+            text=True,
+            capture_output=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(
+            result.stdout.splitlines(),
+            [
+                str(home),
+                str(config),
+                str(temporary),
+                str(project.resolve()),
+                str(prefix / "bin/codex"),
+                str(prefix / "codex-path/rg"),
+            ],
+        )
+        for path in (home, config, temporary):
+            self.assertFalse(path.exists())
+        self.assertEqual(list(project.iterdir()), [])
 
     def activate(self, prefix: Path, rc_file: Path, *options: str):
         return subprocess.run(
-            ["sh", str(prefix / "启用终端.sh"), "--rc-file", str(rc_file), *options],
+            [
+                "sh",
+                str(prefix / "enable-terminal.sh"),
+                "--rc-file",
+                str(rc_file),
+                *options,
+            ],
             text=True,
             capture_output=True,
         )
@@ -618,13 +683,13 @@ class InstallerTests(unittest.TestCase):
         self.assertEqual(first.returncode, 0, first.stderr)
         activated = rc_file.read_text()
         self.assertTrue(activated.startswith(original))
-        backups = list(self.root.glob("测试终端配置.鸿蒙Codex-*.bak"))
+        backups = list(self.root.glob("测试终端配置.codex-*.bak"))
         self.assertEqual(len(backups), 1)
         self.assertEqual(backups[0].read_text(), original)
         second = self.activate(prefix, rc_file)
         self.assertEqual(second.returncode, 0, second.stderr)
         self.assertEqual(rc_file.read_text(), activated)
-        self.assertEqual(len(list(self.root.glob("测试终端配置.鸿蒙Codex-*.bak"))), 1)
+        self.assertEqual(len(list(self.root.glob("测试终端配置.codex-*.bak"))), 1)
         self.assertEqual(self.activate(prefix, rc_file, "--remove").returncode, 0)
         self.assertEqual(rc_file.read_text(), original)
 
@@ -674,7 +739,7 @@ class InstallerTests(unittest.TestCase):
         output = self.root / "诊断输出"
         env = dict(os.environ, HARMONY_TEST_PRIVATE="private-sentinel-do-not-export")
         result = subprocess.run(
-            ["sh", str(prefix / "诊断.sh"), "--output-dir", str(output)],
+            ["sh", str(prefix / "diagnose.sh"), "--output-dir", str(output)],
             env=env,
             text=True,
             capture_output=True,
@@ -688,7 +753,7 @@ class InstallerTests(unittest.TestCase):
         self.assertNotIn("private-sentinel-do-not-export", texts)
         self.assertFalse((output / "受限终端.txt").exists())
         again = subprocess.run(
-            ["sh", str(prefix / "诊断.sh"), "--output-dir", str(output)],
+            ["sh", str(prefix / "diagnose.sh"), "--output-dir", str(output)],
             text=True,
             capture_output=True,
         )
@@ -706,7 +771,7 @@ class InstallerTests(unittest.TestCase):
         env = dict(os.environ)
         env.pop("HOME", None)
         result = subprocess.run(
-            ["sh", str(prefix / "诊断.sh"), "--paths-only"],
+            ["sh", str(prefix / "diagnose.sh"), "--paths-only"],
             env=env,
             text=True,
             capture_output=True,
@@ -718,7 +783,7 @@ class InstallerTests(unittest.TestCase):
         result = subprocess.run(
             [
                 "sh",
-                str(prefix / "诊断.sh"),
+                str(prefix / "diagnose.sh"),
                 "--paths-only",
                 "--output-dir",
                 str(conflict),
@@ -759,7 +824,14 @@ esac
         write_checksums(prefix)
         output = self.root / "沙箱诊断输出"
         result = subprocess.run(
-            ["sh", str(prefix / "诊断.sh"), "--sandbox", "--output-dir", str(output)],
+            [
+                "sh",
+                str(prefix / "diagnose.sh"),
+                "--sandbox",
+                "--output-dir",
+                str(output),
+            ],
+            env=dict(os.environ, SHELL="/bin/sh"),
             text=True,
             capture_output=True,
         )
@@ -769,6 +841,32 @@ esac
         self.assertIn("受限终端：退出码 159", summary)
         self.assertIn("simulated exit 159", (output / "受限终端.txt").read_text())
         self.assertIn("未采集到", (output / "挂载诊断.txt").read_text())
+
+    def test_diagnostic_rejects_wrong_shell_marker_and_preserves_literal_shell_path(self):
+        prefix = self.root / "installed"
+        self.assertEqual(self.install(prefix).returncode, 0)
+        fake_shell = self.root / "fake shell ' quote"
+        fake_shell.write_text("#!/bin/sh\nprintf '%s\\n' wrong-marker\n")
+        fake_shell.chmod(0o755)
+        sentinel = self.root / "must-not-run"
+        candidates = (str(fake_shell), f"/bin/sh; touch {sentinel}")
+        for index, candidate in enumerate(candidates):
+            output = self.root / f"shell-diagnostic-{index}"
+            result = subprocess.run(
+                ["sh", str(prefix / "diagnose.sh"), "--sandbox", "--output-dir", str(output)],
+                env=dict(os.environ, SHELL=candidate),
+                text=True,
+                capture_output=True,
+            )
+            self.assertNotEqual(result.returncode, 0)  # The fake Codex still exits 97.
+            first = (output / "shell-probe-1.txt").read_text()
+            self.assertIn(candidate, first)
+            if index == 0:
+                self.assertIn("wrong-marker", first)
+            environment = (output / "运行环境.txt").read_text()
+            self.assertNotIn(f"受限执行 Shell：{candidate}", environment)
+            self.assertIn("普通终端：退出码 0", (output / "检查摘要.txt").read_text())
+            self.assertFalse(sentinel.exists())
 
     def test_mount_records_are_copied_literally_without_hiding_failure(self):
         prefix = self.root / "installed"
@@ -789,7 +887,13 @@ esac
         write_checksums(prefix)
         output = self.root / "挂载记录"
         result = subprocess.run(
-            ["sh", str(prefix / "诊断.sh"), "--sandbox", "--output-dir", str(output)],
+            [
+                "sh",
+                str(prefix / "diagnose.sh"),
+                "--sandbox",
+                "--output-dir",
+                str(output),
+            ],
             text=True,
             capture_output=True,
         )
@@ -821,14 +925,14 @@ esac
     def test_unlisted_files_and_environment_symlink_are_not_copied(self):
         outside = self.root / "普通外部文件"
         outside.write_text("must remain unchanged")
-        (self.package / "环境.sh").symlink_to(outside)
+        (self.package / "env.sh").symlink_to(outside)
         (self.package / "未列入清单.txt").write_text("not part of the package")
         prefix = self.root / "safe-install"
         result = self.install(prefix)
         self.assertEqual(result.returncode, 0, result.stderr)
         self.assertEqual(outside.read_text(), "must remain unchanged")
-        self.assertFalse((prefix / "环境.sh").is_symlink())
-        self.assertTrue((prefix / "环境.sh").is_file())
+        self.assertFalse((prefix / "env.sh").is_symlink())
+        self.assertTrue((prefix / "env.sh").is_file())
         self.assertFalse((prefix / "未列入清单.txt").exists())
 
     def test_manifest_files_and_parent_directories_cannot_be_symlinks(self):
@@ -852,7 +956,7 @@ esac
         original = manifest.read_text()
         for index, name in enumerate(
             (
-                "环境.sh",
+                "env.sh",
                 "文件校验清单.sha256",
                 "../外部文件",
                 "/tmp/文件",

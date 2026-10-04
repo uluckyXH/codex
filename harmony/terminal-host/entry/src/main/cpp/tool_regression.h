@@ -2,5 +2,5 @@
 #include <atomic>
 #include <cstdio>
 #include <string>
-bool RunToolRegression(int files, int logs, FILE *report, const std::string &prefix,
-                       const std::atomic<bool> &cancelled);
+bool RunToolRegression(int files, const std::string &dataRoot, int logs, FILE *report, const std::string &prefix,
+                       const std::atomic<bool> &cancelled, bool &cleanupUnknown);

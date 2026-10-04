@@ -1,0 +1,30 @@
+原始日志位于 .harmony-build/current/integration-20261004-general；以下仅提取测试结果/编译失败，不含完整上游警告。
+
+rust-host.log sha256=e28bdbf8ce24197aacdf1c6d369bab88718d0a6711fb5db606f0b7d4581a16f5
+error[E0425]: cannot find type `OsString` in this scope
+
+rust-host-rerun.log sha256=de3eb9d5b38e87dd11449010cf16c399ec3c516d7fb197fa1eb0786df5d746a8
+test result: ok. 27 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+test lib_tests::stream_round_trips_data_between_listener_and_client ... FAILED
+test lib_tests::bound_listener_path_is_stale_socket_path ... FAILED
+test ohos_runtime::data::tests::initial_shared_files_and_foreign_owner_are_rejected_without_a_child_or_chmod ... FAILED
+failures:
+failures:
+test result: FAILED. 42 passed; 3 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.06s
+error: test failed, to rerun pass `-p codex-uds --lib`
+
+rust-host-final.log sha256=e2a6f3d44b0936f899f92feb5ca59aca260c6cdce613a944672d4178f8cd05b6
+test harmony_hnp_alias_dir::tests::foreign_owner_writable_or_special_modes_are_rejected ... FAILED
+failures:
+failures:
+test result: FAILED. 26 passed; 1 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+error: test failed, to rerun pass `-p codex-arg0 --lib`
+
+rust-host-shorttmp.log sha256=4919ceb463a596dce9be6835a8a810f7cd33fc61fa6198cc0096ee57088b59c8
+test result: ok. 27 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s
+test result: ok. 45 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+test result: ok. 5 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+ohos-check.log sha256=9167a65d7d571a53152c37b8c9a8e94739171adfcb5b37ac47d841b65c083638
+    Finished `release` profile [optimized + debuginfo] target(s) in 2m 21s
+check 成功；产物与缓存目录：/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译

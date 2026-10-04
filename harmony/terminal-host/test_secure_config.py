@@ -11,23 +11,18 @@ NATIVE = ROOT / "entry/src/main/cpp"
 class PrivateConfigTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.build = tempfile.TemporaryDirectory()
-        cls.binary = Path(cls.build.name) / "import-config"
-        subprocess.run([
-            "/usr/bin/clang++", "-std=c++17", "-Wall", "-Wextra", "-Werror",
-            "-I", str(NATIVE), str(ROOT / "config_import_test_main.cpp"),
-            str(NATIVE / "secure_config.cpp"), "-o", str(cls.binary),
-        ], check=True)
-
-    @classmethod
-    def tearDownClass(cls):
-        cls.build.cleanup()
+        supplied = os.environ.get("CODEX_CONFIG_IMPORT_TEST_BINARY")
+        if not supplied:
+            raise unittest.SkipTest("Compile separately, then set CODEX_CONFIG_IMPORT_TEST_BINARY; this suite never compiles")
+        cls.binary = Path(supplied).resolve(strict=True)
 
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.addCleanup(self.temp.cleanup)
         self.files = Path(self.temp.name)
-        self.inbox = self.files / "handoff-private"
+        (self.files / "state").mkdir(mode=0o700)
+        (self.files / "host").mkdir(mode=0o700)
+        self.inbox = self.files / "host/handoff-private"
         self.inbox.mkdir(mode=0o700)
         self.source = self.inbox / "incoming-config.toml"
 
@@ -44,6 +39,11 @@ class PrivateConfigTests(unittest.TestCase):
     def test_absent_creates_only_private_directories(self):
         self.run_import(0)
         self.assertEqual((self.files / "state").stat().st_mode & 0o777, 0o700)
+
+    def test_missing_shared_cli_state_rejected_without_creation(self):
+        (self.files / "state").rmdir()
+        self.run_import(3)
+        self.assertFalse((self.files / "state").exists())
 
     def test_transfer_mode_is_saved_private_and_source_removed(self):
         content = self.write_config()

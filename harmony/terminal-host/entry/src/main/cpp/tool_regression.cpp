@@ -1,5 +1,6 @@
 #include "tool_regression.h"
 #include "native_package.h"
+#include "owned_processes.h"
 #include <cerrno>
 #include <chrono>
 #include <cstring>
@@ -12,7 +13,6 @@
 #include <vector>
 
 extern char **environ;
-static constexpr const char *kFiles = "/data/storage/el2/base/files";
 
 static int PrivateDirectory(int parent, const char *name, bool fresh = false) {
     if (mkdirat(parent, name, 0700) != 0 && (fresh || errno != EEXIST)) return -1;
@@ -43,7 +43,11 @@ static bool ExpectFile(int directory, const char *name, const char *expected, FI
 
 static bool Child(int logs, FILE *report, const std::string &prefix, const char *step,
                   const std::string &cwd, const std::vector<std::string> &command,
-                  const std::atomic<bool> &cancelled, const char *expectedOutput = nullptr, bool builtInRead = false) {
+                  const std::atomic<bool> &cancelled, bool &cleanupUnknown, const char *expectedOutput = nullptr, bool builtInRead = false) {
+    std::string trackingError;
+    if (!codex_hnp::StableProcessHandlesAvailable(trackingError)) {
+        fprintf(report, "step=%s stable_process_handles_unavailable errno=%d\n", step, errno); return false;
+    }
     std::string outputName = prefix + "-" + step + ".stdout.txt";
     std::string errorName = prefix + "-" + step + ".stderr.txt";
     int output = openat(logs, outputName.c_str(), O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0600);
@@ -72,7 +76,7 @@ static bool Child(int logs, FILE *report, const std::string &prefix, const char 
     }
     // Dedicated fixtures prevent this regression from reading the real application configuration.
     env.insert(env.end(), {"HOME=" + cwd + "/home", "CODEX_HOME=" + cwd + "/state", "TMPDIR=" + cwd + "/tmp",
-        std::string("PATH=") + CODEX_HNP_PACKAGE_PATH + "/codex-path:/system/bin:/system/xbin:/bin",
+        std::string("PATH=") + CODEX_HNP_PACKAGE_PATH + "/bin:" + CODEX_HNP_PACKAGE_PATH + "/codex-path:/system/bin:/system/xbin:/bin",
         "SHELL=/system/bin/sh", "TERM=dumb"});
     std::vector<char *> envp;
     for (auto &value : env) envp.push_back(value.data());
@@ -85,8 +89,7 @@ static bool Child(int logs, FILE *report, const std::string &prefix, const char 
     if (!result) result = posix_spawn_file_actions_adddup2(&actions, input, STDIN_FILENO);
     if (!result) result = posix_spawn_file_actions_adddup2(&actions, output, STDOUT_FILENO);
     if (!result) result = posix_spawn_file_actions_adddup2(&actions, error, STDERR_FILENO);
-    if (!result) result = posix_spawnattr_setpgroup(&attributes, 0);
-    if (!result) result = posix_spawnattr_setflags(&attributes, POSIX_SPAWN_SETPGROUP);
+    if (!result) result = posix_spawnattr_setflags(&attributes, POSIX_SPAWN_SETSID);
     pid_t child = -1;
     if (!result) result = posix_spawn(&child, "/system/bin/sh", &actions, &attributes, argv.data(), envp.data());
     if (attributesReady) posix_spawnattr_destroy(&attributes);
@@ -95,21 +98,50 @@ static bool Child(int logs, FILE *report, const std::string &prefix, const char 
     fprintf(report, "step=%s spawn_result=%d child_pid=%d stdout=%s stderr=%s\n", step, result, child, outputName.c_str(), errorName.c_str());
     fflush(report);
     if (result) return false;
-    int status = 0; pid_t waited = 0; bool stopped = false;
-    auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(30);
-    while (!waited) {
-        waited = waitpid(child, &status, WNOHANG);
-        if (waited < 0 && errno == EINTR) { waited = 0; continue; }
-        if (waited != 0) break;
-        if (cancelled || std::chrono::steady_clock::now() >= deadline) {
-            kill(-child, SIGTERM); usleep(250000);
-            do { waited = waitpid(child, &status, WNOHANG); } while (waited < 0 && errno == EINTR);
-            if (!waited) { kill(-child, SIGKILL); do { waited = waitpid(child, &status, 0); } while (waited < 0 && errno == EINTR); }
-            stopped = true; break;
-        }
-        usleep(25000);
+    int status = 0; bool stopped = false, stopping = false;
+    codex_hnp::OwnedProcesses owned; std::string failure;
+    if (!owned.Begin(child, failure)) {
+        codex_hnp::SignalDirectChild(child, SIGKILL, failure);
+        cleanupUnknown = true;
+        fprintf(report, "step=%s tracking_failed errno=%d cleanup_unverified=yes\n", step, errno); return false;
     }
-    if (waited < 0) { fprintf(report, "step=%s wait_errno=%d\n", step, errno); return false; }
+    auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(30);
+    auto stopAt = deadline, nextSignal = deadline;
+    for (;;) {
+        siginfo_t information = {};
+        int result = waitid(P_PID, static_cast<id_t>(child), &information, WEXITED | WNOHANG | WNOWAIT);
+        if (result != 0 && errno != EINTR) {
+            cleanupUnknown = true;
+            fprintf(report, "step=%s waitid_errno=%d cleanup_unverified=yes\n", step, errno); return false;
+        }
+        bool exited = result == 0 && information.si_pid == child;
+        bool observed = owned.Observe(failure);
+        auto now = std::chrono::steady_clock::now();
+        if (!stopping && (exited || cancelled || now >= deadline)) {
+            stopped = cancelled || now >= deadline;
+            stopping = true; stopAt = now; nextSignal = now + std::chrono::seconds(1);
+            int signalError = 0; owned.Signal(SIGTERM, failure, signalError);
+            fprintf(report, "step=%s term_errno=%d\n", step, signalError);
+        }
+        if (stopping && now >= nextSignal) {
+            int signalError = 0; owned.Signal(SIGKILL, failure, signalError);
+            fprintf(report, "step=%s kill_errno=%d survivors=%d\n", step, signalError, owned.Alive());
+            nextSignal = now + std::chrono::milliseconds(250);
+        }
+        if (exited && observed && owned.Alive() == 0) {
+            pid_t waited = waitpid(child, &status, WNOHANG);
+            if (waited == child) break;
+            if (waited < 0 && errno != EINTR) {
+                cleanupUnknown = true;
+                fprintf(report, "step=%s wait_errno=%d cleanup_unverified=yes\n", step, errno); return false;
+            }
+        }
+        if (stopping && now - stopAt > std::chrono::seconds(5)) {
+            cleanupUnknown = true;
+            fprintf(report, "step=%s cleanup_unverified=yes survivors=%d\n", step, owned.Alive()); return false;
+        }
+        fflush(report); usleep(25000);
+    }
     bool passed = !stopped && WIFEXITED(status) && WEXITSTATUS(status) == 0;
     if (passed && expectedOutput) passed = ExpectFile(logs, outputName.c_str(), expectedOutput, report, true);
     fprintf(report, "step=%s exit_code=%d signal=%d raw_wait_status=%d core_dumped=%d stopped=%d passed=%d\n", step,
@@ -119,8 +151,9 @@ static bool Child(int logs, FILE *report, const std::string &prefix, const char 
     return passed;
 }
 
-bool RunToolRegression(int files, int logs, FILE *report, const std::string &prefix,
-                       const std::atomic<bool> &cancelled) {
+bool RunToolRegression(int files, const std::string &dataRoot, int logs, FILE *report, const std::string &prefix,
+                       const std::atomic<bool> &cancelled, bool &cleanupUnknown) {
+    cleanupUnknown = false;
     // Probe only fixed system paths. A PATH lookup failure is not proof that
     // the command is absent from the OS or unavailable in a different host.
     for (const char *path : {"/system/bin/sh", "/bin/bash", "/system/bin/cat", "/system/bin/toybox", "/bin/cat", "/system/xbin/cat",
@@ -144,7 +177,7 @@ bool RunToolRegression(int files, int logs, FILE *report, const std::string &pre
         if (directory < 0) { close(fixture); fprintf(report, "tool_private_fixture_errno=%d\n", errno); return false; }
         close(directory);
     }
-    std::string cwd = std::string(kFiles) + "/workspace/" + name;
+    std::string cwd = dataRoot + "/workspace/" + name;
     std::string package = CODEX_HNP_PACKAGE_PATH;
     fprintf(report, "tool_fixture=%s mode=0700 real_config_read=false\n", cwd.c_str());
     int maskCheck = openat(fixture, "umask-check.txt", O_WRONLY | O_CREAT | O_EXCL | O_NOFOLLOW | O_CLOEXEC, 0666);
@@ -155,25 +188,25 @@ bool RunToolRegression(int files, int logs, FILE *report, const std::string &pre
     }
     fprintf(report, "native_open_requested_mode=666 observed_mode=%o uid=%u\n", maskMetadata.st_mode & 07777, maskMetadata.st_uid);
     close(maskCheck); unlinkat(fixture, "umask-check.txt", 0);
-    bool passed = Child(logs, report, prefix, "rg-version", cwd, {package + "/codex-path/rg", "--version"}, cancelled);
+    bool passed = Child(logs, report, prefix, "rg-version", cwd, {package + "/codex-path/rg", "--version"}, cancelled, cleanupUnknown);
     passed = passed && Child(logs, report, prefix, "create", cwd,
-        {package + "/codex-path/apply_patch", "*** Begin Patch\n*** Add File: sample.txt\n+harmony initial\n*** End Patch"}, cancelled);
+        {package + "/codex-path/apply_patch", "*** Begin Patch\n*** Add File: sample.txt\n+harmony initial\n*** End Patch"}, cancelled, cleanupUnknown);
     passed = passed && ExpectFile(fixture, "sample.txt", "harmony initial\n", report);
     fprintf(report, "assert=create_content passed=%d\n", passed ? 1 : 0);
     passed = passed && Child(logs, report, prefix, "modify", cwd,
-        {package + "/codex-path/applypatch", "*** Begin Patch\n*** Update File: sample.txt\n@@\n-harmony initial\n+harmony updated\n*** End Patch"}, cancelled);
+        {package + "/codex-path/applypatch", "*** Begin Patch\n*** Update File: sample.txt\n@@\n-harmony initial\n+harmony updated\n*** End Patch"}, cancelled, cleanupUnknown);
     passed = passed && ExpectFile(fixture, "sample.txt", "harmony updated\n", report);
     fprintf(report, "assert=modify_content passed=%d\n", passed ? 1 : 0);
     passed = passed && Child(logs, report, prefix, "read", cwd,
-        {"sample.txt"}, cancelled, "harmony updated\n", true);
+        {"sample.txt"}, cancelled, cleanupUnknown, "harmony updated\n", true);
     passed = passed && Child(logs, report, prefix, "toybox-cat", cwd,
-        {"/system/bin/toybox", "cat", "sample.txt"}, cancelled, "harmony updated\n");
+        {"/system/bin/toybox", "cat", "sample.txt"}, cancelled, cleanupUnknown, "harmony updated\n");
     passed = passed && Child(logs, report, prefix, "toybox-ls", cwd,
-        {"/system/bin/toybox", "ls", "-1", "."}, cancelled, "home\nsample.txt\nstate\ntmp\n");
+        {"/system/bin/toybox", "ls", "-1", "."}, cancelled, cleanupUnknown, "home\nsample.txt\nstate\ntmp\n");
     passed = passed && Child(logs, report, prefix, "search", cwd,
-        {package + "/codex-path/rg", "--fixed-strings", "--line-number", "--no-heading", "updated", "sample.txt"}, cancelled, "1:harmony updated\n");
+        {package + "/codex-path/rg", "--fixed-strings", "--line-number", "--no-heading", "updated", "sample.txt"}, cancelled, cleanupUnknown, "1:harmony updated\n");
     passed = passed && Child(logs, report, prefix, "delete", cwd,
-        {package + "/codex-path/apply_patch", "*** Begin Patch\n*** Delete File: sample.txt\n*** End Patch"}, cancelled);
+        {package + "/codex-path/apply_patch", "*** Begin Patch\n*** Delete File: sample.txt\n*** End Patch"}, cancelled, cleanupUnknown);
     struct stat st = {};
     passed = passed && fstatat(fixture, "sample.txt", &st, AT_SYMLINK_NOFOLLOW) != 0 && errno == ENOENT;
     fprintf(report, "assert=deleted passed=%d\n", passed ? 1 : 0);

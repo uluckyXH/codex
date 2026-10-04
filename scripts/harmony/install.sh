@@ -5,8 +5,8 @@ umask 077
 
 fail() { printf '%s\n' "安装失败：$*" >&2; exit 1; }
 usage() {
-    printf '%s\n' '用法：sh 安装.sh --prefix 绝对安装路径'
-    printf '%s\n' '安装到全新目录；完成后按输出加载环境.sh。已有目录不会覆盖。'
+    printf '%s\n' '用法：sh install.sh --prefix 绝对安装路径'
+    printf '%s\n' '安装到全新目录；完成后按输出加载 env.sh。已有目录不会覆盖。'
 }
 prefix=''
 while [ "$#" -gt 0 ]; do
@@ -37,7 +37,7 @@ each_file() {
         name=${entry#*  }
         [ "${#checksum}" -eq 64 ] || fail 'SHA-256 长度错误'
         case "$checksum" in *[!0123456789abcdefABCDEF]*) fail 'SHA-256 格式错误' ;; esac
-        case "$name" in ''|/*|环境.sh|文件校验清单.sha256) fail "非法或保留路径：$name" ;; esac
+        case "$name" in ''|/*|env.sh|文件校验清单.sha256) fail "非法或保留路径：$name" ;; esac
         case "/$name/" in *'/../'*|*'/./'*|*'//'*) fail "非法相对路径：$name" ;; esac
         "$1" "$name"
     done < "$package/文件校验清单.sha256"
@@ -79,18 +79,21 @@ quote() { printf "'"; printf '%s' "$1" | sed "s/'/'\\\\''/g"; printf "'"; }
 (
 set -C
 {
-    printf 'case ":${PATH-}:" in\n    *:'
-    quote "$prefix/bin"
-    printf ':*) ;;\n    *) export PATH='
-    quote "$prefix/bin"
-    printf ':"${PATH-}" ;;\nesac\n'
-} > "$prefix/环境.sh"
+    # 先加入辅助工具，再加入主程序，确保 bin 位于最前；重复加载不叠加。
+    for path_directory in "$prefix/codex-path" "$prefix/bin"; do
+        printf 'case ":${PATH-}:" in\n    *:'
+        quote "$path_directory"
+        printf ':*) ;;\n    *) export PATH='
+        quote "$path_directory"
+        printf ':"${PATH-}" ;;\nesac\n'
+    done
+} > "$prefix/env.sh"
 ) || fail '环境脚本已存在或无法创建，未覆盖原文件'
 printf '\n%s\n' '文件安装与摘要检查完成；尚未验证鸿蒙设备的签名接受和运行能力。'
 printf '%s\n' '在当前终端执行以下命令，然后运行 codex --version：'
-printf '. '; quote "$prefix/环境.sh"; printf '\n'
+printf '. '; quote "$prefix/env.sh"; printf '\n'
 printf '%s\n' '需要新终端也能找到 codex 时，将上面这一行添加到自己的 ~/.zshrc；不要覆盖已有内容。'
-if [ -f "$prefix/启用终端.sh" ]; then
+if [ -f "$prefix/enable-terminal.sh" ]; then
     printf '%s\n' '也可执行以下命令，仅更新带标记的 Codex 启动块并备份原文件：'
-    printf 'sh '; quote "$prefix/启用终端.sh"; printf '\n'
+    printf 'sh '; quote "$prefix/enable-terminal.sh"; printf '\n'
 fi

@@ -1,9 +1,9 @@
 export const runCodex: (directory: string, action: string) => Promise<string>;
 export const cancelCodex: () => boolean;
 export const runRequestedCodex: (directory: string) => Promise<string>;
-export const terminalStart: (columns: number, rows: number) => string;
-export const terminalWrite: (data: string) => string;
-export const terminalResize: (columns: number, rows: number) => string;
-export const terminalRead: () => string;
-export const terminalStop: () => string;
-export const terminalStatus: () => string;
+export const terminalStart: (filesDir: string, kind: string, cwd: string, policy: string, columns: number, rows: number) => string;
+export const terminalWrite: (kind: string, sessionId: string, data: string) => string;
+export const terminalResize: (kind: string, sessionId: string, columns: number, rows: number) => string;
+export const terminalRead: (kind: string, sessionId: string) => string;
+export const terminalStop: (kind: string, sessionId: string, operation: string) => string;
+export const terminalStatus: (kind: string, sessionId: string) => string;

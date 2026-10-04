@@ -16,7 +16,10 @@ pub(super) fn capabilities_check() -> DoctorCheck {
     #[cfg(target_env = "ohos")]
     details.extend(codex_sandboxing::bwrap_resource_diagnostics());
     #[cfg(target_env = "ohos")]
-    let (status, contract_details) = runtime_contract(codex_uds::ohos_runtime_base_contract());
+    let (status, contract_details) = runtime_contract(
+        codex_uds::ohos_runtime_profile_contract(),
+        codex_uds::ohos_runtime_base_contract(),
+    );
     #[cfg(target_env = "ohos")]
     details.extend(contract_details);
     #[cfg(target_env = "ohos")]
@@ -25,9 +28,10 @@ pub(super) fn capabilities_check() -> DoctorCheck {
         details.push(format!("runtime directory build profile: {profile}"));
         if profile == "hdc-debug" {
             details.push("runtime directory deployment: HDC shell UID 2000 only; trusts platform system and shell-group services at fixed ancestors; not a commercial PC default and does not enable command isolation".to_owned());
-        } else if profile == "hnp-debug" {
-            let uid = codex_uds::ohos_runtime_uid_contract().unwrap_or("not set");
-            details.push(format!("runtime directory deployment: private HNP application debug build; compiled application UID: {uid}; requires verified private application directories; not a general HiShell package and does not enable command isolation"));
+        } else if profile == "platform" {
+            let identity = codex_uds::OhosProcessIdentity::current();
+            details.push(format!("runtime identity: uid={} euid={} gid={} egid={}; no installation-specific UID binding", identity.uid, identity.euid, identity.gid, identity.egid));
+            details.push("runtime directory deployment: native Context first, otherwise the fixed platform namespace candidate; missing or unprotected roots fail closed; HiShell acceptance pending".to_owned());
         }
     }
     #[cfg(not(target_env = "ohos"))]
@@ -63,7 +67,21 @@ pub(super) fn capabilities_check() -> DoctorCheck {
 }
 
 #[cfg(any(target_env = "ohos", test))]
-fn runtime_contract(base: Option<&str>) -> (CheckStatus, Vec<String>) {
+fn runtime_contract(profile: &str, base: Option<&str>) -> (CheckStatus, Vec<String>) {
+    if profile == "platform" {
+        #[cfg(unix)]
+        let candidate = codex_uds::ohos_platform_files_candidate();
+        #[cfg(not(unix))]
+        let candidate = "unavailable on this platform";
+        return (if base.is_some() { CheckStatus::Fail } else { CheckStatus::Warning }, vec![
+            "runtime directory contract: platform; runtime-base overrides are forbidden".to_owned(),
+            format!("platform files candidate: {candidate}; actual source and directory protection not probed"),
+            "runtime directory selection: native ApplicationContext or validated fixed platform namespace; no HOME/CODEX_HOME/TMPDIR override".to_owned(),
+            "runtime directory validation: commercial HarmonyOS PC acceptance pending; this read-only report does not initialize or approve directories".to_owned(),
+            "runtime layout: files/codex/state, files/codex/r/a, files/codex/r/s, files/codex/tmp, files/codex/logs; full control socket names and peer identity checks retained".to_owned(),
+            "runtime path initialization: codex doctor --initialize-data-directories --json; skips config/auth and aliases, creates only validated private child directories; --version does not initialize".to_owned(),
+        ]);
+    }
     let (status, contract) = match base {
         Some(base) => (
             CheckStatus::Warning,
@@ -124,17 +142,27 @@ fn capability_report_has_no_auth_or_network_probe() {
 #[cfg(test)]
 #[test]
 fn runtime_contract_is_diagnostic_and_never_claims_device_acceptance() {
-    let (missing, missing_details) = runtime_contract(None);
+    let (missing, missing_details) = runtime_contract("strict", None);
     assert_eq!(missing, CheckStatus::Fail);
     assert!(
         missing_details
             .join("\n")
             .contains("normal startup is blocked")
     );
-    let (bound, details) = runtime_contract(Some("/fixed/fixture"));
+    let (bound, details) = runtime_contract("strict", Some("/fixed/fixture"));
     assert_eq!(bound, CheckStatus::Warning);
     let details = details.join("\n");
     assert!(details.contains("CODEX_OHOS_RUNTIME_BASE=/fixed/fixture"));
     assert!(details.contains("acceptance pending"));
     assert!(details.contains("no HOME/CODEX_HOME/TMPDIR/Context fallback"));
+    let (status, details) = runtime_contract("platform", None);
+    assert_eq!(status, CheckStatus::Warning);
+    let details = details.join("\n");
+    assert!(details.contains("actual source and directory protection not probed"));
+    assert!(details.contains("--initialize-data-directories --json"));
+    assert!(details.contains("--version does not initialize"));
+    assert_eq!(
+        runtime_contract("platform", Some("/override")).0,
+        CheckStatus::Fail
+    );
 }

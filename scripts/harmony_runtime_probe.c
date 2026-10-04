@@ -57,6 +57,10 @@
 #define MOUNT_BYTES (1024 * 1024)
 #define RESULT_FD 3
 
+#if defined(CODEX_OHOS_PLATFORM_DATA) && defined(CODEX_OHOS_RUNTIME_BASE)
+#error "platform data observation cannot use a build-bound runtime root"
+#endif
+
 /* Ancestors only need searchable path handles. O_RDONLY would additionally
  * require listing permission, rejecting a trusted root-owned 0711 ancestor.
  * New test directories below these handles still use ordinary readable FDs.
@@ -933,7 +937,9 @@ int main(int argc, char **argv) {
             puts("Usage: harmony-runtime-probe [--json] [--path ABSOLUTE_DIR]... [--create-test "
                  "ABSOLUTE_PARENT]\n"
                  "Default: read-only JSON; at most 12 explicit paths replace default candidates.\n"
-                 "Defaults also observe build-bound runtime a/s paths for the effective UID.\n"
+                 "Platform builds observe files/codex/r/{a,s} namespace candidates.\n"
+                 "Fixed-root diagnostic builds observe base/cEUID/{a,s} instead.\n"
+                 "Candidates are read-only observations, not the CLI's validated selection.\n"
                  "Create-test only touches new disposable objects under a checked parent.\n"
                  "Exit 0: observations collected (not a safe-root approval); 1: incomplete/create "
                  "failure; 2: invalid arguments.");
@@ -959,7 +965,19 @@ int main(int argc, char **argv) {
     bool explicit_paths = count != 0;
     char codex_home[PATH_BYTES];
     const char *runtime_selection = "not_configured";
-#if defined(CODEX_OHOS_RUNTIME_BASE)
+#if defined(CODEX_OHOS_PLATFORM_DATA)
+    runtime_selection = "explicit_paths_override";
+    if (!explicit_paths) {
+        /* These are the platform namespace candidates, not a claimed Context
+         * result or an approved root. Native Context observations below run in
+         * isolated workers, where a bad platform call cannot hang this process.
+         * Keep paths independent of environment variables and numeric UIDs.
+         */
+        paths[count++] = "/data/storage/el2/base/files/codex/r/a";
+        paths[count++] = "/data/storage/el2/base/files/codex/r/s";
+        runtime_selection = "platform_namespace_candidates";
+    }
+#elif defined(CODEX_OHOS_RUNTIME_BASE)
     char runtime_paths[2][PATH_BYTES];
     const char *base = CODEX_OHOS_RUNTIME_BASE;
     runtime_selection = "explicit_paths_override";

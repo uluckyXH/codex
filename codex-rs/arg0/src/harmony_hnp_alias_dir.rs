@@ -121,6 +121,10 @@ fn validate_application_identity() -> io::Result<()> {
         unsafe { libc::geteuid() },
         unsafe { libc::getegid() },
         &groups,
+    ) && application_identity_is_unprivileged(
+        unsafe { libc::getuid() },
+        unsafe { libc::getgid() },
+        &groups,
     ) {
         Ok(())
     } else {

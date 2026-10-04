@@ -7,6 +7,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import re
 import shutil
 import subprocess
 import sys
@@ -63,7 +64,7 @@ def run(arguments: list[str], env: dict[str, str]) -> None:
 
 
 def strip_and_sign(source: Path, destination: Path, *, sdk: Path, java: str) -> dict:
-    unsigned = destination.with_name(destination.name + "-未签名")
+    unsigned = destination.with_name(destination.name + "-unsigned")
     if unsigned.exists() or destination.exists():
         raise RuntimeError(f"签名工作目录已有产物：{destination}")
     destination.parent.mkdir(parents=True, exist_ok=True)
@@ -196,8 +197,8 @@ def build_runtime_probe(
     env: dict[str, str],
     commit: str,
     version: str,
-    runtime_base: str,
-    runtime_profile: str = "strict",
+    runtime_base: str | None,
+    runtime_profile: str = "platform",
 ) -> tuple[Path, dict]:
     """Build a standalone probe that never enters Codex/arg0/config initialization."""
     source = REPO_ROOT / "scripts/harmony_runtime_probe.c"
@@ -237,8 +238,15 @@ def build_runtime_probe(
             "-pie",
             f'-DCODEX_HARMONY_BUILD_ID="{commit}"',
             f'-DCODEX_HARMONY_VERSION="{version}"',
-            "-DCODEX_OHOS_RUNTIME_BASE="
-            + json.dumps(runtime_base_contract(runtime_base), ensure_ascii=False),
+            *(["-DCODEX_OHOS_PLATFORM_DATA=1"] if runtime_profile == "platform" else []),
+            *(
+                [
+                    "-DCODEX_OHOS_RUNTIME_BASE="
+                    + json.dumps(runtime_base_contract(runtime_base), ensure_ascii=False)
+                ]
+                if runtime_base is not None
+                else []
+            ),
             str(source),
             "-ldl",
             "-o",
@@ -253,6 +261,9 @@ def build_runtime_probe(
         "源码摘要": digest(source),
         "编译时运行根": runtime_base,
         "主程序运行目录策略": runtime_profile,
+        "观察边界": "独立进程只读候选与 Context 观察，不批准运行根，不初始化 CLI 数据目录",
+        "旧编译根布局观察": runtime_base is not None,
+        "通用目录观察": runtime_profile == "platform",
         "SDK接口类型检查": "三个目录 API 类型均与本次 SDK 声明一致；仅编译检查",
         "相关源码摘要": {
             name: digest(REPO_ROOT / "scripts" / name)
@@ -272,6 +283,70 @@ HNP_ALIAS_NAMES = (
     "codex-linux-sandbox",
     "codex-execve-wrapper",
 )
+
+INSTALL_TUTORIALS = (
+    "新版安装与运行说明.md",
+    "接口密钥安装速用.md",
+    "账号登录安装速用.md",
+)
+
+
+def render_install_tutorials(
+    directory: Path, *, version: str, source_commit: str, runtime_profile: str
+) -> None:
+    if not re.fullmatch(r"[0-9a-f]{40}", source_commit):
+        raise ValueError("安装文档要求完整的小写 Git 提交 SHA")
+    values = {
+        "PACKAGE_VERSION": version,
+        "SOURCE_COMMIT": source_commit,
+        "RUNTIME_PROFILE": runtime_profile,
+        "ARCHIVE_NAME": f"鸿蒙Codex-{version}-未真机验证.tar.gz",
+    }
+    for name in INSTALL_TUTORIALS:
+        content = (REPO_ROOT / "docs/鸿蒙电脑原生适配" / name).read_text()
+        for token, value in values.items():
+            content = content.replace("{{" + token + "}}", value)
+        if re.search(r"\{\{[A-Z_]+\}\}", content):
+            raise ValueError(f"安装文档仍有未解析的构建字段：{name}")
+        (directory / name).write_text(content)
+
+
+def distribution_runtime_contract(
+    runtime_profile: str, runtime_base: str | None
+) -> dict:
+    contract = {
+        "runtime_profile": runtime_profile,
+        "runtime_base": runtime_base,
+        "identity_binding": "runtime-getuid-geteuid-getgid-getegid",
+        "environment_root_fallback": False,
+        "device_validation": "待验证真实平台来源、目录保护、HiShell 和内核隔离能力",
+    }
+    if runtime_profile == "platform":
+        contract.update(
+            {
+                "platform_files_candidate": "/data/storage/el2/base/files",
+                "directory_source_order": [
+                    "native-application-context",
+                    "validated-platform-namespace",
+                ],
+                "data_layout": {
+                    "root": "codex",
+                    "state": "codex/state",
+                    "runtime_aliases": "codex/r/a",
+                    "runtime_sockets": "codex/r/s",
+                    "tmp": "codex/tmp",
+                    "logs": "codex/logs",
+                    "host": "codex/host",
+                },
+                "directory_validation": "持有 FD；核验实际身份、0700、祖先保护、禁止链接与防替换；不修改已有父目录",
+                "initialization": "CLI 在配置、aliases、socket 和线程之前初始化；不依赖 GUI",
+            }
+        )
+    elif runtime_profile == "hdc-debug":
+        contract["deployment_scope"] = "仅 HDC shell UID 2000 诊断，不是通用 HiShell 包"
+    else:
+        contract["deployment_scope"] = "显式固定候选诊断，不是通用 HiShell 包"
+    return contract
 
 
 def build_hnp_alias(
@@ -317,10 +392,14 @@ def assemble(
     helpers: Path,
     runtime_probe: Path,
     version: str,
-    runtime_profile: str = "strict",
-    runtime_uid: int | None = None,
+    source_commit: str,
+    runtime_profile: str = "platform",
     hnp_alias: Path | None = None,
 ) -> None:
+    if not re.fullmatch(r"[0-9a-f]{40}", source_commit):
+        raise ValueError("安装文档要求完整的小写 Git 提交 SHA")
+    if hnp_alias is not None and runtime_profile != "platform":
+        raise ValueError("HNP 工具入口只用于通用 platform 包")
     # Reuse the upstream layout and validation, while explicitly selecting OHOS.
     os.environ["CODEX_REPO_ROOT"] = str(REPO_ROOT)
     from codex_package.layout import build_package_dir, validate_package_dir
@@ -352,36 +431,19 @@ def assemble(
     shutil.copytree(helpers / "许可原文", directory / "许可原文")
     shutil.copyfile(REPO_ROOT / "LICENSE", directory / "许可原文/项目许可.txt")
     shutil.copyfile(REPO_ROOT / "NOTICE", directory / "许可原文/项目声明.txt")
-    if runtime_profile == "hnp-debug":
-        if runtime_uid is None or hnp_alias is None:
-            raise ValueError("hnp-debug 交付缺少绑定应用 UID 或已签名工具入口")
+    for script in ("install.sh", "enable-terminal.sh", "diagnose.sh"):
+        shutil.copyfile(REPO_ROOT / "scripts/harmony" / script, directory / script)
+        (directory / script).chmod(0o755)
+    if hnp_alias is not None:
         if not inspect_ohos_elf(hnp_alias)["签名节存在"]:
             raise RuntimeError("HNP 工具入口缺少签名节")
         for name in HNP_ALIAS_NAMES:
             shutil.copyfile(hnp_alias, directory / "codex-path" / name)
             (directory / "codex-path" / name).chmod(0o755)
-        shutil.copyfile(
-            REPO_ROOT / "docs/鸿蒙电脑模拟器/HNP应用宿主调试速用.md",
-            directory / "HNP应用宿主调试速用.md",
-        )
-        (directory / "安装说明.md").write_text(
-            "# 鸿蒙应用宿主调试包\n\n"
-            f"版本：`{version}`。目标：ARM64 OHOS；部署策略：`hnp-debug`；"
-            f"编译绑定应用 UID：`{runtime_uid}`。\n\n"
-            "运行文件须按原相对布局通过官方 private HNP 随调试 HAP 安装，由对应应用正常启动。"
-            "不能直接通过 HDC shell UID 2000 执行，也不能覆盖 HiShell 真机候选包。"
-            "卸载重装导致应用 UID 变化时，须重新核验并构建，不能修改 HOME 权限处理。\n\n"
-            "受保护运行根固定为 `/data/storage/el2/base/files/r`，由应用创建为 0700；"
-            "程序仍校验已核验的目录链、编译绑定身份、防链接和私有控制目录。"
-            "用户配置通过应用私有目录单独导入，完整包不含接口 URL 或 API Key。\n\n"
-            "包内 ELF 使用 SDK 自签名；HAP 的调试安装与商业发布签名分别验收。"
-            "普通 INTERNET 权限与内核命令沙箱是不同能力，本包不会自动改为完全权限。"
-            "具体安装入口和状态见《HNP应用宿主调试速用.md》及本次设备测试报告。\n"
-        )
-        return
-    for script in ("安装.sh", "启用终端.sh", "诊断.sh"):
-        shutil.copyfile(REPO_ROOT / "scripts/harmony" / script, directory / script)
-        (directory / script).chmod(0o755)
+    identity = (
+        f"版本：`{version}`。源码提交：`{source_commit}`。"
+        f"目标：ARM64 OHOS；运行目录策略：`{runtime_profile}`。\n\n"
+    )
     if runtime_profile == "hdc-debug":
         emulator_docs = REPO_ROOT / "docs/鸿蒙电脑模拟器"
         tools = directory / "emulator-tools"
@@ -399,60 +461,51 @@ def assemble(
             directory / "模拟器使用与日志速用.md",
         )
         (directory / "安装说明.md").write_text(
-            "# 鸿蒙模拟器调试包\n\n"
-            f"版本：`{version}`。目标：ARM64 OHOS；部署策略：`hdc-debug`。\n\n"
-            "本包只适用于 HDC shell UID 2000；不能替换商业 PC HiShell 的正式候选包。"
-            "运行根固定为 `/data/local/tmp/cdx`，须由该身份创建为 0700，"
-            "并保留平台祖先的既有身份和权限。程序仍检查目录链、私有锁和控制套接字。"
-            "此调试部署信任系统身份及 shell 调试组中的平台服务，不授予系统权限。\n\n"
-            "按《模拟器使用与日志速用.md》连接已经部署的模拟器。"
-            "`emulator-tools` 内包含 Mac 交互入口和设备启动脚本，不包含用户配置、URL 或 Key。"
-            "首次部署还需要单独传入 config.toml、安装完整目录包、创建专用数据目录，"
-            "并写入 active-package 安装记录；只复制 bin/codex 不能完成安装。\n\n"
-            "本包全部 ELF 均通过 SDK 自签名和签名信息检查。"
-            "受限执行仍依赖内核提供 user namespace 等能力，目录检查通过不代表隔离可用。"
-            "构建完成时尚未执行设备验收；实际运行结果以随本次发布提供的测试报告为准。"
-            "不能自动把沙箱失败回退为完全权限。\n"
+            "# 鸿蒙模拟器诊断包\n\n" + identity
+            + "本包只适用于 HDC shell UID 2000，不是商业 PC HiShell 通用包。"
+            "运行根 `/data/local/tmp/cdx` 必须由该身份创建为0700；仍核验平台祖先、锁和控制套接字。"
+            "按《模拟器使用与日志速用.md》部署完整包和单独提供的 config.toml，"
+            "并写入 active-package 安装记录。包内不包含 URL、Key 或用户配置。\n\n"
+            "安装器使用 install.sh；PATH 环境入口为 env.sh，终端启用为 enable-terminal.sh，"
+            "诊断为 diagnose.sh。安装器不执行 CLI、不改 HOME 或用户配置。"
+            "目录检查不代表内核隔离可用，不自动切换完全访问。设备与认证验证未执行。\n"
         )
         return
-    for tutorial in (
-        "接口密钥安装速用.md",
-        "账号登录安装速用.md",
-        "升级与专项日志速用.md",
-        "七版修复包安装与复测.md",
-        "挂载修复候选安装与复测.md",
-        "鸿蒙沙箱能力与执行方式分析.md",
-    ):
-        shutil.copyfile(
-            REPO_ROOT / "docs/鸿蒙电脑原生适配" / tutorial, directory / tutorial
+    if runtime_profile != "platform":
+        (directory / "安装说明.md").write_text(
+            "# 鸿蒙固定候选诊断包\n\n" + identity
+            + "本包使用显式 strict 诊断策略，不能作为通用 HiShell 验收结果。"
+            "完整目录布局必须保留。安装器为 install.sh，环境入口为 env.sh，"
+            "终端启用为 enable-terminal.sh，诊断为 diagnose.sh。"
+            "实际固定候选见构建与签名记录.json；设备与认证验证未执行。\n"
         )
+        return
+    render_install_tutorials(
+        directory,
+        version=version,
+        source_commit=source_commit,
+        runtime_profile=runtime_profile,
+    )
+    hnp_note = (
+        "\n本包包含经过签名并将摘要编入 CLI 的 HNP 工具入口，可供官方 private HNP 随 HAP 安装。"
+        "不绑定应用 UID；实际安装、目录保护和不同身份运行由设备报告验收。"
+        "GUI/HAP 不是 HiShell 原生 CLI 初始化的前置条件。\n"
+        if hnp_alias is not None
+        else ""
+    )
     (directory / "安装说明.md").write_text(
-        "# 鸿蒙 PC 原生候选包\n\n"
-        "本包为 ARM64 OHOS ELF，已用 SDK 官方工具自签名。旧包已有 PC 7.0 启动和显式 CA 后请求成功的用户反馈；"
-        "本次修复包的沙箱与编码闭环仍须真机验收。\n\n"
-        "解压到新目录后执行：\n\n```sh\n"
-        f'sh 安装.sh --prefix "$HOME/应用工具/鸿蒙Codex-{version}"\n'
-        "```\n\n按安装输出加载环境.sh，再执行 `codex --version`、`codex --help`、"
-        "`codex doctor --capabilities`。在安装目录执行 `sh 启用终端.sh`，"
-        "即可备份 ~/.zshrc 并更新专用启动块；重复执行不叠加，升级时更新为新版路径。"
-        "撤销用 `sh 启用终端.sh --remove`。安装脚本本身不修改用户配置、不运行 Codex。\n\n"
-        "默认读取鸿蒙系统 CA，仍支持 CODEX_CA_CERTIFICATE 和 SSL_CERT_FILE 覆盖。"
-        "遇到目录拒绝，可先在安装目录运行 `sh 诊断.sh --paths-only`，"
-        "独立原生探针直接输出身份与候选目录信息，不依赖 id，也不进入 Codex 配置初始化。"
-        "运行 `sh 诊断.sh --sandbox`，"
-        "将生成本机检查摘要和受限 pwd 的实际退出码；不会调用模型或导出账号配置。"
-        "本轮先按《挂载修复候选安装与复测.md》操作，"
-        "回传目录与身份、受限终端、挂载诊断和检查摘要。"
-        "挂载诊断来自失败 Rust 进程；目录探针是另一个进程的只读观察，二者分别保留。\n\n"
-        "保留整个目录：bin/codex、codex-path/rg、codex-resources/bwrap、"
-        "codex-resources/harmony-runtime-probe。"
-        "任何 ELF 修改或重新签名都可能使摘要失效，必须重新制作整个包。\n\n"
-        "Codex 使用原生 Shell；Git 和项目工具链由设备环境提供。"
-        "本包不含 V8 代码模式宿主、定制 zsh、语音宿主或桌面自动化。"
-        "受限命令执行需要设备的隔离能力，预检失败会阻止执行。"
-        "账号登录、设备码、API Key 和自定义服务入口保留，本轮没有认证测试。\n\n"
-        "完整说明和设备验收表见源码仓库 docs/鸿蒙电脑原生适配/。"
-        "暂不使用官方普通 Linux/npm 更新包覆盖本目录。\n"
+        "# 鸿蒙 PC 原生候选包\n\n" + identity
+        + "按《新版安装与运行说明.md》校验、解压、执行 install.sh 并加载 env.sh；"
+        "认证二选一见《接口密钥安装速用.md》或《账号登录安装速用.md》。"
+        "首次实际 CLI 启动负责验证平台目录并初始化 codex/state、r、tmp、logs。"
+        "不使用固定应用 UID，也不要求 GUI 先启动。\n\n"
+        "安装器只写程序前缀和 PATH 环境入口，不运行 CLI、不改 HOME 或认证配置。"
+        "目录与内核能力不足会保留失败，不自动回退到完全访问。"
+        "包内独立探针是只读观察，不批准数据根，不代表 CLI 初始化已通过。\n\n"
+        "所有 ELF 使用 SDK 自签名；保留完整布局与文件校验清单。"
+        "程序重新签名或修改后必须重新制作整个包。"
+        "不使用普通 Linux/npm 更新包覆盖。真机、登录和真实模型调用均待验收。\n"
+        + hnp_note
     )
 
 
@@ -487,52 +540,26 @@ def build_package(
         "workspace"
     ]["package"]["version"]
     version_source = json.loads(
-        (REPO_ROOT / "scripts/harmony/版本来源.json").read_text()
+        (REPO_ROOT / "scripts/harmony/version-source.json").read_text()
     )
     if version_source["工作区版本"] != upstream_version:
         raise ValueError("工作区版本与版本来源记录不一致；请先核对上游 tag 和源码")
     identity = source_identity()
     version = package_version(upstream_version, identity["提交"])
-    runtime_base = runtime_base_contract(args.runtime_base)
     runtime_profile = args.runtime_profile
-    runtime_uid = args.runtime_uid
-    env = runtime_build_environment(env, runtime_base, runtime_profile, runtime_uid)
+    runtime_base = (
+        runtime_base_contract(args.runtime_base)
+        if args.runtime_base is not None
+        else None
+    )
+    env = runtime_build_environment(env, runtime_base, runtime_profile)
     env = hnp_alias_build_environment(env, runtime_profile, None)
-    runtime_contract = {
-        "编译时固定候选": runtime_base,
-        "编译时策略": runtime_profile,
-        "环境变量回退": False,
-        "设备验证": "待同一鸿蒙 PC 验证目录身份、权限、生命周期与隔离；不保证路径可用",
-    }
-    if runtime_profile == "hnp-debug":
-        runtime_contract.update(
-            {
-                "绑定应用UID": runtime_uid,
-                "部署范围": "仅本次已核验的应用 UID 和官方 private HNP 调试部署；不是通用 HiShell 包",
-                "私有运行根": {"UID": runtime_uid, "权限": "0700", "须应用创建": True},
-                "配置导入": "通过应用私有目录单独导入；不把 URL 或 Key 放入 HAP、HNP 或完整包",
-                "沙箱能力": "目录和应用联网权限不能补齐内核隔离能力；不自动切换完全权限",
-            }
-        )
-    if runtime_profile == "hdc-debug":
-        runtime_contract.update(
-            {
-                "部署范围": "仅 HDC shell UID 2000 的调试包；不是商业 PC 默认配置",
-                "固定祖先": {
-                    "/data": {"UID": 1000, "GID": 1000, "权限": "0771"},
-                    "/data/local": {"UID": 0, "GID": 0, "权限": "0751"},
-                    "/data/local/tmp": {"UID": 2000, "GID": 2000, "权限": "0771"},
-                },
-                "私有运行根": {"UID": 2000, "权限": "0700", "须预先创建": True},
-                "信任边界": "信任系统 system 身份及 shell 调试组中的系统服务；不信任任意共享目录",
-                "沙箱能力": "此策略只处理运行目录，不授予系统权限，也不代表受限命令可以执行",
-            }
-        )
+    runtime_contract = distribution_runtime_contract(runtime_profile, runtime_base)
     helpers = args.helpers_dir.resolve()
     helper_record = validate_helpers(helpers, sdk, args.java)
     hnp_alias = None
     hnp_alias_record = None
-    if runtime_profile == "hnp-debug":
+    if args.with_hnp_alias:
         hnp_alias, hnp_alias_record = build_hnp_alias(
             output, sdk=sdk, java=args.java, env=env
         )
@@ -569,11 +596,9 @@ def build_package(
             "--output-dir",
             str(build_dir),
             "--release",
-            "--runtime-base",
-            runtime_base,
+            *(["--runtime-base", runtime_base] if runtime_base is not None else []),
             "--runtime-profile",
             runtime_profile,
-            *(["--runtime-uid", str(runtime_uid)] if runtime_uid is not None else []),
             *(
                 ["--hnp-alias-sha256", hnp_alias_record["SHA-256"]]
                 if hnp_alias_record
@@ -608,8 +633,8 @@ def build_package(
         helpers=helpers,
         runtime_probe=signed_probe,
         version=version,
+        source_commit=identity["提交"],
         runtime_profile=runtime_profile,
-        runtime_uid=runtime_uid,
         hnp_alias=hnp_alias,
     )
     files = {
@@ -660,7 +685,7 @@ def build_package(
             "版本": version,
             "运行目录策略": runtime_profile,
             "受保护运行根": runtime_base,
-            "绑定应用UID": runtime_uid,
+            "身份绑定": runtime_contract["identity_binding"],
             "签名": "SDK 自签名并检查签名信息",
             "真机验收": "未执行",
         },
@@ -683,16 +708,16 @@ def main() -> int:
     parser.add_argument(
         "--runtime-base",
         type=runtime_base_contract,
-        help="package 必须显式绑定的目标私有目录候选；设备仍需验证",
+        help="仅 strict / hdc-debug 诊断构建使用；platform 不接受固定根",
     )
     parser.add_argument(
         "--runtime-profile",
         choices=RUNTIME_PROFILES,
-        default="strict",
-        help="默认 strict；hdc-debug 绑定 HDC UID 2000，hnp-debug 绑定显式应用 UID",
+        default="platform",
+        help="默认 platform；strict / hdc-debug 仅用于显式固定候选诊断",
     )
     parser.add_argument(
-        "--runtime-uid", type=int, help="hnp-debug 必须绑定的已核验应用 UID"
+        "--with-hnp-alias", action="store_true", help="为 platform 包加入已签名的 HNP 工具入口"
     )
     args = parser.parse_args()
     if not args.java:
@@ -705,17 +730,17 @@ def main() -> int:
         )
     if args.action == "package" and (not args.helpers_dir or args.source_cache):
         parser.error("package 要求 --helpers-dir，且不接受 --source-cache")
-    if args.action == "package" and args.runtime_base is None:
-        parser.error("package 要求 --runtime-base，不能隐式选择运行目录")
     if args.action == "helpers" and args.runtime_base is not None:
         parser.error("helpers 不使用 --runtime-base")
-    if args.action == "helpers" and args.runtime_profile != "strict":
+    if args.action == "helpers" and args.runtime_profile != "platform":
         parser.error("helpers 不使用 --runtime-profile")
-    if args.action == "helpers" and args.runtime_uid is not None:
-        parser.error("helpers 不使用 --runtime-uid")
+    if args.with_hnp_alias and (
+        args.action != "package" or args.runtime_profile != "platform"
+    ):
+        parser.error("--with-hnp-alias 只适用于 package --runtime-profile platform")
     try:
         runtime_build_environment(
-            {}, args.runtime_base, args.runtime_profile, args.runtime_uid
+            {}, args.runtime_base, args.runtime_profile
         )
     except (ValueError, argparse.ArgumentTypeError) as error:
         parser.error(str(error))

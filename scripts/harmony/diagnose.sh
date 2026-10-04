@@ -11,7 +11,7 @@ while [ "$#" -gt 0 ]; do
         --output-dir) [ "$#" -ge 2 ] || fail '缺少输出路径'; output=$2; shift 2 ;;
         --sandbox) sandbox=1; shift ;;
         --paths-only) paths_only=1; shift ;;
-        --help) printf '%s\n' '用法：sh 诊断.sh [--sandbox] [--output-dir 全新绝对目录]' '只读目录信息直接输出（不初始化 Codex）：sh 诊断.sh --paths-only'; exit 0 ;;
+        --help) printf '%s\n' '用法：sh diagnose.sh [--sandbox] [--output-dir 全新绝对目录]' '只读目录信息直接输出（不初始化 Codex）：sh diagnose.sh --paths-only'; exit 0 ;;
         *) fail "未知参数：$1" ;;
     esac
 done
@@ -68,12 +68,40 @@ if [ -f "$package/文件校验清单.sha256" ]; then
 fi
 if [ "$sandbox" -eq 1 ]; then
     mkdir -- "$output/沙箱工作目录"
-    probe_shell=/usr/bin/sh
-    [ -x "$probe_shell" ] || probe_shell=/bin/sh
+    probe_shell=''
+    shell_index=0
+    try_shell() {
+        candidate=$1
+        case "$candidate" in /*) ;; *) return 0 ;; esac
+        [ -z "$probe_shell" ] || return 0
+        shell_index=$((shell_index + 1))
+        # 鸿蒙可能拒绝 stat/access，但仍允许执行；不用 -x 判定入口。
+        # 路径始终作为一个参数，只执行固定 printf，不解释 SHELL 的内容。
+        if shell_reply=$("$candidate" -c 'printf "%s\n" codex-shell-probe-v1' 2> "$output/shell-probe-$shell_index.txt"); then
+            shell_code=0
+        else
+            shell_code=$?
+        fi
+        printf '候选：%s\n退出码：%s\n标准输出：%s\n' "$candidate" "$shell_code" "$shell_reply" >> "$output/shell-probe-$shell_index.txt"
+        printf 'Shell 入口探测 %s：%s，退出码 %s\n' "$shell_index" "$candidate" "$shell_code" >> "$output/检查摘要.txt"
+        if [ "$shell_code" -eq 0 ] && [ "$shell_reply" = codex-shell-probe-v1 ]; then
+            probe_shell=$candidate
+        fi
+    }
+    try_shell "${SHELL-}"
+    try_shell /system/bin/sh
+    try_shell /usr/bin/sh
+    try_shell /bin/sh
     printf '受限执行 Shell：%s\n' "$probe_shell" >> "$output/运行环境.txt"
     # 固定只执行 pwd；保留受限策略，不以危险全盘权限回退。
-    run_check 普通终端 sh -c 'cd "$1" && "$2" -c pwd' sh "$output/沙箱工作目录" "$probe_shell"
-    run_check 受限终端 sh -c 'cd "$1" && CODEX_HARMONY_PROCESS_DIAGNOSTICS=1 "$2" -c sandbox_mode="\"read-only\"" sandbox -- "$3" -c pwd' sh "$output/沙箱工作目录" "$package/bin/codex" "$probe_shell"
+    if [ -n "$probe_shell" ]; then
+        run_check 普通终端 sh -c 'cd "$1" && "$2" -c pwd' sh "$output/沙箱工作目录" "$probe_shell"
+        run_check 受限终端 sh -c 'cd "$1" && CODEX_HARMONY_PROCESS_DIAGNOSTICS=1 "$2" -c sandbox_mode="\"read-only\"" sandbox -- "$3" -c pwd' sh "$output/沙箱工作目录" "$package/bin/codex" "$probe_shell"
+    else
+        failed=$((failed + 1))
+        printf '%s\n' '普通终端：未执行；没有通过固定命令探测的 Shell 入口' '受限终端：未执行；没有通过固定命令探测的 Shell 入口' >> "$output/检查摘要.txt"
+        printf '%s\n' '没有可用 Shell；查看 shell-probe-*.txt，不能据此判断 Codex 沙箱能力。' > "$output/受限终端.txt"
+    fi
     # 从原始 stderr 原样摘出失败 Rust 进程的定向证据；不执行日志内容。
     # 独立 C 探针的挂载观察不能代替这个进程打开目录时看到的身份。
     mount_records=0

@@ -1,4 +1,4 @@
-//! Per-process aliases below the shared, build-bound OHOS runtime contract.
+//! Per-process aliases below the shared, validated OHOS runtime contract.
 //! Hold every validated directory FD. Never janitor old CODEX_HOME directories
 //! or recursively remove names that may now identify somebody else's objects.
 
@@ -53,7 +53,7 @@ impl SessionAliases {
 #[cfg(target_env = "ohos")]
 pub(super) fn prepare(executable: &Path, aliases: &[&str]) -> io::Result<SessionAliases> {
     let root = codex_uds::prepare_ohos_runtime_directory(codex_uds::OhosRuntimePurpose::Aliases)?;
-    if codex_uds::ohos_runtime_profile_contract() == "hnp-debug" {
+    if uses_installed_aliases(executable) {
         let aliases = crate::harmony_hnp_alias_dir::prepare(executable, aliases)?;
         root.revalidate()?;
         return Ok(SessionAliases(AliasStorage::Installed {
@@ -63,6 +63,13 @@ pub(super) fn prepare(executable: &Path, aliases: &[&str]) -> io::Result<Session
     }
     prepare_in(root, executable, aliases)
         .map(|aliases| SessionAliases(AliasStorage::Dynamic(aliases)))
+}
+
+fn uses_installed_aliases(executable: &Path) -> bool {
+    // A bound digest describes installed helpers; it does not force a normal
+    // terminal installation into the HNP namespace. The HNP branch still
+    // requires that digest and validates installer ownership and file identity.
+    executable.starts_with("/data/app")
 }
 
 fn prepare_in(
@@ -183,6 +190,20 @@ mod tests {
         fs::create_dir(&path).unwrap();
         fs::set_permissions(&path, fs::Permissions::from_mode(0o700)).unwrap();
         (temporary, path)
+    }
+
+    #[test]
+    fn alias_deployment_follows_the_process_installation_not_the_bound_digest() {
+        assert!(uses_installed_aliases(Path::new(
+            "/data/app/package/bin/codex"
+        )));
+        for path in [
+            "/data/app-other/bin/codex",
+            "/system/bin/codex",
+            "/storage/Users/codex/bin/codex",
+        ] {
+            assert!(!uses_installed_aliases(Path::new(path)), "{path}");
+        }
     }
 
     fn aliases(path: &Path) -> DynamicAliases {

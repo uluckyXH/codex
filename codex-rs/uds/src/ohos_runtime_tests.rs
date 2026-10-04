@@ -255,12 +255,12 @@ fn runtime_environment_cannot_bind_or_replace_the_build_contract() {
         );
         assert_eq!(
             ohos_runtime_profile_contract(),
-            option_env!("CODEX_OHOS_RUNTIME_PROFILE").unwrap_or("strict")
+            option_env!("CODEX_OHOS_RUNTIME_PROFILE").unwrap_or("platform")
         );
-        if ohos_runtime_base_contract().is_none() {
+        if !cfg!(target_env = "ohos") && ohos_runtime_profile_contract() == "platform" {
             let error = prepare_ohos_runtime_directory(OhosRuntimePurpose::Aliases).unwrap_err();
             assert_eq!(error.kind(), io::ErrorKind::Unsupported);
-            assert!(error.to_string().contains("stage=contract"));
+            assert!(error.to_string().contains("stage=platform"));
         }
         return;
     }
@@ -273,6 +273,7 @@ fn runtime_environment_cannot_bind_or_replace_the_build_contract() {
         .env(CHILD, "1")
         .env("CODEX_OHOS_RUNTIME_BASE", &base)
         .env("CODEX_OHOS_RUNTIME_PROFILE", "hdc-debug")
+        .env("CODEX_OHOS_RUNTIME_UID", "20020059")
         .env("HOME", &base)
         .env("CODEX_HOME", &base)
         .env("TMPDIR", &base)
@@ -302,11 +303,11 @@ fn reported_device_identity_and_setgid_are_not_sticky_protection() {
 fn hdc_debug_contract_requires_an_explicit_fixed_base_and_shell_identity() {
     let base = Path::new(HDC_DEBUG_BASE);
     assert_eq!(
-        RuntimeProfile::from_contract("strict", base, 2000, None).unwrap(),
+        RuntimeProfile::from_contract("strict", base, 2000).unwrap(),
         RuntimeProfile::Strict
     );
     assert_eq!(
-        RuntimeProfile::from_contract("hdc-debug", base, 2000, None).unwrap(),
+        RuntimeProfile::from_contract("hdc-debug", base, 2000).unwrap(),
         RuntimeProfile::HdcDebug
     );
     for (profile, path, uid) in [
@@ -317,7 +318,7 @@ fn hdc_debug_contract_requires_an_explicit_fixed_base_and_shell_identity() {
         ("hdc-debug", HDC_DEBUG_BASE, 0),
         ("hdc-debug", HDC_DEBUG_BASE, 20020101),
     ] {
-        let error = RuntimeProfile::from_contract(profile, Path::new(path), uid, None).unwrap_err();
+        let error = RuntimeProfile::from_contract(profile, Path::new(path), uid).unwrap_err();
         assert_eq!(error.kind(), io::ErrorKind::PermissionDenied);
         assert!(error.to_string().contains("profile-contract"));
     }
@@ -395,71 +396,32 @@ fn hdc_debug_platform_ancestors_require_exact_paths_owners_groups_and_modes() {
 }
 
 #[test]
-fn hnp_debug_contract_binds_the_installation_uid_and_fixed_private_root() {
-    let uid = 20020059;
-    let base = Path::new(HNP_DEBUG_BASE);
-    let profile = RuntimeProfile::from_contract("hnp-debug", base, uid, Some("20020059"))
-        .expect("explicit installation contract");
-    assert_eq!(profile, RuntimeProfile::HnpDebug { uid });
-    for value in [
-        None,
-        Some(""),
-        Some("0"),
-        Some("2000"),
-        Some("1000"),
-        Some("+20020059"),
-        Some("20020059 "),
-        Some("20020060"),
-        Some("4294967296"),
-    ] {
-        assert!(RuntimeProfile::from_contract("hnp-debug", base, uid, value).is_err());
-    }
-    for other_uid in [0, 1000, 2000, 20020060] {
-        assert!(
-            RuntimeProfile::from_contract("hnp-debug", base, other_uid, Some("20020059")).is_err()
+fn platform_contract_uses_runtime_identity_and_rejects_the_removed_uid_profile() {
+    for uid in [0, 1000, 2000, 20020059, 20020060] {
+        assert_eq!(
+            RuntimeProfile::from_contract("platform", Path::new(""), uid).unwrap(),
+            RuntimeProfile::Strict
         );
-        assert!(profile.validate_scope(base, other_uid).is_err());
-    }
-    for platform_uid in [0, 1000, 2000, 9999] {
         assert!(
             RuntimeProfile::from_contract(
                 "hnp-debug",
-                base,
-                platform_uid,
-                Some(&platform_uid.to_string())
+                Path::new("/data/storage/el2/base/files/r"),
+                uid
             )
             .is_err()
         );
+        assert!(RuntimeProfile::from_contract("platform", Path::new(HDC_DEBUG_BASE), uid).is_err());
     }
-    for other_base in [
-        "/data/storage/el2/base/files",
-        "/data/storage/el2/base/files/r-other",
-        HDC_DEBUG_BASE,
-    ] {
-        assert!(
-            RuntimeProfile::from_contract(
-                "hnp-debug",
-                Path::new(other_base),
-                uid,
-                Some("20020059")
-            )
-            .is_err()
-        );
-        assert!(profile.validate_scope(Path::new(other_base), uid).is_err());
-    }
-    profile
-        .validate_scope(&base.join(format!("c{uid:08x}/a")), uid)
-        .unwrap();
 }
 
 #[test]
-fn hnp_debug_never_exempts_shared_context_ancestors_or_foreign_owners() {
+fn platform_never_exempts_shared_context_ancestors_or_foreign_owners() {
     let uid = 20020059;
-    let profile = RuntimeProfile::HnpDebug { uid };
+    let profile = RuntimeProfile::Strict;
     for path in [
         "/data/storage/el2/base",
         "/data/storage/el2/base/files",
-        HNP_DEBUG_BASE,
+        "/data/storage/el2/base/files/codex/r",
     ] {
         let path = Path::new(path);
         assert!(directory_profile_mode_is_safe(
@@ -490,12 +452,12 @@ fn hnp_debug_never_exempts_shared_context_ancestors_or_foreign_owners() {
         ));
     }
     assert!(!directory_profile_mode_is_safe(
-        Path::new(HNP_DEBUG_BASE),
+        Path::new("/data/storage/el2/base/files/codex/r"),
         uid,
         uid,
         uid,
         0o755,
-        false,
+        true,
         profile
     ));
 }
@@ -595,17 +557,14 @@ async fn hdc_debug_profile_socket_lifecycle_on_target() {
 
 #[cfg(target_env = "ohos")]
 #[test]
-#[ignore = "requires an installation-bound HNP debug build and preprovisioned private application root"]
-fn hnp_debug_profile_prepares_private_runtime_on_target() {
-    assert_eq!(ohos_runtime_profile_contract(), "hnp-debug");
-    assert_eq!(ohos_runtime_base_contract(), Some(HNP_DEBUG_BASE));
-    let uid = unsafe { libc::geteuid() };
-    assert_eq!(
-        ohos_runtime_uid_contract().unwrap().parse::<u32>().unwrap(),
-        uid
-    );
+#[ignore = "requires a real platform files namespace; run the same ELF under two actual identities"]
+fn platform_profile_prepares_private_runtime_on_target() {
+    assert_eq!(ohos_runtime_profile_contract(), "platform");
+    assert_eq!(ohos_runtime_base_contract(), None);
+    let directories = initialize_ohos_data_directories().unwrap();
+    assert_eq!(directories.identity(), OhosProcessIdentity::current());
     let aliases = prepare_ohos_runtime_directory(OhosRuntimePurpose::Aliases).unwrap();
-    let expected = Path::new(HNP_DEBUG_BASE).join(format!("c{uid:08x}"));
+    let expected = directories.runtime_dir();
     assert_eq!(aliases.path(), expected.join("a"));
     let child = aliases
         .create_new_subdirectory(OsStr::new(&format!("hnptest-{}", std::process::id())))
@@ -628,9 +587,9 @@ fn hnp_debug_profile_prepares_private_runtime_on_target() {
 
 #[cfg(target_env = "ohos")]
 #[test]
-#[ignore = "measures symlink creation policy of the dedicated HNP debug application"]
-fn hnp_debug_profile_cannot_create_symlinks_on_target() {
-    assert_eq!(ohos_runtime_profile_contract(), "hnp-debug");
+#[ignore = "measures symlink creation policy only in the dedicated HNP application, not HiShell"]
+fn platform_hnp_cannot_create_symlinks_on_target() {
+    assert_eq!(ohos_runtime_profile_contract(), "platform");
     let aliases = prepare_ohos_runtime_directory(OhosRuntimePurpose::Aliases).unwrap();
     let child = aliases
         .create_new_subdirectory(OsStr::new(&format!("hnplink-{}", std::process::id())))
@@ -646,12 +605,12 @@ fn hnp_debug_profile_cannot_create_symlinks_on_target() {
 
 #[cfg(target_env = "ohos")]
 #[tokio::test(flavor = "current_thread")]
-#[ignore = "requires an HNP debug deployment with OS permission to bind pathname Unix sockets"]
-async fn hnp_debug_profile_socket_lifecycle_on_target() {
+#[ignore = "requires a verified platform namespace and OS permission to bind pathname Unix sockets"]
+async fn platform_profile_socket_lifecycle_on_target() {
     use tokio::io::AsyncReadExt;
     use tokio::io::AsyncWriteExt;
 
-    assert_eq!(ohos_runtime_profile_contract(), "hnp-debug");
+    assert_eq!(ohos_runtime_profile_contract(), "platform");
     let sockets = prepare_ohos_runtime_directory(OhosRuntimePurpose::ControlSockets).unwrap();
     let name = format!("{:064x}", std::process::id());
     let lock_path = sockets.path().join(format!("{name}.lock"));

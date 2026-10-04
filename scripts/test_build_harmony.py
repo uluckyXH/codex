@@ -8,6 +8,7 @@ import tempfile
 import unittest
 
 from build_harmony import TARGET
+from build_harmony import PLATFORM_FILES_CANDIDATE
 from build_harmony import build_environment
 from build_harmony import hnp_alias_build_environment
 from build_harmony import native_sdk
@@ -21,14 +22,15 @@ class HarmonyBuildTests(unittest.TestCase):
         self.assertEqual(
             hnp_alias_build_environment(original, "strict", None), {"UNRELATED": "keep"}
         )
-        env = hnp_alias_build_environment(original, "hnp-debug", "b" * 64)
+        env = hnp_alias_build_environment(original, "platform", "b" * 64)
         self.assertEqual(env["CODEX_HNP_ALIAS_SHA256"], "b" * 64)
         for profile, digest in (
             ("strict", "b" * 64),
             ("hdc-debug", "b" * 64),
-            ("hnp-debug", "B" * 64),
-            ("hnp-debug", "b" * 63),
-            ("hnp-debug", "b" * 64 + "\n"),
+            ("hnp-debug", "b" * 64),
+            ("platform", "B" * 64),
+            ("platform", "b" * 63),
+            ("platform", "b" * 64 + "\n"),
         ):
             with (
                 self.subTest(profile=profile, digest=digest),
@@ -46,7 +48,7 @@ class HarmonyBuildTests(unittest.TestCase):
         env = runtime_build_environment(original, None)
         self.assertNotIn("CODEX_OHOS_RUNTIME_BASE", env)
         self.assertNotIn("CODEX_OHOS_RUNTIME_UID", env)
-        self.assertEqual(env["CODEX_OHOS_RUNTIME_PROFILE"], "strict")
+        self.assertEqual(env["CODEX_OHOS_RUNTIME_PROFILE"], "platform")
         self.assertEqual(env["UNRELATED"], "keep")
         self.assertEqual(original["CODEX_OHOS_RUNTIME_PROFILE"], "hdc-debug")
         env = runtime_build_environment(original, "/data/local/tmp/cdx", "hdc-debug")
@@ -64,25 +66,19 @@ class HarmonyBuildTests(unittest.TestCase):
             ):
                 runtime_build_environment(original, base, profile)
 
-    def test_hnp_debug_requires_explicit_application_identity_and_exact_base(self):
-        base = "/data/storage/el2/base/files/r"
-        env = runtime_build_environment({}, base, "hnp-debug", 20020059)
-        self.assertEqual(env["CODEX_OHOS_RUNTIME_UID"], "20020059")
-        self.assertEqual(env["CODEX_OHOS_RUNTIME_BASE"], base)
-        self.assertEqual(env["CODEX_OHOS_RUNTIME_PROFILE"], "hnp-debug")
-        self.assertEqual(len(base.encode()) + len("/cffffffff/s/" + "f" * 64) + 1, 108)
-        for uid in (None, 0, 2000, 9999, True, "20020059", 0x100000000):
-            with self.subTest(uid=uid), self.assertRaises(ValueError):
-                runtime_build_environment({}, base, "hnp-debug", uid)
-        for invalid_base in (None, "/data/local/tmp/cdx", base + "x"):
-            with self.subTest(base=invalid_base), self.assertRaises(ValueError):
-                runtime_build_environment({}, invalid_base, "hnp-debug", 20020059)
-        for profile, other_base in (
-            ("strict", base),
-            ("hdc-debug", "/data/local/tmp/cdx"),
-        ):
-            with self.subTest(profile=profile), self.assertRaises(ValueError):
-                runtime_build_environment({}, other_base, profile, 20020059)
+    def test_platform_has_no_uid_binding_or_runtime_root_override(self):
+        original = {"CODEX_OHOS_RUNTIME_UID": "20020059", "CODEX_OHOS_RUNTIME_BASE": "/fake"}
+        env = runtime_build_environment(original, None, "platform")
+        self.assertNotIn("CODEX_OHOS_RUNTIME_UID", env)
+        self.assertNotIn("CODEX_OHOS_RUNTIME_BASE", env)
+        self.assertEqual(env["CODEX_OHOS_RUNTIME_PROFILE"], "platform")
+        for base in (PLATFORM_FILES_CANDIDATE, "/data/local/tmp/cdx", "/private/fake"):
+            with self.subTest(base=base), self.assertRaisesRegex(ValueError, "不接受"):
+                runtime_build_environment({}, base, "platform")
+        with self.assertRaises(ValueError):
+            runtime_build_environment({}, None, "hnp-debug")
+        # The complete digest still fits the OHOS 108-byte address including NUL.
+        self.assertEqual(len(PLATFORM_FILES_CANDIDATE.encode()) + len("/codex/r/s/" + "f" * 64) + 1, 104)
 
     def test_runtime_contract_keeps_target_path_and_full_socket_identity(self):
         self.assertEqual(

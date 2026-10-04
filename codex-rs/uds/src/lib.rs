@@ -18,15 +18,23 @@ pub use ohos_control_socket::ProtectedControlSocket;
 #[cfg(unix)]
 mod ohos_runtime;
 #[cfg(unix)]
+pub use ohos_runtime::OhosDataDirectories;
+#[cfg(unix)]
+pub use ohos_runtime::OhosDirectorySource;
+#[cfg(unix)]
+pub use ohos_runtime::OhosProcessIdentity;
+#[cfg(unix)]
 pub use ohos_runtime::OhosRuntimePurpose;
 #[cfg(unix)]
 pub use ohos_runtime::ProtectedRuntimeDirectory;
 #[cfg(unix)]
+pub use ohos_runtime::initialize_ohos_data_directories;
+#[cfg(unix)]
+pub use ohos_runtime::ohos_platform_files_candidate;
+#[cfg(unix)]
 pub use ohos_runtime::ohos_runtime_base_contract;
 #[cfg(unix)]
 pub use ohos_runtime::ohos_runtime_profile_contract;
-#[cfg(unix)]
-pub use ohos_runtime::ohos_runtime_uid_contract;
 #[cfg(unix)]
 pub use ohos_runtime::prepare_ohos_runtime_directory;
 #[cfg(unix)]

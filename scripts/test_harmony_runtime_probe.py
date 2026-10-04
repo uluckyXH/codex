@@ -154,6 +154,32 @@ class RuntimeProbeTests(unittest.TestCase):
         self.assertFalse(any(f"/c{os.geteuid():08x}/" in candidate for candidate in candidates))
         self.assertIn("/data/storage/el2/base/files", candidates)
 
+    def test_platform_candidates_are_uid_independent_and_never_initialize_data(self):
+        binary = self.root / "platform-probe"
+        compile_c(SOURCE, binary, "-DCODEX_OHOS_PLATFORM_DATA=1")
+        self.env["CODEX_OHOS_RUNTIME_BASE"] = str(self.root / "ignored-root")
+        before = sorted(str(path.relative_to(self.root)) for path in self.root.rglob("*"))
+        report = self.run_probe(binary=binary)
+        candidates = [check["candidate"] for check in self.records(report, "path")]
+        self.assertEqual(candidates[:2], [
+            "/data/storage/el2/base/files/codex/r/a",
+            "/data/storage/el2/base/files/codex/r/s",
+        ])
+        self.assertEqual(report["path_selection"]["runtime_paths"], "platform_namespace_candidates")
+        self.assertFalse(any(f"/c{os.geteuid():08x}/" in candidate for candidate in candidates))
+        self.assertLessEqual(len(candidates), 12)
+        self.assertTrue(report["read_only"])
+        self.assertEqual(before, sorted(str(path.relative_to(self.root)) for path in self.root.rglob("*")))
+
+    def test_explicit_platform_paths_replace_namespace_candidates(self):
+        binary = self.root / "platform-probe"
+        compile_c(SOURCE, binary, "-DCODEX_OHOS_PLATFORM_DATA=1")
+        report = self.run_probe(*(["--path", str(self.root)] * 12), binary=binary)
+        checks = self.records(report, "path")
+        self.assertEqual(len(checks), 12)
+        self.assertTrue(all(check["candidate"] == str(self.root) for check in checks))
+        self.assertEqual(report["path_selection"]["runtime_paths"], "explicit_paths_override")
+
     def test_twelve_explicit_paths_override_configured_defaults(self):
         binary = self.contract_binary(self.root / "unused")
         report = self.run_probe(*(["--path", str(self.root)] * 12), binary=binary)

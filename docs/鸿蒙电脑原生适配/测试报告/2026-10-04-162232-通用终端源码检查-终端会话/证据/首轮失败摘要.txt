@@ -1,0 +1,4 @@
+来源：本会话此前直接运行 node harmony/terminal-host/test_terminal_bridge.cjs 的工具输出；首轮精确时刻未单独记录。
+首个用例通过；late bridge receives geometry and token 用例失败，实际 resize token为空字符串，预期32个a。Node AssertionError，退出码1。
+修复：连接尚未完成时，不执行网页预热缩放；轮询取得当前token后才发送缩放。后续17项通过；本批再次验证通过。
+未删改失败结论，未包含用户数据或认证。

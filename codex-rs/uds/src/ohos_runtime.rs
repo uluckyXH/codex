@@ -1,6 +1,6 @@
-//! A build-bound OHOS runtime location, independent of tool environments.
-//! The platform base is a deployment contract, not a claim of device support.
-//! No candidate is selected by default and no per-process fallback is allowed.
+//! Protected OHOS directories, independent of tool-controlled environments.
+//! Platform startup initializes its own data tree beneath a verified files root.
+//! An available path or Context alone is never a claim of device support.
 
 use std::ffi::CString;
 use std::ffi::OsStr;
@@ -16,6 +16,14 @@ use std::os::unix::fs::OpenOptionsExt;
 use std::path::Component;
 use std::path::Path;
 use std::path::PathBuf;
+
+#[path = "ohos_data.rs"]
+mod data;
+pub use data::OhosDataDirectories;
+pub use data::OhosDirectorySource;
+pub use data::OhosProcessIdentity;
+pub use data::initialize_ohos_data_directories;
+pub use data::ohos_platform_files_candidate;
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum OhosRuntimePurpose {
@@ -33,69 +41,40 @@ impl OhosRuntimePurpose {
 }
 
 /// Set by the package builder, never by the environment of a running tool.
-/// Changing this value requires a coordinated migration; old and new sandbox
-/// instances cannot safely run concurrently with different socket roots.
+/// Used only by explicit diagnostic profiles. The platform profile forbids an
+/// override and initializes a verified platform files namespace instead.
 pub fn ohos_runtime_base_contract() -> Option<&'static str> {
     option_env!("CODEX_OHOS_RUNTIME_BASE")
 }
 
 /// A deployment trust boundary selected by the builder, not by a child tool.
 pub fn ohos_runtime_profile_contract() -> &'static str {
-    option_env!("CODEX_OHOS_RUNTIME_PROFILE").unwrap_or("strict")
-}
-
-/// The installation-specific application UID, compiled into an HNP debug build.
-/// It is not read from the environment of the running application or its tools.
-pub fn ohos_runtime_uid_contract() -> Option<&'static str> {
-    option_env!("CODEX_OHOS_RUNTIME_UID")
+    option_env!("CODEX_OHOS_RUNTIME_PROFILE").unwrap_or("platform")
 }
 
 const HDC_DEBUG_BASE: &str = "/data/local/tmp/cdx";
 const HDC_SHELL_UID: libc::uid_t = 2000;
-const HNP_DEBUG_BASE: &str = "/data/storage/el2/base/files/r";
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
 enum RuntimeProfile {
     Strict,
     HdcDebug,
-    HnpDebug { uid: libc::uid_t },
 }
 
 impl RuntimeProfile {
-    fn from_contract(
-        profile: &str,
-        base: &Path,
-        uid: libc::uid_t,
-        compiled_uid: Option<&str>,
-    ) -> io::Result<Self> {
+    fn from_contract(profile: &str, base: &Path, uid: libc::uid_t) -> io::Result<Self> {
         match profile {
             "strict" => Ok(Self::Strict),
+            "platform" if base.as_os_str().is_empty() => Ok(Self::Strict),
             "hdc-debug" if base == Path::new(HDC_DEBUG_BASE) && uid == HDC_SHELL_UID => {
                 Ok(Self::HdcDebug)
-            }
-            "hnp-debug" if base == Path::new(HNP_DEBUG_BASE) => {
-                let bound_uid = compiled_uid
-                    .filter(|value| value.bytes().all(|byte| byte.is_ascii_digit()))
-                    .and_then(|value| value.parse::<libc::uid_t>().ok())
-                    .filter(|value| *value >= 10_000 && *value == uid);
-                match bound_uid {
-                    Some(uid) => Ok(Self::HnpDebug { uid }),
-                    None => Err(at_path(
-                        "profile-contract",
-                        base,
-                        io::Error::new(
-                            io::ErrorKind::PermissionDenied,
-                            "hnp-debug requires a compiled application UID >= 10000 matching the effective UID; the runtime environment cannot select another identity",
-                        ),
-                    )),
-                }
             }
             _ => Err(at_path(
                 "profile-contract",
                 base,
                 io::Error::new(
                     io::ErrorKind::PermissionDenied,
-                    "unknown runtime profile or mismatched fixed base/identity: hdc-debug requires /data/local/tmp/cdx and UID 2000; hnp-debug requires /data/storage/el2/base/files/r and its compiled application UID; no fallback is allowed",
+                    "unknown runtime profile or mismatched fixed base/identity: platform uses a verified platform files root; hdc-debug requires /data/local/tmp/cdx and UID 2000; installation-specific UID profiles are not supported",
                 ),
             )),
         }
@@ -112,18 +91,6 @@ impl RuntimeProfile {
                 ),
             ));
         }
-        if let Self::HnpDebug { uid: compiled_uid } = self
-            && (uid != compiled_uid || !base.starts_with(HNP_DEBUG_BASE))
-        {
-            return Err(at_path(
-                "profile-scope",
-                base,
-                io::Error::new(
-                    io::ErrorKind::PermissionDenied,
-                    "hnp-debug may only open the fixed private runtime subtree of the compiled application UID",
-                ),
-            ));
-        }
         Ok(())
     }
 }
@@ -133,7 +100,6 @@ fn compiled_runtime_profile(uid: libc::uid_t) -> io::Result<RuntimeProfile> {
         ohos_runtime_profile_contract(),
         Path::new(ohos_runtime_base_contract().unwrap_or("")),
         uid,
-        ohos_runtime_uid_contract(),
     )
 }
 
@@ -165,6 +131,16 @@ impl ProtectedRuntimeDirectory {
     /// Reopen from / without following links and compare every pinned object.
     /// This detects replacement; it does not authorize a writable ancestor.
     pub fn revalidate(&self) -> io::Result<()> {
+        if unsafe { libc::geteuid() } != self.uid {
+            return Err(at_path(
+                "identity-changed",
+                self.path(),
+                io::Error::new(
+                    io::ErrorKind::PermissionDenied,
+                    "effective UID changed after directory validation",
+                ),
+            ));
+        }
         let mut current = open_root()?;
         for (index, directory) in self.directories.iter().enumerate() {
             if index != 0 {
@@ -205,9 +181,18 @@ impl ProtectedRuntimeDirectory {
     /// Create an exclusive private child, suitable for a randomized session.
     /// An existing object is never adopted, chmod'ed, or removed here.
     pub fn create_new_subdirectory(&self, name: &OsStr) -> io::Result<Self> {
+        self.create_subdirectory(name, false)
+    }
+
+    #[cfg(any(target_env = "ohos", test))]
+    fn ensure_private_subdirectory(&self, name: &OsStr) -> io::Result<Self> {
+        self.create_subdirectory(name, true)
+    }
+
+    fn create_subdirectory(&self, name: &OsStr, reuse: bool) -> io::Result<Self> {
         self.revalidate()?;
         let mut directories = self.clone_directories()?;
-        create_private_child(&mut directories, name, self.uid, false)?;
+        create_private_child(&mut directories, name, self.uid, reuse)?;
         let child = Self {
             directories,
             uid: self.uid,
@@ -350,6 +335,9 @@ impl AsRawFd for ProtectedRuntimeDirectory {
 pub fn prepare_ohos_runtime_directory(
     purpose: OhosRuntimePurpose,
 ) -> io::Result<ProtectedRuntimeDirectory> {
+    if ohos_runtime_profile_contract() == "platform" {
+        return initialize_ohos_data_directories()?.prepare_runtime_directory(purpose);
+    }
     let base = ohos_runtime_base_contract().ok_or_else(|| io::Error::new(
         io::ErrorKind::Unsupported,
         "OHOS runtime-dir stage=contract: CODEX_OHOS_RUNTIME_BASE was not bound at build time; no verified platform base is available; HOME/Context/temp fallback is disabled",
@@ -580,8 +568,6 @@ fn validate_profile_metadata(
                         "current-user-owned directory with mode 0700"
                     } else if profile == RuntimeProfile::HdcDebug {
                         "the exact platform ancestor UID/GID/mode contract and a shell-owned 0700 runtime base"
-                    } else if matches!(profile, RuntimeProfile::HnpDebug { .. }) {
-                        "strict ancestor protection and a compiled-application-owned 0700 runtime base; shared application directories are not exempt"
                     } else {
                         "root/current-user-owned directory without group/other writes, or root-owned sticky directory"
                     }
@@ -601,17 +587,6 @@ fn directory_profile_mode_is_safe(
     private: bool,
     profile: RuntimeProfile,
 ) -> bool {
-    if let RuntimeProfile::HnpDebug { uid: compiled_uid } = profile {
-        if uid != compiled_uid {
-            return false;
-        }
-        // The dedicated debug application must provision a private root and
-        // protected ancestors before launching Codex. Its Context path or UID
-        // alone never makes a world-writable directory safe.
-        if path == Path::new(HNP_DEBUG_BASE) {
-            return owner == uid && mode == 0o700;
-        }
-    }
     if profile == RuntimeProfile::HdcDebug {
         if uid != HDC_SHELL_UID {
             return false;

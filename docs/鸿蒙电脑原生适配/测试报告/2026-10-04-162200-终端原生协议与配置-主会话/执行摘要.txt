@@ -1,0 +1,47 @@
+来源：.harmony-build/current/integration-20261004-general/host-native-unit.log
+原日志SHA256：914227632afb0452e23e4f8e1a642112bec821e89b4769c10f895cfc2f89844c
+
+command: ['/usr/bin/clang++', '-std=c++17', '-Wall', '-Wextra', '-Werror', '-I', '/Volumes/MacSSD/Repositories/codex/harmony/terminal-host/entry/src/main/cpp', '/Volumes/MacSSD/Repositories/codex/harmony/terminal-host/host_protocol_test_main.cpp', '/Volumes/MacSSD/Repositories/codex/harmony/terminal-host/entry/src/main/cpp/host_json.cpp', '/Volumes/MacSSD/Repositories/codex/harmony/terminal-host/entry/src/main/cpp/process_identity.cpp', '-o', '/Volumes/MacSSD/Repositories/codex/.harmony-build/current/host-checks/host-protocol-tests']
+exit=0
+command: ['/Volumes/MacSSD/Repositories/codex/.harmony-build/current/host-checks/host-protocol-tests']
+PASS initializer exact root path
+PASS JSON Unicode spaces and quotes preserved
+PASS JSON surrogate pair
+PASS duplicate root rejected
+PASS duplicate paths rejected
+PASS nested unrelated path not adopted
+PASS non-string root rejected
+PASS trailing bytes rejected
+PASS broken surrogate rejected
+PASS initializer output bound
+PASS other valid JSON values skipped
+PASS malformed number rejected
+PASS excess nesting rejected
+PASS actual process UIDs independent of inode owner and GIDs
+PASS truncated UID tuple rejected
+PASS UID overflow rejected
+PASS proc comm parentheses and exact fields
+PASS negative start identity rejected
+PASS start time overflow rejected
+PASS truncated process record rejected
+PASS ambiguous PID prefix rejected
+PASS negative PID rejected
+22 checks passed
+exit=0
+command: ['/usr/bin/clang++', '-std=c++17', '-Wall', '-Wextra', '-Werror', '-I', '/Volumes/MacSSD/Repositories/codex/harmony/terminal-host/entry/src/main/cpp', '/Volumes/MacSSD/Repositories/codex/harmony/terminal-host/config_import_test_main.cpp', '/Volumes/MacSSD/Repositories/codex/harmony/terminal-host/entry/src/main/cpp/secure_config.cpp', '-o', '/Volumes/MacSSD/Repositories/codex/.harmony-build/current/host-checks/import-config']
+exit=0
+command: ['python3', '-B', 'harmony/terminal-host/test_secure_config.py']
+test_absent_creates_only_private_directories (__main__.PrivateConfigTests.test_absent_creates_only_private_directories) ... ok
+test_missing_shared_cli_state_rejected_without_creation (__main__.PrivateConfigTests.test_missing_shared_cli_state_rejected_without_creation) ... ok
+test_shared_directory_rejected (__main__.PrivateConfigTests.test_shared_directory_rejected) ... ok
+test_source_symlink_and_hardlink_rejected (__main__.PrivateConfigTests.test_source_symlink_and_hardlink_rejected) ... ok
+test_transfer_mode_is_saved_private_and_source_removed (__main__.PrivateConfigTests.test_transfer_mode_is_saved_private_and_source_removed) ... ok
+test_unsafe_existing_config_rejected (__main__.PrivateConfigTests.test_unsafe_existing_config_rejected) ... ok
+test_update_is_atomic_and_preserves_exact_bytes (__main__.PrivateConfigTests.test_update_is_atomic_and_preserves_exact_bytes) ... ok
+test_world_readable_empty_and_oversize_input_rejected (__main__.PrivateConfigTests.test_world_readable_empty_and_oversize_input_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.347s
+
+OK
+exit=0

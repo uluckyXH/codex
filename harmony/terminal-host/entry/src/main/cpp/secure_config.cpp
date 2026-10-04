@@ -14,7 +14,6 @@ bool PrivateDirectory(int fd) {
 }
 
 int OpenPrivateDirectory(int parent, const char *name) {
-    if (mkdirat(parent, name, 0700) != 0 && errno != EEXIST) return -1;
     int fd = openat(parent, name, O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
     if (fd >= 0 && !PrivateDirectory(fd)) {
         close(fd);
@@ -42,8 +41,11 @@ int Result(FILE *report, const char *stage, int result, int error = 0) {
 }
 
 int ImportPrivateConfig(int files_fd, FILE *report) {
-    if (!PrivateDirectory(files_fd)) return Result(report, "application-directory", -1, EACCES);
-    int inbox = OpenPrivateDirectory(files_fd, "handoff-private");
+    if (!PrivateDirectory(files_fd)) return Result(report, "codex-directory", -1, EACCES);
+    int host = OpenPrivateDirectory(files_fd, "host");
+    if (host < 0) return Result(report, "host-directory", -1, errno);
+    int inbox = OpenPrivateDirectory(host, "handoff-private");
+    close(host);
     if (inbox < 0) return Result(report, "inbox-directory", -1, errno);
     int state = OpenPrivateDirectory(files_fd, "state");
     if (state < 0) { int error = errno; close(inbox); return Result(report, "state-directory", -1, error); }
@@ -97,6 +99,20 @@ int ImportPrivateConfig(int files_fd, FILE *report) {
     struct stat saved = {};
     if (!error && !ConfigFile(output, false, &saved)) error = EACCES;
     if (close(output) != 0 && !error) error = errno;
+    struct stat current = {}, sourceName = {}, stateName = {}, inboxName = {};
+    int hostCheck = OpenPrivateDirectory(files_fd, "host");
+    bool pinned = fstat(state, &stateName) == 0 && fstat(inbox, &inboxName) == 0;
+    struct stat namedState = {}, namedInbox = {};
+    if (!error && (!pinned || hostCheck < 0 || !PrivateDirectory(files_fd) || !PrivateDirectory(state) || !PrivateDirectory(inbox) ||
+        fstatat(files_fd, "state", &namedState, AT_SYMLINK_NOFOLLOW) != 0 ||
+        fstatat(hostCheck, "handoff-private", &namedInbox, AT_SYMLINK_NOFOLLOW) != 0 ||
+        namedState.st_dev != stateName.st_dev || namedState.st_ino != stateName.st_ino ||
+        namedInbox.st_dev != inboxName.st_dev || namedInbox.st_ino != inboxName.st_ino ||
+        fstat(input, &current) != 0 || fstatat(inbox, "incoming-config.toml", &sourceName, AT_SYMLINK_NOFOLLOW) != 0 ||
+        current.st_dev != initial.st_dev || current.st_ino != initial.st_ino || current.st_size != initial.st_size ||
+        current.st_mtime != initial.st_mtime || current.st_ctime != initial.st_ctime ||
+        sourceName.st_dev != initial.st_dev || sourceName.st_ino != initial.st_ino)) error = ESTALE;
+    if (hostCheck >= 0) close(hostCheck);
     close(input);
     if (!error && renameat(state, temporary, state, "config.toml") != 0) error = errno;
     if (!error && fsync(state) != 0) error = errno;
@@ -105,7 +121,9 @@ int ImportPrivateConfig(int files_fd, FILE *report) {
         close(inbox); close(state);
         return Result(report, "atomic-save", -1, error);
     }
-    if (unlinkat(inbox, "incoming-config.toml", 0) != 0) error = errno;
+    if (fstatat(inbox, "incoming-config.toml", &sourceName, AT_SYMLINK_NOFOLLOW) != 0 ||
+        sourceName.st_dev != initial.st_dev || sourceName.st_ino != initial.st_ino) error = ESTALE;
+    if (!error && unlinkat(inbox, "incoming-config.toml", 0) != 0) error = errno;
     if (!error && fsync(inbox) != 0) error = errno;
     close(inbox); close(state);
     return Result(report, "complete", error ? -1 : 2, error);

@@ -27,9 +27,14 @@ class HnpInputIntegrityTests(unittest.TestCase):
             "目标": "aarch64-unknown-linux-ohos",
             "源码": {"提交": self.revision},
             "受保护运行根契约": {
-                "编译时策略": "hnp-debug",
-                "绑定应用UID": 20020059,
-                "编译时固定候选": "/data/storage/el2/base/files/r",
+                "runtime_profile": "platform", "runtime_base": None,
+                "identity_binding": "runtime-getuid-geteuid-getgid-getegid",
+                "platform_files_candidate": "/data/storage/el2/base/files",
+                "directory_source_order": ["native-application-context", "validated-platform-namespace"],
+                "data_layout": {
+                    "root": "codex", "state": "codex/state", "runtime_aliases": "codex/r/a",
+                    "runtime_sockets": "codex/r/s", "tmp": "codex/tmp", "logs": "codex/logs", "host": "codex/host",
+                },
             },
             "文件": {},
         }
@@ -37,8 +42,10 @@ class HnpInputIntegrityTests(unittest.TestCase):
             path = self.source / name
             path.parent.mkdir(parents=True, exist_ok=True)
             # Deliberately not an ELF: this test only checks provenance, never execution.
-            path.write_bytes(b"non-executable runtime fixture: " + name.encode())
+            path.write_bytes(b"non-executable signed alias fixture" if name in staging.ALIAS_FILES else
+                             b"non-executable runtime fixture: " + name.encode())
             self.record["文件"][name] = {"SHA-256": staging.digest(path)}
+        self.record["HNP工具入口"] = {"SHA-256": self.record["文件"][staging.ALIAS_FILES[0]]["SHA-256"]}
         self.metadata = {
             "layoutVersion": 1,
             "version": self.version,
@@ -94,6 +101,9 @@ class HnpInputIntegrityTests(unittest.TestCase):
             self.assertEqual(manifest["files"][name]["sha256"], self.record["文件"][name]["SHA-256"])
         header = (self.output / "native_package.h").read_text()
         self.assertIn("/data/app/codexharmony.org/codexharmony_0.160.0.g" + self.revision[:12], header)
+        staged = json.loads((self.output / "manifest.json").read_text())
+        self.assertRegex(staged["runtime_identity"], r"^[0-9a-f]{64}$")
+        self.assertIn(".r" + staged["runtime_identity"][:12], staged["hnp_version"])
 
     def test_tampering_each_runtime_is_rejected_by_original_checksums(self):
         for name in staging.RUNTIME_FILES:
@@ -103,6 +113,22 @@ class HnpInputIntegrityTests(unittest.TestCase):
                 path.write_bytes(original + b" changed")
                 self.rejected_before_pack("Distribution checksum mismatch")
                 path.write_bytes(original)
+
+    def test_bound_identity_and_old_layout_rejected(self):
+        for key, value in (("绑定应用UID", 20020059), ("application_uid", 12345), ("runtime_base", "/data/storage/el2/base/files/r"),
+                           ("runtime_profile", "hnp-debug"), ("data_layout", {"root": "."})):
+            with self.subTest(key=key):
+                contract = self.record["受保护运行根契约"]
+                old = dict(contract)
+                contract[key] = value
+                self.write_json(staging.BUILD_RECORD, self.record); self.write_checksums()
+                self.rejected_before_pack("identity/root bindings|shared platform")
+                self.record["受保护运行根契约"] = old
+
+    def test_missing_or_stale_signed_alias_record_rejected(self):
+        self.record["HNP工具入口"]["SHA-256"] = "0" * 64
+        self.write_json(staging.BUILD_RECORD, self.record); self.write_checksums()
+        self.rejected_before_pack("original signed alias")
 
     def test_rehashed_runtime_still_requires_original_build_digest(self):
         for name in staging.RUNTIME_FILES:

@@ -1,70 +1,63 @@
 # HNP 应用宿主调试速用
 
-适用当前鸿蒙 7 PC 模拟器的 `com.codex.emulatorhnp`。完整原生 Codex 已使用你的配置收到 `gpt-5.6-terra` 回复；交互和文件工具的逐项结果见[验收报告](../鸿蒙电脑原生适配/测试报告/2026-10-04-HNP完整包与原生终端验收-主会话/测试报告.md)。
+本说明对应本轮 `platform` 通用目录与双终端源码。以前的固定 UID 调试包不能按此操作；新包的实际版本、签名摘要和验证结果以同一 release 中的交付说明为准。当前源码集成验收仍在进行，不能将旧版收到模型回复的结果算作新版通过。
 
-## 打开已经安装的应用
+## 安装与打开
 
-在 Mac 终端执行：
+在 Mac 的 zsh 中执行。把路径提示填为**本次新 release 内包含 HAP 的目录**：
 
-```bash
-# 打开模拟器中的 Codex 应用；不重启正在运行的终端会话。
+```zsh
+: '允许粘贴命令中的中文注释'
+setopt INTERACTIVE_COMMENTS
+# 输入这次交付的 HAP 所在绝对目录
+read -r 'harmony_release?请输入新 HAP 所在目录：'
+# 校验成功才覆盖安装；保留应用，不要先卸载
+(cd "$harmony_release" && shasum -a 256 -c codex-harmony-terminal-debug.hap.sha256 && \
+"/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/hdc" -t 127.0.0.1:5555 install codex-harmony-terminal-debug.hap)
+# 打开应用；这个动作不会主动重启已有终端
 python3 "/Volumes/MacSSD/Repositories/codex/docs/鸿蒙电脑模拟器/manage-harmony-app.py" open
 ```
 
-在应用内点击“启动 Codex”。模型固定为 `gpt-5.6-terra`，初始权限为只读。停止用应用上方“停止终端”。当前镜像的受限命令后端仍缺少内核能力，入口不会自动改成完全权限。
+模拟器构建前关闭，构建结束后才启动；调试后没有下一次编译时保持打开。HAP 是模拟器调试容器，里面的原生 ELF 保留签名；不等于已取得商业 PC 正式应用分发证书。正式 HiShell 入口使用[新版安装与运行说明](../鸿蒙电脑原生适配/新版安装与运行说明.md)，不需要此 GUI。
 
-首次出现升级模型提示时，选择 `Use existing model` 保留原模型。输入 `/status` 可核对模型与权限；如果斜杠变成顿号，先把模拟器输入法切到英文。
+## 首次准备与两个终端
 
-## 更新本次调试应用
+1. 点击“准备目录”，由原生 CLI 的离线初始化命令建立 `codex/state`、`r`、`tmp`、`logs`。点“查看诊断”可读具体失败阶段。
+2. 新应用的 `base/files` 若为0777，严格初始化会拒绝。可以显式点“收紧本应用目录”：只处理当前 ApplicationContext 确认且由自己拥有的 `base/files`，记录原始模式后重试。不修改HOME或项目，也不是独立HiShell的权限修复能力；其他来源/归属错误不可照此处理。
+3. “打开空白终端”不需要API配置。可直接输入 `pwd`、`cd`、`rg --version`、`codex --version`；在Shell里退出Codex会回到Shell提示符。
+4. 工作目录输入框留空时用 `codex/workspace`；输入有访问权的绝对路径后点“在此目录启动 Codex”，模型固定 `gpt-5.6-terra`。
+5. 两个页签是独立会话。“中断当前任务”发送终端中断；“退出 Codex”结束独立Codex会话；“关闭当前终端”关闭所选会话及已确认所属子进程。以状态显示“已退出，子进程清理已确认”为完成；屏幕保留旧输出不表示进程仍活着。
 
-交付目录：`releases/2026-10-04-063742-鸿蒙Codex-HNP应用调试`。HAP、校验文件、中文说明放在一起；个人配置单独保存，不进入交付包。
+权限默认为只读。选择器仅影响新Codex会话，不替鸿蒙授予文件权限；受限后端缺少内核能力时不会自动切换完全访问。需要另行安装的Git、Node.js等也不会因获得完全访问而自动出现。
 
-最终 HAP 已安装并验收。需要覆盖更新时，在 Mac 执行以下命令；保留现有应用，不要先卸载：
+## 手动导入配置
 
-```bash
-# 进入本次交付目录，后续校验和安装使用同一份 HAP。
-cd "/Volumes/MacSSD/Repositories/codex/releases/2026-10-04-063742-鸿蒙Codex-HNP应用调试"
-# 核验安装包；&& 确保仅校验成功才覆盖安装，保留已有配置。
-shasum -a 256 -c codex-harmony-terminal-debug.hap.sha256 && \
-"/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/hdc" -t 127.0.0.1:5555 install codex-harmony-terminal-debug.hap
-# 打开已安装应用；配置已存在时不必再次导入。
-python3 "/Volumes/MacSSD/Repositories/codex/docs/鸿蒙电脑模拟器/manage-harmony-app.py" open
-```
-
-HAP SHA256：`bad4428c9931df803f2bfeb73b885e12a125c41747357f5850d876c7e39f263b`。主程序版本为 `0.160.0-dev.harmony.g8c4b3a6f48ef`，Rust 源码为 `8c4b3a6f48efa9eb4642d75929de8ba5ebdc6e84`；界面显示其上游版本 `0.160.0-dev`。HAP 外壳版本单独记录为 `0.1.0`。
-
-SDK 自签名原生文件压缩包是本 HNP 构建的输入，不是通用 HiShell 安装包。不要直接在 HDC shell 中运行应用专用二进制。
-
-## 以后修改配置时重新导入
-
-当前配置已经导入，无需重复。以后在 Mac 修改 `config.toml` 后执行：
+必要配置手动导入新目录，不迁移旧会话和项目。先在GUI关闭两个终端，再执行：
 
 ```bash
-# 限制本地密钥配置文件仅当前用户可读写。
+# 限制本机配置文件访问权限；它不进入Git或HAP
 chmod 600 "/Volumes/MacSSD/Repositories/codex/docs/鸿蒙电脑模拟器/config.toml"
-# 将配置独立导入应用私有目录；会重启本调试应用，请先结束终端会话。
+# 导入到当前应用的 codex/state/config.toml；此操作会重启调试应用
 python3 "/Volumes/MacSSD/Repositories/codex/docs/鸿蒙电脑模拟器/manage-harmony-app.py" import-config --config "/Volumes/MacSSD/Repositories/codex/docs/鸿蒙电脑模拟器/config.toml"
 ```
 
-脚本要求 `proxy`、`responses`、HTTPS 地址和 `gpt-5.6-terra`；不会打印 URL 或 Key。应用最终保存为 `state/config.toml`、权限 `0600`。
+脚本要求 `proxy`、`responses`、HTTPS和`gpt-5.6-terra`；不打印URL或Key，最终文件模式0600。没有API Key也可以先验收空白Shell；本轮不测试账号登录。
 
-## 查看状态与日志
+## 日志与目录
 
 ```bash
-# 查看最近一次原生诊断或配置导入的退出状态；不显示配置内容。
+# 最近一次诊断或导入的结果；它不是PTY实时状态
 python3 "/Volumes/MacSSD/Repositories/codex/docs/鸿蒙电脑模拟器/manage-harmony-app.py" status
-# 收集已启动 TUI 的日志，按本地配置隐藏 URL、域名和 Key，输出到新的忽略目录。
+# 隐藏配置中的URL、域名和Key后导出TUI日志到新的忽略目录
 python3 "/Volumes/MacSSD/Repositories/codex/docs/鸿蒙电脑模拟器/manage-harmony-app.py" collect-logs --config "/Volumes/MacSSD/Repositories/codex/docs/鸿蒙电脑模拟器/config.toml" --output "/Volumes/MacSSD/Repositories/codex/releases/终端日志-$(date +%Y%m%d-%H%M%S)"
 ```
 
-日志包含任务内容时，分享前仍需检查。`status` 是最近一次诊断状态，不是交互会话实时状态。
-
-| 用途 | 应用内路径 |
+| 用途 | 应用命名空间内默认位置 |
 | --- | --- |
-| 配置 | `/data/storage/el2/base/files/state/config.toml` |
-| 项目工作区 | `/data/storage/el2/base/files/workspace` |
-| TUI 日志（应用启动参数明确指定） | `/data/storage/el2/base/files/state/log/codex-tui.log` |
-| 启动、版本和问候诊断 | `/data/storage/el2/base/files/logs/` |
-| 受保护运行目录 | `/data/storage/el2/base/files/r` |
+| 配置与会话 | `/data/storage/el2/base/files/codex/state/` |
+| 默认测试项目 | `/data/storage/el2/base/files/codex/workspace/` |
+| TUI、进程退出和诊断日志 | `/data/storage/el2/base/files/codex/logs/` |
+| aliases与socket | `/data/storage/el2/base/files/codex/r/a/`、`r/s/` |
+| GUI控制与配置中转 | `/data/storage/el2/base/files/codex/host/` |
 
-这个调试包绑定已验证的应用 UID `20020059`。保留应用做覆盖更新；卸载、换模拟器或换真机后必须重新核验 UID 和签名要求。原生 ELF 使用 SDK 自签名，调试 HAP 在本模拟器的安装不代表已取得商业 PC 的正式分发证书。不会修改整个 HOME 或系统权限。
+通用源码运行时读取身份，不绑定旧UID。第二测试应用使用 `--app com.codex.emulatorhnp.second` 指定管理目标；同名逻辑目录在两个应用里映射到不同私有数据。两个实际身份的通过证据须看新版验收报告，不能由参数可用推断已通过。

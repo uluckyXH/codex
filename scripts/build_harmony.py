@@ -15,9 +15,9 @@ import tomllib
 REPO_ROOT = Path(__file__).resolve().parents[1]
 TARGET = "aarch64-unknown-linux-ohos"
 CLANG_TARGET = "aarch64-linux-ohos"
-RUNTIME_PROFILES = ("strict", "hdc-debug", "hnp-debug")
+RUNTIME_PROFILES = ("platform", "strict", "hdc-debug")
 HDC_DEBUG_RUNTIME_BASE = "/data/local/tmp/cdx"
-HNP_DEBUG_RUNTIME_BASE = "/data/storage/el2/base/files/r"
+PLATFORM_FILES_CANDIDATE = "/data/storage/el2/base/files"
 # 跟随仓库的上游版本锁，避免每次合并 Rust 升级时维护第二份版本号。
 TOOLCHAIN = tomllib.loads((REPO_ROOT / "codex-rs/rust-toolchain.toml").read_text())[
     "toolchain"
@@ -32,8 +32,9 @@ def runtime_base_contract(value: str) -> str:
         or any(ord(char) < 32 or ord(char) == 127 for char in value)
     ):
         raise argparse.ArgumentTypeError("运行根须为无空段、点段或控制字符的绝对路径")
-    # OHOS sockaddr_un has 108 bytes. Keep the complete 64-hex socket identity,
-    # an 8-hex UID plus c prefix, purpose directory, separators and final NUL.
+    # The explicit diagnostic profiles retain their base/cUID/s layout.
+    # The platform profile does not accept this override; it validates the
+    # actual files/codex/r/s address before creating any data directories.
     if len(value.encode("utf-8")) + len("/cffffffff/s/" + "f" * 64) + 1 > 108:
         raise argparse.ArgumentTypeError("运行根过长，无法保留完整 socket 摘要和终止符")
     return value
@@ -42,28 +43,17 @@ def runtime_base_contract(value: str) -> str:
 def runtime_build_environment(
     original: dict[str, str],
     runtime_base: str | None,
-    runtime_profile: str = "strict",
-    runtime_uid: int | None = None,
+    runtime_profile: str = "platform",
 ) -> dict[str, str]:
     """Bind only explicit build inputs; shell variables cannot select a profile."""
     if runtime_profile not in RUNTIME_PROFILES:
         raise ValueError("未知的运行目录信任策略")
+    if runtime_profile == "platform" and runtime_base is not None:
+        raise ValueError("platform 从可信平台 files 初始化，不接受 --runtime-base")
     if runtime_profile == "hdc-debug" and runtime_base != HDC_DEBUG_RUNTIME_BASE:
         raise ValueError(
             "hdc-debug 调试包必须显式指定 --runtime-base /data/local/tmp/cdx"
         )
-    if runtime_profile == "hnp-debug":
-        if runtime_base != HNP_DEBUG_RUNTIME_BASE:
-            raise ValueError(
-                "hnp-debug 必须显式绑定应用私有短目录 /data/storage/el2/base/files/r"
-            )
-        if type(runtime_uid) is not int or not 10000 <= runtime_uid <= 0xFFFFFFFF:
-            raise ValueError(
-                "hnp-debug 必须通过 --runtime-uid 明确绑定已核验的应用 UID"
-                "（10000..4294967295）"
-            )
-    elif runtime_uid is not None:
-        raise ValueError("只有 hnp-debug 使用 --runtime-uid")
     env = original.copy()
     env.pop("CODEX_OHOS_RUNTIME_BASE", None)
     env.pop("CODEX_OHOS_RUNTIME_PROFILE", None)
@@ -71,8 +61,6 @@ def runtime_build_environment(
     if runtime_base is not None:
         env["CODEX_OHOS_RUNTIME_BASE"] = runtime_base_contract(runtime_base)
     env["CODEX_OHOS_RUNTIME_PROFILE"] = runtime_profile
-    if runtime_uid is not None:
-        env["CODEX_OHOS_RUNTIME_UID"] = str(runtime_uid)
     return env
 
 
@@ -99,11 +87,11 @@ def hnp_alias_build_environment(
     env.pop("CODEX_HNP_ALIAS_SHA256", None)
     if sha256 is not None:
         if (
-            profile != "hnp-debug"
+            profile != "platform"
             or len(sha256) != 64
             or any(char not in "0123456789abcdef" for char in sha256)
         ):
-            raise ValueError("HNP 别名摘要只适用于 hnp-debug，须为64位小写 SHA-256")
+            raise ValueError("HNP 别名摘要只适用于 platform，须为64位小写 SHA-256")
         env["CODEX_HNP_ALIAS_SHA256"] = sha256
     return env
 
@@ -180,7 +168,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("action", choices=("probe", "check", "build"))
     parser.add_argument("--sdk", type=Path, default=os.environ.get("OHOS_NDK_HOME"))
-    parser.add_argument("--output-dir", type=Path, default=REPO_ROOT / ".harmony-build")
+    parser.add_argument("--output-dir", type=Path, default=REPO_ROOT / ".harmony-build/current")
     parser.add_argument(
         "--native-deps",
         type=Path,
@@ -195,16 +183,13 @@ def main() -> int:
     parser.add_argument(
         "--runtime-base",
         type=runtime_base_contract,
-        help="编译时绑定的 OHOS 私有目录候选；不是 Mac 路径，运行时仍严格校验",
+        help="strict/hdc-debug 的编译时运行根；platform 禁止覆盖，实际目录仍严格校验",
     )
     parser.add_argument(
         "--runtime-profile",
         choices=RUNTIME_PROFILES,
-        default="strict",
-        help="默认 strict；hdc-debug 绑定 HDC UID 2000，hnp-debug 绑定显式应用 UID；调试策略不用于通用 PC 包",
-    )
-    parser.add_argument(
-        "--runtime-uid", type=int, help="hnp-debug 必须绑定的已核验应用 UID"
+        default="platform",
+        help="默认 platform：运行时读取实际身份并初始化平台目录；strict/hdc-debug 仅用于显式诊断构建",
     )
     parser.add_argument(
         "--hnp-alias-sha256", help="完整 HNP 包绑定的已签名工具入口摘要，由交付脚本生成"
@@ -221,7 +206,7 @@ def main() -> int:
             raise ValueError("找不到 rustup；请先按中文构建环境文档安装并配置 PATH")
         output = args.output_dir.expanduser().resolve()
         base = runtime_build_environment(
-            dict(os.environ), args.runtime_base, args.runtime_profile, args.runtime_uid
+            dict(os.environ), args.runtime_base, args.runtime_profile
         )
         base = hnp_alias_build_environment(
             base, args.runtime_profile, args.hnp_alias_sha256

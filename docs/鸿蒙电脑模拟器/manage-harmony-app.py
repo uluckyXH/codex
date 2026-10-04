@@ -4,6 +4,7 @@
 import argparse
 from pathlib import Path
 import re
+import shlex
 import subprocess
 import sys
 import tempfile
@@ -13,13 +14,17 @@ from urllib.parse import urlsplit
 
 APP = "com.codex.emulatorhnp"
 FILES = "/data/storage/el2/base/files"
+DATA = FILES + "/codex"
+HOST = DATA + "/host"
+COMPLETION = HOST + "/launch-completion.txt"
 DEFAULT_HDC = "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/hdc"
 
 
-def main():
+def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--hdc", type=Path, default=Path(DEFAULT_HDC))
     parser.add_argument("--target", default="127.0.0.1:5555")
+    parser.add_argument("--app", default=APP, help="Installed debug bundle; no UID is required")
     parser.add_argument(
         "action",
         choices=[
@@ -34,9 +39,11 @@ def main():
     )
     parser.add_argument("--config", type=Path)
     parser.add_argument("--output", type=Path)
-    args = parser.parse_args()
+    args = parser.parse_args(argv)
     if not args.hdc.is_file():
         parser.error("HDC not found; supply --hdc with the SDK tool path")
+    if not re.fullmatch(r"[A-Za-z][A-Za-z0-9_]*(?:\.[A-Za-z][A-Za-z0-9_]*)+", args.app):
+        parser.error("--app must be a dotted application bundle name")
     secrets = []
 
     def call(*operation):
@@ -54,19 +61,29 @@ def main():
             raise RuntimeError("HDC operation failed: " + output)
         return output
 
+    def read_private(path, *, optional=False):
+        # HDC -b addresses this bundle's logical application directory view.
+        # A missing completion file is normal before the first native action.
+        remote = shlex.quote("." + path)
+        command = ("if [ -f " + remote + " ]; then cat " + remote + "; fi") if optional else "cat " + remote
+        output = call("shell", "-b", args.app, command)
+        if "No such file" in output or "Permission denied" in output:
+            raise RuntimeError("Private application file is unavailable: " + path)
+        return output
+
     if args.action == "open":
-        print(call("shell", "aa start -a EntryAbility -b " + APP).strip())
+        print(call("shell", "aa start -a EntryAbility -b " + args.app).strip())
         return
     if args.action == "status":
-        current = call("shell", "-b", APP, "cat ." + FILES + "/launch-completion.txt")
+        current = read_private(COMPLETION, optional=True)
         match = re.search(
-            r"^" + re.escape(FILES) + r"/logs/codex-[a-z-]+-\d+-\d+\.status\.txt$",
+            r"^" + re.escape(DATA) + r"/logs/codex-[a-z-]+-\d+-\d+\.status\.txt$",
             current,
             re.M,
         )
         if not match:
             raise RuntimeError("No completed native action status is available")
-        print(call("shell", "-b", APP, "cat ." + match.group(0)).strip())
+        print(read_private(match.group(0)).strip())
         return
     if args.action in ("import-config", "collect-logs"):
         if args.config is None:
@@ -112,13 +129,7 @@ def main():
         if args.action == "collect-logs":
             if args.output is None:
                 parser.error("collect-logs needs a new --output directory")
-            output = call(
-                "shell", "-b", APP, "cat ." + FILES + "/state/log/codex-tui.log"
-            )
-            if "No such file" in output or "Permission denied" in output:
-                raise RuntimeError(
-                    "TUI log is unavailable; start Codex in the app first"
-                )
+            output = read_private(DATA + "/logs/codex-tui.log")
             args.output.mkdir(mode=0o700, parents=True, exist_ok=False)
             target = args.output / "codex-tui-redacted.log"
             target.write_text(output)
@@ -130,14 +141,14 @@ def main():
             "send",
             "-m",
             "-b",
-            APP,
+            args.app,
             str(args.config.resolve()),
-            "." + FILES + "/handoff-private/incoming-config.toml",
+            "." + HOST + "/handoff-private/incoming-config.toml",
         )
     native_action = "import" if args.action == "import-config" else args.action
     # This explicit diagnostic/import command restarts only the dedicated app.
     # Use `open` to show the app without interrupting an existing terminal.
-    old = call("shell", "-b", APP, "cat ." + FILES + "/launch-completion.txt")
+    old = read_private(COMPLETION, optional=True)
     with tempfile.TemporaryDirectory(prefix="codex-hnp-action-") as temp:
         action_file = Path(temp) / "action.txt"
         action_file.write_text(native_action + "\n")
@@ -147,24 +158,24 @@ def main():
             "send",
             "-m",
             "-b",
-            APP,
+            args.app,
             str(action_file),
-            "." + FILES + "/control/action.txt",
+            "." + HOST + "/control/action.txt",
         )
-    call("shell", "aa force-stop " + APP)
-    call("shell", "aa start -a EntryAbility -b " + APP)
+    call("shell", "aa force-stop " + args.app)
+    call("shell", "aa start -a EntryAbility -b " + args.app)
     pattern = (
         r"^"
-        + re.escape(FILES)
+        + re.escape(DATA)
         + "/logs/codex-"
         + re.escape(native_action)
         + r"-\d+-\d+\.status\.txt$"
     )
     for _ in range(25):
-        current = call("shell", "-b", APP, "cat ." + FILES + "/launch-completion.txt")
+        current = read_private(COMPLETION, optional=True)
         match = re.search(pattern, current, re.M)
         if match and current != old:
-            report = call("shell", "-b", APP, "cat ." + match.group(0))
+            report = read_private(match.group(0))
             print(report.strip())
             if (
                 native_action == "import"

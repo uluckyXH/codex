@@ -5046,6 +5046,7 @@ dependencies = [
 name = "codex-utils-home-dir"
 version = "0.160.0-dev"
 dependencies = [
+ "codex-uds",
  "codex-utils-absolute-path",
  "dirs",
  "pretty_assertions",

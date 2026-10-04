@@ -4093,11 +4093,10 @@ impl Config {
         let check_for_update_on_startup = cfg.check_for_update_on_startup.unwrap_or(true);
         let model_catalog = load_model_catalog(cfg.model_catalog_json.clone())?;
 
-        let log_dir = cfg
-            .log_dir
-            .as_ref()
-            .map(AbsolutePathBuf::to_path_buf)
-            .unwrap_or_else(|| codex_home.join("log").to_path_buf());
+        let log_dir = match cfg.log_dir.as_ref() {
+            Some(log_dir) => log_dir.to_path_buf(),
+            None => codex_utils_home_dir::default_log_dir(&codex_home)?,
+        };
         let sqlite_home_env = resolve_sqlite_home_env(&resolved_cwd);
         requirements::push_sqlite_home_env_override_warning(
             configured_sqlite_home.as_ref(),

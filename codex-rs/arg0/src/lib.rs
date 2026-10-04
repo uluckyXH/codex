@@ -173,9 +173,30 @@ pub fn arg0_dispatch() -> Option<Arg0PathEntryGuard> {
     // The narrow diagnostic grammar cannot execute user tools. Keep it usable
     // when the runtime root is unavailable, without opening dotenv/config.
     #[cfg(target_env = "ohos")]
-    if harmony_read_only_startup(std::env::args_os().skip(1)) {
+    {
+        // Keep optional native library loading behind main-process hardening.
+        // Helpers already dispatched above retain their requested environment.
         codex_linux_sandbox::pre_main_hardening();
-        return None;
+        if harmony_read_only_startup(std::env::args_os().skip(1)) {
+            return None;
+        }
+        if codex_uds::ohos_runtime_profile_contract() == "platform" {
+            let directories = codex_uds::initialize_ohos_data_directories()
+                .unwrap_or_else(|error| {
+                    eprintln!("ERROR: OHOS data initialization unavailable: {error}; use codex doctor --capabilities for read-only diagnostics");
+                    std::process::exit(1);
+                });
+            if std::env::var_os("TMPDIR").is_none_or(|value| value.is_empty()) {
+                // Startup is still single-threaded. This affects ordinary temp
+                // files only; protected roots never consult TMPDIR.
+                unsafe { std::env::set_var("TMPDIR", directories.temp_dir()) };
+            }
+        }
+        if harmony_directory_initialization_startup(std::env::args_os().skip(1)) {
+            // This explicit initializer prints its paths in doctor without
+            // opening dotenv/config/auth or preparing executable aliases.
+            return None;
+        }
     }
 
     // This modifies the environment, which is not thread-safe, so do this
@@ -250,6 +271,21 @@ fn harmony_read_only_startup(arguments: impl IntoIterator<Item = OsString>) -> b
                 Some(
                     "--capabilities" | "--json" | "--summary" | "--all" | "--no-color" | "--ascii"
                 )
+            )
+        })
+}
+
+#[cfg(any(target_env = "ohos", all(test, unix)))]
+fn harmony_directory_initialization_startup(arguments: impl IntoIterator<Item = OsString>) -> bool {
+    let arguments: Vec<_> = arguments.into_iter().collect();
+    arguments.first().is_some_and(|value| value == "doctor")
+        && arguments
+            .iter()
+            .any(|value| value == "--initialize-data-directories")
+        && arguments.iter().skip(1).all(|value| {
+            matches!(
+                value.to_str(),
+                Some("--initialize-data-directories" | "--json")
             )
         })
 }
@@ -648,6 +684,8 @@ mod tests {
     use codex_install_context::InstallMethod;
     use codex_utils_absolute_path::AbsolutePathBuf;
     use pretty_assertions::assert_eq;
+    #[cfg(unix)]
+    use std::ffi::OsString;
     use std::fs;
     use std::fs::File;
     #[cfg(windows)]
@@ -888,6 +926,38 @@ mod tests {
             vec!["doctor", "--capabilities", "-c", "key=value"],
         ] {
             assert!(!super::harmony_read_only_startup(
+                args.into_iter().map(Into::into)
+            ));
+        }
+    }
+
+    #[cfg(unix)]
+    #[test]
+    fn directory_initializer_has_a_narrow_separate_startup_grammar() {
+        for args in [
+            vec!["doctor", "--initialize-data-directories"],
+            vec!["doctor", "--json", "--initialize-data-directories"],
+        ] {
+            let args: Vec<OsString> = args.into_iter().map(Into::into).collect();
+            assert!(super::harmony_directory_initialization_startup(
+                args.clone()
+            ));
+            assert!(!super::harmony_read_only_startup(args));
+        }
+        for args in [
+            vec!["--version"],
+            vec!["doctor", "--capabilities"],
+            vec!["exec", "doctor", "--initialize-data-directories"],
+            vec!["doctor", "--initialize-data-directories", "-c", "key=value"],
+            vec!["doctor", "--initialize-data-directories", "--capabilities"],
+            vec![
+                "doctor",
+                "--initialize-data-directories",
+                "--probe-filesystem-path",
+                "/fixture",
+            ],
+        ] {
+            assert!(!super::harmony_directory_initialization_startup(
                 args.into_iter().map(Into::into)
             ));
         }

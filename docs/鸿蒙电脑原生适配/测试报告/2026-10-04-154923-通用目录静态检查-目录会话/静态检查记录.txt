@@ -1,0 +1,9 @@
+记录时间：2026-10-04T15:49:23.185055+08:00
+源码基线：8080943a200030b6fbcd5f00c3130bf58888da1a，含未提交修改
+实际执行：rustfmt --check --edition 2024 --config skip_children=true（13个本会话Rust文件），exit=0；仓库 imports_granularity=Item 需 nightly 的警告保留，未编译。
+实际执行：python3 ast.parse(build_harmony.py,test_build_harmony.py)，exit=0。
+实际执行：tomllib.loads(home-dir/Cargo.toml,Cargo.lock)，exit=0。
+实际执行：git diff --check，exit=0。
+实际执行：读取四个生产Rust文件，CODEX_OHOS_RUNTIME_UID和旧20020059绑定引用均为0。
+未执行：Python unittest、Cargo test/check/build、SDK编译签名、模拟器和真机运行。
+记录为静态检查，不构成类型、链接或系统兼容性验证。完整命令见测试报告。

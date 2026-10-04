@@ -9,12 +9,12 @@
 // Only these public installation artifacts can be copied. User files/config are
 // never accepted as input. The private copies are for host-side digest checking
 // and are never executed.
-bool ExportInstalledPackageForVerification(int files, FILE *report, const std::string &prefix) {
+bool ExportInstalledPackageForVerification(int files, const std::string &directoryRoot, FILE *report, const std::string &prefix) {
     std::string directory = "verify-" + prefix;
     if (mkdirat(files, directory.c_str(), 0700) != 0) return false;
     int outputDirectory = openat(files, directory.c_str(), O_RDONLY | O_DIRECTORY | O_NOFOLLOW | O_CLOEXEC);
     if (outputDirectory < 0) return false;
-    fprintf(report, "verification_directory=/data/storage/el2/base/files/%s\n", directory.c_str());
+    fprintf(report, "verification_directory=%s/%s\n", directoryRoot.c_str(), directory.c_str());
     const char *paths[] = {"bin/codex", "codex-path/rg", "codex-resources/bwrap", "codex-resources/harmony-runtime-probe",
         "codex-path/apply_patch", "codex-path/applypatch", "codex-path/codex-linux-sandbox", "codex-path/codex-execve-wrapper", "codex-package.json"};
     bool passed = true;
