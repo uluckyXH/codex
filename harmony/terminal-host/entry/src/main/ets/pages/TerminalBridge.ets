@@ -51,6 +51,22 @@ export class TerminalBridge {
     return this.accept(hostProbe.terminalWrite(this.kind, sessionId, data));
   }
 
+  // Native UI input follows the same session-bound channel as the terminal.
+  // A single submit may not smuggle extra command lines or terminal controls.
+  sendText(text: string): boolean {
+    // Explicit paste clears Codex's rapid-key Enter suppression. Keep Enter
+    // after the closing marker so it submits rather than adds a pasted newline.
+    // Shell input is unchanged. Native Write atomically checks UTF-8 size.
+    const limit = this.kind === 'codex' ? 16371 : 16383;
+    if (text.length === 0 || text.length > limit || /[\u0000-\u001f\u007f\u2028\u2029]/.test(text)) return false;
+    const input = this.kind === 'codex' ? '\u001b[200~' + text + '\u001b[201~\r' : text + '\r';
+    try {
+      return this.writeInput(this.sessionId, input) === 0;
+    } catch (_) {
+      return false;
+    }
+  }
+
   resize(sessionId: string, columns: number, rows: number): number {
     if (!Number.isInteger(columns) || !Number.isInteger(rows) || columns < 1 || rows < 1 ||
       columns > 1000 || rows > 1000 || columns * rows > 100000 || sessionId !== this.sessionId) return -1;
@@ -70,15 +86,18 @@ export class TerminalBridge {
       const label = this.kind === 'shell' ? '空白终端' : 'Codex';
       if (state.status === 'stop_failed') return label + '停止未确认，请查看诊断记录并重试关闭。';
       if (state.status === 'stopping') return label + '正在关闭并清理子进程…';
+      if (state.status === 'exited' && state.cleanupVerified) {
+        this.lastFailure = '';
+        return label + '已退出，子进程清理已确认。';
+      }
       if (this.lastFailure === 'working_directory_access') return '无法进入此目录，请检查路径及应用的文件访问权限。';
       if (this.lastFailure === 'directory_preparation_required') return '请先准备目录；若保护条件不满足，查看本应用目录操作说明。';
       if (this.lastFailure === 'stable_process_handles_unavailable') return '当前系统未提供安全关闭终端所需的进程能力。';
       if (this.lastFailure.length > 0) return label + '操作未完成，请查看诊断记录。';
       if (state.status === 'running') {
         const permission = state.policy === 'workspace-write' ? '项目可写' : state.policy === 'danger-full-access' ? '完全访问' : '只读';
-        return this.kind === 'shell' ? '空白终端运行中：可输入 cd，再运行 codex。' : 'Codex 运行中 · gpt-5.6-terra · ' + permission;
+        return this.kind === 'shell' ? '空白终端运行中：可输入 cd，再运行 codex。' : 'Codex 运行中 · gpt-5.6-terra · 启动权限：' + permission;
       }
-      if (state.status === 'exited' && state.cleanupVerified) return label + '已退出，子进程清理已确认。';
       return label + '尚未打开。';
     } catch (_) { return '终端状态暂不可用。'; }
   }

@@ -1,0 +1,48 @@
+{
+  "platform": "macOS",
+  "shell": "/bin/sh",
+  "native_source_executed": false,
+  "ohos_device_test": false,
+  "cases": [
+    {
+      "case": "default_canonical",
+      "initial": {
+        "icanon": true,
+        "isig": true,
+        "vmin": 1,
+        "vtime": 0
+      },
+      "launch": {
+        "icanon": true,
+        "isig": true,
+        "vmin": 1,
+        "vtime": 0
+      },
+      "alive_before_input_after_600ms": true,
+      "exit_code": 0,
+      "cwd_verified": true,
+      "output_bytes": 193,
+      "elapsed_ms": 613
+    },
+    {
+      "case": "injected_noncanonical_vmin0",
+      "initial": {
+        "icanon": true,
+        "isig": true,
+        "vmin": 1,
+        "vtime": 0
+      },
+      "launch": {
+        "icanon": false,
+        "isig": true,
+        "vmin": 0,
+        "vtime": 0
+      },
+      "alive_before_input_after_600ms": true,
+      "exit_code": 0,
+      "cwd_verified": true,
+      "output_bytes": 193,
+      "elapsed_ms": 609
+    }
+  ]
+}

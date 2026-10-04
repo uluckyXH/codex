@@ -1,0 +1,20 @@
+/data/storage/el2/base/files/codex/workspace
+077
+/data/app/codexharmony.org/codexharmony_0.160.0.g50046bef.r8561b18c8e49/bin/codex
+/data/app/codexharmony.org/codexharmony_0.160.0.g50046bef.r8561b18c8e49/codex-path/rg
+ripgrep 15.2.0 (rev eebb6e99eb)
+
+features:-pcre2
+simd(compile):+NEON
+simd(runtime):+NEON
+
+PCRE2 is not available in this build of ripgrep.
+codex-cli 0.160.0-dev (HarmonyOS; build 50046bef671cb6ca9312306f8c63aea4cfee172b; target aarch64-unknown-linux-ohos)
+alpha
+rg_match=0
+rg_no_match=1
+/data/storage/el2/base/files/codex/workspace/codex-check-中文 空格'引号-20261004
+700 20020060 20020060
+666 20020060 20020060
+init_env_cleared=0
+nonzero=7

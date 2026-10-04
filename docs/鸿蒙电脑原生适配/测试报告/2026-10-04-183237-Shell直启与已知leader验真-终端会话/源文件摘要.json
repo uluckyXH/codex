@@ -1,0 +1,7 @@
+{
+  "frozen_at": "2026-10-04 18:42:41 Asia/Shanghai",
+  "files": {
+    "harmony/terminal-host/entry/src/main/cpp/pty_session.cpp": "a2a288f2e4018a480e2c5502374c4251606007a49f5ba75419f15023077c73d2",
+    "harmony/terminal-host/entry/src/main/cpp/owned_processes.cpp": "31c7af31f2b2ccfbc70521a96c4a679be2b32fe84699117b6a83ec4d5383d9fe"
+  }
+}

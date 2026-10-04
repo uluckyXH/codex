@@ -1,0 +1,9 @@
+{
+  "task_started_before_exit": 1,
+  "task_complete_before_exit": 0,
+  "exit_notices": [
+    "Codex已退出，子进程清理已确认。",
+    "Codex已退出，子进程清理已确认。"
+  ],
+  "stale_failure_absent": true
+}

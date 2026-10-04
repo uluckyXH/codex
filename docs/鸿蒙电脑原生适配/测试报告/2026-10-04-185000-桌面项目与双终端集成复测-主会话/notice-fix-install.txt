@@ -1,0 +1,7 @@
+terminal-host-current
+[Info]App install path:/Volumes/MacSSD/Repositories/codex/.harmony-build/terminal-host-current/codex-harmony-terminal-debug.hap msg:install bundle successfully.
+AppMod finish
+
+terminal-host-second-current
+[Info]App install path:/Volumes/MacSSD/Repositories/codex/.harmony-build/terminal-host-second-current/codex-harmony-terminal-debug.hap msg:install bundle successfully.
+AppMod finish

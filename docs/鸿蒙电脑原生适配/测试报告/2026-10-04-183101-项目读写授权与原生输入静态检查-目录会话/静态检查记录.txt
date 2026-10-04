@@ -1,0 +1,32 @@
+2026-10-04 18:31:01 Asia/Shanghai
+基线HEAD：50046bef671cb6ca9312306f8c63aea4cfee172b
+SDK：API26 / 26.0.0.105；compile/compatible/target 26.0.0
+
+只调用SDK语法解析createSourceFile；没有createProgram、类型检查、transpile、emit、Hvigor、编译或设备操作。
+Node：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/tools/node/bin/node
+解析模块：/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/ets/build-tools/ets-loader/node_modules/typescript/lib/typescript.js
+
+解析命令的脚本：
+const fs = require('fs');
+const ts = require("/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/ets/build-tools/ets-loader/node_modules/typescript/lib/typescript.js");
+const options = {ets:{components:['Column','Row','Text','TextInput','Button','Select','Tabs','TabContent','Scroll','Web']}};
+let failed = false;
+for (const file of ['harmony/terminal-host/entry/src/main/ets/pages/ProjectDirectoryPicker.ets','harmony/terminal-host/entry/src/main/ets/pages/Index.ets']) {
+  const source = ts.createSourceFile(file, fs.readFileSync(file,'utf8'), ts.ScriptTarget.Latest, true, ts.ScriptKind.ETS, options);
+  const diagnostics = source.parseDiagnostics.map(d => ({line:source.getLineAndCharacterOfPosition(d.start || 0).line+1,code:d.code,message:ts.flattenDiagnosticMessageText(d.messageText,' ')}));
+  failed ||= diagnostics.length > 0;
+  process.stdout.write(JSON.stringify({file,phase:'parse-only-no-checker-no-emit',parseDiagnostics:diagnostics})+'\n');
+}
+const manifest = JSON.parse(fs.readFileSync('harmony/terminal-host/entry/src/main/module.json5','utf8'));
+process.stdout.write(JSON.stringify({manifestPermissions:manifest.module.requestPermissions.map(p=>p.name)})+'\n');
+process.exitCode = failed ? 1 : 0;
+
+原始输出：
+{"file":"harmony/terminal-host/entry/src/main/ets/pages/ProjectDirectoryPicker.ets","phase":"parse-only-no-checker-no-emit","parseDiagnostics":[]}
+{"file":"harmony/terminal-host/entry/src/main/ets/pages/Index.ets","phase":"parse-only-no-checker-no-emit","parseDiagnostics":[]}
+{"manifestPermissions":["ohos.permission.INTERNET"]}
+
+git diff --check -- harmony/terminal-host/entry/src/main/ets/pages/Index.ets harmony/terminal-host/entry/src/main/ets/pages/ProjectDirectoryPicker.ets
+退出码0，无输出。
+
+人工核对：SDK26中authMode、defaultFilePathUri、allowsMulFolderSelection、fileIo.access(path, READ_WRITE, LOCAL)、TextInput.onSubmit、EnterKeyType.Send存在。TerminalBridge.sendText由主会话维护，当前源码已有boolean接口；C++既有Write路径拒绝超过16384字节的发送（包括追加回车）。

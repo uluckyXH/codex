@@ -131,49 +131,86 @@ void RunChild(Work &work, FILE *report, int output, int error, int input) {
     if (result) { fprintf(report, "launch_complete=no spawn_failed=yes\n"); return; }
     OwnedProcesses owned;
     bool tracked = owned.Begin(child, failure), stopping = false, unknown = !tracked;
+    int trackingError = tracked ? 0 : errno;
+    std::string trackingFailure = tracked ? "" : failure;
+    if (!tracked) {
+        fprintf(report, "stage=process_identity child_pid=%d errno=%d detail=%s\n", child, trackingError, trackingFailure.c_str());
+        std::string signalFailure;
+        bool sent = SignalDirectChild(child, SIGKILL, signalFailure);
+        fprintf(report, "stage=start_failed_direct_child_kill child_pid=%d signal_errno=%d detail=%s\n",
+            child, sent ? 0 : errno, signalFailure.c_str());
+        // No subsequent numeric-PID lookup after a failed initial pin.
+    }
+    bool waitObserved = false;
+    int exitCode = -1, exitSignal = 0, waitCode = 0, waitStatus = 0;
+    auto unverified = [&](const char *stage, int number) {
+        // Exit evidence describes the direct child; it does not certify that
+        // enumeration found and stopped every descendant or release active.
+        fprintf(report, "stage=%s child_pid=%d errno=%d wait_observed=%d wait_code=%d wait_status=%d exit_code=%d signal=%d reaped=no launch_complete=no cleanup_unverified=yes survivors=%d tracking_errno=%d detail=%s\n",
+            stage, child, number, waitObserved ? 1 : 0, waitCode, waitStatus, exitCode, exitSignal, owned.Alive(), trackingError, trackingFailure.c_str());
+        work.cleanupUnknown = true; fflush(report);
+    };
     auto deadline = std::chrono::steady_clock::now() + std::chrono::seconds(greeting ? 180 : 30);
     auto stopAt = deadline, nextSignal = deadline;
     for (;;) {
         siginfo_t info = {};
         int waitResult = waitid(P_PID, static_cast<id_t>(child), &info, WEXITED | WNOHANG | WNOWAIT);
         if (waitResult != 0 && errno != EINTR) {
-            fprintf(report, "waitid_errno=%d launch_complete=no cleanup_unverified=yes\n", errno);
-            work.cleanupUnknown = true; return;
+            int waitError = errno;
+            fprintf(report, "waitid_errno=%d\n", waitError); unverified("waitid_ownership", waitError); return;
         }
-        bool exited = waitResult == 0 && info.si_pid == child;
-        if (tracked) unknown = !owned.Observe(failure);
+        if (waitResult == 0 && info.si_pid == child && !waitObserved) {
+            waitObserved = true; waitCode = info.si_code; waitStatus = info.si_status;
+            exitCode = info.si_code == CLD_EXITED ? info.si_status : -1;
+            exitSignal = info.si_code == CLD_KILLED || info.si_code == CLD_DUMPED ? info.si_status : 0;
+            fprintf(report, "stage=waitid_leader_exit child_pid=%d wait_observed=yes wait_code=%d wait_status=%d exit_code=%d signal=%d reaped=no cleanup_verified=no\n",
+                child, waitCode, waitStatus, exitCode, exitSignal);
+        }
+        bool exited = waitObserved;
+        if (tracked) {
+            std::string observedFailure;
+            bool observed = owned.Observe(observedFailure);
+            int observedError = observed ? 0 : errno;
+            if (!observed && (trackingError != observedError || trackingFailure != observedFailure))
+                fprintf(report, "stage=process_scan child_pid=%d errno=%d detail=%s\n", child, observedError, observedFailure.c_str());
+            else if (observed && unknown) fprintf(report, "stage=process_scan_recovered child_pid=%d\n", child);
+            unknown = !observed; trackingError = observedError; trackingFailure = observed ? "" : observedFailure;
+        }
         cancellation = cancellation || CancellationFile(*work.layout);
         auto now = std::chrono::steady_clock::now();
         if (!stopping && (exited || cancellation || now >= deadline || !tracked)) {
             stopping = true; stopAt = now; nextSignal = now + std::chrono::seconds(1);
             int signalError = 0;
-            if (tracked) owned.Signal(SIGTERM, failure, signalError);
-            else SignalDirectChild(child, SIGTERM, failure);
-            fprintf(report, "stop_reason=%s signal_errno=%d\n", exited ? "leader_exit_cleanup" : cancellation ? "cancelled" : "timeout_or_tracking", signalError);
-        }
-        if (stopping && now >= nextSignal) {
-            int signalError = 0;
-            if (tracked) owned.Signal(SIGKILL, failure, signalError);
-            else SignalDirectChild(child, SIGKILL, failure);
-            fprintf(report, "kill_errno=%d survivors=%d\n", signalError, owned.Alive());
-            nextSignal = now + std::chrono::milliseconds(250);
+            std::string signalFailure;
+            bool attempted = tracked && owned.Alive() > 0;
+            if (tracked) { if (attempted) owned.Signal(SIGTERM, signalFailure, signalError); }
+            fprintf(report, "stop_reason=%s signal_attempted=%d signal_errno=%d detail=%s\n",
+                exited ? "leader_exit_cleanup" : cancellation ? "cancelled" : !tracked ? "tracking_failure" : "timeout",
+                attempted ? 1 : 0, signalError, signalFailure.c_str());
         }
         if (exited && tracked && !unknown && owned.Alive() == 0) {
             int status = 0; pid_t waited = waitpid(child, &status, WNOHANG);
             if (waited == child) {
-                fprintf(report, "wait_pid=%d exit_code=%d signal=%d raw_wait_status=%d stopped=%d cleanup_verified=yes\n", waited,
+                fprintf(report, "wait_pid=%d exit_code=%d signal=%d raw_wait_status=%d reaped=yes stopped=%d cleanup_verified=yes\n", waited,
                     WIFEXITED(status) ? WEXITSTATUS(status) : -1, WIFSIGNALED(status) ? WTERMSIG(status) : 0, status,
                     cancellation || now >= deadline ? 1 : 0);
                 fprintf(report, "launch_complete=yes\n"); return;
             }
             if (waited < 0 && errno != EINTR) {
-                fprintf(report, "wait_errno=%d launch_complete=no cleanup_unverified=yes\n", errno);
-                work.cleanupUnknown = true; return;
+                int waitError = errno;
+                fprintf(report, "wait_errno=%d\n", waitError); unverified("waitpid_failed", waitError); return;
             }
         }
-        if (stopping && now - stopAt > std::chrono::seconds(5)) {
-            fprintf(report, "launch_complete=no cleanup_unverified=yes survivors=%d tracking_errno=%d\n", owned.Alive(), unknown ? errno : 0);
-            work.cleanupUnknown = true; return;
+        if (stopping && now - stopAt >= std::chrono::seconds(5)) {
+            unverified("cleanup_timeout", ETIMEDOUT); return;
+        }
+        if (stopping && now >= nextSignal) {
+            int signalError = 0; std::string signalFailure;
+            bool attempted = tracked && owned.Alive() > 0;
+            if (tracked) { if (attempted) owned.Signal(SIGKILL, signalFailure, signalError); }
+            fprintf(report, "kill_attempted=%d kill_errno=%d survivors=%d detail=%s\n", attempted ? 1 : 0,
+                signalError, owned.Alive(), signalFailure.c_str());
+            nextSignal = now + std::chrono::seconds(1);
         }
         fflush(report); std::this_thread::sleep_for(std::chrono::milliseconds(50));
     }

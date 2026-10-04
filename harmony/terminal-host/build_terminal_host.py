@@ -37,6 +37,14 @@ def configure_bundle(project, value):
     return sha256(path)
 
 
+def output_directory(value):
+    path = value.resolve()
+    # Hvigor validates the real project path, including symlink targets.
+    if re.fullmatch(r"[/A-Za-z0-9_(). @-]+", str(path)) is None:
+        raise ValueError("Hvigor output must resolve to an ASCII path containing only letters, digits, / - _ . ( ) spaces or @")
+    return path
+
+
 def sha256(path):
     value = hashlib.sha256()
     with path.open("rb") as source:
@@ -77,7 +85,7 @@ def main():
     for tool in (node, java, hvigor / "bin/hvigor.js", ohpm, sdk / "toolchains/hnpcli", sdk / "toolchains/lib/app_packing_tool.jar"):
         if not tool.is_file():
             raise ValueError("Required bundled tool is missing: " + str(tool))
-    output = args.output.resolve()
+    output = output_directory(args.output)
     output.mkdir(parents=True, exist_ok=False)
     project = output / "project"
     project.mkdir()

@@ -1,0 +1,2 @@
+command: git diff --check -- <五个允许修改的源码文件>
+exit_code: 0

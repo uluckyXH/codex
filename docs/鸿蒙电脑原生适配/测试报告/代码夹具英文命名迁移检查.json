@@ -1,0 +1,3805 @@
+{
+  "scope": "docs/鸿蒙电脑原生适配/测试报告",
+  "renamed_original_files": 103,
+  "original_tracked_files": 102,
+  "original_new_files": 1,
+  "renamed_types": {
+    ".py": 90,
+    ".rs": 9,
+    ".c": 4
+  },
+  "unchanged_original_file_checks": [
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/证据/文档检查脚本.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/证据/document_check.py",
+      "old_absent": true,
+      "sha256": "3bd34b5c011a1fbab3378a3fa7b9470f7c9d1ac305624f695ed2d84de11fb100",
+      "sha256_matches": true,
+      "size": 1909,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/证据/日志流程检查脚本.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/证据/log_workflow_check.py",
+      "old_absent": true,
+      "sha256": "c9b7288795e5b527d200b2068f7f6968d625fd57c30d7f82a2ea013d7073698c",
+      "sha256_matches": true,
+      "size": 2372,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-175930-平台启动与进程适配-平台会话/独立Shell目标检查.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-175930-平台启动与进程适配-平台会话/standalone_shell_target_check.py",
+      "old_absent": true,
+      "sha256": "a4b4ff4f5d97afe08457d0e0fb678850b49be1da20b3ca422ca1d6bc64e93e44",
+      "sha256_matches": true,
+      "size": 2009,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-175930-平台启动与进程适配-平台会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-175930-平台启动与进程适配-平台会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "5bf47d8c6e04713615ca0efe95276559db6c8a50c267160dedb82e2760cab956",
+      "sha256_matches": true,
+      "size": 2684,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-180444-终端系统集成-终端会话/证据/执行用例.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-180444-终端系统集成-终端会话/证据/run_cases.py",
+      "old_absent": true,
+      "sha256": "ade80f020b80ebdd96c234f9e26017551d98a335e8bb7e5c6da29519bdd27c5a",
+      "sha256_matches": true,
+      "size": 1533,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-180444-终端系统集成-终端会话/证据/隔离策略验证.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-180444-终端系统集成-终端会话/证据/isolation_policy_check.py",
+      "old_absent": true,
+      "sha256": "fe14f4894f7f719fc6f2dfdaa025ba73dc0ef385089ef878fa14b6ead77ac745",
+      "sha256_matches": true,
+      "size": 3007,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-181739-Shell源文件补充检查-平台会话/独立Shell目标检查.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-181739-Shell源文件补充检查-平台会话/standalone_shell_target_check.py",
+      "old_absent": true,
+      "sha256": "b92a29191864be4178e0aee6875f8b1abd0c5587cad09f23a110f1257f01cbcd",
+      "sha256_matches": true,
+      "size": 2007,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-181739-Shell源文件补充检查-平台会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-181739-Shell源文件补充检查-平台会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "5bf47d8c6e04713615ca0efe95276559db6c8a50c267160dedb82e2760cab956",
+      "sha256_matches": true,
+      "size": 2684,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-181959-Shell目标源码复测-平台会话/独立Shell目标检查.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-181959-Shell目标源码复测-平台会话/standalone_shell_target_check.py",
+      "old_absent": true,
+      "sha256": "cb304021ca01527dbc90c1556e1fac70f0575eafc48c67fcaf7dc153868811b7",
+      "sha256_matches": true,
+      "size": 2074,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-181959-Shell目标源码复测-平台会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-181959-Shell目标源码复测-平台会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "5bf47d8c6e04713615ca0efe95276559db6c8a50c267160dedb82e2760cab956",
+      "sha256_matches": true,
+      "size": 2684,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-182705-终端交付文档复核-终端会话/证据/执行用例.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-182705-终端交付文档复核-终端会话/证据/run_cases.py",
+      "old_absent": true,
+      "sha256": "ade80f020b80ebdd96c234f9e26017551d98a335e8bb7e5c6da29519bdd27c5a",
+      "sha256_matches": true,
+      "size": 1533,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-184728-目标归档工具修复-主会话/证据/归档链接回归.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-184728-目标归档工具修复-主会话/证据/archive_link_regression.py",
+      "old_absent": true,
+      "sha256": "a8467ff23470cf8165a676073f8ea4d15fe42e5e8cb79618c5e62348a5e5976e",
+      "sha256_matches": true,
+      "size": 1323,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185016-默认内嵌启动与更新诊断-终端会话/证据/执行用例.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185016-默认内嵌启动与更新诊断-终端会话/证据/run_cases.py",
+      "old_absent": true,
+      "sha256": "ade80f020b80ebdd96c234f9e26017551d98a335e8bb7e5c6da29519bdd27c5a",
+      "sha256_matches": true,
+      "size": 1533,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185016-默认内嵌启动与更新诊断-终端会话/证据/策略入口.rs",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185016-默认内嵌启动与更新诊断-终端会话/证据/policy_entry.rs",
+      "old_absent": true,
+      "sha256": "066a8f406bd59dcd848fc5cf741e4984825770bc2e8e778816c23719c81b201d",
+      "sha256_matches": true,
+      "size": 419,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185101-完整链接复测-主会话/证据/静态产物检查.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185101-完整链接复测-主会话/证据/static_artifact_check.py",
+      "old_absent": true,
+      "sha256": "8ce513fb7525761a7452a589cd334efe3d41ad330992eff9bf281cc8650097f0",
+      "sha256_matches": true,
+      "size": 1477,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/报告检查.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/report_check.py",
+      "old_absent": true,
+      "sha256": "12fa6992874b3d825a9b705569c9a6593353f445af5d2a3248026a2844507500",
+      "sha256_matches": true,
+      "size": 1813,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/静态与交付检查.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/static_delivery_check.py",
+      "old_absent": true,
+      "sha256": "3f0f90ef55846d88bbfd908d9aac65bd814ba4d42c4b0f78e20d615b9e8c1d03",
+      "sha256_matches": true,
+      "size": 3704,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "5bf47d8c6e04713615ca0efe95276559db6c8a50c267160dedb82e2760cab956",
+      "sha256_matches": true,
+      "size": 2684,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/报告检查.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/report_check.py",
+      "old_absent": true,
+      "sha256": "12fa6992874b3d825a9b705569c9a6593353f445af5d2a3248026a2844507500",
+      "sha256_matches": true,
+      "size": 1813,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/静态与交付检查.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/static_delivery_check.py",
+      "old_absent": true,
+      "sha256": "a377e192c5c3a520bd52fb5b9a2130dbf8d80e1fab3c112609bb4a0211615b05",
+      "sha256_matches": true,
+      "size": 3707,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "5bf47d8c6e04713615ca0efe95276559db6c8a50c267160dedb82e2760cab956",
+      "sha256_matches": true,
+      "size": 2684,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-192224-最终源码集成验证-主会话/证据/静态产物检查.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-192224-最终源码集成验证-主会话/证据/static_artifact_check.py",
+      "old_absent": true,
+      "sha256": "8ce513fb7525761a7452a589cd334efe3d41ad330992eff9bf281cc8650097f0",
+      "sha256_matches": true,
+      "size": 1477,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-193607-发布模式修复集成复测-主会话/证据/静态产物检查.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-193607-发布模式修复集成复测-主会话/证据/static_artifact_check.py",
+      "old_absent": true,
+      "sha256": "8ce513fb7525761a7452a589cd334efe3d41ad330992eff9bf281cc8650097f0",
+      "sha256_matches": true,
+      "size": 1477,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202248-鸿蒙运行安全与探测-平台会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202248-鸿蒙运行安全与探测-平台会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "5bf47d8c6e04713615ca0efe95276559db6c8a50c267160dedb82e2760cab956",
+      "sha256_matches": true,
+      "size": 2684,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202646-鸿蒙能力约束与原生剪贴板-终端会话/证据/剪贴板测试入口.rs",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202646-鸿蒙能力约束与原生剪贴板-终端会话/证据/clipboard_test_entry.rs",
+      "old_absent": true,
+      "sha256": "8ceb1c7159b5abb4ecf3696521bc3d8a17e1917447851200476a024d4cb32ec8",
+      "sha256_matches": true,
+      "size": 149,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202646-鸿蒙能力约束与原生剪贴板-终端会话/证据/执行用例.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202646-鸿蒙能力约束与原生剪贴板-终端会话/证据/run_cases.py",
+      "old_absent": true,
+      "sha256": "ade80f020b80ebdd96c234f9e26017551d98a335e8bb7e5c6da29519bdd27c5a",
+      "sha256_matches": true,
+      "size": 1533,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202916-鸿蒙运行安全复测-平台会话/启动加固探针.rs",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202916-鸿蒙运行安全复测-平台会话/launch_hardening_probe.rs",
+      "old_absent": true,
+      "sha256": "3478fc98198c15b0b2f9de5efc6fcd22686d3f54e606ac4d3abed628d5ba15df",
+      "sha256_matches": true,
+      "size": 1210,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202916-鸿蒙运行安全复测-平台会话/运行加固探针.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202916-鸿蒙运行安全复测-平台会话/runtime_hardening_probe.py",
+      "old_absent": true,
+      "sha256": "d970c37301843fe697140eb83c31d64268790bf9a1748604e2e341f062f961aa",
+      "sha256_matches": true,
+      "size": 2274,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202916-鸿蒙运行安全复测-平台会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202916-鸿蒙运行安全复测-平台会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "5bf47d8c6e04713615ca0efe95276559db6c8a50c267160dedb82e2760cab956",
+      "sha256_matches": true,
+      "size": 2684,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/证据/剪贴板ABI检查.c",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/证据/clipboard_abi_check.c",
+      "old_absent": true,
+      "sha256": "73b64abdf3b1add06ba64cec894239fc0be9d77fabeaf6b3a3ea91bd7794301b",
+      "sha256_matches": true,
+      "size": 1388,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/证据/剪贴板测试入口.rs",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/证据/clipboard_test_entry.rs",
+      "old_absent": true,
+      "sha256": "8ceb1c7159b5abb4ecf3696521bc3d8a17e1917447851200476a024d4cb32ec8",
+      "sha256_matches": true,
+      "size": 149,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/证据/剪贴板目标检查.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/证据/clipboard_target_check.py",
+      "old_absent": true,
+      "sha256": "d566c551f25be16d88ccb1325039c335c88c6356ea6bd5f4ca666f5b2a42b7ee",
+      "sha256_matches": true,
+      "size": 492,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/证据/执行用例.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/证据/run_cases.py",
+      "old_absent": true,
+      "sha256": "ade80f020b80ebdd96c234f9e26017551d98a335e8bb7e5c6da29519bdd27c5a",
+      "sha256_matches": true,
+      "size": 1533,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/证据/交付检查.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/证据/delivery_check.py",
+      "old_absent": true,
+      "sha256": "c0c0e7ce8c0357bb69aec91260c10775582b6554163ccaebb46e043e4f463ed2",
+      "sha256_matches": true,
+      "size": 1096,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/证据/工具模式测试入口.rs",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/证据/tool_mode_test_entry.rs",
+      "old_absent": true,
+      "sha256": "d27ef321bb0462479d534f6d1384f18dcb7fc351526ea3da0566a025f58509da",
+      "sha256_matches": true,
+      "size": 158,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/证据/执行用例.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/证据/run_cases.py",
+      "old_absent": true,
+      "sha256": "ade80f020b80ebdd96c234f9e26017551d98a335e8bb7e5c6da29519bdd27c5a",
+      "sha256_matches": true,
+      "size": 1533,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-211748-鸿蒙运行安全收尾-平台会话/启动加固探针.rs",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-211748-鸿蒙运行安全收尾-平台会话/launch_hardening_probe.rs",
+      "old_absent": true,
+      "sha256": "3478fc98198c15b0b2f9de5efc6fcd22686d3f54e606ac4d3abed628d5ba15df",
+      "sha256_matches": true,
+      "size": 1210,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-211748-鸿蒙运行安全收尾-平台会话/运行加固探针.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-211748-鸿蒙运行安全收尾-平台会话/runtime_hardening_probe.py",
+      "old_absent": true,
+      "sha256": "8f522bf508f95495f107245dbb1343fcfbaa034af4269be542502a70532d81dc",
+      "sha256_matches": true,
+      "size": 2339,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-211748-鸿蒙运行安全收尾-平台会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-211748-鸿蒙运行安全收尾-平台会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "5bf47d8c6e04713615ca0efe95276559db6c8a50c267160dedb82e2760cab956",
+      "sha256_matches": true,
+      "size": 2684,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-212544-鸿蒙沙箱原生路径收尾-平台会话/启动加固探针.rs",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-212544-鸿蒙沙箱原生路径收尾-平台会话/launch_hardening_probe.rs",
+      "old_absent": true,
+      "sha256": "3478fc98198c15b0b2f9de5efc6fcd22686d3f54e606ac4d3abed628d5ba15df",
+      "sha256_matches": true,
+      "size": 1210,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-212544-鸿蒙沙箱原生路径收尾-平台会话/运行加固探针.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-212544-鸿蒙沙箱原生路径收尾-平台会话/runtime_hardening_probe.py",
+      "old_absent": true,
+      "sha256": "8f522bf508f95495f107245dbb1343fcfbaa034af4269be542502a70532d81dc",
+      "sha256_matches": true,
+      "size": 2339,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-212544-鸿蒙沙箱原生路径收尾-平台会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-212544-鸿蒙沙箱原生路径收尾-平台会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "5bf47d8c6e04713615ca0efe95276559db6c8a50c267160dedb82e2760cab956",
+      "sha256_matches": true,
+      "size": 2684,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/启动加固探针.rs",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/launch_hardening_probe.rs",
+      "old_absent": true,
+      "sha256": "3478fc98198c15b0b2f9de5efc6fcd22686d3f54e606ac4d3abed628d5ba15df",
+      "sha256_matches": true,
+      "size": 1210,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/运行加固探针.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/runtime_hardening_probe.py",
+      "old_absent": true,
+      "sha256": "8f522bf508f95495f107245dbb1343fcfbaa034af4269be542502a70532d81dc",
+      "sha256_matches": true,
+      "size": 2339,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "5bf47d8c6e04713615ca0efe95276559db6c8a50c267160dedb82e2760cab956",
+      "sha256_matches": true,
+      "size": 2684,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-214408-沙箱目标用例链接补测-主会话/证据/目标测试链接.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-214408-沙箱目标用例链接补测-主会话/证据/target_test_link.py",
+      "old_absent": true,
+      "sha256": "995bb2c0d9b5716f6569f8c7913d503e5a8a5ce32b6e2052adeb8b9a15249be2",
+      "sha256_matches": true,
+      "size": 702,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-222506-最终候选包验收-主会话/证据/验证目录包.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-222506-最终候选包验收-主会话/证据/directory_package_check.py",
+      "old_absent": true,
+      "sha256": "bf7bbfdcc03cd24d210631f5d22cead4d89214471fbd3d6606a9b9c75f8cace8",
+      "sha256_matches": true,
+      "size": 3156,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-230540-两种安装速用核对-主会话/证据/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-230540-两种安装速用核对-主会话/证据/validation_entry.py",
+      "old_absent": true,
+      "sha256": "aaae6404a6119a9fd288731045198160c499c4da00f9902c8c09e4b2e597da02",
+      "sha256_matches": true,
+      "size": 3726,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-232634-接口配置文档核对-主会话/证据/静态核对入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-232634-接口配置文档核对-主会话/证据/static_validation_entry.py",
+      "old_absent": true,
+      "sha256": "b85d5728dfb7c6f50eca078bef0ece138ca953c18d2680bd52fc5e2216009251",
+      "sha256_matches": true,
+      "size": 2572,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-015922-七版临时目录与别名边界-工具会话/证据/执行用例.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-015922-七版临时目录与别名边界-工具会话/证据/run_cases.py",
+      "old_absent": true,
+      "sha256": "ade80f020b80ebdd96c234f9e26017551d98a335e8bb7e5c6da29519bdd27c5a",
+      "sha256_matches": true,
+      "size": 1533,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-015922-七版临时目录与别名边界-工具会话/证据/目标测试链接.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-015922-七版临时目录与别名边界-工具会话/证据/target_test_link.py",
+      "old_absent": true,
+      "sha256": "25cec3b1d01765fb2501762ee15e13459db6c70b6c662f8f647f5a069be474bb",
+      "sha256_matches": true,
+      "size": 949,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-020306-七版共享目录与模式校验-沙箱会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-020306-七版共享目录与模式校验-沙箱会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "5bf47d8c6e04713615ca0efe95276559db6c8a50c267160dedb82e2760cab956",
+      "sha256_matches": true,
+      "size": 2684,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-020924-七版沙箱安全边界复测-沙箱会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-020924-七版沙箱安全边界复测-沙箱会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "5bf47d8c6e04713615ca0efe95276559db6c8a50c267160dedb82e2760cab956",
+      "sha256_matches": true,
+      "size": 2684,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-021822-七版沙箱交叉复核-沙箱会话/目标产物核对.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-021822-七版沙箱交叉复核-沙箱会话/target_artifact_check.py",
+      "old_absent": true,
+      "sha256": "8182c662ceabe7d8bec4652d326190fd5ed04f86172499029b908f66a57052f7",
+      "sha256_matches": true,
+      "size": 1439,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-021822-七版沙箱交叉复核-沙箱会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-021822-七版沙箱交叉复核-沙箱会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "5bf47d8c6e04713615ca0efe95276559db6c8a50c267160dedb82e2760cab956",
+      "sha256_matches": true,
+      "size": 2684,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-022036-七版工具退出与阶段诊断-工具会话/证据/执行用例.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-022036-七版工具退出与阶段诊断-工具会话/证据/run_cases.py",
+      "old_absent": true,
+      "sha256": "ade80f020b80ebdd96c234f9e26017551d98a335e8bb7e5c6da29519bdd27c5a",
+      "sha256_matches": true,
+      "size": 1533,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-022036-七版工具退出与阶段诊断-工具会话/证据/目标测试链接.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-022036-七版工具退出与阶段诊断-工具会话/证据/target_test_link.py",
+      "old_absent": true,
+      "sha256": "fae98730d99a24c7f1b803a1ce7f6f9e51d36ffc309cac9e5edb8217bd66bf9c",
+      "sha256_matches": true,
+      "size": 954,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-022537-七版工具诊断复核-工具会话/证据/执行用例.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-022537-七版工具诊断复核-工具会话/证据/run_cases.py",
+      "old_absent": true,
+      "sha256": "ade80f020b80ebdd96c234f9e26017551d98a335e8bb7e5c6da29519bdd27c5a",
+      "sha256_matches": true,
+      "size": 1533,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-022537-七版工具诊断复核-工具会话/证据/目标测试链接.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-022537-七版工具诊断复核-工具会话/证据/target_test_link.py",
+      "old_absent": true,
+      "sha256": "fae98730d99a24c7f1b803a1ce7f6f9e51d36ffc309cac9e5edb8217bd66bf9c",
+      "sha256_matches": true,
+      "size": 954,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-022826-七版工具诊断验收-工具会话/证据/执行用例.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-022826-七版工具诊断验收-工具会话/证据/run_cases.py",
+      "old_absent": true,
+      "sha256": "ade80f020b80ebdd96c234f9e26017551d98a335e8bb7e5c6da29519bdd27c5a",
+      "sha256_matches": true,
+      "size": 1533,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-022826-七版工具诊断验收-工具会话/证据/目标测试链接.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-022826-七版工具诊断验收-工具会话/证据/target_test_link.py",
+      "old_absent": true,
+      "sha256": "fae98730d99a24c7f1b803a1ce7f6f9e51d36ffc309cac9e5edb8217bd66bf9c",
+      "sha256_matches": true,
+      "size": 954,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-023200-七版固定账号入口复测-沙箱会话/目标产物核对.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-023200-七版固定账号入口复测-沙箱会话/target_artifact_check.py",
+      "old_absent": true,
+      "sha256": "3b4dc74303d05f4c27e3bd0c114b0783c84d018e6f7549753ba419a78a504de9",
+      "sha256_matches": true,
+      "size": 2194,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-023200-七版固定账号入口复测-沙箱会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-023200-七版固定账号入口复测-沙箱会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "5bf47d8c6e04713615ca0efe95276559db6c8a50c267160dedb82e2760cab956",
+      "sha256_matches": true,
+      "size": 2684,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-023701-七版资源来源与构建身份-工具会话/证据/执行用例.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-023701-七版资源来源与构建身份-工具会话/证据/run_cases.py",
+      "old_absent": true,
+      "sha256": "ade80f020b80ebdd96c234f9e26017551d98a335e8bb7e5c6da29519bdd27c5a",
+      "sha256_matches": true,
+      "size": 1533,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-023701-七版资源来源与构建身份-工具会话/证据/构建身份测试.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-023701-七版资源来源与构建身份-工具会话/证据/build_identity_test.py",
+      "old_absent": true,
+      "sha256": "2a625783a8d593bea94e0c771defbdc88d4e03269cf22c2a0a7835077868ec86",
+      "sha256_matches": true,
+      "size": 1049,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-024223-七版文件helper与补丁补测-工具会话/证据/执行用例.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-024223-七版文件helper与补丁补测-工具会话/证据/run_cases.py",
+      "old_absent": true,
+      "sha256": "ade80f020b80ebdd96c234f9e26017551d98a335e8bb7e5c6da29519bdd27c5a",
+      "sha256_matches": true,
+      "size": 1533,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-031333-独立沙箱原始退出诊断补修-沙箱会话/独立宿主入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-031333-独立沙箱原始退出诊断补修-沙箱会话/standalone_host_entry.py",
+      "old_absent": true,
+      "sha256": "8d6c5db22e2ca413a7f8c283d251bf817d6a78e09c911bbf96bd64ad14d5df9c",
+      "sha256_matches": true,
+      "size": 2247,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-031333-独立沙箱原始退出诊断补修-沙箱会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-031333-独立沙箱原始退出诊断补修-沙箱会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "5bf47d8c6e04713615ca0efe95276559db6c8a50c267160dedb82e2760cab956",
+      "sha256_matches": true,
+      "size": 2684,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-035159-七版最终发布与安装验收-主会话/证据/整包验收脚本.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-035159-七版最终发布与安装验收-主会话/证据/package_acceptance_check.py",
+      "old_absent": true,
+      "sha256": "7aceb2060c97d244a8be93d26321971ffd873a3a0d12252cd5582dbd3649bf3f",
+      "sha256_matches": true,
+      "size": 4961,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-103041-版本规范初检-主会话/证据/版本模块验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-103041-版本规范初检-主会话/证据/version_module_validation_entry.py",
+      "old_absent": true,
+      "sha256": "9b3eaabb726d9cf23038207385bbf0204be06d69ddeef4f478d59529e6bd1897",
+      "sha256_matches": true,
+      "size": 1550,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-104326-发布入口与更新保护补修-主会话/证据/更新入口验证.rs",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-104326-发布入口与更新保护补修-主会话/证据/update_entry_check.rs",
+      "old_absent": true,
+      "sha256": "a178277115260037409605d48f29b8627ef9833a10bd41cce41d2ea93143e973",
+      "sha256_matches": true,
+      "size": 1325,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-111741-版本与专项日志发布验收-主会话/证据/升级命令验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-111741-版本与专项日志发布验收-主会话/证据/upgrade_command_validation_entry.py",
+      "old_absent": true,
+      "sha256": "18becfc635fc402c6a9772a2652081237d660f7578c43af0323ab728d6d9c6f3",
+      "sha256_matches": true,
+      "size": 4492,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-154752-固定运行目录契约-沙箱会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-154752-固定运行目录契约-沙箱会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "5bf47d8c6e04713615ca0efe95276559db6c8a50c267160dedb82e2760cab956",
+      "sha256_matches": true,
+      "size": 2684,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-160611-固定运行目录二轮-沙箱会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-160611-固定运行目录二轮-沙箱会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "558b3e820c7895d8d7ca3edef011e304a1114e63965e6859e411c3ed2b6be286",
+      "sha256_matches": true,
+      "size": 2767,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-160837-固定运行目录三轮-沙箱会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-160837-固定运行目录三轮-沙箱会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "871187a90cbaee34ed2d1446bf9ba55925cc7e5f76737e0f7662f71c909e2a47",
+      "sha256_matches": true,
+      "size": 2767,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161903-目录权限收尾-沙箱会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161903-目录权限收尾-沙箱会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "d8beeb8102a5eca24bbd262b92be69d0925a4623db8196f144eb5e7184ae6144",
+      "sha256_matches": true,
+      "size": 2767,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-162842-运行目录祖先写权限拒绝-沙箱会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-162842-运行目录祖先写权限拒绝-沙箱会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "7dbe776c7f649b17fb2604aa704883be2bd28e6b86817ad1363eecdd013bd172",
+      "sha256_matches": true,
+      "size": 2767,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-163052-运行目录接入首轮-工具会话/证据/执行入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-163052-运行目录接入首轮-工具会话/证据/run_checks.py",
+      "old_absent": true,
+      "sha256": "1a9a2b28112d49c0565f91ee71716d79de24571ff80d999a5f03f2f8c2279c55",
+      "sha256_matches": true,
+      "size": 3446,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-163916-运行目录接入复测-工具会话/证据/执行入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-163916-运行目录接入复测-工具会话/证据/run_checks.py",
+      "old_absent": true,
+      "sha256": "1a9a2b28112d49c0565f91ee71716d79de24571ff80d999a5f03f2f8c2279c55",
+      "sha256_matches": true,
+      "size": 3446,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-164243-能力诊断依赖补齐复测-工具会话/证据/执行入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-164243-能力诊断依赖补齐复测-工具会话/证据/run_checks.py",
+      "old_absent": true,
+      "sha256": "1a9a2b28112d49c0565f91ee71716d79de24571ff80d999a5f03f2f8c2279c55",
+      "sha256_matches": true,
+      "size": 3446,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-164634-能力诊断最终复测-工具会话/证据/执行入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-164634-能力诊断最终复测-工具会话/证据/run_checks.py",
+      "old_absent": true,
+      "sha256": "1a9a2b28112d49c0565f91ee71716d79de24571ff80d999a5f03f2f8c2279c55",
+      "sha256_matches": true,
+      "size": 3446,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-165307-能力诊断二进制入口复测-工具会话/证据/执行入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-165307-能力诊断二进制入口复测-工具会话/证据/run_checks.py",
+      "old_absent": true,
+      "sha256": "a488d68f2de1d6a2fea658a52aba95eacd7ffde78c5b5259431c4184f2053822",
+      "sha256_matches": true,
+      "size": 3471,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-165919-目录修复教程命令验证-主会话/证据/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-165919-目录修复教程命令验证-主会话/证据/validation_entry.py",
+      "old_absent": true,
+      "sha256": "122664dd5780f4d343eecfc016464dc04571176163ba9db91841dcad8af2b1ff",
+      "sha256_matches": true,
+      "size": 4539,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171549-祖先搜索权限修复-沙箱会话/证据采集.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171549-祖先搜索权限修复-沙箱会话/collect_evidence.py",
+      "old_absent": true,
+      "sha256": "30f01795b9c3a65260402f15ce111684f7ccc5b576e936e073e99b5b4e95ef51",
+      "sha256_matches": true,
+      "size": 6563,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171549-祖先搜索权限修复-沙箱会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171549-祖先搜索权限修复-沙箱会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "6f983b640169fac718c61697f5ab97bbc35b3b4712d0507787fb47aed7c7db3b",
+      "sha256_matches": true,
+      "size": 2767,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171725-原生探针祖先句柄补修-工具会话/证据/SDK打开方式断言.c",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171725-原生探针祖先句柄补修-工具会话/证据/sdk_open_mode_assertions.c",
+      "old_absent": true,
+      "sha256": "4d995a9183a469fea9cd852b57b9c24c847a31a3abaf31e7feb99b764ddbb1b1",
+      "sha256_matches": true,
+      "size": 379,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171725-原生探针祖先句柄补修-工具会话/证据/执行入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171725-原生探针祖先句柄补修-工具会话/证据/run_checks.py",
+      "old_absent": true,
+      "sha256": "2280706b81f7223c0d1d7e562e3106b601581e256c208955c631c4d2267bc63e",
+      "sha256_matches": true,
+      "size": 4378,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-172455-目录权限修复完整交付验收-主会话/证据/安装资料整理入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-172455-目录权限修复完整交付验收-主会话/证据/installation_materials_entry.py",
+      "old_absent": true,
+      "sha256": "680a3aabe4f29bc3db07f37d923ee0514f6914c137e4546e3d1908d0eead36d7",
+      "sha256_matches": true,
+      "size": 2900,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-172455-目录权限修复完整交付验收-主会话/证据/实际包验收入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-172455-目录权限修复完整交付验收-主会话/证据/package_acceptance_entry.py",
+      "old_absent": true,
+      "sha256": "f60540dcc39253138b33df7817c350319f5a6f7ca48d3da3d2bc9319614d6770",
+      "sha256_matches": true,
+      "size": 6409,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-222717-原生探针退出与默认路径-工具会话/证据/SDK门禁.c",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-222717-原生探针退出与默认路径-工具会话/证据/sdk_gate.c",
+      "old_absent": true,
+      "sha256": "2111538bdcfef3a0ecd71fbe2474e45503d3f8f610103db731b929eef373fd26",
+      "sha256_matches": true,
+      "size": 396,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-222717-原生探针退出与默认路径-工具会话/证据/执行入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-222717-原生探针退出与默认路径-工具会话/证据/run_checks.py",
+      "old_absent": true,
+      "sha256": "267cfd14a40d217a5308c351502cfee36b0eca5d9ad5852059535648e3fc7350",
+      "sha256_matches": true,
+      "size": 5723,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/目标字段布局核对.c",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/target_field_layout_check.c",
+      "old_absent": true,
+      "sha256": "17a2610ed05508debd0e0ff4f353942202fe67ce3f3a061adb3e83b81a619b1a",
+      "sha256_matches": true,
+      "size": 883,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/证据采集.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/collect_evidence.py",
+      "old_absent": true,
+      "sha256": "91268ac6fc1e6372e83d7b1bd4c94c5831d348dd971802217dc0666aa763b3ad",
+      "sha256_matches": true,
+      "size": 6449,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "42658f39443690d52c5f7ab0dd792a929305da113c4ee15c50e63d0969517bc2",
+      "sha256_matches": true,
+      "size": 2768,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224436-挂载诊断交付与探针集成-主会话/证据/教程命令验证.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224436-挂载诊断交付与探针集成-主会话/证据/tutorial_command_check.py",
+      "old_absent": true,
+      "sha256": "e5c2166fb2a86e22c5b0070f1204ca1eefb4d522d6380bc8da860263830602cd",
+      "sha256_matches": true,
+      "size": 4560,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224436-挂载诊断交付与探针集成-主会话/证据/运行验证.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224436-挂载诊断交付与探针集成-主会话/证据/runtime_check.py",
+      "old_absent": true,
+      "sha256": "953a55af9f4a789fdd1da5fd47c8a17b4dab6162d47faa51200efac5a01e5c11",
+      "sha256_matches": true,
+      "size": 1892,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224436-挂载诊断交付与探针集成-主会话/证据/验证探针签名入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224436-挂载诊断交付与探针集成-主会话/证据/probe_signature_validation_entry.py",
+      "old_absent": true,
+      "sha256": "1c64608f5ce6931ae94913961e3618dc0c30599cdee49c2bd1126f4d4c50b504",
+      "sha256_matches": true,
+      "size": 1507,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224647-Linux挂载快速路径补修-沙箱会话/证据采集.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224647-Linux挂载快速路径补修-沙箱会话/collect_evidence.py",
+      "old_absent": true,
+      "sha256": "63250d2600902545d07f9090582b61050e72ae7ef406d5955f99b9c3e9145485",
+      "sha256_matches": true,
+      "size": 6530,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224647-Linux挂载快速路径补修-沙箱会话/验证入口.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224647-Linux挂载快速路径补修-沙箱会话/validation_entry.py",
+      "old_absent": true,
+      "sha256": "0e990bc469b0949deabdb844e6ac42a5e52a6bb0c9a79ad9fa3a6b4cb3ce8a45",
+      "sha256_matches": true,
+      "size": 2768,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-232949-挂载修复完整发布验收-主会话/证据/整理安装资料.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-232949-挂载修复完整发布验收-主会话/证据/prepare_installation_materials.py",
+      "old_absent": true,
+      "sha256": "35b62f8c40be12ba35650fa1ab06e9f527c25b4adfbfc9ec339561384537bf0b",
+      "sha256_matches": true,
+      "size": 3228,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-232949-挂载修复完整发布验收-主会话/证据/补齐交付摘要.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-232949-挂载修复完整发布验收-主会话/证据/complete_delivery_summary.py",
+      "old_absent": true,
+      "sha256": "dacba74495b275aded7f300c7be69e856ec8602bd8c4fb4438274543f45bf550",
+      "sha256_matches": true,
+      "size": 1309,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-232949-挂载修复完整发布验收-主会话/证据/验收交付包.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-232949-挂载修复完整发布验收-主会话/证据/delivery_package_acceptance.py",
+      "old_absent": true,
+      "sha256": "f9991f3f402ee76d775d61cfa43e62dc7de5eacfb38f626b038a739e5a440094",
+      "sha256_matches": true,
+      "size": 6717,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    },
+    {
+      "old": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-175307-进程扫描与PTY停止修复-终端会话/本机PTY对照.py",
+      "new": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-175307-进程扫描与PTY停止修复-终端会话/host_pty_comparison.py",
+      "old_absent": true,
+      "sha256": "27b8aefd99a6232ed3b5b251066e656de510c9b1d4c7b528b68b2810f04b184c",
+      "sha256_matches": true,
+      "size": 4180,
+      "size_matches": true,
+      "permissions": "0o644",
+      "permissions_match": true
+    }
+  ],
+  "historical_summary_data_checks": [
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/证据/执行摘要.txt",
+      "sha256": "70b865641c1e4db832dd4a9442bc7c05b935e54c82bd450dadcf13f98a5b63f6",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/证据/文件摘要.txt",
+      "sha256": "e51cda1110096cd7a8770c58f9ef122369d12225667ad9587622e39afd545e65",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/证据/环境摘要.txt",
+      "sha256": "7a106583a3234f2762167b30c365016f27ee4a445c30afcf27da5b3b839cc25e",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-174620-登录方案核对-主会话/证据/执行摘要.txt",
+      "sha256": "ffe96d2bcade2095cf5b5621b36951ec5409f08dd7fc29aba02ea1af8b96bf9a",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-174620-登录方案核对-主会话/证据/文件摘要.txt",
+      "sha256": "a5280ec62bf984ab8d9414f67517ea88a3159c7c180c327abbbf41d7816b60f4",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-174620-登录方案核对-主会话/证据/环境摘要.txt",
+      "sha256": "85e6f05e8e8c77d22e5b3820c3eaba100aface243a7491c1ebe843b34a1c17a1",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-175731-依赖交叉检查-主会话/证据/执行摘要.txt",
+      "sha256": "8298b28518964519c54885a11e436ecd9bebff90f5c6c043cff7e8d52f5748f3",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-175731-依赖交叉检查-主会话/证据/文件摘要.txt",
+      "sha256": "e39698138554f1c2b7183a9b85cbbb22ff5f5ddcb005925d4f54b4dfe4e673ae",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-175731-依赖交叉检查-主会话/证据/环境摘要.txt",
+      "sha256": "dccced09e934a3b29704d8a13138c6fbef42eaf15f72bf4cc25e5bd1f0484eee",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-175930-平台启动与进程适配-平台会话/证据摘要.json",
+      "sha256": "23df47a1a03db5a5ce2731fdfe79fffe268c463833e3a3e3583172581dce2dcb",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-180444-终端系统集成-终端会话/证据/执行摘要.txt",
+      "sha256": "8c3ae9ad2713ca47e417bff85ca0869983988a93c6c7f8bca45ab63b22330c16",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-180444-终端系统集成-终端会话/证据/源码摘要.txt",
+      "sha256": "e5b7154c6e90ccb935504988e43762d2386bc237c4a822c9bc33f91f7848f9a1",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-180444-终端系统集成-终端会话/证据/环境摘要.txt",
+      "sha256": "ceeb73a2ef693d41a0c15b33c4cf90b8486a6a56ccc133edfb08749f60a92f03",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-180444-终端系统集成-终端会话/证据/附件摘要.txt",
+      "sha256": "a3359758d524ab0e856f0f39f1362b850bf02ba82eeae7b8ae07c3df71deb7ac",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-181404-终端集成交叉检查-主会话/证据/执行摘要.txt",
+      "sha256": "4ac7746f86e51be1bfa1e89e8feaacd639c837f190c9d80e83aa7891b12857b6",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-181404-终端集成交叉检查-主会话/证据/环境摘要.txt",
+      "sha256": "8f5a685f54f63c86391e88b991602fe40b12d58ac27d52523cc2a20b9f8b11ec",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-181739-Shell源文件补充检查-平台会话/证据摘要.json",
+      "sha256": "26d8a5047bc1226147dc348cd183da58451b20a4c363d43f6646840b1666289a",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-181959-Shell目标源码复测-平台会话/证据摘要.json",
+      "sha256": "3f62230dcea33e13d184094f26376b834e9bb1682700b7c6dc14ebdb5615b022",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-182705-终端交付文档复核-终端会话/证据/执行摘要.txt",
+      "sha256": "e495d4ba5cef7a5c148a7ee2fcaa9150caccd30005e3db5916ce195f2d9a6c27",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-182705-终端交付文档复核-终端会话/证据/文件摘要.txt",
+      "sha256": "c7f08c712a4c220420e878c7fa5cbf567ca399a1fb6d962be76b73f2eb4674bb",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-183128-完整链接与更新保护-主会话/证据/执行摘要.txt",
+      "sha256": "1b85a19957dae808d82435cc33426c9168581bc3b80f31dcf293a10a4ef53ba4",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-183128-完整链接与更新保护-主会话/证据/环境摘要.txt",
+      "sha256": "6ca7f4c69d1f1da326c6532a3b14850b29d9cc971d9ddf4deabb80c36c64eff8",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-184728-目标归档工具修复-主会话/证据/执行摘要.txt",
+      "sha256": "ae5c301c8d38e8238d0f930b6e8dab9bb8fde850396da285a51bce4f50f7c33e",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-184728-目标归档工具修复-主会话/证据/源码摘要.txt",
+      "sha256": "0dfd332867f05023ae10054259cbfdfcad4c4a4860ebd9eab052c3c114122020",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-184728-目标归档工具修复-主会话/证据/环境摘要.txt",
+      "sha256": "4136608178be624edb27f830057557f03541d59d4981295d03ac9eec63d7e47d",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185016-默认内嵌启动与更新诊断-终端会话/证据/执行摘要.txt",
+      "sha256": "128f6389497bed4560c7bb321701f734f770af673b6f786a45f627fe63886381",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185016-默认内嵌启动与更新诊断-终端会话/证据/源码摘要.txt",
+      "sha256": "f2d19be6ed9d45e844d555ef501cbd172d2d205eb4fcd4ddcfbaefad0993dfb7",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185016-默认内嵌启动与更新诊断-终端会话/证据/附件摘要.txt",
+      "sha256": "235f40bf1a0f0a779e608ed4f526b93567981d124c2ae956fcc348bc63e36116",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185101-完整链接复测-主会话/证据/产物摘要.txt",
+      "sha256": "d30bfbc52cd81cc6dd906eab16973281425bb80ee831ecb8b11a71869187dd3e",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185101-完整链接复测-主会话/证据/执行摘要.txt",
+      "sha256": "f6e401f2883d98d5372b273892b31aed7d9f92f2064b3a23fe5dc91ae8786108",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185101-完整链接复测-主会话/证据/环境摘要.txt",
+      "sha256": "39df9aac3304649e36468385abf27caa1da10ef7ee01981958e98ed49e8b357d",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/产物摘要.json",
+      "sha256": "873ac6f3805dfe6be90157bc9c89ee8d705cb9bec3569ddc37843259a23c76cb",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/环境摘要.json",
+      "sha256": "7482e0694c0081554f576fe9b23c033fc72096b12fbf36ffeef5101d9b63593b",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/证据摘要.json",
+      "sha256": "57554ef67faa37e21696eedea2c0ce32fe6d93bb8fb3b507e4ec9cc2bcb9abe0",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-191314-功能默认值回归-主会话/证据/执行摘要.txt",
+      "sha256": "9b768e194d0661d67a8a4b0f5455afd17d3524d0b77d9dbab51932d30485934d",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-191314-功能默认值回归-主会话/证据/环境摘要.txt",
+      "sha256": "b9bffa2637402e278c240590c9fb627de228d962c2c60b96a2b477f443749cc5",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/产物摘要.json",
+      "sha256": "679d95ebeff44785877f7c6b507978695e093cb2e5fbd66740f3c9de1da88526",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/环境摘要.json",
+      "sha256": "7482e0694c0081554f576fe9b23c033fc72096b12fbf36ffeef5101d9b63593b",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/证据摘要.json",
+      "sha256": "236e050c50b8a4255c6cce98d9db5429b38bf2caed236cb0fb4d253548fe1ce7",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-192224-最终源码集成验证-主会话/证据/产物摘要.json",
+      "sha256": "e5b0dfb32fd1e93c80fa14bcbc3d710f9206fda6e64b5bb3e09a04ed2576734d",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-192224-最终源码集成验证-主会话/证据/执行摘要.txt",
+      "sha256": "7d6b0d0a0538a123a57527fc080f9c4b82d7b1b0f3f2390d7efbb28d8b427ed4",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-192224-最终源码集成验证-主会话/证据/环境摘要.txt",
+      "sha256": "febdcf3221f06815c9ed473eb38187680024345d35059193cbb5c104bf5d283b",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-193607-发布模式修复集成复测-主会话/证据/产物摘要.json",
+      "sha256": "bbe64af3af54d94f61c6b36f09df1f96e01a205c50d4c68c321076a745daffeb",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-193607-发布模式修复集成复测-主会话/证据/执行摘要.txt",
+      "sha256": "60107b25c2a0962c5a3dfa4532fd02dfca51ecfd5477a793dd908e722abb5466",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-193607-发布模式修复集成复测-主会话/证据/环境摘要.json",
+      "sha256": "77590bf31148bb0789c93c4b9fa0d835a2bb921fa319aa62bfb546a188300377",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-201142-原生辅助工具构建-主会话/证据/执行摘要.json",
+      "sha256": "c9d3722921a14dc8323fe366ca5dfbea9606a884128bd24e903809572e2b55ed",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-201938-原生沙箱链接复测-主会话/证据/执行摘要.json",
+      "sha256": "710126d7a1bf9512e843a46121fe90e752431c33fc39e3fcf6bfc983e2a36a28",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202357-沙箱目录接口修复复测-主会话/证据/执行摘要.json",
+      "sha256": "afa37406dc767cb882fce1855752ab617a72d0881ec08621ac40de4d08a8da6d",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202646-鸿蒙能力约束与原生剪贴板-终端会话/证据/执行摘要.txt",
+      "sha256": "657c89b36189bfeb60ab63f3e57bcb7549e894e7b89f802687015184cb38a95c",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202646-鸿蒙能力约束与原生剪贴板-终端会话/证据/源码摘要.txt",
+      "sha256": "78b52bb4000ed50b50cc50c3b77f7b784ed6b55bf05d235d5b4f45f1c8e36750",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202646-鸿蒙能力约束与原生剪贴板-终端会话/证据/附件摘要.txt",
+      "sha256": "9aad4a0b1fe9556063263114f0ccfd501bf54daeb6b8399576cd7e34cfd967bb",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/证据/执行摘要.txt",
+      "sha256": "3a4a51810e0f07b0f1042633607f055134a9e281d076218691dabd5e1891a545",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/证据/源码摘要.txt",
+      "sha256": "3309d4cec1510ba07ed4024a2201f4f96cef93ef855ee4dd69fe83dea8f723b7",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/证据/附件摘要.txt",
+      "sha256": "be7bb89f8b7f8905861846c46a6869fb38fdb1d9307b03bc8a736df3dd1d64f6",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-204728-原生资源签名流水线-主会话/证据/执行摘要.json",
+      "sha256": "cc708876c0b47aa3f326375424d4d0b2418bd7a9a98590da64111724135cab7c",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-205153-安装打包边界回归-主会话/证据/执行摘要.json",
+      "sha256": "e3ed0b60b4981417cfef69b70d83a4e29096b3c6b0ce1c8dce6e3c52edb6e25a",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/证据/执行摘要.txt",
+      "sha256": "4f8d723fcdca3b929c92ab6af8fbeffb09dc5c06e81054db5c7386f2cc71223a",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/证据/源码摘要.txt",
+      "sha256": "bb97c2dfab9d08f8b221648b7b921f6493930ea93aa6bca272f635b9d9862027",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/证据/附件摘要.txt",
+      "sha256": "d1b7ec5b41b8b79ab60e4a4baec45155bd04abf88af48ea4ea65c3c435bfce62",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-210337-安装与目录兼容完整复测-主会话/证据/执行摘要.json",
+      "sha256": "bb64b6107f26b4a13cd2303ed4e0517469afd1e6ab89af3d33e677afe66a4614",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-212112-版本追踪与安装最终复测-主会话/证据/执行摘要.json",
+      "sha256": "cdc8c41e154414a5ac5b32ca3478bd274e899ac03ec72375445a306e581da263",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-212512-提交版原生资源复测-主会话/证据/执行摘要.json",
+      "sha256": "500e4b309bdd6a1f79c236e268915f201fe2001767f3f3c92d39c6b06d2c0cfa",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-212747-完整发布包集成-主会话/证据/交付摘要.json",
+      "sha256": "0fec6646d85834b4d6a700a5ba8d5f03d5e2bd21bb255e8bc72ec135747f6001",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-212747-完整发布包集成-主会话/证据/执行摘要.json",
+      "sha256": "b222735234b808c8253b525972242c82fb1c7ec6eb2809e1ac79613ff8e0b20b",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-214408-沙箱目标用例链接补测-主会话/证据/执行摘要.json",
+      "sha256": "b9fdc8f4cf9e83e99bd94dfff1df02c7786fd4a553dc8c7d76dd9abf6f2890b2",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-214408-沙箱目标用例链接补测-主会话/证据/目标测试产物摘要.json",
+      "sha256": "824a7094baa94b58217dd0eac1ada0cfd00a1d646ae0ae2dfcb3427239f909d4",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-215944-安装符号链接复现与修复-主会话/证据/执行摘要.json",
+      "sha256": "9cd765abf78813a35f1e84893df89d805508d2844d60963ca03ede3e0b31bbf0",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-222315-安装链接修复回归-主会话/证据/执行摘要.json",
+      "sha256": "729a56cf75db70f7fb038f477d1d7e450ddb48174453fdfbc10b7360dbb3ef99",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-222506-最终候选包验收-主会话/证据/交付摘要.json",
+      "sha256": "7288eb75c898ed3f9313fe8f0d6e455aeaf46a8e5d0ee33d3824ecfcad57a9eb",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-222506-最终候选包验收-主会话/证据/执行摘要.json",
+      "sha256": "32287f45fe18d831380f5ae94754034f7da727f4e562a79487eb4a0d05dedee0",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-223618-交付文档最终核对-主会话/证据/执行摘要.json",
+      "sha256": "16010e629c30787c2b621faceaccf112536d1936b898b5177dc1830f01da39bd",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-230540-两种安装速用核对-主会话/证据/执行摘要.json",
+      "sha256": "342254afd709def7341155f2e70d93e9efcbd148f078001122aa96da9e121358",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-232634-接口配置文档核对-主会话/证据/执行摘要.json",
+      "sha256": "3e6409768dae830c3dc2c36f73d3202e747fc0ba49bedf4b63a541fe7f5b732e",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-011610-证书排查文档核对-主会话/证据/执行摘要.json",
+      "sha256": "dfd86fe3ee4ff249207446a4998d517ade8d9f7132d510c3391a270492c7836a",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-011610-证书排查文档核对-主会话/证据/被测文件摘要.json",
+      "sha256": "3bdc85ef74efaeba4d0d0eab1095b4d73db5bba29b7b23ae3dd7b84f1635f1fc",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-015708-七版证书默认修复-主会话/证据/宿主01-证书与握手摘要.txt",
+      "sha256": "b4227daaca4dae35ba66ebd7eb5a67bd9c7743379c92fbc839344d1d491ebc91",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-015922-七版临时目录与别名边界-工具会话/证据/源码摘要.txt",
+      "sha256": "fd32dda3b7dcb705fa22a852c803948ef4b65ce67f863ec46646ec46170ab7c4",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-020211-七版证书修复复测-主会话/证据/交叉01-网络模块摘要.txt",
+      "sha256": "b67510ae20b4ebaae28648ad927b4b3d7e922b0bc3f87770d75fed00767eb482",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-020211-七版证书修复复测-主会话/证据/宿主01-证书与握手摘要.txt",
+      "sha256": "6cc19514401f1b6a02c0320714b18dba5c135f0e367c0d6d0e45afbfe8a135a0",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-021517-七版安装诊断修复-主会话/证据/脚本02-安装与诊断摘要.txt",
+      "sha256": "d1f99952ae3e5db83d0817dded3052ced16b4cdd91bd93dd5785afd203d465cf",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-021822-七版沙箱交叉复核-沙箱会话/目标产物摘要.json",
+      "sha256": "728f7be64e676d85ca8b261f746c0431b6e8d566cfb6da3ae9590fec00f65ce2",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-021948-七版连接错误诊断-主会话/证据/交叉01-网络诊断摘要.txt",
+      "sha256": "5bd0238c9d6efa4fbfe6eb64ed9d0ec04849d43c9297643b0de6d733be83dbdb",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-021948-七版连接错误诊断-主会话/证据/宿主01-连接错误分类摘要.txt",
+      "sha256": "55bfadc855ed1b4d8f52dc9164630e33b0b9cce022a5a5d8b89452ae7643e8dc",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-021948-七版连接错误诊断-主会话/证据/宿主02-错误摘要.json",
+      "sha256": "cbc4d9d1077fbcbeafac5edbe39e943d74d164d78e5afc43b15d0da4008ec063",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-021948-七版连接错误诊断-主会话/证据/宿主02-错误摘要摘要.txt",
+      "sha256": "3a8b150faab89376611191056bc01276888435a5d64faf3866acca40fe0d605b",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-022036-七版工具退出与阶段诊断-工具会话/证据/源码摘要.txt",
+      "sha256": "2c706bc5cb66b0a0f11e7d8e9b49670e321d7b0f2b47f3d66abffc8ff4726743",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-022337-七版安装诊断复测-主会话/证据/脚本02-安装与诊断摘要.txt",
+      "sha256": "ff87d25d324681cd72b01e460652181725a7bb8db1e2437d0cb6904c88f9b04a",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-022537-七版工具诊断复核-工具会话/证据/源码摘要.txt",
+      "sha256": "3a0ddd3fd2de7a6cbdf7392bcf17c773e4f02e363d6603acdb6fe3b671e05e81",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-022540-七版安装诊断最终复测-主会话/证据/脚本02-安装与诊断摘要.txt",
+      "sha256": "a1b68d2f58297d89479146b6bd8f064281980ba57027b67ecf0732307e7a304f",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-022826-七版工具诊断验收-工具会话/证据/源码摘要.txt",
+      "sha256": "039abfdcba41af54a3d8534173448caa9a02e2a057aac487cb09fe90b44e1886",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-023200-七版固定账号入口复测-沙箱会话/目标产物摘要.json",
+      "sha256": "336f503819676d94a4b07fa1c5839e5c4832cf35cdbab1f2e1f9c87d4e225572",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-023701-七版资源来源与构建身份-工具会话/证据/源码摘要.txt",
+      "sha256": "4ff9d7bee9dd0ff0222e3c81cb0031fe3a543678fa04524b085c0c8dfc6a35eb",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-024223-七版文件helper与补丁补测-工具会话/证据/源码摘要.txt",
+      "sha256": "f3a38bd331e79ba643c8ea08cdeb5249d504cf9b1cd6110afcd3fec331f2a2ec",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-024429-七版源码集成回归-主会话/证据/宿主共享目录摘要.txt",
+      "sha256": "e9975d3e7e22884d1c762dbf76d179ca6503d86cee9537429799496a34e016b9",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-024429-七版源码集成回归-主会话/证据/宿主模式与挂载别名摘要.txt",
+      "sha256": "b4dac25b07158ce2cdcf63180f736405678569f7f6115e16a51b37d463831f60",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-025115-七版发布前文档与格式核对-主会话/证据/Rust格式摘要.txt",
+      "sha256": "191a810be89fc0800a4a25e072eebd07b7bb51a25b4e4bbb3a8d756713bd8729",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-025115-七版发布前文档与格式核对-主会话/证据/已提交差异摘要.txt",
+      "sha256": "124d358c576b858b0b754cd8153d0315ba25d8ce4c2ae3085b4b1dcaeb1a7719",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-025115-七版发布前文档与格式核对-主会话/证据/文档静态摘要.txt",
+      "sha256": "334e28cded74f46b3f7bd78da49dde0f32db3ea9883bbb736b534b6ca2c35dce",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-025115-七版发布前文档与格式核对-主会话/证据/未提交差异摘要.txt",
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-025253-七版发布前格式复测-主会话/证据/文档静态摘要.txt",
+      "sha256": "5180c655c1ce822e3352912474f8eaceaec2ce08d1119112624951aa0d6dcb54",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-025253-七版发布前格式复测-主会话/证据/累计差异摘要.txt",
+      "sha256": "24aa46dde42fd2a52d3a8219e4a00e300f5b70848af9907b3596d2ee98ef4c67",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-031333-独立沙箱原始退出诊断补修-沙箱会话/宿主入口摘要.json",
+      "sha256": "98b5b8e6e0622f186153ddd2a04116c4724c907c54ece20892d90664e072b4f8",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-035159-七版最终发布与安装验收-主会话/证据/交付摘要.json",
+      "sha256": "9eafd5dc3cf670fafcc800244bd54990f8b098e22413762ce58a62e4850662e5",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-035159-七版最终发布与安装验收-主会话/证据/最终文档静态摘要.txt",
+      "sha256": "2b55e83dcfd9cdcc3ddc6153f33fddaa3ecd21213b2bbda128e0bb22b2fc5c5e",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-035159-七版最终发布与安装验收-主会话/证据/辅助文件摘要.json",
+      "sha256": "b735b13da4ef35e6a424492bdc664f1fff6d07c5c5217720e75c16932617edca",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-103041-版本规范初检-主会话/证据/执行摘要.json",
+      "sha256": "d695c97d146e8b90903bb7e78203cabc4d17bd3b23e5650bf20443eac3e3fd4c",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-103041-版本规范格式复测-主会话/证据/执行摘要.json",
+      "sha256": "29a1b4d99fd00edc423ab2245eef130b6c01499c0066b240dd8f0be11611d023",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-104326-发布入口与更新保护补修-主会话/证据/执行摘要.json",
+      "sha256": "ad638bf847778c02cfdcc40e8a467dc9f613a9f09455088e59c09547fa7b953d",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-104326-发布入口与更新保护补修-主会话/证据/被测源码摘要.json",
+      "sha256": "0ee518a0fab928a3f778648398ca6258ae55eead522dbade405f4ef0792798b6",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-104326-版本构建前置失败-主会话/证据/执行摘要.json",
+      "sha256": "443c13424892bd255c4013d5a4de3d274fd32d8f200d3f19db8caad805b179c9",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-111741-版本与专项日志发布验收-主会话/证据/交付摘要.json",
+      "sha256": "0af8d5d747a3a084976382165e30f8c2456ebbc15b702988815e1684a95cfbce",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-152646-目录权限计划核对-主会话/证据/源码与SDK摘要.json",
+      "sha256": "e58c90cdbbbde2772ac91a86baa518283629171a4341fffc4ee4509318356aee",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-154752-固定运行目录契约-沙箱会话/执行摘要.txt",
+      "sha256": "7abe9aedd6d8c7914a34f029d3751d70800be08be310b18572182733e416c721",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-154752-固定运行目录契约-沙箱会话/环境摘要.txt",
+      "sha256": "5016c7b6a48eca5c7f24c6eb429e825330b552a42d00180e0ae2f0b8c0114a3c",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-155231-独立原生目录探针首轮-工具会话/证据/执行摘要.json",
+      "sha256": "1fd45ac702fa9577a1c5b496eb24190b30e9117203976715f38271a150ae0e21",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-155231-独立原生目录探针首轮-工具会话/证据/源码摘要.json",
+      "sha256": "9f037399326774a04bb0cfda46c66facc5f350b668fe284d305fffdf7550182b",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-155947-独立原生目录探针复测-工具会话/证据/执行摘要.json",
+      "sha256": "397f3ee30d44612df24ff5b6f15baa8cb8732f390881359c6b715f53d31d3c13",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-155947-独立原生目录探针复测-工具会话/证据/源码摘要.json",
+      "sha256": "e0ca928d10d47ed643abde0e80f80509b2941b435ae48ba29ba945e2d4a52ea5",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-160101-独立原生目录探针目标链接-工具会话/证据/执行摘要.json",
+      "sha256": "d9a15e3f54afdae75dae9def7e1f1826b0268f27453a67bd51e64fab84fb4cf0",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-160101-独立原生目录探针目标链接-工具会话/证据/源码摘要.json",
+      "sha256": "e0ca928d10d47ed643abde0e80f80509b2941b435ae48ba29ba945e2d4a52ea5",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-160234-目录契约边界失败-主会话/证据/被测文件摘要.json",
+      "sha256": "ca66cbf861ad733430d740c40aadac4ce445a2ab402ee23c3f954b29628ca781",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-160348-目录契约与安装复测-主会话/证据/被测文件摘要.json",
+      "sha256": "4ded5031d980d5a03d3d85f1fc07d1ef469c57425ac30f0c72e20b0c9cf06f03",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-160611-固定运行目录二轮-沙箱会话/执行摘要.txt",
+      "sha256": "ef454e6eaa643819bc30adf1d5f8c61df93d1d7959cfc49d8a186a2afae788cf",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-160611-固定运行目录二轮-沙箱会话/环境摘要.txt",
+      "sha256": "5016c7b6a48eca5c7f24c6eb429e825330b552a42d00180e0ae2f0b8c0114a3c",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-160837-固定运行目录三轮-沙箱会话/执行摘要.txt",
+      "sha256": "57b360268a4789f5faec8bc7dfafe8b9da515e78b602c525cdc571f616daad5d",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-160837-固定运行目录三轮-沙箱会话/环境摘要.txt",
+      "sha256": "5016c7b6a48eca5c7f24c6eb429e825330b552a42d00180e0ae2f0b8c0114a3c",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161126-独立原生目录探针最终验证-工具会话/证据/ELF摘要.json",
+      "sha256": "9d845c19333c69ad18ab2d5f650ebc75cbdb8eebe13bf45117eb6a3770d155f6",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161126-独立原生目录探针最终验证-工具会话/证据/宿主执行摘要.json",
+      "sha256": "f122ca197bcdf340646bff29bce9a06ed74e94e230176f0a1cc51189117adaa5",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161126-独立原生目录探针最终验证-工具会话/证据/源码摘要.json",
+      "sha256": "e2a8faba311b84e161f6ef7c984145b1e41b561fe72e5a26f2ce53d5354169ba",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161126-独立原生目录探针最终验证-工具会话/证据/环境摘要.json",
+      "sha256": "c68f6c9fd9a8059bdb7cc019372d1a002de11f5c478bd2f2d487f5441624700d",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161126-独立原生目录探针最终验证-工具会话/证据/目标执行摘要.json",
+      "sha256": "f2ea1d0dd12bbc7939fc607c9aaca3baf1a9af2d05fe42f893a0e4b87d002e86",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161903-目录权限收尾-沙箱会话/执行摘要.txt",
+      "sha256": "174368c9b414ec3f4352cd048a6eb4cd09a331d8fe92184c189c1dfa2790a0b6",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161903-目录权限收尾-沙箱会话/环境摘要.txt",
+      "sha256": "5016c7b6a48eca5c7f24c6eb429e825330b552a42d00180e0ae2f0b8c0114a3c",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-162007-探针报告格式复测-工具会话/证据/执行摘要.json",
+      "sha256": "983746734e23d678563d014ddb489152830f1cbe6b6a68ef5cd1930bb7599a79",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-162048-目录探针签名入口-主会话/证据/执行摘要.json",
+      "sha256": "1d83f91678fec424cb0614248ffcb62ad3ae2933282fe0e754faeee236c69aa7",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-162048-目录探针签名入口-主会话/证据/源码摘要.json",
+      "sha256": "e8c586c6aa301a5a91b03ab053c26ab3e7eb0dbeff4d4ed410b72e8a40412df0",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-162842-运行目录祖先写权限拒绝-沙箱会话/执行摘要.txt",
+      "sha256": "d031ad795d7e296bc42474f0eff451123535b29ecc4aa9819187a00b5caf492b",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-162842-运行目录祖先写权限拒绝-沙箱会话/环境摘要.txt",
+      "sha256": "5016c7b6a48eca5c7f24c6eb429e825330b552a42d00180e0ae2f0b8c0114a3c",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-163052-运行目录接入首轮-工具会话/证据/arg0-执行摘要.json",
+      "sha256": "5bd2925c4b48c9d3fbb0043750394ad52d975277651bb040c6c5807d9258a93a",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-163052-运行目录接入首轮-工具会话/证据/doctor-执行摘要.json",
+      "sha256": "3fa105310ba52813ec14870e1cae2c18165ef8eb95049097e6b81a803cab47d5",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-163052-运行目录接入首轮-工具会话/证据/ohos-执行摘要.json",
+      "sha256": "b8cc0613304a536653998834f8d91065b92fa1c22b739718e13b0dde9595fc30",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-163052-运行目录接入首轮-工具会话/证据/源码摘要.json",
+      "sha256": "879c275ab30272d873c8299c076150c35f81e9daba901e8a1c6187280c62b3d7",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-163916-运行目录接入复测-工具会话/证据/arg0-执行摘要.json",
+      "sha256": "104be0a9065a87a9ce7ba4c654037f4e71417e02c1cd39e453442ff8999dadef",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-163916-运行目录接入复测-工具会话/证据/doctor-执行摘要.json",
+      "sha256": "1ff8e76e94370e29f76fbbac45abe615dbd53bcb6e719c1ce218446aee9651c8",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-163916-运行目录接入复测-工具会话/证据/ohos-执行摘要.json",
+      "sha256": "5e1c78bebbf9637b6511f4c4980ca87a090d243eb2844dbad85d6d6d9f0a9a93",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-163916-运行目录接入复测-工具会话/证据/源码摘要.json",
+      "sha256": "64cdd3e812504084327bb0cc7faacbd92538122ca0366a5d9850141ec3c4cff4",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-164000-探针SDK校验与签名-主会话/证据/执行摘要.json",
+      "sha256": "e0ebe1232524ea36bee663494448f3f81b7857aeaa6f8798c4f61669368e1331",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-164000-探针SDK校验与签名-主会话/证据/源码摘要.json",
+      "sha256": "0c487a0ae907590fbefb07f652b0332aaea5588e58065e63796f090e4aad534a",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-164243-能力诊断依赖补齐复测-工具会话/证据/doctor-执行摘要.json",
+      "sha256": "eedec506c5455ee912b77415cf37775f7f27841ec3815246d0e52ca4c5f54b1a",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-164243-能力诊断依赖补齐复测-工具会话/证据/源码摘要.json",
+      "sha256": "4da6619611d1bef109c71ac7f0ecb6e56a61d8fdb4270b61481fac1096952de8",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-164634-能力诊断最终复测-工具会话/证据/doctor-执行摘要.json",
+      "sha256": "2456009360b6f6a8766fab4aac2ab78b70cb8a49e059ac2256e086a55073f045",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-164634-能力诊断最终复测-工具会话/证据/源码摘要.json",
+      "sha256": "893f7a472933fa8aa36ae891e6261fbce7523fec519cff8bedda6906b30cee05",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-165307-能力诊断二进制入口复测-工具会话/证据/doctor-执行摘要.json",
+      "sha256": "42af8e7b0fb1f22172412a8493f328fe06040e5cc53b34472028561355a833fd",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-165307-能力诊断二进制入口复测-工具会话/证据/ohos-执行摘要.json",
+      "sha256": "f6df51f4be1567d30b06568b0f3a01b59dd9902cbd07c263fb6624e4ebd5605f",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-165307-能力诊断二进制入口复测-工具会话/证据/源码摘要.json",
+      "sha256": "893f7a472933fa8aa36ae891e6261fbce7523fec519cff8bedda6906b30cee05",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-165919-目录修复教程命令验证-主会话/证据/执行摘要.json",
+      "sha256": "750f7cad4f883802a0debd4967a93c2ae795b3340de5c3ced5de479d23e836fa",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-165919-目录修复教程命令验证-主会话/证据/文档与验证入口摘要.json",
+      "sha256": "c2e935bb9c0cdb1d88dd55b50fec970da885493b237350e362a6478e9cb0065e",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171549-祖先搜索权限修复-沙箱会话/执行摘要.txt",
+      "sha256": "6db2fb15466959dbd1451abee3201d6f14062988942d88f141e5e4d6e11edce1",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171549-祖先搜索权限修复-沙箱会话/环境摘要.txt",
+      "sha256": "dc424a344871b710ff9745e4d7bc9dd5af9be80c37eae8a0257ec75c3b346f67",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171549-祖先搜索权限修复-沙箱会话/目标产物摘要.json",
+      "sha256": "e860b32ff6a21833e4c960983233f08bc535334f21145d448361b7cbf72be122",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171725-原生探针祖先句柄补修-工具会话/证据/ELF摘要.json",
+      "sha256": "d6f8a476fe9f7fc96ead1b75672e09dc822bf0ea461bf5f14d9901025c656ebe",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171725-原生探针祖先句柄补修-工具会话/证据/host-执行摘要.json",
+      "sha256": "130a2b15f72a24f0acaa80ba4eb4cd73a5ad494e2ee56f128c9b5416ebc0127f",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171725-原生探针祖先句柄补修-工具会话/证据/sdk-执行摘要.json",
+      "sha256": "8c62b1e0aaaf0662f6fa7c47ea1d2d60f903a91126e6d21db7a65643e1cc3159",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171725-原生探针祖先句柄补修-工具会话/证据/源码摘要.json",
+      "sha256": "04fede487078a7b5e38f0f7c69761738f80ad886a73ff496eef068f7ffcf3d48",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-172455-目录权限修复完整交付验收-主会话/证据/交付摘要.json",
+      "sha256": "777510ae22fad221c803ff9f61aff824de8deaf4a47e9f605499497040d129ef",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-172455-目录权限修复完整交付验收-主会话/证据/完整构建执行摘要.json",
+      "sha256": "93050844d789cad20898196301368ebfcbc6107d6cd77af4231b40dc2c266175",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-172455-目录权限修复完整交付验收-主会话/证据/收尾检查摘要.json",
+      "sha256": "6c278c68fa7e83159ef8f9967419e1973389bd71eeee1144bf0abb9e24377fb6",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-172455-目录权限修复完整交付验收-主会话/证据/独立验收执行摘要.json",
+      "sha256": "34deb9ec55a6033ab5b4986ea050c15fe4c8446f60f5148521bea58780b7ca90",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-222717-原生探针退出与默认路径-工具会话/证据/ELF摘要.json",
+      "sha256": "65aa96abdc431a1a0a028407daa639d24a8f58898f8edd95ea44ddeea7233923",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-222717-原生探针退出与默认路径-工具会话/证据/host-执行摘要.json",
+      "sha256": "a960676337d900c3f88d3c5ae595c1a111404208b16ce691eca58e529f5c68fb",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-222717-原生探针退出与默认路径-工具会话/证据/sdk-执行摘要.json",
+      "sha256": "01ba04a3c8226b6485afb9b593fb2e7ddfbad570e37e26f97d2f2b019eaa8150",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-222717-原生探针退出与默认路径-工具会话/证据/源码摘要.json",
+      "sha256": "027113a0f89c81f8802d204dcaba2cf3e019cb4f11aacebe872709546aabba28",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/执行摘要.txt",
+      "sha256": "5ec4efa7de4d312c9183293f2a8868ac57a313ddf9f94b6d1c055b89dc37ab07",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/环境摘要.txt",
+      "sha256": "fb48882f6837dccb22e155b9c1f54240be9177fde1b04d6f9f01fb88f4266344",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/目标产物摘要.json",
+      "sha256": "8d29987c511c5aefcf0f0e3316d0dc412c7f850e8e97b0b9b7c7a3d1304c1d37",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224436-挂载诊断交付与探针集成-主会话/证据/中文教程离线命令验证摘要.txt",
+      "sha256": "b225fcf81ed3d063162dc22149fc425225593d8144cfcd446a57a688ff61183f",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224436-挂载诊断交付与探针集成-主会话/证据/交付脚本回归一摘要.txt",
+      "sha256": "f2ea6067becd02a3219203ebb4756d014bc9609cde10be801bd31cc43ce92f9c",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224436-挂载诊断交付与探针集成-主会话/证据/发布脚本格式复核摘要.txt",
+      "sha256": "a56e41ec03e09f8c208cb31f4fb9011d7895cb07c38e1362c2ea5396b75202ab",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224436-挂载诊断交付与探针集成-主会话/证据/发布脚本静态复核摘要.txt",
+      "sha256": "5275e1a8d873f77821673b1946da7891ba99af65c59290d16d796a9905e9886c",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224436-挂载诊断交付与探针集成-主会话/证据/实际探针构建签名入口摘要.txt",
+      "sha256": "cbcc51c9f0c1b3992715616a86d4e97793e734625f90ccc92a6e3ae5a98bd703",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224436-挂载诊断交付与探针集成-主会话/证据/当前源码摘要.json",
+      "sha256": "793c551f5215e7e6a7124f259b94f2774cec72fa18ff79dc93778dfa1a01b2f5",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224436-挂载诊断交付与探针集成-主会话/证据/探针与交付集成回归摘要.txt",
+      "sha256": "1039cdc0354c26d91120d2e37bfa31c42c95e3bf70b42047b0e29a2ee53a06b3",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224436-挂载诊断交付与探针集成-主会话/证据/探针受保护临时夹具复测摘要.txt",
+      "sha256": "aff797f10717084ef19498ae737c9d9dee96f726a82be7d9977aa7c1cf105464",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224436-挂载诊断交付与探针集成-主会话/证据/探针真实本地套接字复测摘要.txt",
+      "sha256": "cd4713e50c8069b0a7671ce15cd45777dde09b702da7be40e3ff737ed0d27a9d",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224647-Linux挂载快速路径补修-沙箱会话/执行摘要.txt",
+      "sha256": "05442657bb8bf31ba922eea795887daf5f8ac48209c2befbec8973604a36a588",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224647-Linux挂载快速路径补修-沙箱会话/环境摘要.txt",
+      "sha256": "df4961e39f5a9ae2cea80ada82fdd3daffdd0cbaa6283831fae77856923977df",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224647-Linux挂载快速路径补修-沙箱会话/目标产物摘要.json",
+      "sha256": "ae425aa04bacb5766de387d163e4d554ea7b1eb25bb62e1af8fcf40625767445",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-225959-挂载源码集成冻结检查-主会话/证据/当前中文文档静态检查摘要.txt",
+      "sha256": "27679fb41351c81023825f4df8a7c6c773929b544703b44509199d1f4f966110",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-225959-挂载源码集成冻结检查-主会话/证据/被测实现摘要.json",
+      "sha256": "a938d3f98f95413dde116187307f82fa38a1ffc40086bb9c769264602977accb",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-225959-挂载源码集成冻结检查-主会话/证据/集成Rust格式检查摘要.txt",
+      "sha256": "bc20340e1d8f681f397015fde0640b435e3b13cff23482208c96ff04c0926820",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-225959-挂载源码集成冻结检查-主会话/证据/集成挂载宿主回归摘要.txt",
+      "sha256": "bf97203cd49a3888710abe7dd4109a5a92eb49be8c9de8069ea11e9a32808db2",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-232949-挂载修复完整发布验收-主会话/证据/交付摘要.json",
+      "sha256": "8e137c8a9bf8f83047d63e75174ba341df6c3bbb5f4e2d5c1aee2544ee9306fc",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-232949-挂载修复完整发布验收-主会话/证据/交付摘要源码身份核对.json",
+      "sha256": "312c38dcc1ec4913a4390a51a566f0ada5e8aea135540fdf9a24188b303dcb40",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-232949-挂载修复完整发布验收-主会话/证据/交付摘要源码身份核对摘要.txt",
+      "sha256": "d9cfa81fcf71227ff3c4e036a2a750841aa628b0c9be7e57e6c2d54a0f328a52",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-232949-挂载修复完整发布验收-主会话/证据/安装包校验.sha256",
+      "sha256": "48d7854740d87567f3037b92e4120d533d1d97702916893b1faf3d264f3611e0",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-232949-挂载修复完整发布验收-主会话/证据/完整包独立验收摘要.txt",
+      "sha256": "ac6d283731808f3096a76402afaeda65baa8c117d51c30d7430d5e07c49ce7ba",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-232949-挂载修复完整发布验收-主会话/证据/完整签名候选构建摘要.txt",
+      "sha256": "e0e58d39e6a7dd6b2b73678855e9afaea525e238aa1404ea7be3a85f43cb0742",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-232949-挂载修复完整发布验收-主会话/证据/整理新版安装资料摘要.txt",
+      "sha256": "b56066478fb71f6706240c32dcb6d392ee956dc7172decd90694a947866f54f2",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-232949-挂载修复完整发布验收-主会话/证据/最终收尾链接检查摘要.txt",
+      "sha256": "461f03cc6bb8e990e160959a9eb1cbb183f227adb102559526218bdc601cdbf9",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-232949-挂载修复完整发布验收-主会话/证据/最终文档与归档链接检查摘要.txt",
+      "sha256": "0ecc722b85888e5b5035bc9e57e15605a1bdb3fb32b794b939926b1a0be1a17f",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-030937-模拟器沙箱能力与前置修复-沙箱会话/证据/关键输出摘要.txt",
+      "sha256": "ed4790a79595b2378702b063822e31951f7d29f7c6ce586865e02e549f6a17c5",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-032436-HDC调试运行目录契约-运行目录会话/关键输出摘要.txt",
+      "sha256": "8b5b3da7fbc3f8a0ed9b55434d41dc0da393584f253950000f3964c5fd5f8cc9",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-032436-HDC调试运行目录契约-运行目录会话/源码与执行摘要.json",
+      "sha256": "54bd981a5725ec2d7b54ad270ad5909d988229a7052fa5cc5cf0fa5effef57f3",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-154901-通用安装与探针-主会话/源码摘要.txt",
+      "sha256": "506e7137ce5cbf28c418b2e09d537f74a8fd51cd861e88ce7a5e0dec491b3c3d",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-154923-通用目录静态检查-目录会话/源码摘要.tsv",
+      "sha256": "8185c0ab2907780307b5a3e5e2e67e4bfd7c1c25dcaac304e8ca55b4cd729c2c",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-161300-通用目录集成验证-主会话/执行摘要.txt",
+      "sha256": "1647d9a013b8914fc811a676221dd5df9efb8a5e5a1c314db5ca9ff46e7310e3",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-161300-通用目录集成验证-主会话/源码摘要.txt",
+      "sha256": "13d242f0725802bd8a3639140a76cb1e96b4c1e7d6a5da3a9cf318f2efcb9a06",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-162200-终端原生协议与配置-主会话/执行摘要.txt",
+      "sha256": "5500af729b911247c10cecb9abfd062a994898239fd7f7eabcfc8e0501945389",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-162200-终端原生协议与配置-主会话/源码摘要.txt",
+      "sha256": "510a4767afae3babf93ca469783907994dca21cecbd3ef17c4cb812a8de33255",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-162232-通用终端源码检查-终端会话/证据/执行与源码摘要.json",
+      "sha256": "badcb10737b2cc9de79ea5e780234ed765e737ebf920ff5d4c624ed3042ff833",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-162232-通用终端源码检查-终端会话/证据/执行摘要.txt",
+      "sha256": "80e8c8de96f39ea0486e125f9395d4057a3aa571a56b8bb9757eb5e69867e422",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-162232-通用终端源码检查-终端会话/证据/首轮失败摘要.txt",
+      "sha256": "61ac2fec2d148385ffe8b3bd58a54c82286df633c97da8ce962e3ac05b7858e9",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-163200-默认日志开关补修-主会话/执行摘要.txt",
+      "sha256": "0ec17565f25551c58798763f3d5bfa88bae41873e0831d27a80ad2316a3a29ad",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-171500-通用签名包与双身份宿主构建-主会话/产物摘要.txt",
+      "sha256": "a501b3e4f9c9299b1d6251d748cf69ac02c206b370f733ffe6bd39eab273a802",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-175307-进程扫描与PTY停止修复-终端会话/源文件摘要.json",
+      "sha256": "d1dc377c65662ed5e61bfaf206c27206f9168824e655b420eda0f12daa38423d",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-175307-进程扫描与PTY停止修复-终端会话/设备既有证据摘要.json",
+      "sha256": "42575a4321a8b41c18408923ad3ec248b57803e528168b14bf12b738bf133215",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-180500-项目目录选择静态检查-目录会话/源码摘要.tsv",
+      "sha256": "08b48b0c8a8979123fbe7e509881d695a4533e2e24953aeeb34f84d6375ac75e",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-183101-项目读写授权与原生输入静态检查-目录会话/源码摘要.tsv",
+      "sha256": "609e1e8a9ea6e2a2459f6e44f225afaddf118e2fe401f37f5885e9da224595a3",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-183237-Shell直启与已知leader验真-终端会话/源文件摘要.json",
+      "sha256": "f5e35da54eda99031b91d07f82a42f05b3c37a0bcfbcc6e7ab594d8bd5249c02",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-HDC终端输入与窗口尺寸回归/源码摘要.txt",
+      "sha256": "fb1ad6b2d6b65a583634532b60ae04bae4cd2e1b7d287b56e71ac6f69a1979ca",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-HNP完整包与原生终端验收-主会话/installed-digests.json",
+      "sha256": "9a6609195985c4b30ba79e0ba5ff3f2fcc84d5d123bfa6c41f560292356567ab",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-标准私有原生包安装执行/canonical-installed-digests.json",
+      "sha256": "9a6609195985c4b30ba79e0ba5ff3f2fcc84d5d123bfa6c41f560292356567ab",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-标准私有原生包安装执行/final-installed-digests.json",
+      "sha256": "9a6609195985c4b30ba79e0ba5ff3f2fcc84d5d123bfa6c41f560292356567ab",
+      "unchanged": true
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-标准私有原生包安装执行/full1-installed-digests.json",
+      "sha256": "9a6609195985c4b30ba79e0ba5ff3f2fcc84d5d123bfa6c41f560292356567ab",
+      "unchanged": true
+    }
+  ],
+  "new_runtime_copy_checks": [
+    {
+      "source": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202916-鸿蒙运行安全复测-平台会话/runtime_hardening_probe.py",
+      "copy": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202916-鸿蒙运行安全复测-平台会话/runtime_hardening_probe_current_paths.py",
+      "source_sha256": "d970c37301843fe697140eb83c31d64268790bf9a1748604e2e341f062f961aa",
+      "copy_sha256": "b9d6649eaa95b22d9b5564dd3cd450729f0934af861e5a479df7f278f4059b24",
+      "old_reference": "启动加固探针.rs",
+      "new_reference": "launch_hardening_probe.rs",
+      "report": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202916-鸿蒙运行安全复测-平台会话/测试报告.md",
+      "report_target": "runtime_hardening_probe_current_paths.py",
+      "dependency": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202916-鸿蒙运行安全复测-平台会话/launch_hardening_probe.rs",
+      "only_expected_reference_changed": true,
+      "source_sha256_preserved": true,
+      "copy_sha256_matches": true,
+      "dependency_exists": true,
+      "python_syntax_parsed": true,
+      "executed": false
+    },
+    {
+      "source": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-211748-鸿蒙运行安全收尾-平台会话/runtime_hardening_probe.py",
+      "copy": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-211748-鸿蒙运行安全收尾-平台会话/runtime_hardening_probe_current_paths.py",
+      "source_sha256": "8f522bf508f95495f107245dbb1343fcfbaa034af4269be542502a70532d81dc",
+      "copy_sha256": "7f15693e17da3fda3396e3576e716266122897b024c0396102e79057b6d9cf87",
+      "old_reference": "启动加固探针.rs",
+      "new_reference": "launch_hardening_probe.rs",
+      "report": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-211748-鸿蒙运行安全收尾-平台会话/测试报告.md",
+      "report_target": "runtime_hardening_probe_current_paths.py",
+      "dependency": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-211748-鸿蒙运行安全收尾-平台会话/launch_hardening_probe.rs",
+      "only_expected_reference_changed": true,
+      "source_sha256_preserved": true,
+      "copy_sha256_matches": true,
+      "dependency_exists": true,
+      "python_syntax_parsed": true,
+      "executed": false
+    },
+    {
+      "source": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-212544-鸿蒙沙箱原生路径收尾-平台会话/runtime_hardening_probe.py",
+      "copy": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-212544-鸿蒙沙箱原生路径收尾-平台会话/runtime_hardening_probe_current_paths.py",
+      "source_sha256": "8f522bf508f95495f107245dbb1343fcfbaa034af4269be542502a70532d81dc",
+      "copy_sha256": "7f15693e17da3fda3396e3576e716266122897b024c0396102e79057b6d9cf87",
+      "old_reference": "启动加固探针.rs",
+      "new_reference": "launch_hardening_probe.rs",
+      "report": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-212544-鸿蒙沙箱原生路径收尾-平台会话/测试报告.md",
+      "report_target": "runtime_hardening_probe_current_paths.py",
+      "dependency": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-212544-鸿蒙沙箱原生路径收尾-平台会话/launch_hardening_probe.rs",
+      "only_expected_reference_changed": true,
+      "source_sha256_preserved": true,
+      "copy_sha256_matches": true,
+      "dependency_exists": true,
+      "python_syntax_parsed": true,
+      "executed": false
+    },
+    {
+      "source": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/runtime_hardening_probe.py",
+      "copy": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/runtime_hardening_probe_current_paths.py",
+      "source_sha256": "8f522bf508f95495f107245dbb1343fcfbaa034af4269be542502a70532d81dc",
+      "copy_sha256": "7f15693e17da3fda3396e3576e716266122897b024c0396102e79057b6d9cf87",
+      "old_reference": "启动加固探针.rs",
+      "new_reference": "launch_hardening_probe.rs",
+      "report": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/测试报告.md",
+      "report_target": "runtime_hardening_probe_current_paths.py",
+      "dependency": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/launch_hardening_probe.rs",
+      "only_expected_reference_changed": true,
+      "source_sha256_preserved": true,
+      "copy_sha256_matches": true,
+      "dependency_exists": true,
+      "python_syntax_parsed": true,
+      "executed": false
+    },
+    {
+      "source": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171725-原生探针祖先句柄补修-工具会话/证据/run_checks.py",
+      "copy": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171725-原生探针祖先句柄补修-工具会话/证据/run_checks_current_paths.py",
+      "source_sha256": "2280706b81f7223c0d1d7e562e3106b601581e256c208955c631c4d2267bc63e",
+      "copy_sha256": "b21c6e4c63789468d6344342d26a7f1e91048dd9f1777b0c54d45703dd481148",
+      "old_reference": "SDK打开方式断言.c",
+      "new_reference": "sdk_open_mode_assertions.c",
+      "report": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171725-原生探针祖先句柄补修-工具会话/测试报告.md",
+      "report_target": "证据/run_checks_current_paths.py",
+      "dependency": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171725-原生探针祖先句柄补修-工具会话/证据/sdk_open_mode_assertions.c",
+      "only_expected_reference_changed": true,
+      "source_sha256_preserved": true,
+      "copy_sha256_matches": true,
+      "dependency_exists": true,
+      "python_syntax_parsed": true,
+      "executed": false
+    },
+    {
+      "source": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-222717-原生探针退出与默认路径-工具会话/证据/run_checks.py",
+      "copy": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-222717-原生探针退出与默认路径-工具会话/证据/run_checks_current_paths.py",
+      "source_sha256": "267cfd14a40d217a5308c351502cfee36b0eca5d9ad5852059535648e3fc7350",
+      "copy_sha256": "45d1109bb30d027a085a85fd4afe25832c264aea9a85c9fa517ea7bf72dceb41",
+      "old_reference": "SDK门禁.c",
+      "new_reference": "sdk_gate.c",
+      "report": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-222717-原生探针退出与默认路径-工具会话/测试报告.md",
+      "report_target": "证据/run_checks_current_paths.py",
+      "dependency": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-222717-原生探针退出与默认路径-工具会话/证据/sdk_gate.c",
+      "only_expected_reference_changed": true,
+      "source_sha256_preserved": true,
+      "copy_sha256_matches": true,
+      "dependency_exists": true,
+      "python_syntax_parsed": true,
+      "executed": false
+    }
+  ],
+  "changed_markdown_documents": [
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-222717-原生探针退出与默认路径-工具会话/测试报告.md",
+      "before_sha256": "ed8be7df6666ab8144de5435b66be9bbc093c7aca9a0d431a53733a02986de1e",
+      "after_sha256": "728116ee71ddf226758e796977b2775df425f5c74f0dfe202ef756d77930e764"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-175307-进程扫描与PTY停止修复-终端会话/测试报告.md",
+      "before_sha256": "524448723ed7e750fec342e653c2cf5fcb7b09238cd5f1cb54cf5c4c5d3cd5aa",
+      "after_sha256": "c1d5f4b1029faac4de7686dca7c3ea65e8be3d0b0d71f438f647ea7349fde80f"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/测试报告.md",
+      "before_sha256": "c76aeff0ccc9087b892d25761415dc8e35aa11532cfb73d63640a3cd7eed1e65",
+      "after_sha256": "3ec002a5de9dee950a5bb5f6be733142b2bfd4a371670516a0077c2f3bbb7d53"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-163916-运行目录接入复测-工具会话/测试报告.md",
+      "before_sha256": "1cc8ce877da7fc2a36e843bfe7c42357d516990dfba7888a1e9272d8fb51b2f2",
+      "after_sha256": "ad8d09185cbbf6c93e6e184f5a56788d089db9e472de8b35265797054b14cb7c"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-165307-能力诊断二进制入口复测-工具会话/测试报告.md",
+      "before_sha256": "9591353138827b77b0521a6bd9e5c77e5b84fd7a6113eac7ef8ef51f4278c1c4",
+      "after_sha256": "a60a832c09d2cfa4d79eb426e37bea9364b96e62f3eedcab0aefd0db2863003b"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-174620-登录方案核对-主会话/测试报告.md",
+      "before_sha256": "987b4cb4d26623d4b2f62338b7f8d9ff3f6a94b0baa8284f3f53a9b9b8f09763",
+      "after_sha256": "bf3149c7056698b6e606b6dc67fb1794550ccbfeed0ba9be162fc98e8f22c74c"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-164243-能力诊断依赖补齐复测-工具会话/测试报告.md",
+      "before_sha256": "8bbe2f1f138246a8054a014bb3b17cc9bef3d6de33ff6b8fa6966a39ab4b1dab",
+      "after_sha256": "519acffc71a6f73dc2e992978bbaebb1f173d8ea079b9c6d3b2717a388e590bb"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-222506-最终候选包验收-主会话/测试报告.md",
+      "before_sha256": "3cfbf349c4c4361c6a475d99d7046f6eb18564ec800c6a9026035d2c4eb4e2a7",
+      "after_sha256": "8e4275d6f7c885a048dd796d8400c47ff259cf994e73b9f7c5407d0517befd1c"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-193607-发布模式修复集成复测-主会话/测试报告.md",
+      "before_sha256": "d62cdc059e0296092f1517f3bf4cdf3282b7b59c466460cfc2da768fb3415459",
+      "after_sha256": "e0c88e31d917850c9b3109a0352a3ce1660c98b5a28f91d247ae627e2f722da4"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-011610-证书排查文档核对-主会话/测试报告.md",
+      "before_sha256": "41454493686776cf11e98fc880985d2fd87c1c2517351cc2c4a920820787d961",
+      "after_sha256": "57377e72fa5ad7b28f856013d4fb4b75bead49cda2aed3efc9690242a540e690"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171725-原生探针祖先句柄补修-工具会话/测试报告.md",
+      "before_sha256": "ebd79af5527cae861610258296303c88b412b1239299ec675ce7732f536b2a82",
+      "after_sha256": "99a2677f645adc096b8663d2c4cdc0038bd66e6e41b09cc4bdd37faa0ec7b22b"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-163052-运行目录接入首轮-工具会话/测试报告.md",
+      "before_sha256": "90772160cb1079b615621f681180d087854a518806fccee7438744943aa312dc",
+      "after_sha256": "2f2bf73ed19064f7b7ed2351670c56e4d8a02542fd48b19d3b8175c7927aa620"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-184728-目标归档工具修复-主会话/测试报告.md",
+      "before_sha256": "fc8ebeeb6118af58cfea89f7e45799febca938ae5c80b72af48ff5512bc88c1a",
+      "after_sha256": "a0515d309b8e2ca367768bff09f0e698ef36b59dd837c7a3219bd07cfdcffe9e"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202916-鸿蒙运行安全复测-平台会话/测试报告.md",
+      "before_sha256": "92a1963ffa947c8d67a0507413438aa44f4c87a0d159f5b276a3cf7b8e315f54",
+      "after_sha256": "2ed60cd1b08c6e2ba38500d826ddfc58aa31c9298d831017820a5a1b142c0a2e"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/测试报告.md",
+      "before_sha256": "45cd27edbcc733837d2024abde47a8c98063ecaff5a7cdb29eef87b6355125e6",
+      "after_sha256": "e16fc81c28b5714f5e102c692e83c21d39031d870fb00c8413e75ca35968ebbc"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/测试报告.md",
+      "before_sha256": "8820de2cff0949852e06447b9eb3b04b280568cbda82252a734546e8739f65bf",
+      "after_sha256": "1cd5c97fa16a29ee870dee6cb02db6e03c907bd6321a77dc650a2adf0d8044f8"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-165919-目录修复教程命令验证-主会话/测试报告.md",
+      "before_sha256": "6885e1405155df2dcee5bb7a47968d06ec91e01c9351a7b330841cae93471641",
+      "after_sha256": "a79aabe2005876707cc7d8e815f2aeeb01f243982a2257cb2628f4aa3cc470a5"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224647-Linux挂载快速路径补修-沙箱会话/测试报告.md",
+      "before_sha256": "a450a83b10f13634598ad7a348701b003c1c8770e40525a03a01aa6c843a9d04",
+      "after_sha256": "221784e6856377a28df955ce43690504b8dd4dfd798319f089a21f50e0b27d05"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-160837-固定运行目录三轮-沙箱会话/测试报告.md",
+      "before_sha256": "4542b0aa66dff657e143adaaf8bb7ab032d4ef9cf61880aece6d5238d465ba61",
+      "after_sha256": "c62a8d8179006465ae415bd26418103d856c86ba3fba79be003e6b913b6c0b9e"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-214408-沙箱目标用例链接补测-主会话/测试报告.md",
+      "before_sha256": "e77d6b703a39f36cbf4f6e8f9c23e62625565b1dc06b832ddf1580398d9963fd",
+      "after_sha256": "bca1bce408706d235b054da4b5d0ccd2418190d92cf8c2b7846329fd4c6e3819"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/测试报告.md",
+      "before_sha256": "25dccf09ab17af38ce82b13b9dcf66892e282eac1b2bed5f44609398ba88e297",
+      "after_sha256": "6df98633b2157d7f115bad28656b2c7278f3c9d5b8f35ccff9037fe7ecb8a203"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-181959-Shell目标源码复测-平台会话/测试报告.md",
+      "before_sha256": "69a154732343c3572b81544ff85551302ef08bd4d9a0b9a4e0c0722d53baa4c3",
+      "after_sha256": "8f9492f5fc3a645ec9ec31b116059e6e7f2e331cb998251f0b9654e093bc1b4a"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/测试报告.md",
+      "before_sha256": "cae0573fba6c1747db27113d7bd27f298fedb4adf098ce05add5acc720896be6",
+      "after_sha256": "bf8c9b14f466ac5f5499cf019670ab3e2259d88cc902278e25fe036bf871182c"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-180444-终端系统集成-终端会话/测试报告.md",
+      "before_sha256": "2da6d2915733d28c7f5ab2b1751dcc4922b2c9d5fab9c8a9662964cf3d296c4f",
+      "after_sha256": "be7bcf29052c2d6be6df78962e1e2bcf0b1fd7466467b6882ff02c3662bb3cee"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-192224-最终源码集成验证-主会话/测试报告.md",
+      "before_sha256": "9f2b3872f2bafc64170b29416d016f4b90064887d3ac9f3db3988600ccfc712a",
+      "after_sha256": "40173120b7fb501c3f0053fe9e6045c863a3e164dce12575ed450126a7f5a759"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-181739-Shell源文件补充检查-平台会话/测试报告.md",
+      "before_sha256": "2120d85e24bd1d0dea6711d050f8de32a4f7409faae539e7841a4eb80d833e09",
+      "after_sha256": "a365b57015677a748254576ebb4f2569f451080e3312641ef9d60ef006bc1f98"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/测试报告.md",
+      "before_sha256": "b0d2b00d5df3201ea1afcba85a00512d433feee5b07ae21366fa6d18e356b476",
+      "after_sha256": "a2ea7e100ff82a021f77eb7fe39c6c4dbeb4e6466f98ccab80bd87ebfe2e8e8c"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171549-祖先搜索权限修复-沙箱会话/测试报告.md",
+      "before_sha256": "c27157a6226681c42f5b923db05f78d7202f954f12950d38b74555d1f39f99b1",
+      "after_sha256": "95d632478c4b94e39d35309528a990fa63d033e9b5c833c4389a690f8ee5e94d"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161903-目录权限收尾-沙箱会话/测试报告.md",
+      "before_sha256": "6bba3bab3a1259483951f83e24502065ffe1e52d8eb651f585b58bdf1fe862c5",
+      "after_sha256": "09761cf698b5b70f52088b57872ce1e5202dc05b8d1b9f47fde5bb9954b13b83"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202646-鸿蒙能力约束与原生剪贴板-终端会话/测试报告.md",
+      "before_sha256": "16b5bd2d6aea80d1326476902d2b01113714aef470f5dccb3ff1c0a7c541deae",
+      "after_sha256": "2f5f24f11ef66f052f75777e472dea4d2b5b6f4d1e14aae40cc7b3a3049d3fe7"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-154752-固定运行目录契约-沙箱会话/测试报告.md",
+      "before_sha256": "ff95d4f25453a841ad71020a9238a3bd9cb9723e12293854f4f104bb52b0264a",
+      "after_sha256": "48649817faf984c7c67f2e639d8a2acee472a6debd1b48a8ff26ffc64b0e0311"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202248-鸿蒙运行安全与探测-平台会话/测试报告.md",
+      "before_sha256": "eba4365ee485b0554d85a61e060a2d76ebadb2a0810641d60ccce9fa901c077e",
+      "after_sha256": "100bcd07dd3ace4f687259f8d23281293a3e3e3e0764134a6e34f31d5300cff8"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-160611-固定运行目录二轮-沙箱会话/测试报告.md",
+      "before_sha256": "d28fcd740b913270efea6313ecb8744ebde3a91e5a86fff4efe2bfa17ed2790a",
+      "after_sha256": "865ea8d3fbfa3244dc5006335a9d494dd84bcf245ac8f2810820ac16175b866a"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-232634-接口配置文档核对-主会话/测试报告.md",
+      "before_sha256": "eaa0c4acc81ee58020622c5cdcb481064248846cc6ab48f1f53597f36fa9ee6f",
+      "after_sha256": "771d45962a2bf1d23d6e940f7836a3c1afe2c0da2b5b0331c6cfd72e7c71f884"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-162842-运行目录祖先写权限拒绝-沙箱会话/测试报告.md",
+      "before_sha256": "1f012d657a7c71c63885f3149060f06a254ea2f85990b7b96f5222d7a5ee0a37",
+      "after_sha256": "e253202d0274c2275a98682e5ff4e667a24b2eee0ac86b867af60c997d04ee58"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-230540-两种安装速用核对-主会话/测试报告.md",
+      "before_sha256": "a0314dff44992501a7a89a17ae3a7aaaba9ea2c00a191e6ac876e2d180127c7f",
+      "after_sha256": "25209d2ffdc3e40f7e5a3c06dd4788fb73be15706230b304369ae8d41a96aa68"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-164634-能力诊断最终复测-工具会话/测试报告.md",
+      "before_sha256": "2c4f39f2307f8297892866d1eca33c0a946416e8ccad1e802db37a0bb58cb601",
+      "after_sha256": "915934c7d7faeecac8c95a0f3511c0f7ea3abfb6e530bde2b41ea392cee2a473"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185016-默认内嵌启动与更新诊断-终端会话/测试报告.md",
+      "before_sha256": "bc0bda68f5e06aa042bfb7bfb7bbb4cc76ebf2d3f281df3906e0d4b6c8432559",
+      "after_sha256": "a4928eee33200cf34af6ae67e4ea04c5a140f6cc3fca12dd78838fa2a2f2d304"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-175930-平台启动与进程适配-平台会话/测试报告.md",
+      "before_sha256": "12a766e48f61a72de7267233b3b19fd466823c9c641c207cd517f9fa60b7d8a5",
+      "after_sha256": "18c221cc13e08673e9b779b351bcaf3f52eed013a66d6ca5164356ea587c77ed"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-182705-终端交付文档复核-终端会话/测试报告.md",
+      "before_sha256": "edceabe189d67fb7e5c4474f86663170b93d82550347e460d19d8f75cc002ce5",
+      "after_sha256": "b6fa12b1da76e7feb72d53f5acb671cfb4773e65ae5dfef54103f67b40c54518"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185101-完整链接复测-主会话/测试报告.md",
+      "before_sha256": "48b0e545bf9e20d3a9204cb1fcfb1e7c4a7659b2d1a2b8012abbf5bcceed5882",
+      "after_sha256": "56ccec445fb85b397c7990f02be1d448ae6692ca381e90e88bc6fc2a5bdc047a"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-031333-独立沙箱原始退出诊断补修-沙箱会话/测试报告.md",
+      "before_sha256": "434a4ad52e256d550796c1ab95f0fea237cd0ad8b024a7d28b9d72d3e09f026e",
+      "after_sha256": "0220b286d84c71ad6a71544383d48eb50383edf758561912620ae31a113a1990"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-211748-鸿蒙运行安全收尾-平台会话/测试报告.md",
+      "before_sha256": "e2f241b3a1e85de7d82129165492f639cf6d7fa10866dd20daede17e07b6d555",
+      "after_sha256": "0b1e6ae5032ba4d584d6f634ae5fb8587d5d9c488b6ac768cd25057af1eefa52"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-212544-鸿蒙沙箱原生路径收尾-平台会话/测试报告.md",
+      "before_sha256": "a4196dd97ab110fafbe1b8aec563f08873a277d02cb517ea455909a0eb1cd767",
+      "after_sha256": "a96b95824a753a608bd12fd98eaa5594bd8afe1ca8930c37947659e29a44157f"
+    },
+    {
+      "path": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/测试报告.md",
+      "before_sha256": "deeef71756ede23767dd100440df8b20a3bb9976308ebff2050feb780486cc5d",
+      "after_sha256": "81ddbe8abad5d28c19857fce166e62e624420468480e33bd62569c3ac8a6738a"
+    }
+  ],
+  "checked_links": [
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-222717-原生探针退出与默认路径-工具会话/测试报告.md",
+      "target": "证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-222717-原生探针退出与默认路径-工具会话/测试报告.md",
+      "target": "证据/sdk_gate.c",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-222717-原生探针退出与默认路径-工具会话/测试报告.md",
+      "target": "证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-04-175307-进程扫描与PTY停止修复-终端会话/测试报告.md",
+      "target": "host_pty_comparison.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/测试报告.md",
+      "target": "证据/document_check.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-171516-测试规范验证-主会话/测试报告.md",
+      "target": "证据/log_workflow_check.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-163916-运行目录接入复测-工具会话/测试报告.md",
+      "target": "证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-163916-运行目录接入复测-工具会话/测试报告.md",
+      "target": "证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-165307-能力诊断二进制入口复测-工具会话/测试报告.md",
+      "target": "证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-165307-能力诊断二进制入口复测-工具会话/测试报告.md",
+      "target": "证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-174620-登录方案核对-主会话/测试报告.md",
+      "target": "../2026-10-02-171516-测试规范验证-主会话/证据/document_check.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-164243-能力诊断依赖补齐复测-工具会话/测试报告.md",
+      "target": "证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-164243-能力诊断依赖补齐复测-工具会话/测试报告.md",
+      "target": "证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-222506-最终候选包验收-主会话/测试报告.md",
+      "target": "证据/directory_package_check.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-193607-发布模式修复集成复测-主会话/测试报告.md",
+      "target": "证据/static_artifact_check.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-011610-证书排查文档核对-主会话/测试报告.md",
+      "target": "../2026-10-02-171516-测试规范验证-主会话/证据/document_check.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171725-原生探针祖先句柄补修-工具会话/测试报告.md",
+      "target": "证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171725-原生探针祖先句柄补修-工具会话/测试报告.md",
+      "target": "证据/sdk_open_mode_assertions.c",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171725-原生探针祖先句柄补修-工具会话/测试报告.md",
+      "target": "证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-163052-运行目录接入首轮-工具会话/测试报告.md",
+      "target": "证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-163052-运行目录接入首轮-工具会话/测试报告.md",
+      "target": "证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-184728-目标归档工具修复-主会话/测试报告.md",
+      "target": "证据/archive_link_regression.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202916-鸿蒙运行安全复测-平台会话/测试报告.md",
+      "target": "validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202916-鸿蒙运行安全复测-平台会话/测试报告.md",
+      "target": "launch_hardening_probe.rs",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202916-鸿蒙运行安全复测-平台会话/测试报告.md",
+      "target": "runtime_hardening_probe.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/测试报告.md",
+      "target": "target_field_layout_check.c",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/测试报告.md",
+      "target": "validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-223259-挂载身份与定向诊断-沙箱会话/测试报告.md",
+      "target": "collect_evidence.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/测试报告.md",
+      "target": "validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/测试报告.md",
+      "target": "validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/测试报告.md",
+      "target": "static_delivery_check.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/测试报告.md",
+      "target": "report_check.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-165919-目录修复教程命令验证-主会话/测试报告.md",
+      "target": "证据/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224647-Linux挂载快速路径补修-沙箱会话/测试报告.md",
+      "target": "../2026-10-03-223259-挂载身份与定向诊断-沙箱会话/target_field_layout_check.c",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224647-Linux挂载快速路径补修-沙箱会话/测试报告.md",
+      "target": "validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-224647-Linux挂载快速路径补修-沙箱会话/测试报告.md",
+      "target": "collect_evidence.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-160837-固定运行目录三轮-沙箱会话/测试报告.md",
+      "target": "validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-214408-沙箱目标用例链接补测-主会话/测试报告.md",
+      "target": "证据/target_test_link.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/测试报告.md",
+      "target": "证据/run_cases.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/测试报告.md",
+      "target": "证据/tool_mode_test_entry.rs",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-181959-Shell目标源码复测-平台会话/测试报告.md",
+      "target": "validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-181959-Shell目标源码复测-平台会话/测试报告.md",
+      "target": "standalone_shell_target_check.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/测试报告.md",
+      "target": "证据/clipboard_abi_check.c",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/测试报告.md",
+      "target": "证据/clipboard_target_check.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/测试报告.md",
+      "target": "证据/clipboard_test_entry.rs",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-180444-终端系统集成-终端会话/测试报告.md",
+      "target": "证据/run_cases.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-180444-终端系统集成-终端会话/测试报告.md",
+      "target": "证据/isolation_policy_check.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-180444-终端系统集成-终端会话/测试报告.md",
+      "target": "证据/run_cases.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-180444-终端系统集成-终端会话/测试报告.md",
+      "target": "证据/isolation_policy_check.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-192224-最终源码集成验证-主会话/测试报告.md",
+      "target": "证据/static_artifact_check.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-181739-Shell源文件补充检查-平台会话/测试报告.md",
+      "target": "validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-181739-Shell源文件补充检查-平台会话/测试报告.md",
+      "target": "standalone_shell_target_check.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/测试报告.md",
+      "target": "validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/测试报告.md",
+      "target": "validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/测试报告.md",
+      "target": "static_delivery_check.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/测试报告.md",
+      "target": "report_check.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171549-祖先搜索权限修复-沙箱会话/测试报告.md",
+      "target": "validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171549-祖先搜索权限修复-沙箱会话/测试报告.md",
+      "target": "collect_evidence.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-161903-目录权限收尾-沙箱会话/测试报告.md",
+      "target": "validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202646-鸿蒙能力约束与原生剪贴板-终端会话/测试报告.md",
+      "target": "证据/run_cases.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-154752-固定运行目录契约-沙箱会话/测试报告.md",
+      "target": "validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202248-鸿蒙运行安全与探测-平台会话/测试报告.md",
+      "target": "validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-160611-固定运行目录二轮-沙箱会话/测试报告.md",
+      "target": "validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-232634-接口配置文档核对-主会话/测试报告.md",
+      "target": "证据/static_validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-162842-运行目录祖先写权限拒绝-沙箱会话/测试报告.md",
+      "target": "validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-230540-两种安装速用核对-主会话/测试报告.md",
+      "target": "证据/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-164634-能力诊断最终复测-工具会话/测试报告.md",
+      "target": "证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185016-默认内嵌启动与更新诊断-终端会话/测试报告.md",
+      "target": "证据/run_cases.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185016-默认内嵌启动与更新诊断-终端会话/测试报告.md",
+      "target": "证据/policy_entry.rs",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-175930-平台启动与进程适配-平台会话/测试报告.md",
+      "target": "validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-182705-终端交付文档复核-终端会话/测试报告.md",
+      "target": "证据/run_cases.py",
+      "exists": true
+    },
+    {
+      "kind": "updated_attachment",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-185101-完整链接复测-主会话/测试报告.md",
+      "target": "证据/static_artifact_check.py",
+      "exists": true
+    },
+    {
+      "kind": "new_copy_note",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202916-鸿蒙运行安全复测-平台会话/测试报告.md",
+      "target": "runtime_hardening_probe_current_paths.py",
+      "exists": true
+    },
+    {
+      "kind": "new_copy_note",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-202916-鸿蒙运行安全复测-平台会话/测试报告.md",
+      "target": "../代码夹具英文命名迁移记录.md",
+      "exists": true
+    },
+    {
+      "kind": "new_copy_note",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-211748-鸿蒙运行安全收尾-平台会话/测试报告.md",
+      "target": "runtime_hardening_probe_current_paths.py",
+      "exists": true
+    },
+    {
+      "kind": "new_copy_note",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-211748-鸿蒙运行安全收尾-平台会话/测试报告.md",
+      "target": "../代码夹具英文命名迁移记录.md",
+      "exists": true
+    },
+    {
+      "kind": "new_copy_note",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-212544-鸿蒙沙箱原生路径收尾-平台会话/测试报告.md",
+      "target": "runtime_hardening_probe_current_paths.py",
+      "exists": true
+    },
+    {
+      "kind": "new_copy_note",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-212544-鸿蒙沙箱原生路径收尾-平台会话/测试报告.md",
+      "target": "../代码夹具英文命名迁移记录.md",
+      "exists": true
+    },
+    {
+      "kind": "new_copy_note",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/测试报告.md",
+      "target": "runtime_hardening_probe_current_paths.py",
+      "exists": true
+    },
+    {
+      "kind": "new_copy_note",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/测试报告.md",
+      "target": "../代码夹具英文命名迁移记录.md",
+      "exists": true
+    },
+    {
+      "kind": "new_copy_note",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171725-原生探针祖先句柄补修-工具会话/测试报告.md",
+      "target": "证据/run_checks_current_paths.py",
+      "exists": true
+    },
+    {
+      "kind": "new_copy_note",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-171725-原生探针祖先句柄补修-工具会话/测试报告.md",
+      "target": "../代码夹具英文命名迁移记录.md",
+      "exists": true
+    },
+    {
+      "kind": "new_copy_note",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-222717-原生探针退出与默认路径-工具会话/测试报告.md",
+      "target": "证据/run_checks_current_paths.py",
+      "exists": true
+    },
+    {
+      "kind": "new_copy_note",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/2026-10-03-222717-原生探针退出与默认路径-工具会话/测试报告.md",
+      "target": "../代码夹具英文命名迁移记录.md",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-171516-测试规范验证-主会话/证据/document_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-171516-测试规范验证-主会话/证据/log_workflow_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-175930-平台启动与进程适配-平台会话/standalone_shell_target_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-175930-平台启动与进程适配-平台会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-180444-终端系统集成-终端会话/证据/run_cases.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-180444-终端系统集成-终端会话/证据/isolation_policy_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-181739-Shell源文件补充检查-平台会话/standalone_shell_target_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-181739-Shell源文件补充检查-平台会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-181959-Shell目标源码复测-平台会话/standalone_shell_target_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-181959-Shell目标源码复测-平台会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-182705-终端交付文档复核-终端会话/证据/run_cases.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-184728-目标归档工具修复-主会话/证据/archive_link_regression.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-185016-默认内嵌启动与更新诊断-终端会话/证据/run_cases.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-185016-默认内嵌启动与更新诊断-终端会话/证据/policy_entry.rs",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-185101-完整链接复测-主会话/证据/static_artifact_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/report_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/static_delivery_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-185303-鸿蒙描述符清理失败阻断-平台会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/report_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/static_delivery_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-191700-鸿蒙PTY公共入口复测-平台会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-192224-最终源码集成验证-主会话/证据/static_artifact_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-193607-发布模式修复集成复测-主会话/证据/static_artifact_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-202248-鸿蒙运行安全与探测-平台会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-202646-鸿蒙能力约束与原生剪贴板-终端会话/证据/clipboard_test_entry.rs",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-202646-鸿蒙能力约束与原生剪贴板-终端会话/证据/run_cases.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-202916-鸿蒙运行安全复测-平台会话/launch_hardening_probe.rs",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-202916-鸿蒙运行安全复测-平台会话/runtime_hardening_probe.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-202916-鸿蒙运行安全复测-平台会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/证据/clipboard_abi_check.c",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/证据/clipboard_test_entry.rs",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/证据/clipboard_target_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-203520-鸿蒙能力与剪贴板复测-终端会话/证据/run_cases.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/证据/delivery_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/证据/tool_mode_test_entry.rs",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-205738-鸿蒙能力最终定向验证-终端会话/证据/run_cases.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-211748-鸿蒙运行安全收尾-平台会话/launch_hardening_probe.rs",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-211748-鸿蒙运行安全收尾-平台会话/runtime_hardening_probe.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-211748-鸿蒙运行安全收尾-平台会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-212544-鸿蒙沙箱原生路径收尾-平台会话/launch_hardening_probe.rs",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-212544-鸿蒙沙箱原生路径收尾-平台会话/runtime_hardening_probe.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-212544-鸿蒙沙箱原生路径收尾-平台会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/launch_hardening_probe.rs",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/runtime_hardening_probe.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-214408-沙箱目标用例链接补测-主会话/证据/target_test_link.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-222506-最终候选包验收-主会话/证据/directory_package_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-230540-两种安装速用核对-主会话/证据/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-232634-接口配置文档核对-主会话/证据/static_validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-015922-七版临时目录与别名边界-工具会话/证据/run_cases.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-015922-七版临时目录与别名边界-工具会话/证据/target_test_link.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-020306-七版共享目录与模式校验-沙箱会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-020924-七版沙箱安全边界复测-沙箱会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-021822-七版沙箱交叉复核-沙箱会话/target_artifact_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-021822-七版沙箱交叉复核-沙箱会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-022036-七版工具退出与阶段诊断-工具会话/证据/run_cases.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-022036-七版工具退出与阶段诊断-工具会话/证据/target_test_link.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-022537-七版工具诊断复核-工具会话/证据/run_cases.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-022537-七版工具诊断复核-工具会话/证据/target_test_link.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-022826-七版工具诊断验收-工具会话/证据/run_cases.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-022826-七版工具诊断验收-工具会话/证据/target_test_link.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-023200-七版固定账号入口复测-沙箱会话/target_artifact_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-023200-七版固定账号入口复测-沙箱会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-023701-七版资源来源与构建身份-工具会话/证据/run_cases.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-023701-七版资源来源与构建身份-工具会话/证据/build_identity_test.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-024223-七版文件helper与补丁补测-工具会话/证据/run_cases.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-031333-独立沙箱原始退出诊断补修-沙箱会话/standalone_host_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-031333-独立沙箱原始退出诊断补修-沙箱会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-035159-七版最终发布与安装验收-主会话/证据/package_acceptance_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-103041-版本规范初检-主会话/证据/version_module_validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-104326-发布入口与更新保护补修-主会话/证据/update_entry_check.rs",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-111741-版本与专项日志发布验收-主会话/证据/upgrade_command_validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-154752-固定运行目录契约-沙箱会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-160611-固定运行目录二轮-沙箱会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-160837-固定运行目录三轮-沙箱会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-161903-目录权限收尾-沙箱会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-162842-运行目录祖先写权限拒绝-沙箱会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-163052-运行目录接入首轮-工具会话/证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-163916-运行目录接入复测-工具会话/证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-164243-能力诊断依赖补齐复测-工具会话/证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-164634-能力诊断最终复测-工具会话/证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-165307-能力诊断二进制入口复测-工具会话/证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-165919-目录修复教程命令验证-主会话/证据/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-171549-祖先搜索权限修复-沙箱会话/collect_evidence.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-171549-祖先搜索权限修复-沙箱会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-171725-原生探针祖先句柄补修-工具会话/证据/sdk_open_mode_assertions.c",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-171725-原生探针祖先句柄补修-工具会话/证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-172455-目录权限修复完整交付验收-主会话/证据/installation_materials_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-172455-目录权限修复完整交付验收-主会话/证据/package_acceptance_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-222717-原生探针退出与默认路径-工具会话/证据/sdk_gate.c",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-222717-原生探针退出与默认路径-工具会话/证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-223259-挂载身份与定向诊断-沙箱会话/target_field_layout_check.c",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-223259-挂载身份与定向诊断-沙箱会话/collect_evidence.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-223259-挂载身份与定向诊断-沙箱会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-224436-挂载诊断交付与探针集成-主会话/证据/tutorial_command_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-224436-挂载诊断交付与探针集成-主会话/证据/runtime_check.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-224436-挂载诊断交付与探针集成-主会话/证据/probe_signature_validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-224647-Linux挂载快速路径补修-沙箱会话/collect_evidence.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-224647-Linux挂载快速路径补修-沙箱会话/validation_entry.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-232949-挂载修复完整发布验收-主会话/证据/prepare_installation_materials.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-232949-挂载修复完整发布验收-主会话/证据/complete_delivery_summary.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-232949-挂载修复完整发布验收-主会话/证据/delivery_package_acceptance.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-04-175307-进程扫描与PTY停止修复-终端会话/host_pty_comparison.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-202916-鸿蒙运行安全复测-平台会话/runtime_hardening_probe.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-202916-鸿蒙运行安全复测-平台会话/runtime_hardening_probe_current_paths.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-211748-鸿蒙运行安全收尾-平台会话/runtime_hardening_probe.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-211748-鸿蒙运行安全收尾-平台会话/runtime_hardening_probe_current_paths.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-212544-鸿蒙沙箱原生路径收尾-平台会话/runtime_hardening_probe.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-212544-鸿蒙沙箱原生路径收尾-平台会话/runtime_hardening_probe_current_paths.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/runtime_hardening_probe.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-02-213550-鸿蒙运行安全最终复核-平台会话/runtime_hardening_probe_current_paths.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-171725-原生探针祖先句柄补修-工具会话/证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-171725-原生探针祖先句柄补修-工具会话/证据/run_checks_current_paths.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-222717-原生探针退出与默认路径-工具会话/证据/run_checks.py",
+      "exists": true
+    },
+    {
+      "kind": "migration_map",
+      "file": "docs/鸿蒙电脑原生适配/测试报告/代码夹具英文命名迁移记录.md",
+      "target": "2026-10-03-222717-原生探针退出与默认路径-工具会话/证据/run_checks_current_paths.py",
+      "exists": true
+    }
+  ],
+  "remaining_chinese_code_basenames": [],
+  "compile_or_device_actions": false,
+  "fixtures_executed": false,
+  "git_commit_created": false,
+  "markdown_code_reference_audit": {
+    "markdown_files_scanned": 175,
+    "local_code_links_scanned": 204,
+    "stale_old_fixture_targets": [],
+    "percent_encoded_targets_decoded": true
+  }
+}

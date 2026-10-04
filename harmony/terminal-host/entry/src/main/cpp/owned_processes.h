@@ -28,13 +28,19 @@ bool SignalDirectChild(pid_t child, int number, std::string &error);
 class OwnedProcesses {
 public:
     bool Begin(pid_t leader, std::string &error);
+    // Observe remains strict: only a complete proc scan can authorize cleanup.
     bool Observe(std::string &error);
+    // A live, pinned direct child can keep its terminal usable when proc is
+    // unreadable. complete=false is diagnostic evidence, never cleanup proof.
+    bool ObserveRunning(std::string &diagnostic, bool &complete);
     bool Signal(int number, std::string &error, int &signalErrno);
     int Alive() const;
     void Clear();
 private:
     struct Tracked { ProcessIdentity identity; Descriptor handle; };
     bool Pin(const ProcessIdentity &identity, std::string &error);
+    bool Scan(std::string &error, bool &visibilityUnknown);
+    bool LeaderAlive(std::string &error) const;
     pid_t leader_ = -1;
     std::map<pid_t, Tracked> tracked_;
 };

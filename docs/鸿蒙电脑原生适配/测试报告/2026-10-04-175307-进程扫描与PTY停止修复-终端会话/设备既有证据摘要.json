@@ -1,0 +1,67 @@
+{
+  "proc-host.txt": {
+    "pid": 4055,
+    "state": "S",
+    "ppid": 139,
+    "pgrp": 0,
+    "session": 0,
+    "tty_nr": 0,
+    "starttime": 15417,
+    "field52": 0
+  },
+  "proc-child.txt": {
+    "pid": 6849,
+    "state": "Z",
+    "ppid": 4055,
+    "pgrp": 6849,
+    "session": 6849,
+    "tty_nr": 0,
+    "starttime": 47065,
+    "field52": 0
+  },
+  "second-shell-first-failure.txt": {
+    "line_count": 1362,
+    "stages": {
+      "spawn": 1,
+      "process_scan": 730,
+      "getpgid": 210,
+      "getsid": 210,
+      "signal_term": 1,
+      "leader_exit_cleanup": 1,
+      "signal_kill": 209
+    },
+    "first_spawn": {
+      "line": 1,
+      "record": "stage=spawn kind=shell session=33e71818f330bc2f4eac7baa826c7bff child=6849 group=6849 sid=6849 foreground=-1 errno=0 wait_errno=0 signal_errno=0 raw_wait=0 alive=0"
+    },
+    "first_process_scan": {
+      "line": 2,
+      "record": "stage=process_scan kind=shell session=33e71818f330bc2f4eac7baa826c7bff child=6849 group=6849 sid=6849 foreground=-1 errno=5 wait_errno=0 signal_errno=0 raw_wait=0 alive=1"
+    },
+    "first_signal_term": {
+      "line": 6,
+      "record": "stage=signal_term kind=shell session=33e71818f330bc2f4eac7baa826c7bff child=6849 group=6849 sid=6849 foreground=-1 errno=0 wait_errno=0 signal_errno=0 raw_wait=0 alive=0"
+    },
+    "first_kill": {
+      "line": 20,
+      "record": "stage=signal_kill kind=shell session=33e71818f330bc2f4eac7baa826c7bff child=6849 group=6849 sid=6849 foreground=-1 errno=0 wait_errno=0 signal_errno=0 raw_wait=0 alive=0"
+    }
+  },
+  "main-codex-first-failure.txt": {
+    "line_count": 696,
+    "stages": {
+      "spawn": 1,
+      "process_scan": 695
+    },
+    "first_spawn": {
+      "line": 1,
+      "record": "stage=spawn kind=codex session=71cfcdba36de5f37ccb8593233d6b036 child=13250 group=13250 sid=13250 foreground=-1 errno=0 wait_errno=0 signal_errno=0 raw_wait=0 alive=0"
+    },
+    "first_process_scan": {
+      "line": 2,
+      "record": "stage=process_scan kind=codex session=71cfcdba36de5f37ccb8593233d6b036 child=13250 group=13250 sid=13250 foreground=-1 errno=5 wait_errno=0 signal_errno=0 raw_wait=0 alive=1"
+    },
+    "first_signal_term": null,
+    "first_kill": null
+  }
+}

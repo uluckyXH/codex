@@ -1,0 +1,23 @@
+read_only_tool: llvm-nm -D --defined-only
+compilation: no
+0000000000011d80 T posix_spawn
+0000000000011d80 T posix_spawn_file_actions_addclose
+0000000000011d80 T posix_spawn_file_actions_adddup2
+0000000000011d80 T posix_spawn_file_actions_addopen
+0000000000011d80 T posix_spawn_file_actions_destroy
+0000000000011d80 T posix_spawn_file_actions_init
+0000000000011d80 T posix_spawnattr_destroy
+0000000000011d80 T posix_spawnattr_getflags
+0000000000011d80 T posix_spawnattr_getpgroup
+0000000000011d80 T posix_spawnattr_getschedparam
+0000000000011d80 T posix_spawnattr_getschedpolicy
+0000000000011d80 T posix_spawnattr_getsigdefault
+0000000000011d80 T posix_spawnattr_getsigmask
+0000000000011d80 T posix_spawnattr_init
+0000000000011d80 T posix_spawnattr_setflags
+0000000000011d80 T posix_spawnattr_setpgroup
+0000000000011d80 T posix_spawnattr_setschedparam
+0000000000011d80 T posix_spawnattr_setschedpolicy
+0000000000011d80 T posix_spawnattr_setsigdefault
+0000000000011d80 T posix_spawnattr_setsigmask
+0000000000011d80 T posix_spawnp

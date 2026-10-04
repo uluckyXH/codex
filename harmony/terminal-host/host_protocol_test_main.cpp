@@ -34,6 +34,16 @@ int main() {
     Check(!ParseProcessUids("Uid:\t1\t2\t3\n", identity), "truncated UID tuple rejected");
     Check(!ParseProcessUids("Uid:\t1\t2\t3\t4294967296\n", identity), "UID overflow rejected");
     Check(ParseProcessStat(Stat(), identity) && identity.pid == 123 && identity.parent == 100 && identity.group == 123 && identity.session == 123 && identity.start == 987654, "proc comm parentheses and exact fields");
+    const std::string actualHost = "4055 (latorhnp.second) S 139 0 0 0 -1 4194624 51589 2514 2562 161 866 482 0 3 0 -20 78 0 15417 47683166208 87911 18446744073709551615 1 1 0 0 0 0 4096 4096 1073857787 0 0 0 17 1 0 0 74 0 0 0 0 0 0 0 0 0 0\n";
+    Check(ParseProcessStat(actualHost, identity) && identity.pid == 4055 && identity.parent == 139 &&
+        identity.group == 0 && identity.session == 0 && identity.start == 15417, "actual OHOS nonterminal host with zero group and session");
+    Check(ParseProcessStat("123 (sh) S 100 0 123" + Stat().substr(Stat().find(" 0 -1")), identity) &&
+        identity.group == 0 && identity.session == 123, "zero group alone is observable");
+    Check(ParseProcessStat("123 (sh) S 100 123 0" + Stat().substr(Stat().find(" 0 -1")), identity) &&
+        identity.group == 123 && identity.session == 0, "zero session alone is observable");
+    Check(!ParseProcessStat("123 (sh) S 100 -1 0" + Stat().substr(Stat().find(" 0 -1")), identity), "negative group still rejected");
+    Check(!ParseProcessStat("123 (sh) S 100 0 -1" + Stat().substr(Stat().find(" 0 -1")), identity), "negative session still rejected");
+    Check(!ParseProcessStat(Stat("normal", "0"), identity), "missing nonzero start identity still rejected");
     Check(!ParseProcessStat(Stat("normal", "-1"), identity), "negative start identity rejected");
     Check(!ParseProcessStat(Stat("normal", "18446744073709551616"), identity), "start time overflow rejected");
     Check(!ParseProcessStat("123 (sh) S 1 123 123", identity), "truncated process record rejected");

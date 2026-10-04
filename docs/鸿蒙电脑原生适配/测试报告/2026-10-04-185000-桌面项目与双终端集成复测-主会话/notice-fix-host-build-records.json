@@ -1,0 +1,326 @@
+[
+  {
+    "hap": "codex-harmony-terminal-debug.hap",
+    "hap_sha256": "a87d962957bee72033cf62bcec4c5af21925d90f280f5c6c5ce5ddc3ee135d86",
+    "app_version": "0.2.0",
+    "app_version_code": 101,
+    "bundle": "com.codex.emulatorhnp",
+    "deployment": "unsigned emulator debug HAP; original ELF signatures preserved",
+    "rust_source_sha": "50046bef671cb6ca9312306f8c63aea4cfee172b",
+    "codex_version": "0.160.0-dev.harmony.g50046bef671c",
+    "hnp": {
+      "hnp": "/Volumes/MacSSD/Repositories/codex/.harmony-build/terminal-host-current/runtime/hnp/arm64-v8a/codexharmony.hnp",
+      "hnp_version": "0.160.0.g50046bef.r8561b18c8e49",
+      "runtime_identity": "8561b18c8e49dfeb9289b4e3567567224fd34ada0116e94d5e6a4b8cb289b90e",
+      "installed_package": "/data/app/codexharmony.org/codexharmony_0.160.0.g50046bef.r8561b18c8e49",
+      "sha256": "4a9541c5f784168784dee429e567965ff95f613d2c9c7e6d7075cd2f708d7770",
+      "bytes": 101571481,
+      "runtime_files": {
+        "bin/codex": {
+          "sha256": "028ec1056df0d9cc84b480f8bd87e37fd8f6c22f67b969a741f9b87212850a9d",
+          "bytes": 250709760,
+          "source": "bin/codex"
+        },
+        "codex-path/apply_patch": {
+          "sha256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+          "bytes": 13952,
+          "source": "codex-path/apply_patch"
+        },
+        "codex-path/applypatch": {
+          "sha256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+          "bytes": 13952,
+          "source": "codex-path/applypatch"
+        },
+        "codex-path/codex-execve-wrapper": {
+          "sha256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+          "bytes": 13952,
+          "source": "codex-path/codex-execve-wrapper"
+        },
+        "codex-path/codex-linux-sandbox": {
+          "sha256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+          "bytes": 13952,
+          "source": "codex-path/codex-linux-sandbox"
+        },
+        "codex-path/rg": {
+          "sha256": "7272d96c1c584807cc4f0cf99bf830f381be2d35bd1ffd93842f054514953b02",
+          "bytes": 4638464,
+          "source": "codex-path/rg"
+        },
+        "codex-resources/bwrap": {
+          "sha256": "b4df52de80db80b47e0aa8fe28d69c5f63aa27bc7bb57e6f9eba603d28cf3314",
+          "bytes": 423680,
+          "source": "codex-resources/bwrap"
+        },
+        "codex-resources/harmony-runtime-probe": {
+          "sha256": "f93b469670530e7e9f2b0509aa7dff4ff95e42dd5404de250d05e329f8171a39",
+          "bytes": 34496,
+          "source": "codex-resources/harmony-runtime-probe"
+        },
+        "codex-package.json": {
+          "sha256": "760f57c59aa1e33ea6fa8bb2839f696189929ea96e542d11298a29f5953970e4",
+          "bytes": 232,
+          "source": "codex-package.json"
+        },
+        "licenses/license-001.txt": {
+          "sha256": "7e12e5df4bae12cb21581ba157ced20e1986a0508dd10d0e8a4ab9a4cf94e85c",
+          "bytes": 1211,
+          "source": "许可原文/搜索工具公共领域声明.txt"
+        },
+        "licenses/license-002.txt": {
+          "sha256": "0f96a83840e146e43c0ec96a22ec1f392e0680e6c1226e6f3ba87e0740af850f",
+          "bytes": 1081,
+          "source": "许可原文/搜索工具许可.txt"
+        },
+        "licenses/license-003.txt": {
+          "sha256": "01c266bced4a434da0051174d6bee16a4c82cf634e2679b6155d40d75012390f",
+          "bytes": 126,
+          "source": "许可原文/搜索工具许可说明.txt"
+        },
+        "licenses/license-004.txt": {
+          "sha256": "68467e731f4744bd6e0bb69e8df9c3a994e09cd6b203d0c41327ac6d079c581d",
+          "bytes": 20318,
+          "source": "许可原文/权限库许可.txt"
+        },
+        "licenses/license-005.txt": {
+          "sha256": "b7993225104d90ddd8024fd838faf300bea5e83d91203eab98e29512acebd69c",
+          "bytes": 25383,
+          "source": "许可原文/沙箱工具许可.txt"
+        },
+        "licenses/license-006.txt": {
+          "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+          "bytes": 242,
+          "source": "许可原文/项目声明.txt"
+        },
+        "licenses/license-007.txt": {
+          "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+          "bytes": 10926,
+          "source": "许可原文/项目许可.txt"
+        }
+      }
+    },
+    "host_source_files": {
+      "build-profile.json5": "8ce8766a5a8d221dfd824c604cb8f9c087dc6cf48b575c6cb79aec7635aad1f1",
+      "hvigorfile.ts": "2378c5e0c5246005ada73a67e8c9834fa08adb9ffd6fb6c219051456753bed5a",
+      "oh-package.json5": "44e4124429350246081aa4b67da2ced8b1c8efc557dd8f5604372599643503e3",
+      "entry/build-profile.json5": "03a0b8a680a8352ec2923f02e21a1965faebb652edc34e368f48206d19938039",
+      "entry/hvigorfile.ts": "f547983dcab9c8fff87cc3ddedb22bb98063663c5b8afe18bb32e131311ec289",
+      "entry/oh-package.json5": "c89cd0f4d80f7cfe719eb4cbd0e19c12e7cd63d01dd94704aa3daaf937152c5a",
+      "AppScope/app.json5": "5995b3400d599e7489c480d51b5a37a53c9e86614068630e2ce92a69a8471349",
+      "AppScope/resources/base/element/string.json": "599d00c2136f33b779f18104cc7fd07581790f0b0f8b00883b0ebc40660ba41e",
+      "AppScope/resources/base/media/app_icon.png": "79c27214e49332c1e5bcbbe9badeac547c13ee38f597658de313b907fdf2a4e6",
+      "entry/src/main/module.json5": "e6709af4bd3661373a2a880c0c75da837518b2c0c206a4633a8fb8d3c6c5965a",
+      "entry/src/main/cpp/host_layout.h": "d01c0fdb756f3ebbeb8b18c47711ef15124ccb8c12bb4fb7fa0de4a383656ad5",
+      "entry/src/main/cpp/CMakeLists.txt": "e561aa13aa34b0cceed4eae3596625971437c6fc4037f354f3525260f4ce9734",
+      "entry/src/main/cpp/secure_config.h": "ed75a90696669cb37afa7cdf379ec91325461f5b0a8cf9ae9beaf0216065eafb",
+      "entry/src/main/cpp/native_module.cpp": "41e92180f13100f2afd41d753f89f113293723e2d548eb87cbd98ee5d6a28830",
+      "entry/src/main/cpp/secure_config.cpp": "313d0a637a9a470bb92be2f9b1076b5726b22cc0d6075fad0a4ebbf23cd19368",
+      "entry/src/main/cpp/codex_launcher.cpp": "bf67ab7cf20e9ccdedc670919b5fa37cfe81e46e7b1d09a524951a755240495f",
+      "entry/src/main/cpp/package_verification.h": "c364a094767b7045f205b45e17079864cc9af3fd78cf0167411e83168572af4d",
+      "entry/src/main/cpp/host_layout.cpp": "66d4f78219f4274845602875cbc30a12f0809bf58b88f242d0989adec10eff37",
+      "entry/src/main/cpp/host_json.h": "06c6b7e3f3555ba5bd3ea5c20a024c99f5a57f776e5e69810a45b4185cf5d0ae",
+      "entry/src/main/cpp/host_json.cpp": "434d5f914afe396df307b768b9a9f91c239f0997757545ae6349248f76b0d7bd",
+      "entry/src/main/cpp/package_verification.cpp": "ef9b730073a4e392a4f97db43e5e30f81c52f3a7505b853d5cdf76bd2ee62e89",
+      "entry/src/main/cpp/pty_session.h": "f943bc36c06d5eadf1f4dcd70c36512d61ca7cbafe25460f4110c3517c083880",
+      "entry/src/main/cpp/terminal_bridge.h": "aad3be557ea0ee8b835b3127c44cb87586c35b6de43fdf45bc8506a79e6829f0",
+      "entry/src/main/cpp/native_package.h": "0f218b7eab2051d802caac255f5bfb910188acee676aab0225c1d8f0e24a6428",
+      "entry/src/main/cpp/codex_launcher.h": "918cffc1fcad5d8e8fdad0dbb36a772fd0d09977b511d98ed02decd41ab75656",
+      "entry/src/main/cpp/owned_processes.h": "61c9d119dd02794db49a25671a59aa2ed474580622cd69221761ed3cc3200396",
+      "entry/src/main/cpp/owned_processes.cpp": "a2db79b66b673b35eae3973bc487eea6f049cb029110496536d15067a4a5fde3",
+      "entry/src/main/cpp/terminal_bridge.cpp": "0050f88dc05b4ee2461f23cd61ccc6c966d9b565769417570028ab869a01aa9a",
+      "entry/src/main/cpp/process_identity.cpp": "4f60a032bdcf7e24b873e357b7ebfc934fd0db610c3c01e4b4b865779044db65",
+      "entry/src/main/cpp/tool_regression.cpp": "272768fcb90963d916e9852a32073cca7abd5fcc8066cbafb1290759a1b7ef95",
+      "entry/src/main/cpp/tool_regression.h": "59628572b2789f29f10a2e744929ca0bac84715ecd84bd00173a4373ca657f2b",
+      "entry/src/main/cpp/pty_session.cpp": "601180e6e7a1c747dc7dcdc05a6b15183f3074a41a6802ef31da5057643b0536",
+      "entry/src/main/ets/entryability/EntryAbility.ets": "bf4e15f46bee24e09744899ca11dbb3d7134da1e1cf2bc71a5b33302f7e3324d",
+      "entry/src/main/ets/pages/ProjectDirectoryPicker.ets": "52d6dca9656c01fc9d1ba00b462af57af13f667117daf3ab26d3b4346f3aaace",
+      "entry/src/main/ets/pages/TerminalBridge.ets": "a3540548c89369a439d0146e74e92e29559767a79a1ba671f8876a69193b5563",
+      "entry/src/main/ets/pages/Index.ets": "13bdabe581bcce76cdf10aea38cfbe6afa005d2f1b9679f078f08d625f3f25df",
+      "entry/src/main/cpp/types/libhostprobe/oh-package.json5": "54cb8bda1836d5a7c77fa6ae4b9cde253c831718e6c84cf35ccc5b74c3a4b131",
+      "entry/src/main/cpp/types/libhostprobe/Index.d.ts": "b3f819e25064141d69d4c29193b347e5d5b5476434fa447a457db4a87c86499c",
+      "entry/src/main/resources/rawfile/terminal.css": "b82e1d00934e7a9f19132942c7300f773659ed6a22271f0fbbd5c93e87351cc0",
+      "entry/src/main/resources/rawfile/xterm.css": "854a7c0fb70e8b1a083c16797ab827299fb18744f5ad34f227b48337e33293c6",
+      "entry/src/main/resources/rawfile/addon-fit.js": "ba3ea256ce0620a0992a197d6c9baea64823fc93d8da07a9e366ca9943c18527",
+      "entry/src/main/resources/rawfile/terminal-assets.json": "ea6fa26523391d4bba6d83d10e9721e5370a974a525403492bfe52cd145e42f3",
+      "entry/src/main/resources/rawfile/terminal.html": "1bdf252086b93125289cb64ad20ef4b640249c1dc6549f32755626cc70dc7e4c",
+      "entry/src/main/resources/rawfile/xterm.js": "14903579ff54664cd72f8e8699e6961a6272c21863ec1c3b118cdc8af5d4a972",
+      "entry/src/main/resources/rawfile/terminal.js": "8f5c6f98e33588be6284c629c33e20621a2fbb51dad6b36013bfbd233ee88106",
+      "entry/src/main/resources/rawfile/xterm-LICENSE.txt": "b569f629d00f2626a8100df2a1798210535621e42164dfd426a6fe5aac7b0ccd",
+      "entry/src/main/resources/rawfile/addon-fit-LICENSE.txt": "e256f01188af527e4d06d21d06fbf785ae9c50d4b328bf03cbe0ba7f0aa4228f",
+      "entry/src/main/resources/base/element/color.json": "26f6e195ab88786f18e15ea7a9769faaf968c0a631192ed8100fd2cf17d87d97",
+      "entry/src/main/resources/base/profile/main_pages.json": "f21984fb1d5096f0db41314da0bb94c573e7ad018e5afae3044f8d5ff71b0bfc",
+      "hvigor/hvigor-config.json5": "19fd4e493f941f2dc8d7f4d0da03cbe22fcd2f7fe3adc099cbbb2bdc2656e88b"
+    },
+    "build_parameters": {
+      "bundle_name": "com.codex.emulatorhnp",
+      "generated_app_sha256": "5995b3400d599e7489c480d51b5a37a53c9e86614068630e2ce92a69a8471349"
+    },
+    "host_source_sha256": "401d02c947700f4f38bfb3542fde553ad178ca3b2d8b30884d3f1d48e54b626e",
+    "build_tools": {
+      "build_terminal_host.py": "7fafd496e3872426a0dfb20befaff8c6a5e44944c474acfdb11afce6d5c7180d",
+      "prepare_codex_hnp.py": "91b206be4e524bf501d408177887ee1cf71c67aa1e7a50e4f4d3a67bce1565f3",
+      "fetch_terminal_assets.py": "ad9467871bcc44a429bd052150cd67cf55108ad4caf27656e7c807e80f10495f"
+    }
+  },
+  {
+    "hap": "codex-harmony-terminal-debug.hap",
+    "hap_sha256": "7e29e81332c109941eed1898d02894cc6e6871dd3e48d4187acfae016512bdd3",
+    "app_version": "0.2.0",
+    "app_version_code": 101,
+    "bundle": "com.codex.emulatorhnp.second",
+    "deployment": "unsigned emulator debug HAP; original ELF signatures preserved",
+    "rust_source_sha": "50046bef671cb6ca9312306f8c63aea4cfee172b",
+    "codex_version": "0.160.0-dev.harmony.g50046bef671c",
+    "hnp": {
+      "hnp": "/Volumes/MacSSD/Repositories/codex/.harmony-build/terminal-host-second-current/runtime/hnp/arm64-v8a/codexharmony.hnp",
+      "hnp_version": "0.160.0.g50046bef.r8561b18c8e49",
+      "runtime_identity": "8561b18c8e49dfeb9289b4e3567567224fd34ada0116e94d5e6a4b8cb289b90e",
+      "installed_package": "/data/app/codexharmony.org/codexharmony_0.160.0.g50046bef.r8561b18c8e49",
+      "sha256": "4a9541c5f784168784dee429e567965ff95f613d2c9c7e6d7075cd2f708d7770",
+      "bytes": 101571481,
+      "runtime_files": {
+        "bin/codex": {
+          "sha256": "028ec1056df0d9cc84b480f8bd87e37fd8f6c22f67b969a741f9b87212850a9d",
+          "bytes": 250709760,
+          "source": "bin/codex"
+        },
+        "codex-path/apply_patch": {
+          "sha256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+          "bytes": 13952,
+          "source": "codex-path/apply_patch"
+        },
+        "codex-path/applypatch": {
+          "sha256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+          "bytes": 13952,
+          "source": "codex-path/applypatch"
+        },
+        "codex-path/codex-execve-wrapper": {
+          "sha256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+          "bytes": 13952,
+          "source": "codex-path/codex-execve-wrapper"
+        },
+        "codex-path/codex-linux-sandbox": {
+          "sha256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+          "bytes": 13952,
+          "source": "codex-path/codex-linux-sandbox"
+        },
+        "codex-path/rg": {
+          "sha256": "7272d96c1c584807cc4f0cf99bf830f381be2d35bd1ffd93842f054514953b02",
+          "bytes": 4638464,
+          "source": "codex-path/rg"
+        },
+        "codex-resources/bwrap": {
+          "sha256": "b4df52de80db80b47e0aa8fe28d69c5f63aa27bc7bb57e6f9eba603d28cf3314",
+          "bytes": 423680,
+          "source": "codex-resources/bwrap"
+        },
+        "codex-resources/harmony-runtime-probe": {
+          "sha256": "f93b469670530e7e9f2b0509aa7dff4ff95e42dd5404de250d05e329f8171a39",
+          "bytes": 34496,
+          "source": "codex-resources/harmony-runtime-probe"
+        },
+        "codex-package.json": {
+          "sha256": "760f57c59aa1e33ea6fa8bb2839f696189929ea96e542d11298a29f5953970e4",
+          "bytes": 232,
+          "source": "codex-package.json"
+        },
+        "licenses/license-001.txt": {
+          "sha256": "7e12e5df4bae12cb21581ba157ced20e1986a0508dd10d0e8a4ab9a4cf94e85c",
+          "bytes": 1211,
+          "source": "许可原文/搜索工具公共领域声明.txt"
+        },
+        "licenses/license-002.txt": {
+          "sha256": "0f96a83840e146e43c0ec96a22ec1f392e0680e6c1226e6f3ba87e0740af850f",
+          "bytes": 1081,
+          "source": "许可原文/搜索工具许可.txt"
+        },
+        "licenses/license-003.txt": {
+          "sha256": "01c266bced4a434da0051174d6bee16a4c82cf634e2679b6155d40d75012390f",
+          "bytes": 126,
+          "source": "许可原文/搜索工具许可说明.txt"
+        },
+        "licenses/license-004.txt": {
+          "sha256": "68467e731f4744bd6e0bb69e8df9c3a994e09cd6b203d0c41327ac6d079c581d",
+          "bytes": 20318,
+          "source": "许可原文/权限库许可.txt"
+        },
+        "licenses/license-005.txt": {
+          "sha256": "b7993225104d90ddd8024fd838faf300bea5e83d91203eab98e29512acebd69c",
+          "bytes": 25383,
+          "source": "许可原文/沙箱工具许可.txt"
+        },
+        "licenses/license-006.txt": {
+          "sha256": "9d71575ecfd9a843fc1677b0efb08053c6ba9fd686a0de1a6f5382fd3c220915",
+          "bytes": 242,
+          "source": "许可原文/项目声明.txt"
+        },
+        "licenses/license-007.txt": {
+          "sha256": "d17f227e4df5da1600391338865ce0f3055211760a36688f816941d58232d8dc",
+          "bytes": 10926,
+          "source": "许可原文/项目许可.txt"
+        }
+      }
+    },
+    "host_source_files": {
+      "build-profile.json5": "8ce8766a5a8d221dfd824c604cb8f9c087dc6cf48b575c6cb79aec7635aad1f1",
+      "hvigorfile.ts": "2378c5e0c5246005ada73a67e8c9834fa08adb9ffd6fb6c219051456753bed5a",
+      "oh-package.json5": "44e4124429350246081aa4b67da2ced8b1c8efc557dd8f5604372599643503e3",
+      "entry/build-profile.json5": "03a0b8a680a8352ec2923f02e21a1965faebb652edc34e368f48206d19938039",
+      "entry/hvigorfile.ts": "f547983dcab9c8fff87cc3ddedb22bb98063663c5b8afe18bb32e131311ec289",
+      "entry/oh-package.json5": "c89cd0f4d80f7cfe719eb4cbd0e19c12e7cd63d01dd94704aa3daaf937152c5a",
+      "AppScope/app.json5": "5995b3400d599e7489c480d51b5a37a53c9e86614068630e2ce92a69a8471349",
+      "AppScope/resources/base/element/string.json": "599d00c2136f33b779f18104cc7fd07581790f0b0f8b00883b0ebc40660ba41e",
+      "AppScope/resources/base/media/app_icon.png": "79c27214e49332c1e5bcbbe9badeac547c13ee38f597658de313b907fdf2a4e6",
+      "entry/src/main/module.json5": "e6709af4bd3661373a2a880c0c75da837518b2c0c206a4633a8fb8d3c6c5965a",
+      "entry/src/main/cpp/host_layout.h": "d01c0fdb756f3ebbeb8b18c47711ef15124ccb8c12bb4fb7fa0de4a383656ad5",
+      "entry/src/main/cpp/CMakeLists.txt": "e561aa13aa34b0cceed4eae3596625971437c6fc4037f354f3525260f4ce9734",
+      "entry/src/main/cpp/secure_config.h": "ed75a90696669cb37afa7cdf379ec91325461f5b0a8cf9ae9beaf0216065eafb",
+      "entry/src/main/cpp/native_module.cpp": "41e92180f13100f2afd41d753f89f113293723e2d548eb87cbd98ee5d6a28830",
+      "entry/src/main/cpp/secure_config.cpp": "313d0a637a9a470bb92be2f9b1076b5726b22cc0d6075fad0a4ebbf23cd19368",
+      "entry/src/main/cpp/codex_launcher.cpp": "bf67ab7cf20e9ccdedc670919b5fa37cfe81e46e7b1d09a524951a755240495f",
+      "entry/src/main/cpp/package_verification.h": "c364a094767b7045f205b45e17079864cc9af3fd78cf0167411e83168572af4d",
+      "entry/src/main/cpp/host_layout.cpp": "66d4f78219f4274845602875cbc30a12f0809bf58b88f242d0989adec10eff37",
+      "entry/src/main/cpp/host_json.h": "06c6b7e3f3555ba5bd3ea5c20a024c99f5a57f776e5e69810a45b4185cf5d0ae",
+      "entry/src/main/cpp/host_json.cpp": "434d5f914afe396df307b768b9a9f91c239f0997757545ae6349248f76b0d7bd",
+      "entry/src/main/cpp/package_verification.cpp": "ef9b730073a4e392a4f97db43e5e30f81c52f3a7505b853d5cdf76bd2ee62e89",
+      "entry/src/main/cpp/pty_session.h": "f943bc36c06d5eadf1f4dcd70c36512d61ca7cbafe25460f4110c3517c083880",
+      "entry/src/main/cpp/terminal_bridge.h": "aad3be557ea0ee8b835b3127c44cb87586c35b6de43fdf45bc8506a79e6829f0",
+      "entry/src/main/cpp/native_package.h": "0f218b7eab2051d802caac255f5bfb910188acee676aab0225c1d8f0e24a6428",
+      "entry/src/main/cpp/codex_launcher.h": "918cffc1fcad5d8e8fdad0dbb36a772fd0d09977b511d98ed02decd41ab75656",
+      "entry/src/main/cpp/owned_processes.h": "61c9d119dd02794db49a25671a59aa2ed474580622cd69221761ed3cc3200396",
+      "entry/src/main/cpp/owned_processes.cpp": "a2db79b66b673b35eae3973bc487eea6f049cb029110496536d15067a4a5fde3",
+      "entry/src/main/cpp/terminal_bridge.cpp": "0050f88dc05b4ee2461f23cd61ccc6c966d9b565769417570028ab869a01aa9a",
+      "entry/src/main/cpp/process_identity.cpp": "4f60a032bdcf7e24b873e357b7ebfc934fd0db610c3c01e4b4b865779044db65",
+      "entry/src/main/cpp/tool_regression.cpp": "272768fcb90963d916e9852a32073cca7abd5fcc8066cbafb1290759a1b7ef95",
+      "entry/src/main/cpp/tool_regression.h": "59628572b2789f29f10a2e744929ca0bac84715ecd84bd00173a4373ca657f2b",
+      "entry/src/main/cpp/pty_session.cpp": "601180e6e7a1c747dc7dcdc05a6b15183f3074a41a6802ef31da5057643b0536",
+      "entry/src/main/ets/entryability/EntryAbility.ets": "bf4e15f46bee24e09744899ca11dbb3d7134da1e1cf2bc71a5b33302f7e3324d",
+      "entry/src/main/ets/pages/ProjectDirectoryPicker.ets": "52d6dca9656c01fc9d1ba00b462af57af13f667117daf3ab26d3b4346f3aaace",
+      "entry/src/main/ets/pages/TerminalBridge.ets": "a3540548c89369a439d0146e74e92e29559767a79a1ba671f8876a69193b5563",
+      "entry/src/main/ets/pages/Index.ets": "13bdabe581bcce76cdf10aea38cfbe6afa005d2f1b9679f078f08d625f3f25df",
+      "entry/src/main/cpp/types/libhostprobe/oh-package.json5": "54cb8bda1836d5a7c77fa6ae4b9cde253c831718e6c84cf35ccc5b74c3a4b131",
+      "entry/src/main/cpp/types/libhostprobe/Index.d.ts": "b3f819e25064141d69d4c29193b347e5d5b5476434fa447a457db4a87c86499c",
+      "entry/src/main/resources/rawfile/terminal.css": "b82e1d00934e7a9f19132942c7300f773659ed6a22271f0fbbd5c93e87351cc0",
+      "entry/src/main/resources/rawfile/xterm.css": "854a7c0fb70e8b1a083c16797ab827299fb18744f5ad34f227b48337e33293c6",
+      "entry/src/main/resources/rawfile/addon-fit.js": "ba3ea256ce0620a0992a197d6c9baea64823fc93d8da07a9e366ca9943c18527",
+      "entry/src/main/resources/rawfile/terminal-assets.json": "ea6fa26523391d4bba6d83d10e9721e5370a974a525403492bfe52cd145e42f3",
+      "entry/src/main/resources/rawfile/terminal.html": "1bdf252086b93125289cb64ad20ef4b640249c1dc6549f32755626cc70dc7e4c",
+      "entry/src/main/resources/rawfile/xterm.js": "14903579ff54664cd72f8e8699e6961a6272c21863ec1c3b118cdc8af5d4a972",
+      "entry/src/main/resources/rawfile/terminal.js": "8f5c6f98e33588be6284c629c33e20621a2fbb51dad6b36013bfbd233ee88106",
+      "entry/src/main/resources/rawfile/xterm-LICENSE.txt": "b569f629d00f2626a8100df2a1798210535621e42164dfd426a6fe5aac7b0ccd",
+      "entry/src/main/resources/rawfile/addon-fit-LICENSE.txt": "e256f01188af527e4d06d21d06fbf785ae9c50d4b328bf03cbe0ba7f0aa4228f",
+      "entry/src/main/resources/base/element/color.json": "26f6e195ab88786f18e15ea7a9769faaf968c0a631192ed8100fd2cf17d87d97",
+      "entry/src/main/resources/base/profile/main_pages.json": "f21984fb1d5096f0db41314da0bb94c573e7ad018e5afae3044f8d5ff71b0bfc",
+      "hvigor/hvigor-config.json5": "19fd4e493f941f2dc8d7f4d0da03cbe22fcd2f7fe3adc099cbbb2bdc2656e88b"
+    },
+    "build_parameters": {
+      "bundle_name": "com.codex.emulatorhnp.second",
+      "generated_app_sha256": "b1785bb2a49ff9240cb7eb95337b3568e20c3b8df1bcbdd9987680871e58c073"
+    },
+    "host_source_sha256": "401d02c947700f4f38bfb3542fde553ad178ca3b2d8b30884d3f1d48e54b626e",
+    "build_tools": {
+      "build_terminal_host.py": "7fafd496e3872426a0dfb20befaff8c6a5e44944c474acfdb11afce6d5c7180d",
+      "prepare_codex_hnp.py": "91b206be4e524bf501d408177887ee1cf71c67aa1e7a50e4f4d3a67bce1565f3",
+      "fetch_terminal_assets.py": "ad9467871bcc44a429bd052150cd67cf55108ad4caf27656e7c807e80f10495f"
+    }
+  }
+]

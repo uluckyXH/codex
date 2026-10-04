@@ -1,0 +1,4 @@
+App: com.codex.emulatorhnp.second
+PID: 12976
+HDC readlink cwd: [no output]
+GUI input matched requested path; actual terminal pwd visually matched.

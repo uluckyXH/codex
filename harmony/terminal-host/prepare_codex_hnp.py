@@ -169,7 +169,11 @@ def main():
     ).encode()).hexdigest()
     # Dirty builds can share a Git HEAD. Include the original signed runtime
     # identity so an installed package cannot retain stale code at that HEAD.
-    hnp_version = version.group(0) + ".g" + revision[:12] + ".r" + runtime_identity[:12]
+    # hnpcli's HNP_VERSION_LEN is 32 including the trailing NUL. Keep the
+    # complete revision/digest in the manifest; the installation key must fit.
+    hnp_version = version.group(0) + ".g" + revision[:8] + ".r" + runtime_identity[:12]
+    if len(hnp_version.encode("ascii")) > 31:
+        raise SystemExit("HNP installation version exceeds the SDK's 31-byte limit")
     inputs = []
     for name in ["bin", "codex-path", "codex-resources"]:
         for path in sorted((source / name).rglob("*")):

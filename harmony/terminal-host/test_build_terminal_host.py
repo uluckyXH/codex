@@ -8,6 +8,17 @@ import build_terminal_host as build
 
 
 class BundleParameterTests(unittest.TestCase):
+    def test_hvigor_checks_resolved_output_path_before_staging(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            self.assertEqual(build.output_directory(root / "host-build"), (root / "host-build").resolve())
+            target = root / "中文缓存"
+            target.mkdir()
+            alias = root / "current"
+            alias.symlink_to(target, target_is_directory=True)
+            with self.assertRaisesRegex(ValueError, "ASCII path"):
+                build.output_directory(alias / "host-build")
+
     def test_two_bundle_identities_only_change_copied_app_metadata(self):
         source = (build.ROOT / "AppScope/app.json5").read_bytes()
         with tempfile.TemporaryDirectory() as temporary:

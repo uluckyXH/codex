@@ -47,6 +47,25 @@ test('native error text cannot become markup', () => {const h=harness({...runnin
 test('exit metadata requires integers', () => {const h=harness({...running,status:'exited',cleanupVerified:true,running:false,exitCode:'<script>',signal:'<img>'});assert.equal(h.nodes.status.textContent.includes('<script>'),false);assert.equal(h.nodes.status.textContent.includes('未知'),true);});
 test('leader exit alone never claims cleanup complete', () => {const h=harness({...running,running:false,eof:true,status:'stopping',cleanupVerified:false});assert.equal(h.nodes.status.textContent.includes('会话已结束'),false);});
 test('signal failure stays visible', () => {const h=harness({...running,status:'stop_failed',error:'signal_failed',errno:1});assert.equal(h.nodes.status.textContent.includes('未确认'),true);});
+test('live Codex with unknown proc visibility stays usable', () => {
+  const h=harness({...running,kind:'codex',procVisibilityUnknown:true,procScanErrno:2,error:'',errno:0});
+  assert.equal(h.nodes.status.textContent.includes('未确认'),false);
+  assert.equal(h.nodes.status.textContent.includes('Codex'),true);
+  h.terminal.input('你好\r');assert.deepEqual(h.inputs,[{id:idA,text:'你好\r'}]);
+});
+test('suspended live child keeps the same input token', () => {
+  const h=harness({...running,procVisibilityUnknown:true,procScanErrno:13,dataBase64:'YQ=='});
+  h.terminal.input('pwd\r');assert.deepEqual(h.inputs,[{id:idA,text:'pwd\r'}]);
+  h.writes[0].done();h.packet({...running,procVisibilityUnknown:false,procScanErrno:0});h.tick(10);
+  assert.equal(h.resets(),1);assert.equal(h.nodes.status.textContent.includes('未确认'),false);
+});
+test('leader exit with hidden descendants retains cleanup warning and output', () => {
+  const h=harness({...running,running:false,status:'stop_failed',procVisibilityUnknown:true,cleanupVerified:false,
+    waitObserved:true,reaped:false,exitCode:0,dataBase64:Buffer.from('tail').toString('base64')});
+  assert.equal(h.nodes.status.textContent.includes('会话已结束'),false);
+  assert.equal(h.nodes.status.textContent.includes('未确认'),true);
+  assert.equal(Buffer.from(h.writes[0].bytes).toString(),'tail');assert.equal(h.stops(),0);
+});
 test('replacement session resets display and changes input token', () => {const h=harness(running);const before=h.resets();h.packet({...running,sessionId:idB});h.tick(40);assert.equal(h.resets(),before+1);h.terminal.input('pwd\r');assert.deepEqual(h.inputs,[{id:idB,text:'pwd\r'}]);});
 test('stale native packet discarded', () => {const h=harness(running);h.packet({...running,sessionId:idB});h.readPacket({...running,dataBase64:'YQ=='});h.tick(40);assert.equal(h.writes.length,0);});
 test('input pending page refresh cannot reach new session', () => {const h=harness(running);h.packet({...running,sessionId:idB});h.terminal.input('old command\r');assert.equal(h.inputs.length,0);});

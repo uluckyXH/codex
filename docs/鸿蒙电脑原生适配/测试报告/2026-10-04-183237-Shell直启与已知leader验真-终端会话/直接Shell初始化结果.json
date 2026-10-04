@@ -1,0 +1,40 @@
+{
+  "platform": "macOS",
+  "shell": "/bin/sh",
+  "native_cpp_executed": false,
+  "device_operations": false,
+  "source_sha256": "a2a288f2e4018a480e2c5502374c4251606007a49f5ba75419f15023077c73d2",
+  "cases": [
+    {
+      "case": "success",
+      "ready": true,
+      "handshake_closed": true,
+      "alive_before_input_after_600ms": true,
+      "exit_code": 0,
+      "parent_cwd_unchanged": true,
+      "cwd_verified": true,
+      "arguments_consumed": true,
+      "env_cleared": true,
+      "cwd_env_cleared": true,
+      "file_mode": "0o600",
+      "directory_mode": "0o700",
+      "no_cwd_command_execution": true
+    },
+    {
+      "case": "missing-startup",
+      "ready": false,
+      "handshake_closed": true,
+      "alive_before_input_after_600ms": true,
+      "exit_code": 0,
+      "parent_cwd_unchanged": true
+    },
+    {
+      "case": "invalid-cwd",
+      "ready": false,
+      "handshake_closed": true,
+      "alive_before_input_after_600ms": false,
+      "exit_code": 125,
+      "parent_cwd_unchanged": true
+    }
+  ]
+}

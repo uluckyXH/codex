@@ -1,0 +1,7 @@
+{
+  "harmony/terminal-host/entry/src/main/cpp/process_identity.cpp": "4f60a032bdcf7e24b873e357b7ebfc934fd0db610c3c01e4b4b865779044db65",
+  "harmony/terminal-host/entry/src/main/cpp/owned_processes.cpp": "b9dd84bae985835b24c06b6a4ca384af051224a23c96e65141ae236781ceba32",
+  "harmony/terminal-host/entry/src/main/cpp/pty_session.cpp": "26a170c218eb0baad9bd9f3bb102ad165fb41e5af9133c908415e578808700ca",
+  "harmony/terminal-host/entry/src/main/cpp/codex_launcher.cpp": "bf67ab7cf20e9ccdedc670919b5fa37cfe81e46e7b1d09a524951a755240495f",
+  "harmony/terminal-host/host_protocol_test_main.cpp": "ffe08a7713f68ecea4d20ba726c1ce0224a1d3312fdcaace523cc395dd3c55c5"
+}

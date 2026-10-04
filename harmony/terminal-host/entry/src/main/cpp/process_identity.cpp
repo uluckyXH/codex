@@ -43,7 +43,10 @@ bool ParseProcessStat(const std::string &record, ProcessIdentity &identity) {
         if (errno || !end || *end) return false;
         if (i < 3 && parsed[i] > static_cast<unsigned long long>(std::numeric_limits<pid_t>::max())) return false;
     }
-    if (!parsed[1] || !parsed[2] || !parsed[3]) return false;
+    // Application hosts can legitimately have pgrp/session 0 in their PID
+    // namespace. Observation is not authorization: Begin separately requires
+    // a spawned terminal leader whose nonzero group/session equal its PID.
+    if (!parsed[3]) return false;
     identity = {static_cast<pid_t>(pid), static_cast<pid_t>(parsed[0]), static_cast<pid_t>(parsed[1]),
                 static_cast<pid_t>(parsed[2]), parsed[3], tokens[0][0]};
     return true;

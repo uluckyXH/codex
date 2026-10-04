@@ -1,0 +1,21 @@
+command: node harmony/terminal-host/test_terminal_bridge.cjs
+exit_code: 0
+以下为本轮此前工具输出的原样存档；不证明 C++ 运行验证。
+PASS page never starts or stops a process
+PASS late bridge receives geometry and token
+PASS split UTF8 bytes remain raw bytes
+PASS output backpressure waits for completion
+PASS HTML and escapes stay terminal bytes
+PASS oversized Unicode paste rejected whole
+PASS oversized output rejected
+PASS invalid base64 rejected
+PASS native error text cannot become markup
+PASS exit metadata requires integers
+PASS leader exit alone never claims cleanup complete
+PASS signal failure stays visible
+PASS replacement session resets display and changes input token
+PASS stale native packet discarded
+PASS input pending page refresh cannot reach new session
+PASS late output callback after disposal does not schedule work
+PASS idle page does not send input
+17 checks passed

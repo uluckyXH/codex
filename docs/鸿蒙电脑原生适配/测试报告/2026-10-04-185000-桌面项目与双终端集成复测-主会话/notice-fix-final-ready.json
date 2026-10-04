@@ -1,0 +1,74 @@
+[
+  {
+    "type": "turn_context",
+    "cwd": "/storage/Users/currentUser/Desktop/1",
+    "model": "gpt-5.6-terra",
+    "approval_policy": "on-request",
+    "sandbox_policy": {
+      "type": "danger-full-access"
+    }
+  },
+  {
+    "type": "response_item",
+    "payload": {
+      "type": "message",
+      "id": "msg_01a106dc-0d63-7c01-a4d7-099736447288",
+      "role": "user",
+      "content": [
+        {
+          "type": "input_text",
+          "text": "say ready and run pwd once without writing any files"
+        }
+      ]
+    }
+  },
+  {
+    "type": "response_item",
+    "payload": {
+      "type": "message",
+      "id": "msg_00e26ce66e60e74f016ac244a488a887d1be957c6d7c5348e0",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "Ready — I’m checking the current directory once."
+        }
+      ],
+      "phase": "commentary"
+    }
+  },
+  {
+    "type": "response_item",
+    "payload": {
+      "type": "function_call",
+      "id": "fc_00e26ce66e60e74f016ac244a5117c87d1be69df5c86e29278",
+      "name": "exec_command",
+      "arguments": "{\"cmd\":\"pwd\",\"workdir\":\"/storage/Users/currentUser/Desktop/1\",\"yield_time_ms\":10000,\"max_output_tokens\":2000}",
+      "call_id": "call_4AZpIrFfc0eIwOhpzUnFx2Sm"
+    }
+  },
+  {
+    "type": "response_item",
+    "payload": {
+      "type": "function_call_output",
+      "id": "fco_01a106dc-2940-75e3-9838-51c21a15ad1d",
+      "call_id": "call_4AZpIrFfc0eIwOhpzUnFx2Sm",
+      "output": "Chunk ID: 552a73\nWall time: 0.0000 seconds\nProcess exited with code 0\nOriginal token count: 10\nOutput:\n/storage/Users/currentUser/Desktop/1\n"
+    }
+  },
+  {
+    "type": "response_item",
+    "payload": {
+      "type": "message",
+      "id": "msg_00e26ce66e60e74f016ac244a8e1e087d1b2a38b3adcda4190",
+      "role": "assistant",
+      "content": [
+        {
+          "type": "output_text",
+          "text": "Ready. `/storage/Users/currentUser/Desktop/1`"
+        }
+      ],
+      "phase": "final_answer"
+    }
+  }
+]

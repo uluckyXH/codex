@@ -87,6 +87,9 @@ class HnpInputIntegrityTests(unittest.TestCase):
 
     def test_valid_input_preserves_runtime_and_source_identity(self):
         def pack(command, **_):
+            package = Path(command[command.index("-i") + 1])
+            version = json.loads((package / "hnp.json").read_text())["version"]
+            self.assertLessEqual(len(version.encode("ascii")), 31, "hnpcli includes NUL in its 32-byte buffer")
             path = Path(command[command.index("-o") + 1]) / "codexharmony.hnp"
             path.write_bytes(b"fake SDK output, not installable")
             return SimpleNamespace(returncode=0, stdout="test pack only\n")
@@ -100,7 +103,7 @@ class HnpInputIntegrityTests(unittest.TestCase):
             self.assertEqual((self.output / "native-package" / name).read_bytes(), (self.source / name).read_bytes())
             self.assertEqual(manifest["files"][name]["sha256"], self.record["文件"][name]["SHA-256"])
         header = (self.output / "native_package.h").read_text()
-        self.assertIn("/data/app/codexharmony.org/codexharmony_0.160.0.g" + self.revision[:12], header)
+        self.assertIn("/data/app/codexharmony.org/codexharmony_0.160.0.g" + self.revision[:8], header)
         staged = json.loads((self.output / "manifest.json").read_text())
         self.assertRegex(staged["runtime_identity"], r"^[0-9a-f]{64}$")
         self.assertIn(".r" + staged["runtime_identity"][:12], staged["hnp_version"])
