@@ -804,7 +804,11 @@ pub(super) async fn run_main_inner(
         }
     }
 
-    let (tui_file_layer, _tui_file_log_guard) = if config_toml_log_dir_configured {
+    // OHOS initializes a private default log directory before startup. Keep
+    // diagnostics there even when users did not set a redundant log_dir key.
+    // Explicit configuration still selects config.log_dir as on other targets.
+    let write_tui_log_file = cfg!(target_env = "ohos") || config_toml_log_dir_configured;
+    let (tui_file_layer, _tui_file_log_guard) = if write_tui_log_file {
         let log_dir = config.log_dir.clone();
         std::fs::create_dir_all(&log_dir)?;
         let mut log_file_opts = OpenOptions::new();

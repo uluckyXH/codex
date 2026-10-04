@@ -1,0 +1,2 @@
+主动中断的原始日志SHA256：e407c8c4d7d22979d40ffb85ed12946ce7358db8e2e5e12f01898ba0eec1ec0c
+Cargo退出信号：SIGINT(2)；外层分发构建退出1。无本批完整签名包。
