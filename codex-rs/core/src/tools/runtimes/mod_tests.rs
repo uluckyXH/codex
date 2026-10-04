@@ -458,6 +458,283 @@ fn maybe_wrap_shell_lc_with_snapshot_preserves_trailing_args() {
     );
 }
 
+fn single_launch_sh(directory: &std::path::Path) -> PathBuf {
+    let path = directory.join("sh");
+    std::fs::write(
+        &path,
+        r#"#!/bin/sh
+if [ "${CODEX_TEST_SH_STARTED-}" = 1 ]; then
+  printf '%s\n' 'sh: sh: inaccessible or not found' >&2
+  exit 127
+fi
+export CODEX_TEST_SH_STARTED=1
+exec /bin/sh "$@"
+"#,
+    )
+    .expect("write single-launch shell");
+    std::fs::set_permissions(&path, std::fs::Permissions::from_mode(0o700))
+        .expect("make single-launch shell executable");
+    path
+}
+
+#[test]
+fn ohos_snapshot_reuses_sh_and_preserves_environment_arguments_and_exit() {
+    let dir = tempdir().expect("create temp dir");
+    let shell_path = single_launch_sh(dir.path());
+    let snapshot_path = dir.path().join("snapshot.sh");
+    std::fs::write(
+        &snapshot_path,
+        r#"export SNAPSHOT_ONLY=loaded
+export SNAPSHOT_OVERRIDE=stale
+export PATH=/snapshot/bin
+export CODEX_THREAD_ID=stale
+export HTTP_PROXY=http://stale.invalid
+snapshot_function() { printf 'function\n'; }
+alias snapshot_alias="printf 'alias\n'"
+"#,
+    )
+    .expect("write snapshot");
+    let (session_shell, shell_snapshot) = shell_with_snapshot(
+        ShellType::Sh,
+        shell_path.to_str().expect("shell path"),
+        snapshot_path.abs(),
+    );
+    let command = vec![
+        shell_path.to_string_lossy().to_string(),
+        "-lc".to_string(),
+        r#"printf '%s\n' "$SNAPSHOT_OVERRIDE" "$SNAPSHOT_ONLY" "$PATH" "$CODEX_THREAD_ID" "$HTTP_PROXY"
+snapshot_function
+snapshot_alias
+printf '<%s>\n' "$0" "$@"
+exit 37"#
+            .to_string(),
+        "command 'name\nnext line".to_string(),
+        String::new(),
+        "space value".to_string(),
+        "single'quote".to_string(),
+        "line\nbreak".to_string(),
+    ];
+    let overrides = HashMap::from([("SNAPSHOT_OVERRIDE".to_string(), "live".to_string())]);
+    let mut env = HashMap::from([
+        ("SNAPSHOT_OVERRIDE".to_string(), "live".to_string()),
+        ("PATH".to_string(), "/live/bin".to_string()),
+        (
+            CODEX_THREAD_ID_ENV_VAR.to_string(),
+            "live-thread".to_string(),
+        ),
+        (PROXY_ACTIVE_ENV_KEY.to_string(), "1".to_string()),
+        ("HTTP_PROXY".to_string(), "http://live.invalid".to_string()),
+    ]);
+    let mut prepends = RuntimePathPrepends::default();
+    prepends.prepend(&mut env, std::path::Path::new("/codex/tools"));
+
+    for is_ohos in [false, true] {
+        let rewritten = maybe_wrap_shell_lc_with_snapshot_for_platform(
+            &command,
+            &session_shell,
+            Some(&shell_snapshot),
+            &overrides,
+            &env,
+            &prepends,
+            is_ohos,
+        );
+        let output = Command::new(&rewritten[0])
+            .args(&rewritten[1..])
+            .env_clear()
+            .envs(&env)
+            .output()
+            .expect("run snapshot wrapper");
+        if is_ohos {
+            assert_eq!(output.status.code(), Some(37), "{output:?}");
+            assert_eq!(
+                String::from_utf8_lossy(&output.stdout),
+                "live\nloaded\n/codex/tools:/snapshot/bin\nlive-thread\nhttp://live.invalid\nfunction\nalias\n<command 'name\nnext line>\n<>\n<space value>\n<single'quote>\n<line\nbreak>\n"
+            );
+            assert!(output.stderr.is_empty(), "{output:?}");
+            assert_eq!(rewritten[3..], command[3..]);
+        } else {
+            assert_eq!(output.status.code(), Some(127), "{output:?}");
+            assert!(output.stdout.is_empty(), "{output:?}");
+            assert_eq!(
+                String::from_utf8_lossy(&output.stderr),
+                "sh: sh: inaccessible or not found\n"
+            );
+        }
+    }
+}
+
+#[test]
+fn ohos_snapshot_reuse_preserves_shell_options() {
+    let dir = tempdir().expect("create temp dir");
+    let snapshot_path = dir.path().join("snapshot.sh");
+    std::fs::write(&snapshot_path, "set -e\n").expect("write snapshot");
+    let (session_shell, shell_snapshot) =
+        shell_with_snapshot(ShellType::Sh, "/bin/sh", snapshot_path.abs());
+    let command = vec![
+        "/bin/sh".to_string(),
+        "-lc".to_string(),
+        "printf 'before\\n'\nfalse\nprintf 'must not run\\n'".to_string(),
+    ];
+    let rewritten = maybe_wrap_shell_lc_with_snapshot_for_platform(
+        &command,
+        &session_shell,
+        Some(&shell_snapshot),
+        &HashMap::new(),
+        &HashMap::new(),
+        &RuntimePathPrepends::default(),
+        true,
+    );
+    let output = Command::new(&rewritten[0])
+        .args(&rewritten[1..])
+        .env_clear()
+        .output()
+        .expect("run snapshot wrapper");
+    assert_eq!(output.status.code(), Some(1), "{output:?}");
+    assert_eq!(output.stdout, b"before\n");
+    assert!(output.stderr.is_empty(), "{output:?}");
+}
+
+#[test]
+fn ohos_snapshot_reuse_requires_matching_sh_and_snapshot() {
+    let dir = tempdir().expect("create temp dir");
+    let snapshot_path = dir.path().join("snapshot.sh");
+    std::fs::write(&snapshot_path, "# Snapshot\n").expect("write snapshot");
+    let (session_shell, shell_snapshot) =
+        shell_with_snapshot(ShellType::Sh, "/bin/sh", snapshot_path.abs());
+    let command = vec![
+        "/bin/sh".to_string(),
+        "-lc".to_string(),
+        "echo hello".to_string(),
+    ];
+    for (shell_type, shell_path) in [
+        (ShellType::Sh, "/other/sh"),
+        (ShellType::Bash, "/bin/sh"),
+        (ShellType::Zsh, "/bin/sh"),
+    ] {
+        let shell = Shell {
+            shell_type,
+            shell_path: PathBuf::from(shell_path),
+        };
+        let rewritten = maybe_wrap_shell_lc_with_snapshot_for_platform(
+            &command,
+            &shell,
+            Some(&shell_snapshot),
+            &HashMap::new(),
+            &HashMap::new(),
+            &RuntimePathPrepends::default(),
+            true,
+        );
+        assert!(rewritten[2].contains("exec '/bin/sh' -c 'echo hello'"));
+    }
+    let missing_snapshot = dir.path().join("missing.sh").abs();
+    for snapshot in [None, Some(&missing_snapshot)] {
+        assert_eq!(
+            maybe_wrap_shell_lc_with_snapshot_for_platform(
+                &command,
+                &session_shell,
+                snapshot,
+                &HashMap::new(),
+                &HashMap::new(),
+                &RuntimePathPrepends::default(),
+                true,
+            ),
+            command
+        );
+    }
+    let mut non_login = command;
+    non_login[1] = "-c".to_string();
+    assert_eq!(
+        maybe_wrap_shell_lc_with_snapshot_for_platform(
+            &non_login,
+            &session_shell,
+            Some(&shell_snapshot),
+            &HashMap::new(),
+            &HashMap::new(),
+            &RuntimePathPrepends::default(),
+            true,
+        ),
+        non_login
+    );
+}
+
+#[test]
+fn ohos_snapshot_reuse_preserves_brokered_credentials_and_startup_cleanup() {
+    let dir = tempdir().expect("create temp dir");
+    let shell_path = single_launch_sh(dir.path());
+    let snapshot_path = dir.path().join("snapshot.sh");
+    let protected_startup = dir.path().join("protected.sh");
+    std::fs::write(&protected_startup, "printf 'must not run\\n'\nexit 99\n")
+        .expect("write protected startup");
+    let copy_key = format!("{SNAPSHOT_BROKERED_VALUE_ENV_PREFIX}TEST_CREDENTIAL");
+    let env = HashMap::from([
+        (
+            CREDENTIAL_BROKER_ACTIVE_ENV_KEY.to_string(),
+            "1".to_string(),
+        ),
+        (PROXY_ACTIVE_ENV_KEY.to_string(), "1".to_string()),
+        (copy_key.clone(), "dummy-value".to_string()),
+        ("TEST_CREDENTIAL".to_string(), "dummy-value".to_string()),
+        ("BASH_ENV".to_string(), "/dev/null".to_string()),
+        (
+            SNAPSHOT_ORIGINAL_POSIX_ENV_ENV_KEY.to_string(),
+            protected_startup.to_string_lossy().to_string(),
+        ),
+    ]);
+    let (session_shell, shell_snapshot) = shell_with_snapshot(
+        ShellType::Sh,
+        shell_path.to_str().expect("shell path"),
+        snapshot_path.abs(),
+    );
+    let command_script = format!(
+        "printf '%s|%s|%s|%s|%s' \"$TEST_CREDENTIAL\" \"${{ENV-unset}}\" \"$BASH_ENV\" \"${{{copy_key}-unset}}\" \"${{{SNAPSHOT_ORIGINAL_POSIX_ENV_ENV_KEY}-unset}}\""
+    );
+    for credential in [
+        "export TEST_CREDENTIAL=snapshot-value",
+        "readonly TEST_CREDENTIAL=dummy-value",
+        "readonly TEST_CREDENTIAL=snapshot-value",
+    ] {
+        std::fs::write(
+            shell_snapshot.as_path(),
+            format!(
+                "{credential}\nexport ENV='{}'\nexport BASH_ENV='{}'\n",
+                shell_single_quote(&protected_startup.to_string_lossy()),
+                shell_single_quote(&protected_startup.to_string_lossy()),
+            ),
+        )
+        .expect("write snapshot");
+        for flag in ["-lc", "-c"] {
+            let command = vec![
+                shell_path.to_string_lossy().to_string(),
+                flag.to_string(),
+                command_script.clone(),
+            ];
+            let rewritten = maybe_wrap_shell_lc_with_snapshot_for_platform(
+                &command,
+                &session_shell,
+                Some(&shell_snapshot),
+                &HashMap::new(),
+                &env,
+                &RuntimePathPrepends::default(),
+                true,
+            );
+            let output = Command::new(&rewritten[0])
+                .args(&rewritten[1..])
+                .env_clear()
+                .envs(&env)
+                .output()
+                .expect("run brokered snapshot wrapper");
+            if credential == "readonly TEST_CREDENTIAL=snapshot-value" {
+                assert!(!output.status.success(), "{output:?}");
+                assert!(output.stdout.is_empty(), "{output:?}");
+            } else {
+                assert!(output.status.success(), "{output:?}");
+                assert_eq!(output.stdout, b"dummy-value|unset|/dev/null|unset|unset");
+                assert!(output.stderr.is_empty(), "{output:?}");
+            }
+        }
+    }
+}
+
 #[test]
 fn maybe_wrap_shell_lc_with_snapshot_reuses_brokered_session_zsh() {
     let dir = tempdir().expect("create temp dir");

@@ -1,0 +1,34 @@
+{
+  "sources_sha256": {
+    "codex-rs/core/src/tools/runtimes/mod.rs": "fcc7c2b5a7b02337461e489fc4f0340414a009e7998d78e57b2ef7c6a0d3652a",
+    "codex-rs/core/src/tools/runtimes/mod_tests.rs": "98ac15c2f9abfb0a9d881843ac0a166e81cfe4e2a64aef4d41e7d50b11b97e55",
+    "codex-rs/shell-command/src/shell_detect.rs": "c57e7c72ad8022750cde2f59b7cf6e345c7a7fb84daab9fa002b1b54f3729292",
+    "codex-rs/core/src/shell.rs": "ffc7510c7ba0b38eca27c6bec8551104e90805184f6fa08ac045d5311e0027f5",
+    "codex-rs/shell-command/src/shell_snapshot.rs": "a0e45b2466cc9bd88c630fa6477eced5f72493c8257671a0d5cdaba56ee39b41",
+    "codex-rs/protocol/src/shell_environment.rs": "158bdcedab562769d7bab4c5bfedefdf08c6c5379fe88d1c8836d1cd160099cf",
+    "codex-rs/network-proxy/src/proxy.rs": "4ec45719096d3033a3bfb6b1f2b4e19769160678cd57fe6f408dafd24257e76e",
+    "codex-rs/network-proxy/src/credential_broker.rs": "a78c91bf7b78c540d6b1ddfddd72181d55446cb46c8e84f8f0f621b86528635d",
+    "codex-rs/network-proxy/src/certs.rs": "87c01be2d153c139f04c696f917e88601e373618ec622e57ee7e7c1d57b8fbc8",
+    "codex-rs/core/src/exec_env.rs": "46ff557b1b745fb60e62adee117b266ed24c10872335ec6c40afc87fc56b77c3",
+    "codex-rs/apply-patch/src/lib.rs": "5e6f736f3a4b66c1d651baa9b85ce6e6921de170faf901e6c2f78ad9a383eaf9",
+    "codex-rs/core-plugins/src/plugin_metrics_sidecar.rs": "9c667aee2bd13cc51c9be595da83ba1a9865fe07d3e9a98973fa77dbc6690a60",
+    "codex-rs/network-proxy/src/attribution.rs": "6a15d7f148a7dc7ebbe9207a6352b1fe624179085531305dba444553b15dacf1"
+  },
+  "harness_sha256": "ba351c2e3e039a7d3c55cd8d91d03d7341c4dd83b04f9d05fa7dd065d6f6ee6d",
+  "test_functions": [
+    "ohos_snapshot_reuses_sh_and_preserves_environment_arguments_and_exit",
+    "ohos_snapshot_reuse_preserves_shell_options",
+    "ohos_snapshot_reuse_requires_matching_sh_and_snapshot",
+    "ohos_snapshot_reuse_preserves_brokered_credentials_and_startup_cleanup",
+    "maybe_wrap_shell_lc_with_snapshot_bootstraps_in_user_shell",
+    "maybe_wrap_shell_lc_with_snapshot_escapes_single_quotes",
+    "maybe_wrap_shell_lc_with_snapshot_uses_bash_bootstrap_shell",
+    "maybe_wrap_shell_lc_with_snapshot_uses_sh_bootstrap_shell",
+    "maybe_wrap_shell_lc_with_snapshot_preserves_trailing_args",
+    "maybe_wrap_shell_lc_with_snapshot_reuses_brokered_session_zsh",
+    "maybe_wrap_shell_lc_with_snapshot_restores_explicit_override_precedence",
+    "maybe_wrap_shell_lc_with_snapshot_keeps_snapshot_path_without_override",
+    "maybe_wrap_shell_lc_with_snapshot_applies_explicit_path_override"
+  ],
+  "limitations": "Run the production snapshot wrapper and selected Rust tests without codex-core.\n\nThe wrapper, shell text helpers, constants and test functions are extracted verbatim.\nOnly dependency scaffolding is replaced: ShellType/Shell omit serde derives,\nAbsolutePathBuf uses an already-absolute PathBuf, tempfile uses a private std-only\ndirectory, and provider registry lookup asserts the absent marker used by these\nfixtures before returning no provider keys. This is not a full cargo test.\n"
+}

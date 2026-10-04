@@ -1,0 +1,18 @@
+
+running 13 tests
+test maybe_wrap_shell_lc_with_snapshot_uses_sh_bootstrap_shell ... ok
+test maybe_wrap_shell_lc_with_snapshot_reuses_brokered_session_zsh ... ok
+test maybe_wrap_shell_lc_with_snapshot_bootstraps_in_user_shell ... ok
+test maybe_wrap_shell_lc_with_snapshot_preserves_trailing_args ... ok
+test maybe_wrap_shell_lc_with_snapshot_escapes_single_quotes ... ok
+test maybe_wrap_shell_lc_with_snapshot_uses_bash_bootstrap_shell ... ok
+test ohos_snapshot_reuse_requires_matching_sh_and_snapshot ... ok
+test maybe_wrap_shell_lc_with_snapshot_restores_explicit_override_precedence ... ok
+test maybe_wrap_shell_lc_with_snapshot_applies_explicit_path_override ... ok
+test maybe_wrap_shell_lc_with_snapshot_keeps_snapshot_path_without_override ... ok
+test ohos_snapshot_reuse_preserves_shell_options ... ok
+test ohos_snapshot_reuses_sh_and_preserves_environment_arguments_and_exit ... ok
+test ohos_snapshot_reuse_preserves_brokered_credentials_and_startup_cleanup ... ok
+
+test result: ok. 13 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.28s
+

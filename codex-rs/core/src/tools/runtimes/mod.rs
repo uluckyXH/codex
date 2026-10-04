@@ -277,6 +277,8 @@ pub(crate) fn prepare_brokered_shell_snapshot_env(
 ///
 /// Brokered Bash and Zsh commands targeting the session shell run in that process
 /// to preserve captured shell functions and avoid asking patched Zsh to exec itself.
+/// On OHOS, Sh commands targeting the session shell also run in that process:
+/// the app can launch the system shell, but its nested executable lookup can fail.
 /// Brokered Zsh wrappers use `-f` so startup files cannot overwrite credentials
 /// after the proxy has replaced them with dummies.
 ///
@@ -301,6 +303,26 @@ pub(crate) fn maybe_wrap_shell_lc_with_snapshot(
     explicit_env_overrides: &HashMap<String, String>,
     env: &HashMap<String, String>,
     runtime_path_prepends: &RuntimePathPrepends,
+) -> Vec<String> {
+    maybe_wrap_shell_lc_with_snapshot_for_platform(
+        command,
+        session_shell,
+        shell_snapshot,
+        explicit_env_overrides,
+        env,
+        runtime_path_prepends,
+        cfg!(target_env = "ohos"),
+    )
+}
+
+fn maybe_wrap_shell_lc_with_snapshot_for_platform(
+    command: &[String],
+    session_shell: &Shell,
+    shell_snapshot: Option<&AbsolutePathBuf>,
+    explicit_env_overrides: &HashMap<String, String>,
+    env: &HashMap<String, String>,
+    runtime_path_prepends: &RuntimePathPrepends,
+    is_ohos: bool,
 ) -> Vec<String> {
     if cfg!(windows) {
         return command.to_vec();
@@ -330,9 +352,9 @@ pub(crate) fn maybe_wrap_shell_lc_with_snapshot(
     let shell_path = session_shell.shell_path.to_string_lossy();
     let command_uses_session_zsh =
         session_shell.shell_type == ShellType::Zsh && command[0] == shell_path.as_ref();
-    let reuse_session_shell = brokered
-        && command[0] == shell_path.as_ref()
-        && matches!(session_shell.shell_type, ShellType::Bash | ShellType::Zsh);
+    let reuse_session_shell = command[0] == shell_path.as_ref()
+        && ((brokered && matches!(session_shell.shell_type, ShellType::Bash | ShellType::Zsh))
+            || (is_ohos && session_shell.shell_type == ShellType::Sh));
     let original_shell_is_zsh = command_uses_session_zsh
         || codex_shell_command::shell_detect::detect_shell_type(&command[0])
             == Some(ShellType::Zsh);

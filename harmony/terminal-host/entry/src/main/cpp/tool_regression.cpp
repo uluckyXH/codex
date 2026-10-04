@@ -123,12 +123,16 @@ bool RunToolRegression(int files, int logs, FILE *report, const std::string &pre
                        const std::atomic<bool> &cancelled) {
     // Probe only fixed system paths. A PATH lookup failure is not proof that
     // the command is absent from the OS or unavailable in a different host.
-    for (const char *path : {"/system/bin/sh", "/system/bin/cat", "/system/bin/toybox", "/bin/cat", "/system/xbin/cat",
+    for (const char *path : {"/system/bin/sh", "/bin/bash", "/system/bin/cat", "/system/bin/toybox", "/bin/cat", "/system/xbin/cat",
                              "/system/bin/git", "/system/bin/node", "/system/bin/python3"}) {
         errno = 0; int executable = access(path, X_OK); int accessError = errno;
-        struct stat metadata = {}; errno = 0; int observed = lstat(path, &metadata); int statError = errno;
-        fprintf(report, "system_command=%s access_x=%d access_errno=%d lstat=%d stat_errno=%d mode=%o\n",
-            path, executable, accessError, observed, statError, observed == 0 ? metadata.st_mode & 07777 : 0);
+        struct stat linkMetadata = {}; errno = 0; int linkObserved = lstat(path, &linkMetadata); int linkError = errno;
+        struct stat metadata = {}; errno = 0; int observed = stat(path, &metadata); int statError = errno;
+        // Shell lookup uses stat, while earlier diagnostics only used lstat.
+        // Keep both results: execution permission does not imply metadata access.
+        fprintf(report, "system_command=%s access_x=%d access_errno=%d lstat=%d lstat_errno=%d link_mode=%o stat=%d stat_errno=%d mode=%o\n",
+            path, executable, accessError, linkObserved, linkError, linkObserved == 0 ? linkMetadata.st_mode & 07777 : 0,
+            observed, statError, observed == 0 ? metadata.st_mode & 07777 : 0);
     }
     int workspace = PrivateDirectory(files, "workspace");
     if (workspace < 0) { fprintf(report, "tool_setup_errno=%d\n", errno); return false; }
