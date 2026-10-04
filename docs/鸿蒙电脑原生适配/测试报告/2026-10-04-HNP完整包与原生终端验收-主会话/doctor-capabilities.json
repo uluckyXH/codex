@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "generatedAt": "2026-10-03T23:08:44.897617033+00:00",
+  "overallStatus": "warning",
+  "codexVersion": "0.160.0-dev (HarmonyOS; build 8c4b3a6f48efa9eb4642d75929de8ba5ebdc6e84; target aarch64-unknown-linux-ohos)",
+  "checks": {
+    "runtime.capabilities": {
+      "id": "runtime.capabilities",
+      "category": "runtime",
+      "status": "warning",
+      "summary": "native HarmonyOS capability policy; runtime support is not verified",
+      "details": {
+        "browser opening": "unavailable; this CLI has no native browser launcher; the examined public API 24 Ability C interfaces require an application context",
+        "bubblewrap PATH candidate": "not found",
+        "bubblewrap packaged candidate": "/data/app/codexharmony.org/codexharmony_0.160.0.g8c4b3a6f48ef/codex-resources/bwrap",
+        "bubblewrap readiness": "candidates inspected only; loading, namespaces, seccomp and package digest not verified by this report",
+        "bubblewrap selection": "PATH candidate supporting --as-pid-1 and --perms first, otherwise packaged candidate; launcher checks packaged digest when configured",
+        "clipboard copy fallback": "OSC 52 request is unconfirmed until pasted",
+        "clipboard image/HTML": "native integration not implemented",
+        "clipboard read": "requires ohos.permission.READ_PASTEBOARD; use terminal paste when the process lacks permission",
+        "features.browser_annotation_api": "unavailable; desktop and browser automation require a HarmonyOS integration that this CLI does not provide",
+        "features.browser_use": "unavailable; desktop and browser automation require a HarmonyOS integration that this CLI does not provide",
+        "features.browser_use_external": "unavailable; desktop and browser automation require a HarmonyOS integration that this CLI does not provide",
+        "features.browser_use_full_cdp_access": "unavailable; desktop and browser automation require a HarmonyOS integration that this CLI does not provide",
+        "features.code_mode": "unavailable; the V8 code-mode host is not available in this native HarmonyOS build; use direct tools",
+        "features.code_mode_host": "unavailable; the V8 code-mode host is not available in this native HarmonyOS build; use direct tools",
+        "features.code_mode_interrupt": "unavailable; the V8 code-mode host is not available in this native HarmonyOS build; use direct tools",
+        "features.code_mode_only": "unavailable; the V8 code-mode host is not available in this native HarmonyOS build; use direct tools",
+        "features.code_mode_prewarm": "unavailable; the V8 code-mode host is not available in this native HarmonyOS build; use direct tools",
+        "features.computer_use": "unavailable; desktop and browser automation require a HarmonyOS integration that this CLI does not provide",
+        "features.in_app_browser": "unavailable; desktop and browser automation require a HarmonyOS integration that this CLI does not provide",
+        "features.in_app_dictation": "unavailable; native voice capture and playback are not implemented for the HarmonyOS CLI",
+        "features.in_app_local_automation": "unavailable; desktop and browser automation require a HarmonyOS integration that this CLI does not provide",
+        "features.in_app_voice": "unavailable; native voice capture and playback are not implemented for the HarmonyOS CLI",
+        "features.realtime_conversation": "unavailable; native voice capture and playback are not implemented for the HarmonyOS CLI",
+        "features.shell_zsh_fork": "unavailable; the customized zsh exec bridge is not available on HarmonyOS; use the native shell tools",
+        "features.unified_exec_zsh_fork": "unavailable; the customized zsh exec bridge is not available on HarmonyOS; use the native shell tools",
+        "local execution": "embedded app-server and direct shell/file tools; execution not probed",
+        "local shared daemon and automatic updates": "unavailable",
+        "local shell type": "sh; execution not probed",
+        "native text paste": "opt in with tui.right_click_paste = \"on\"; automatic right-click paste remains disabled",
+        "runtime directory build contract": "CODEX_OHOS_RUNTIME_BASE=/data/storage/el2/base/files/r",
+        "runtime directory build profile": "hnp-debug",
+        "runtime directory deployment": "private HNP application debug build; compiled application UID: 20020059; requires verified private application directories; not a general HiShell package and does not enable command isolation",
+        "runtime directory selection": "build-bound; no HOME/CODEX_HOME/TMPDIR/Context fallback",
+        "runtime directory validation": "commercial HarmonyOS PC acceptance pending; this report does not approve a safe root or create runtime directories",
+        "runtime layout": "base/c<effective-uid-hex>/a for executable aliases; base/c<effective-uid-hex>/s for protected control sockets and locks",
+        "runtime path evidence": "run codex-resources/harmony-runtime-probe independently; native context and mount semantics are not probed by doctor --capabilities",
+        "text clipboard": "public Pasteboard/UDMF API 13 backend implemented; library availability and process permission not probed"
+      },
+      "remediation": null,
+      "durationMs": 0
+    },
+    "runtime.provenance": {
+      "id": "runtime.provenance",
+      "category": "runtime",
+      "status": "ok",
+      "summary": "running local build on harmonyos-aarch64",
+      "details": {
+        "HarmonyOS build ID": "8c4b3a6f48efa9eb4642d75929de8ba5ebdc6e84",
+        "build target": "aarch64-unknown-linux-ohos",
+        "commit": "unknown",
+        "current executable": "/data/app/codexharmony.org/codexharmony_0.160.0.g8c4b3a6f48ef/bin/codex",
+        "install method": "other (package /data/app/codexharmony.org/codexharmony_0.160.0.g8c4b3a6f48ef, bin /data/app/codexharmony.org/codexharmony_0.160.0.g8c4b3a6f48ef/bin, resources /data/app/codexharmony.org/codexharmony_0.160.0.g8c4b3a6f48ef/codex-resources, path /data/app/codexharmony.org/codexharmony_0.160.0.g8c4b3a6f48ef/codex-path)",
+        "package version": "0.160.0-dev.harmony.g8c4b3a6f48ef",
+        "platform": "harmonyos-aarch64",
+        "process diagnostics": "set CODEX_HARMONY_PROCESS_DIAGNOSTICS=1; collect stderr; stages and native wait status only",
+        "version": "0.160.0-dev"
+      },
+      "remediation": null,
+      "durationMs": 0
+    },
+    "runtime.search": {
+      "id": "runtime.search",
+      "category": "search",
+      "status": "ok",
+      "summary": "search command found (bundled); execution not verified",
+      "details": {
+        "search command": "/data/app/codexharmony.org/codexharmony_0.160.0.g8c4b3a6f48ef/codex-path/rg",
+        "search command readiness": "file exists",
+        "search provider": "bundled"
+      },
+      "remediation": null,
+      "durationMs": 0
+    }
+  }
+}

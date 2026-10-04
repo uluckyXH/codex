@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-04",
+  "application_uid": 20020059,
+  "test_requests_models": false,
+  "canonical_source": "harmony/terminal-host/entry/src/main/cpp/pty_session.cpp",
+  "basic_pty_result": "PASS",
+  "session_v1_result": "FAIL step7",
+  "session_v2_result": "FAIL resize_get EACCES13",
+  "session_v3_result": "PASS: resize, 16KiB intact input, queue backpressure, exit37, kill/reap signal9, EOF",
+  "sha256": {
+    "harmony/terminal-host/entry/src/main/cpp/pty_session.cpp": "7a41f1bce86912bcf2e44a9638ba463f93b85fb0e8256c93a6cbac3c753e5505",
+    "harmony/terminal-host/entry/src/main/cpp/pty_session.h": "001902f618f485a6eec337fe3bd6537851b00f72328cbb5a204d4a34c8939aa0",
+    ".harmony-build/emulator-hnp/pty-session-test/pty_session.cpp": "7a41f1bce86912bcf2e44a9638ba463f93b85fb0e8256c93a6cbac3c753e5505",
+    ".harmony-build/emulator-hnp/pty-session-test/native_package.h": "d8bd35bf497cb5860b4c5e5f667b358c22724dabddbac37493bad6dd737a3b24",
+    ".harmony-build/emulator-hnp/pty-session-test/session_probe.cpp": "18edb2032982c327667509698436c93cb7b3f78b8dbdf779d745f567065886b2",
+    ".harmony-build/emulator-hnp/pty-session-test/probe-v3": "1b37f697d810f3d4913e5d8353dabaefcd70f39ead81d19ef6eac58021d0feed",
+    ".harmony-build/emulator-hnp/pty-session-test/child": "cb09f0ebc779357c9967019017eefc86c74064bed42c03698dcc4fb6cddc9830",
+    ".harmony-build/emulator-hnp/pty_probe.c": "d2837f16790a1de7395181b2372f1d577d95478c974737d58453eed1352fef0e",
+    ".harmony-build/emulator-hnp/pty1-pty.log": "f586391686556c147f6e5e38b139e818eadc162e00cc23ebb958ffa13fa802c2",
+    ".harmony-build/emulator-hnp/terminal2-session.log": "e2b709dfdc96600686a1d33e5ff3fc0db9048c1f3bab9fc903ad63085c135277",
+    ".harmony-build/emulator-hnp/full1-session.log": "5bbe6b69b2c8772f3daf148ff5c38bb55969045e513de4b13596cb1792aee4b7",
+    ".harmony-build/emulator-hnp/full2-pty-session-probe.log": "70873770107c117cc002b9b0d7aaf3000dccfc81adb8ad605552cbccd3972bfa",
+    ".harmony-build/emulator-hnp/full2-host-probe.log": "3b99d48ebc4eb15315bdd2656943724fa507440fc2fca69818b26dbbec8bd160"
+  },
+  "canonical_and_probe_cpp_identical_at_session_v3": true,
+  "final_host_delta": {
+    "change": "Only add fixed -c log_dir=\"/data/storage/el2/base/files/state/log\" to Codex argv; exact diff inspected.",
+    "final_cpp_sha256": "5edf0e10d295964b4b03b5311017727215df157f62e9776ae67da34f79f0151e",
+    "session_v3_cpp_sha256": "7a41f1bce86912bcf2e44a9638ba463f93b85fb0e8256c93a6cbac3c753e5505",
+    "verification_boundary": "Previous SHA entries are session-v3 evidence. Final real TUI/log validation is recorded by the root integration task."
+  }
+}

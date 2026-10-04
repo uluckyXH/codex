@@ -1,0 +1,15 @@
+__pycache__/
+node_modules/
+oh_modules/
+.hvigor/
+build/
+.cxx/
+hnp/
+*.hap
+*.hnp
+*.p12
+*.p7b
+*.key
+config.toml
+auth.json
+.env

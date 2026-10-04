@@ -1,0 +1,37 @@
+action=tools uid=20020059 gid=20020059
+system_command=/system/bin/sh access_x=0 access_errno=0 lstat=-1 stat_errno=13 mode=0
+system_command=/system/bin/cat access_x=0 access_errno=0 lstat=-1 stat_errno=13 mode=0
+system_command=/system/bin/toybox access_x=0 access_errno=0 lstat=0 stat_errno=0 mode=755
+system_command=/bin/cat access_x=0 access_errno=0 lstat=-1 stat_errno=13 mode=0
+system_command=/system/xbin/cat access_x=-1 access_errno=2 lstat=-1 stat_errno=2 mode=0
+system_command=/system/bin/git access_x=-1 access_errno=2 lstat=-1 stat_errno=2 mode=0
+system_command=/system/bin/node access_x=-1 access_errno=2 lstat=-1 stat_errno=2 mode=0
+system_command=/system/bin/python3 access_x=-1 access_errno=2 lstat=-1 stat_errno=2 mode=0
+tool_fixture=/data/storage/el2/base/files/workspace/tools-19428-codex-tools-19428-1 mode=0700 real_config_read=false
+native_open_requested_mode=666 observed_mode=666 uid=20020059
+step=rg-version spawn_result=0 child_pid=19528 stdout=codex-tools-19428-1-rg-version.stdout.txt stderr=codex-tools-19428-1-rg-version.stderr.txt
+step=rg-version exit_code=0 signal=0 raw_wait_status=0 core_dumped=0 stopped=0 passed=1
+step=create spawn_result=0 child_pid=19534 stdout=codex-tools-19428-1-create.stdout.txt stderr=codex-tools-19428-1-create.stderr.txt
+step=create exit_code=0 signal=0 raw_wait_status=0 core_dumped=0 stopped=0 passed=1
+assert_file=sample.txt uid=20020059 gid=20020059 mode=666 links=1 bytes=16 read_bytes=16 content_equal=1 private_log=0
+assert=create_content passed=1
+step=modify spawn_result=0 child_pid=19545 stdout=codex-tools-19428-1-modify.stdout.txt stderr=codex-tools-19428-1-modify.stderr.txt
+step=modify exit_code=0 signal=0 raw_wait_status=0 core_dumped=0 stopped=0 passed=1
+assert_file=sample.txt uid=20020059 gid=20020059 mode=666 links=1 bytes=16 read_bytes=16 content_equal=1 private_log=0
+assert=modify_content passed=1
+step=read spawn_result=0 child_pid=19547 stdout=codex-tools-19428-1-read.stdout.txt stderr=codex-tools-19428-1-read.stderr.txt
+assert_file=codex-tools-19428-1-read.stdout.txt uid=20020059 gid=20020059 mode=600 links=1 bytes=16 read_bytes=16 content_equal=1 private_log=1
+step=read exit_code=0 signal=0 raw_wait_status=0 core_dumped=0 stopped=0 passed=1
+step=toybox-cat spawn_result=0 child_pid=19553 stdout=codex-tools-19428-1-toybox-cat.stdout.txt stderr=codex-tools-19428-1-toybox-cat.stderr.txt
+assert_file=codex-tools-19428-1-toybox-cat.stdout.txt uid=20020059 gid=20020059 mode=600 links=1 bytes=16 read_bytes=16 content_equal=1 private_log=1
+step=toybox-cat exit_code=0 signal=0 raw_wait_status=0 core_dumped=0 stopped=0 passed=1
+step=toybox-ls spawn_result=0 child_pid=19556 stdout=codex-tools-19428-1-toybox-ls.stdout.txt stderr=codex-tools-19428-1-toybox-ls.stderr.txt
+assert_file=codex-tools-19428-1-toybox-ls.stdout.txt uid=20020059 gid=20020059 mode=600 links=1 bytes=26 read_bytes=26 content_equal=1 private_log=1
+step=toybox-ls exit_code=0 signal=0 raw_wait_status=0 core_dumped=0 stopped=0 passed=1
+step=search spawn_result=0 child_pid=19557 stdout=codex-tools-19428-1-search.stdout.txt stderr=codex-tools-19428-1-search.stderr.txt
+assert_file=codex-tools-19428-1-search.stdout.txt uid=20020059 gid=20020059 mode=600 links=1 bytes=18 read_bytes=18 content_equal=1 private_log=1
+step=search exit_code=0 signal=0 raw_wait_status=0 core_dumped=0 stopped=0 passed=1
+step=delete spawn_result=0 child_pid=19558 stdout=codex-tools-19428-1-delete.stdout.txt stderr=codex-tools-19428-1-delete.stderr.txt
+step=delete exit_code=0 signal=0 raw_wait_status=0 core_dumped=0 stopped=0 passed=1
+assert=deleted passed=1
+tool_regression_complete=yes passed=1

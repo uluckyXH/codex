@@ -1,0 +1,19 @@
+{
+  "recorded_at": "2026-10-03T23:43:44.966407+00:00",
+  "test_exit_code": 0,
+  "test_count": 11,
+  "source_files": {
+    "harmony/terminal-host/prepare_codex_hnp.py": "f1c89af6f44138798742e88b59775427ddb405965324e303fd8a7c16c0ed3ac0",
+    "harmony/terminal-host/test_prepare_codex_hnp.py": "0850a258f643e8575019404987640c39934eba31571d15540c371e4851210f33"
+  },
+  "distribution": "releases/2026-10-04-063742-鸿蒙Codex-HNP应用调试/鸿蒙Codex",
+  "distribution_validation": "PASS (read-only)",
+  "checked_checksum_entries": 19,
+  "runtime_elf_count": 8,
+  "rust_source_sha": "8c4b3a6f48efa9eb4642d75929de8ba5ebdc6e84",
+  "codex_version": "0.160.0-dev.harmony.g8c4b3a6f48ef",
+  "checksum_file_sha256": "d955911419ed6d1ea0eebfe67656e72b27c2e3a1c432fa330ea059846477c329",
+  "build_record_sha256": "3ec9d9b45e2b5cd7dd0e99608397b748a9fa4fae5c7988eefe3becbf9a70a1d3",
+  "package_metadata_sha256": "271df864a5f4f949c10d9a7007c39cb7e7b96e2eee452edd7e71832ec3e73583",
+  "boundary": "Local integrity/provenance validation; no ELF execution, signing, device install, model request, or user config read."
+}

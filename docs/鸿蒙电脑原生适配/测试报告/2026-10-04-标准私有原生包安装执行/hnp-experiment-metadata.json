@@ -1,0 +1,121 @@
+{
+  "date": "2026-10-04",
+  "bundle": "com.codex.emulatorhnp",
+  "app_uid": 20020059,
+  "app_gid": 20020059,
+  "permissions": [
+    "ohos.permission.INTERNET"
+  ],
+  "signing": "unsigned-debug-HAP on emulator; SDK-self-signed independent ELF",
+  "public_endpoint": "developer.huawei.com:443",
+  "application_files_dir": "/data/storage/el2/base/files",
+  "runtime_base": "/data/storage/el2/base/files/r",
+  "runtime_base_utf8_bytes": 30,
+  "artifacts": {
+    ".harmony-build/emulator-install/network-probe": {
+      "sha256": "c113003941784587cafe441b5087faf9f9b0e9186d989a42626dd72e61b9ace3",
+      "size": 22912
+    },
+    ".harmony-build/emulator-hnp/hnp-probe-first-unsigned.hap": {
+      "sha256": "b5e7fd74649562e8b5ffbc3e5914b58e8194dc08f7aab4f527c757328b8b63a3",
+      "size": 1361952
+    },
+    ".harmony-build/emulator-hnp/hnp-probe-second-unsigned.hap": {
+      "sha256": "c5d64d181d7d5f7868dce00e094f1c4af34afeed3f991a3386cbf83e56e9602a",
+      "size": 1376940
+    },
+    ".harmony-build/emulator-hnp/directory-probe-unsigned": {
+      "sha256": "3433fa5790d180d53547fd667bf2d6f56883b048ae0f95deaff77a0416889c49",
+      "size": 19728
+    },
+    ".harmony-build/emulator-hnp/native-package/bin/directory-probe": {
+      "sha256": "67751f576d108fa4c540e83a470eb3102884d1d71e08183a1a0aa31c3f53bc38",
+      "size": 27008
+    },
+    ".harmony-build/emulator-hnp/installed-network-probe": {
+      "sha256": "c113003941784587cafe441b5087faf9f9b0e9186d989a42626dd72e61b9ace3",
+      "size": 22912
+    },
+    ".harmony-build/emulator-hnp/entry/src/main/cpp/host_probe.cpp": {
+      "sha256": "2d82c54d5eb3740a9bd63b08cdddc4545b6724dcc727698a8762bd2c665b6484",
+      "size": 14669
+    },
+    ".harmony-build/emulator-hnp/entry/src/main/cpp/directory_probe.c": {
+      "sha256": "75029585695aa19e572140e2c0fb879231a9b05d3d607a730c899fb8217b69c6",
+      "size": 5505
+    },
+    ".harmony-build/emulator-hnp/hnp-probe-tightening-unsigned.hap": {
+      "sha256": "abc20f1cc0a2fbc50c913ddfaa5d1d9df0cc02633f4dad8cfc810d96986b56a7",
+      "size": 1378716
+    },
+    ".harmony-build/emulator-hnp/hnp-probe-runtime-unsigned.hap": {
+      "sha256": "0f9d8a2e0ae85ba2e3e956b97e6b12c51f3617721269d944655defbf2ea47c29",
+      "size": 4590730
+    },
+    ".harmony-build/emulator-hnp/hnp-probe-launcher-unsigned.hap": {
+      "sha256": "3d0a7df2b988ca7bed5bcb5da79301a9973bea7a41b92f6bc367ad4b7064ac55",
+      "size": 4667031
+    },
+    ".harmony-build/emulator-hnp/hnp-probe-entrycheck-unsigned.hap": {
+      "sha256": "55cce473fabae9b2a9da3f4d037d7979110a2888592fd8e0df3c85d226d71d58",
+      "size": 4666465
+    },
+    ".harmony-build/emulator-hnp/hnp-probe-extras-unsigned.hap": {
+      "sha256": "600fb2b78c676a5c0830acbaaa800c749576e2d027c2115c08691c0c351bd0d0",
+      "size": 5475652
+    },
+    ".harmony-build/emulator-hnp/hnp-probe-control-unsigned.hap": {
+      "sha256": "7117ea836e4dfe2782dfc983e6f1527b46d486b5596e827775f216dc37aad2ac",
+      "size": 5475004
+    },
+    ".harmony-build/emulator-hnp/hnp-probe-groups-unsigned.hap": {
+      "sha256": "a0a1ee9b68d6fbef5fb04182e1a184a98adb19dfb8fb3eefb632a65e2e96d297",
+      "size": 5475861
+    },
+    ".harmony-build/emulator-hnp/hnp-probe-aliasv2-unsigned.hap": {
+      "sha256": "334089ae39268092cdb558ece036f3305b89214017e2e5dbc3279dfbfa49941e",
+      "size": 8457171
+    }
+  },
+  "first_network_payload_unchanged": true,
+  "second_network_payload_unchanged": true,
+  "historical_second_hap_retained": false,
+  "historical_second_hap_note": "The recorded second-run SHA is preserved in tool/build/install evidence. A later local build reused that ignored output filename; later artifacts have unique labels.",
+  "directory_hardening": {
+    "scope": "com.codex.emulatorhnp application base/files only",
+    "before": "0777",
+    "after": "0700",
+    "fchmod_result": 0,
+    "persists_across_app_restart": true,
+    "package_update_may_reset": true
+  },
+  "hnp_installer": {
+    "uid": 3060,
+    "gid": 3060,
+    "directory_mode": "0775",
+    "regular_elf_mode": "0755",
+    "selinux": "u:object_r:private_hnp_file:s0",
+    "app_groups": [
+      1097,
+      3099
+    ]
+  },
+  "alias_validation": "HNP_ALIAS_VALIDATION_PASS",
+  "runtime_tests": {
+    "passed": 3,
+    "failed": 0
+  },
+  "bwrap_restricted": {
+    "exit_code": 1,
+    "signal": 0,
+    "errno_name": "EINVAL",
+    "commands_ran": false
+  },
+  "launcher_tests": {
+    "normal_exit": 37,
+    "timeout_signal": 15,
+    "cancel_signal": 15,
+    "stdio_files_mode": "0600",
+    "stdin": "EOF"
+  }
+}

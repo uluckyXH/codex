@@ -1,0 +1,16 @@
+10-04 05:24:07.552  INFO - Start sign
+10-04 05:24:07.558  INFO - Using SelfSignSignProvider
+10-04 05:24:07.559  INFO - Start signing ELF file...
+10-04 05:24:07.560  INFO - Self-sign mode enabled, skip writing .profile and .permission sections
+10-04 05:24:07.561  INFO - Added .codesign section placeholder, offset: 20480, size: 4096 bytes
+10-04 05:24:07.566  WARN - Segment 7 properties changed (before .shstrtab)
+10-04 05:24:07.567  WARN - Original Segment[type=0x6474e552, flags=0x4, vaddr=0x3d70, paddr=0x3d70, offset=0x1d70, filesz=0x2f8, memsz=0x1290, align=0x1]
+10-04 05:24:07.567  WARN - Saved Segment[type=0x6474e552, flags=0x4, vaddr=0x3d70, paddr=0x3d70, offset=0x1d70, filesz=0x2f8, memsz=0x1290, align=0x8]
+10-04 05:24:07.567  INFO - Start to sign elf code.
+10-04 05:24:07.567  INFO - Self-sign mode enabled, setting FLAG_SELF_SIGN
+10-04 05:24:07.571  INFO - Self-sign mode: using descriptor digest as signature, size: 32 bytes
+10-04 05:24:07.571  INFO - Sign elf successfully, code sign block size: 296 bytes
+10-04 05:24:07.571  INFO - Generate code sign block successfully, size: 296 bytes
+10-04 05:24:07.572  INFO - Replace code sign data at offset: 20480, size: 296
+10-04 05:24:07.578  INFO - Self-sign elf success
+10-04 05:24:07.578  INFO - sign success

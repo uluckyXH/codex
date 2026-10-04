@@ -1,0 +1,6 @@
+dns_result=0
+family=2 tcp_errno=0
+family=2 tcp_errno=0
+family=2 tcp_errno=0
+family=2 tcp_errno=0
+addresses_tested=4 tcp_succeeded=4

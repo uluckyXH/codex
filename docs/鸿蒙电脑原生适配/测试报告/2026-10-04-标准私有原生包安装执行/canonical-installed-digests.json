@@ -1,0 +1,65 @@
+[
+  {
+    "runtime_file": "bin/codex",
+    "sha256": "444d4b508813a4f4e3cd6efa1171c2bda1a48a6cf5ece1b56c6eb8d9677261eb",
+    "source_sha256": "444d4b508813a4f4e3cd6efa1171c2bda1a48a6cf5ece1b56c6eb8d9677261eb",
+    "equal": true,
+    "bytes": 250566400
+  },
+  {
+    "runtime_file": "codex-path/rg",
+    "sha256": "7272d96c1c584807cc4f0cf99bf830f381be2d35bd1ffd93842f054514953b02",
+    "source_sha256": "7272d96c1c584807cc4f0cf99bf830f381be2d35bd1ffd93842f054514953b02",
+    "equal": true,
+    "bytes": 4638464
+  },
+  {
+    "runtime_file": "codex-resources/bwrap",
+    "sha256": "8cd3f2bd86d31e074afe01e4b70fef94d625eee82f901b166f99cf0ce6e1dca3",
+    "source_sha256": "8cd3f2bd86d31e074afe01e4b70fef94d625eee82f901b166f99cf0ce6e1dca3",
+    "equal": true,
+    "bytes": 2693888
+  },
+  {
+    "runtime_file": "codex-resources/harmony-runtime-probe",
+    "sha256": "f4802b2b800dadb8c15a0786995383a36d218a2d94548b6bfa1e58ad9e78be0f",
+    "source_sha256": "f4802b2b800dadb8c15a0786995383a36d218a2d94548b6bfa1e58ad9e78be0f",
+    "equal": true,
+    "bytes": 34496
+  },
+  {
+    "runtime_file": "codex-path/apply_patch",
+    "sha256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+    "source_sha256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+    "equal": true,
+    "bytes": 13952
+  },
+  {
+    "runtime_file": "codex-path/applypatch",
+    "sha256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+    "source_sha256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+    "equal": true,
+    "bytes": 13952
+  },
+  {
+    "runtime_file": "codex-path/codex-linux-sandbox",
+    "sha256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+    "source_sha256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+    "equal": true,
+    "bytes": 13952
+  },
+  {
+    "runtime_file": "codex-path/codex-execve-wrapper",
+    "sha256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+    "source_sha256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+    "equal": true,
+    "bytes": 13952
+  },
+  {
+    "runtime_file": "codex-package.json",
+    "sha256": "271df864a5f4f949c10d9a7007c39cb7e7b96e2eee452edd7e71832ec3e73583",
+    "source_sha256": "271df864a5f4f949c10d9a7007c39cb7e7b96e2eee452edd7e71832ec3e73583",
+    "equal": true,
+    "bytes": 232
+  }
+]

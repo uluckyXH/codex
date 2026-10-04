@@ -1,0 +1,8 @@
+{
+  "name": "codex-harmony-terminal-host",
+  "version": "0.1.0",
+  "modelVersion": "6.0.0",
+  "description": "HarmonyOS native Codex terminal host",
+  "dependencies": {},
+  "devDependencies": {}
+}

@@ -1,0 +1,12 @@
+action=verify-install uid=20020059 gid=20020059
+verification_directory=/data/storage/el2/base/files/verify-codex-verify-install-2363-1
+verification_source=bin/codex exported=bin_codex bytes=250566400 success=1
+verification_source=codex-path/rg exported=codex-path_rg bytes=4638464 success=1
+verification_source=codex-resources/bwrap exported=codex-resources_bwrap bytes=2693888 success=1
+verification_source=codex-resources/harmony-runtime-probe exported=codex-resources_harmony-runtime-probe bytes=34496 success=1
+verification_source=codex-path/apply_patch exported=codex-path_apply_patch bytes=13952 success=1
+verification_source=codex-path/applypatch exported=codex-path_applypatch bytes=13952 success=1
+verification_source=codex-path/codex-linux-sandbox exported=codex-path_codex-linux-sandbox bytes=13952 success=1
+verification_source=codex-path/codex-execve-wrapper exported=codex-path_codex-execve-wrapper bytes=13952 success=1
+verification_source=codex-package.json exported=codex-package.json bytes=232 success=1
+verification_export_complete=yes passed=1

@@ -1,0 +1,3 @@
+action=import uid=20020059 gid=20020059
+config_import_stage=complete result=2 errno=0
+launch_complete=no_child config_status=2

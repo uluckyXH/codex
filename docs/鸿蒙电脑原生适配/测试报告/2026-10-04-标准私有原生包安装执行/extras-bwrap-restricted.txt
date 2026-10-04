@@ -1,0 +1,1 @@
+bwrap: Creating sandbox namespaces failed (EINVAL): this HarmonyOS execution environment may not support the required user namespace. Restricted commands were not run.

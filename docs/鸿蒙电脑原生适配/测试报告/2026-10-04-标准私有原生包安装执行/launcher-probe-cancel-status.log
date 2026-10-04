@@ -1,0 +1,8 @@
+action=probe-cancel uid=20020059 gid=20020059
+config_import_stage=existing-validate result=1 errno=0
+stdout=/data/storage/el2/base/files/logs/codex-probe-cancel-7453-1.stdout.txt
+stderr=/data/storage/el2/base/files/logs/codex-probe-cancel-7453-1.stderr.txt
+spawn_result=0 child_pid=7563
+stop_reason=cancelled
+wait_pid=7563 exit_code=-1 signal=15 raw_wait_status=15 core_dumped=0 stopped=1
+launch_complete=yes

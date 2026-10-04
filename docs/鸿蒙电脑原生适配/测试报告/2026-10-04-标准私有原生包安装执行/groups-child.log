@@ -1,0 +1,74 @@
+directory_probe_uid=20020059 gid=20020059 pid=4804 context=/data/storage/el2/base/files
+identity_uid=20020059 euid=20020059 gid=20020059 egid=20020059
+supplementary_count=2 errno=0 groups=1097,3099
+process_selinux=u:r:debug_hap:s0
+path=/ lstat=0 errno=0 uid=0 gid=0 mode=711 type=40000
+opath=0 errno=0 fstat=0 uid=0 gid=0 mode=711
+selinux_length=20 errno=0 label=u:object_r:tmpfs:s0
+statvfs=0 errno=0 flags=4130 noexec=0 readonly=0
+path=/data lstat=0 errno=0 uid=0 gid=0 mode=711 type=40000
+opath=0 errno=0 fstat=0 uid=0 gid=0 mode=711
+selinux_length=20 errno=0 label=u:object_r:tmpfs:s0
+statvfs=0 errno=0 flags=4130 noexec=0 readonly=0
+component_openat=data result=0 errno=0 fstat=0 uid=0 gid=0 mode=711
+path=/data/storage lstat=0 errno=0 uid=0 gid=0 mode=711 type=40000
+opath=0 errno=0 fstat=0 uid=0 gid=0 mode=711
+selinux_length=20 errno=0 label=u:object_r:tmpfs:s0
+statvfs=0 errno=0 flags=4130 noexec=0 readonly=0
+component_openat=storage result=0 errno=0 fstat=0 uid=0 gid=0 mode=711
+path=/data/storage/el2 lstat=0 errno=0 uid=0 gid=0 mode=711 type=40000
+opath=0 errno=0 fstat=0 uid=0 gid=0 mode=711
+selinux_length=20 errno=0 label=u:object_r:tmpfs:s0
+statvfs=0 errno=0 flags=4130 noexec=0 readonly=0
+component_openat=el2 result=0 errno=0 fstat=0 uid=0 gid=0 mode=711
+path=/data/storage/el2/base lstat=0 errno=0 uid=20020059 gid=20020059 mode=700 type=40000
+opath=0 errno=0 fstat=0 uid=20020059 gid=20020059 mode=700
+selinux_length=34 errno=0 label=u:object_r:debug_hap_data_file:s0
+statvfs=0 errno=0 flags=1062 noexec=0 readonly=0
+component_openat=base result=0 errno=0 fstat=0 uid=20020059 gid=20020059 mode=700
+path=/data/storage/el2/base/files lstat=0 errno=0 uid=20020059 gid=20020059 mode=700 type=40000
+opath=0 errno=0 fstat=0 uid=20020059 gid=20020059 mode=700
+selinux_length=34 errno=0 label=u:object_r:debug_hap_data_file:s0
+statvfs=0 errno=0 flags=1062 noexec=0 readonly=0
+component_openat=files result=0 errno=0 fstat=0 uid=20020059 gid=20020059 mode=700
+mkdirat=r result=-1 errno=17 fstatat=0 uid=20020059 gid=20020059 mode=700 safe=1
+protected_openat=r result=0 errno=0
+mkdirat=codex-runtime result=-1 errno=17 fstatat=0 uid=20020059 gid=20020059 mode=700 safe=1
+protected_openat=codex-runtime result=0 errno=0
+mkdirat=state result=-1 errno=17 fstatat=0 uid=20020059 gid=20020059 mode=700 safe=1
+protected_openat=state result=0 errno=0
+mkdirat=workspace result=-1 errno=17 fstatat=0 uid=20020059 gid=20020059 mode=700 safe=1
+protected_openat=workspace result=0 errno=0
+mkdirat=tmp result=-1 errno=17 fstatat=0 uid=20020059 gid=20020059 mode=700 safe=1
+protected_openat=tmp result=0 errno=0
+mkdirat=logs result=-1 errno=17 fstatat=0 uid=20020059 gid=20020059 mode=700 safe=1
+protected_openat=logs result=0 errno=0
+ancestor_mount=820 189 0:20 /sandbox/100/com.codex.emulatorhnp / rw,nosuid,relatime - tmpfs tmpfs rw,seclabel,mode=755
+ancestor_mount=852 820 254:48 /app/el2/100/base/com.codex.emulatorhnp /data/storage/el2/base rw,nosuid,nodev,noatime - ext4 /dev/block/vdd rw,seclabel,discard,noauto_da_alloc,data=ordered
+ancestor_mount=1065 820 254:48 /app/el1/bundle/100/hnp/com.codex.emulatorhnp /data/app rw,nosuid,nodev,noatime - ext4 /dev/block/vdd rw,seclabel,discard,noauto_da_alloc,data=ordered
+ancestor_mount=1079 1065 254:48 /app/el1/bundle/100/hnp/com.codex.emulatorhnp /data/app rw,nosuid,nodev,noatime - ext4 /dev/block/vdd rw,seclabel,discard,noauto_da_alloc,data=ordered
+path=/data/app lstat=0 errno=0 uid=3060 gid=3060 mode=775 type=40000
+opath=0 errno=0 fstat=0 uid=3060 gid=3060 mode=775
+selinux_length=31 errno=0 label=u:object_r:private_hnp_file:s0
+statvfs=0 errno=0 flags=1062 noexec=0 readonly=0
+path=/data/app/codexnetprobe.org lstat=0 errno=0 uid=3060 gid=3060 mode=775 type=40000
+opath=0 errno=0 fstat=0 uid=3060 gid=3060 mode=775
+selinux_length=31 errno=0 label=u:object_r:private_hnp_file:s0
+statvfs=0 errno=0 flags=1062 noexec=0 readonly=0
+path=/data/app/codexnetprobe.org/codexnetprobe_0.1 lstat=0 errno=0 uid=3060 gid=3060 mode=775 type=40000
+opath=0 errno=0 fstat=0 uid=3060 gid=3060 mode=775
+selinux_length=31 errno=0 label=u:object_r:private_hnp_file:s0
+statvfs=0 errno=0 flags=1062 noexec=0 readonly=0
+path=/data/app/codexnetprobe.org/codexnetprobe_0.1/bin lstat=0 errno=0 uid=3060 gid=3060 mode=775 type=40000
+opath=0 errno=0 fstat=0 uid=3060 gid=3060 mode=775
+selinux_length=31 errno=0 label=u:object_r:private_hnp_file:s0
+statvfs=0 errno=0 flags=1062 noexec=0 readonly=0
+path=/data/app/codexnetprobe.org/codexnetprobe_0.1/bin/network-probe lstat=0 errno=0 uid=3060 gid=3060 mode=755 type=100000
+opath=0 errno=0 fstat=0 uid=3060 gid=3060 mode=755
+selinux_length=31 errno=0 label=u:object_r:private_hnp_file:s0
+statvfs=0 errno=0 flags=1062 noexec=0 readonly=0
+path=/data/app/codexnetprobe.org/codexnetprobe_0.1/codex-path lstat=0 errno=0 uid=3060 gid=3060 mode=775 type=40000
+opath=0 errno=0 fstat=0 uid=3060 gid=3060 mode=775
+selinux_length=31 errno=0 label=u:object_r:private_hnp_file:s0
+statvfs=0 errno=0 flags=1062 noexec=0 readonly=0
+directory_probe_complete=yes

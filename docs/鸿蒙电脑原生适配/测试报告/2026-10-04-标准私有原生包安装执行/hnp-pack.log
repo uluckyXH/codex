@@ -1,0 +1,6 @@
+
+[INFO][HNP][hnpcli_main.c:84]native manager process start.
+[INFO][HNP][hnp_pack.c:75]PackHnp start. srcPath=/Volumes/MacSSD/Repositories/codex/.harmony-build/emulator-hnp/native-package, hnpName=codexnetprobe, hnpVer=0.1, hnpDstPath=/Volumes/MacSSD/Repositories/codex/.harmony-build/emulator-hnp/hnp/arm64-v8a 
+[INFO][HNP][hnp_pack.c:84]HnpZip dir=/Volumes/MacSSD/Repositories/codex/.harmony-build/emulator-hnp/native-package, output=/Volumes/MacSSD/Repositories/codex/.harmony-build/emulator-hnp/hnp/arm64-v8a/codexnetprobe.hnp 
+[INFO][HNP][hnp_pack.c:116]PackHnp end. srcPath=/Volumes/MacSSD/Repositories/codex/.harmony-build/emulator-hnp/native-package, hnpName=codexnetprobe, hnpVer=0.1, hnpDstPath=/Volumes/MacSSD/Repositories/codex/.harmony-build/emulator-hnp/hnp/arm64-v8a,linkNum=1, ret=0
+[INFO][HNP][hnpcli_main.c:99]native manager process exit. ret=0 

@@ -1,0 +1,4 @@
+start={"ok":true,"status":"running","running":true,"eof":false,"exitCode":null,"signal":0,"generation":1,"accepted":0,"dataBase64":"","error":"","errno":0}
+invalid_resize={"ok":false,"status":"running","running":true,"eof":false,"exitCode":null,"signal":0,"generation":1,"accepted":0,"dataBase64":"","error":"invalid_dimensions","errno":0}
+valid_resize={"ok":false,"status":"running","running":true,"eof":false,"exitCode":null,"signal":0,"generation":1,"accepted":0,"dataBase64":"","error":"resize_get","errno":13}
+PTY_SESSION_PROBE_FAIL result=7

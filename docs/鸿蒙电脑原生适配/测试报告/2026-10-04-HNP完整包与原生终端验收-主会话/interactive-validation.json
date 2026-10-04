@@ -1,0 +1,35 @@
+{
+  "date": "2026-10-04",
+  "environment": "HarmonyOS 7.0.0.105 2in1 aarch64 emulator",
+  "bundle": "com.codex.emulatorhnp",
+  "model": "gpt-5.6-terra",
+  "permissions": "read-only/on-request",
+  "hap_sha256": "bad4428c9931df803f2bfeb73b885e12a125c41747357f5850d876c7e39f263b",
+  "rust_source_sha": "8c4b3a6f48efa9eb4642d75929de8ba5ebdc6e84",
+  "tui_reply": "HARMONY_TUI_OK",
+  "normal_exit": {
+    "exit_code": 0,
+    "signal": 0
+  },
+  "stop_button": {
+    "exit_code": null,
+    "signal": 15
+  },
+  "restart": "passed",
+  "log": {
+    "mode": "0600",
+    "uid": 20020059,
+    "gid": 20020059,
+    "redacted_export": "passed"
+  },
+  "sandbox_backend": "unsupported on tested kernel; no automatic full-access fallback",
+  "screenshots": {
+    "hnp-model-select.png": "81306a940ee48e8cdfce72480724cf328bc6a0387972c72470d449c0175051dd",
+    "hnp-tui-status-final.png": "d42725ecfdae3908ba10f6c306c157f8fd99d40c446961b726d0035de387a0ba",
+    "hnp-tui-stopped.png": "4399ef68650e06f6a1cc08a0082e0bedf72f59eaffdb0afa95ecb7e5fd634018",
+    "hnp-final-start.png": "04fe67d83e10199db9b8ece3faea312d3974bcf90c225d7edc450f974fb13ff4",
+    "hnp-final-reply.png": "ce4966e2115cde309178d7369f09c955667b18c5a59e99a647ce35ed802e891f",
+    "hnp-final-quit.png": "fcb7dcd7aa5471884d3233850dac76956f66e61b6d8d000ec8a6f56110cdafa1",
+    "hnp-final-restarted.png": "ab0dfb82a70922a3cc59866ca2dd655909487af82944627fa78c5fee96231d23"
+  }
+}

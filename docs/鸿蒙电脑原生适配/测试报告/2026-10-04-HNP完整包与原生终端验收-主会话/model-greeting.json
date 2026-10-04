@@ -1,0 +1,77 @@
+{
+  "action": "greeting",
+  "model": "gpt-5.6-terra",
+  "status_path": "/data/storage/el2/base/files/logs/codex-greeting-25247-1.status.txt",
+  "status": "action=greeting uid=20020059 gid=20020059\nconfig_import_stage=existing-validate result=1 errno=0\nstdout=/data/storage/el2/base/files/logs/codex-greeting-25247-1.stdout.txt\nstderr=/data/storage/el2/base/files/logs/codex-greeting-25247-1.stderr.txt\nspawn_result=0 child_pid=26533\nwait_pid=26533 exit_code=0 signal=0 raw_wait_status=0 core_dumped=0 stopped=0\nlaunch_complete=yes\n\n",
+  "streams": {
+    "stdout": "{\"type\":\"thread.started\",\"thread_id\":\"01a10409-074c-7fb1-b1a9-2c6121a07721\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_0\",\"type\":\"error\",\"message\":\"Model `gpt-5.6-terra` advertises Code Mode, but the V8 code-mode host is not available in this native HarmonyOS build; use direct tools. Direct tools will be used.\"}}\n{\"type\":\"turn.started\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_1\",\"type\":\"agent_message\",\"text\":\"你好。\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":7311,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0,\"output_tokens\":6,\"reasoning_output_tokens\":0}}\n\n",
+    "stderr": "Reading additional input from stdin...\n\n"
+  },
+  "steps": [
+    {
+      "operation": "shell",
+      "exit": 0,
+      "output": "/data/storage/el2/base/files/logs/codex-tools-25110-1.status.txt\n"
+    },
+    {
+      "operation": "file",
+      "exit": 0,
+      "output": "FileTransfer finish, Size:9, File count = 1, time:55ms rate:0.16kB/s\n\n"
+    },
+    {
+      "operation": "shell",
+      "exit": 0,
+      "output": "force stop process successfully.\n\n"
+    },
+    {
+      "operation": "shell",
+      "exit": 0,
+      "output": "start ability successfully.\n\n"
+    },
+    {
+      "operation": "shell",
+      "exit": 0,
+      "output": "/data/storage/el2/base/files/logs/codex-tools-25110-1.status.txt\n"
+    },
+    {
+      "operation": "shell",
+      "exit": 0,
+      "output": "/data/storage/el2/base/files/logs/codex-tools-25110-1.status.txt\n"
+    },
+    {
+      "operation": "shell",
+      "exit": 0,
+      "output": "/data/storage/el2/base/files/logs/codex-tools-25110-1.status.txt\n"
+    },
+    {
+      "operation": "shell",
+      "exit": 0,
+      "output": "/data/storage/el2/base/files/logs/codex-tools-25110-1.status.txt\n"
+    },
+    {
+      "operation": "shell",
+      "exit": 0,
+      "output": "/data/storage/el2/base/files/logs/codex-tools-25110-1.status.txt\n"
+    },
+    {
+      "operation": "shell",
+      "exit": 0,
+      "output": "/data/storage/el2/base/files/logs/codex-greeting-25247-1.status.txt\n"
+    },
+    {
+      "operation": "shell",
+      "exit": 0,
+      "output": "action=greeting uid=20020059 gid=20020059\nconfig_import_stage=existing-validate result=1 errno=0\nstdout=/data/storage/el2/base/files/logs/codex-greeting-25247-1.stdout.txt\nstderr=/data/storage/el2/base/files/logs/codex-greeting-25247-1.stderr.txt\nspawn_result=0 child_pid=26533\nwait_pid=26533 exit_code=0 signal=0 raw_wait_status=0 core_dumped=0 stopped=0\nlaunch_complete=yes\n\n"
+    },
+    {
+      "operation": "shell",
+      "exit": 0,
+      "output": "{\"type\":\"thread.started\",\"thread_id\":\"01a10409-074c-7fb1-b1a9-2c6121a07721\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_0\",\"type\":\"error\",\"message\":\"Model `gpt-5.6-terra` advertises Code Mode, but the V8 code-mode host is not available in this native HarmonyOS build; use direct tools. Direct tools will be used.\"}}\n{\"type\":\"turn.started\"}\n{\"type\":\"item.completed\",\"item\":{\"id\":\"item_1\",\"type\":\"agent_message\",\"text\":\"你好。\"}}\n{\"type\":\"turn.completed\",\"usage\":{\"input_tokens\":7311,\"cached_input_tokens\":0,\"cache_write_input_tokens\":0,\"output_tokens\":6,\"reasoning_output_tokens\":0}}\n\n"
+    },
+    {
+      "operation": "shell",
+      "exit": 0,
+      "output": "Reading additional input from stdin...\n\n"
+    }
+  ]
+}

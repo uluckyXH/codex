@@ -1,0 +1,10 @@
+action=tools uid=20020059 gid=20020059
+tool_fixture=/data/storage/el2/base/files/workspace/tools-25110-codex-tools-25110-1 mode=0700 real_config_read=false
+step=rg-version spawn_result=0 child_pid=25272 stdout=codex-tools-25110-1-rg-version.stdout.txt stderr=codex-tools-25110-1-rg-version.stderr.txt
+step=rg-version exit_code=0 signal=0 raw_wait_status=0 core_dumped=0 stopped=0 passed=1
+step=create spawn_result=0 child_pid=25276 stdout=codex-tools-25110-1-create.stdout.txt stderr=codex-tools-25110-1-create.stderr.txt
+step=create exit_code=0 signal=0 raw_wait_status=0 core_dumped=0 stopped=0 passed=1
+assert=create_content passed=0
+assert=modify_content passed=0
+assert=deleted passed=0
+tool_regression_complete=yes passed=0

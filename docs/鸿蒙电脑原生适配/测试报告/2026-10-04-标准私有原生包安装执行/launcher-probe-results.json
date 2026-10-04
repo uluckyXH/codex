@@ -1,0 +1,17 @@
+[
+  {
+    "action": "probe",
+    "status_path": "/data/storage/el2/base/files/logs/codex-probe-5969-1.status.txt",
+    "status": "action=probe uid=20020059 gid=20020059\nconfig_import_stage=existing-validate result=1 errno=0\nstdout=/data/storage/el2/base/files/logs/codex-probe-5969-1.stdout.txt\nstderr=/data/storage/el2/base/files/logs/codex-probe-5969-1.stderr.txt\nspawn_result=0 child_pid=7405\nwait_pid=7405 exit_code=37 signal=0 raw_wait_status=9472 core_dumped=0 stopped=0\nlaunch_complete=yes\n"
+  },
+  {
+    "action": "probe-timeout",
+    "status_path": "/data/storage/el2/base/files/logs/codex-probe-timeout-7377-1.status.txt",
+    "status": "action=probe-timeout uid=20020059 gid=20020059\nconfig_import_stage=existing-validate result=1 errno=0\nstdout=/data/storage/el2/base/files/logs/codex-probe-timeout-7377-1.stdout.txt\nstderr=/data/storage/el2/base/files/logs/codex-probe-timeout-7377-1.stderr.txt\nspawn_result=0 child_pid=7474\nstop_reason=timeout\nwait_pid=7474 exit_code=-1 signal=15 raw_wait_status=15 core_dumped=0 stopped=1\nlaunch_complete=yes\n"
+  },
+  {
+    "action": "probe-cancel",
+    "status_path": "/data/storage/el2/base/files/logs/codex-probe-cancel-7453-1.status.txt",
+    "status": "action=probe-cancel uid=20020059 gid=20020059\nconfig_import_stage=existing-validate result=1 errno=0\nstdout=/data/storage/el2/base/files/logs/codex-probe-cancel-7453-1.stdout.txt\nstderr=/data/storage/el2/base/files/logs/codex-probe-cancel-7453-1.stderr.txt\nspawn_result=0 child_pid=7563\nstop_reason=cancelled\nwait_pid=7563 exit_code=-1 signal=15 raw_wait_status=15 core_dumped=0 stopped=1\nlaunch_complete=yes\n"
+  }
+]

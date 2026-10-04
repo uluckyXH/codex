@@ -1,0 +1,5 @@
+probe_uid=20020059 cwd=/data/storage/el2/base/files/workspace
+home=/data/storage/el2/base/files/home
+state=/data/storage/el2/base/files/state
+tmp=/data/storage/el2/base/files/tmp
+stdin_read=0 isatty=0

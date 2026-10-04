@@ -1,0 +1,16 @@
+
+running 2 tests
+test ohos_runtime::tests::hnp_debug_profile_prepares_private_runtime_on_target ... 
+thread 'ohos_runtime::tests::hnp_debug_profile_prepares_private_runtime_on_target' (18603) panicked at uds/src/ohos_runtime_tests.rs:619:36:
+called `Result::unwrap()` on an `Err` value: Os { code: 13, kind: PermissionDenied, message: "Permission denied" }
+note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+FAILED
+test ohos_runtime::tests::hnp_debug_profile_socket_lifecycle_on_target ... ok
+
+failures:
+
+failures:
+    ohos_runtime::tests::hnp_debug_profile_prepares_private_runtime_on_target
+
+test result: FAILED. 1 passed; 1 failed; 0 ignored; 0 measured; 35 filtered out; finished in 0.00s
+

@@ -1,0 +1,7 @@
+action=version uid=20020059 gid=20020059
+config_import_stage=existing-validate result=1 errno=0
+stdout=/data/storage/el2/base/files/logs/codex-version-24809-1.stdout.txt
+stderr=/data/storage/el2/base/files/logs/codex-version-24809-1.stderr.txt
+spawn_result=0 child_pid=24991
+wait_pid=24991 exit_code=0 signal=0 raw_wait_status=0 core_dumped=0 stopped=0
+launch_complete=yes

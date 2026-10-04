@@ -1,0 +1,17 @@
+PTY_PROBE uid=20020059 gid=20020059
+openpty=0 errno=0 name=/dev/pts/0
+set_window=0 errno=0 get_window=0 row=36 col=120
+tcgetattr=0 errno=0
+raw_mode=0 errno=0
+restore=0 equal=1
+posix_spawn=0 child=15113
+CHILD_ID pid=15113 sid=15113 pgid=15113 tty=1,1,1
+CHILD_READY
+parent_send_K=1
+CHILD_GOT_K
+parent_resize=0 errno=0
+parent_send_R=1
+CHILD_RESTORE result=0 checked=0 equal=1
+CHILD_PASS
+child_exited=1 raw_status=5888 exit=23 signal=0
+PTY_PROBE_PASS

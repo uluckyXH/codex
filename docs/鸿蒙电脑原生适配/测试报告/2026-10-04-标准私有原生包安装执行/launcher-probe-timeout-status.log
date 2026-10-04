@@ -1,0 +1,8 @@
+action=probe-timeout uid=20020059 gid=20020059
+config_import_stage=existing-validate result=1 errno=0
+stdout=/data/storage/el2/base/files/logs/codex-probe-timeout-7377-1.stdout.txt
+stderr=/data/storage/el2/base/files/logs/codex-probe-timeout-7377-1.stderr.txt
+spawn_result=0 child_pid=7474
+stop_reason=timeout
+wait_pid=7474 exit_code=-1 signal=15 raw_wait_status=15 core_dumped=0 stopped=1
+launch_complete=yes

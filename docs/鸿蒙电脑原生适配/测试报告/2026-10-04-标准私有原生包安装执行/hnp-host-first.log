@@ -1,0 +1,20 @@
+uid=20020059 gid=20020059 pid=6701
+context_files_dir=/data/storage/el2/base/haps/entry/files
+network_host=developer.huawei.com port=443
+dns_result=0
+family=2 tcp_errno=0
+family=2 tcp_errno=0
+family=2 tcp_errno=0
+family=2 tcp_errno=0
+addresses_tested=4 tcp_succeeded=4
+spawn_phase=calling_posix_spawn
+posix_spawn_result=0
+spawn_exit=0 spawn_signal=0 raw_wait_status=0
+hnp_private_home=/data/app
+hnp_public_home=/data/service/hnp
+hnp_candidate=/data/app/com.codex.emulatorhnp/codexnetprobe.org/codexnetprobe_0.1/bin/network-probe stat=-1 errno=2 uid=0 mode=0 size=0
+hnp_candidate=/data/app/codexnetprobe.org/codexnetprobe_0.1/bin/network-probe stat=0 errno=0 uid=3060 mode=755 size=22912
+hnp_phase=calling_posix_spawn candidate=1
+hnp_posix_spawn_result=0 child_pid=7093
+hnp_exit=0 hnp_signal=0 raw_wait_status=0
+probe_complete=yes
