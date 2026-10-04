@@ -1,0 +1,42 @@
+{
+  "归档": "鸿蒙Codex-0.160.0-dev.harmony.g50046bef671c-未真机验证.tar.gz",
+  "字节数": 101878266,
+  "SHA-256": "7c4e4cb2020a0b2bb253bb732588198bf7e66ae06bebaed7841c32cf1bda372c",
+  "版本": "0.160.0-dev.harmony.g50046bef671c",
+  "运行目录策略": "platform",
+  "受保护运行根": null,
+  "身份绑定": "runtime-getuid-geteuid-getgid-getegid",
+  "签名": "SDK 自签名并检查签名信息",
+  "真机验收": "未执行",
+  "CLI源码SHA": "50046bef671cb6ca9312306f8c63aea4cfee172b",
+  "最终宿主源码摘要": "401d02c947700f4f38bfb3542fde553ad178ca3b2d8b30884d3f1d48e54b626e",
+  "模拟器验收": {
+    "桌面1完全访问模型工具": "通过",
+    "同一CLI双UID": "通过",
+    "终端生命周期": "通过",
+    "受限pwd": "未通过：overflowuid读取被拒绝"
+  },
+  "宿主": [
+    {
+      "hap_sha256": "a87d962957bee72033cf62bcec4c5af21925d90f280f5c6c5ce5ddc3ee135d86",
+      "bundle": "com.codex.emulatorhnp",
+      "deployment": "unsigned emulator debug HAP; original ELF signatures preserved",
+      "host_source_sha256": "401d02c947700f4f38bfb3542fde553ad178ca3b2d8b30884d3f1d48e54b626e"
+    },
+    {
+      "hap_sha256": "7e29e81332c109941eed1898d02894cc6e6871dd3e48d4187acfae016512bdd3",
+      "bundle": "com.codex.emulatorhnp.second",
+      "deployment": "unsigned emulator debug HAP; original ELF signatures preserved",
+      "host_source_sha256": "401d02c947700f4f38bfb3542fde553ad178ca3b2d8b30884d3f1d48e54b626e"
+    }
+  ],
+  "宿主及文档源码SHA": "3c5c0f190bd70720232632870d7734b8a392327c",
+  "分支": "codex/harmony-native",
+  "推送": {
+    "完成": true,
+    "远端": "origin",
+    "分支": "codex/harmony-native",
+    "提交": "3c5c0f190bd70720232632870d7734b8a392327c",
+    "记录时间": "2026-10-04T20:29:17.998505+08:00"
+  }
+}

@@ -1,0 +1,389 @@
+{
+  "版本": "0.160.0-dev.harmony.g50046bef671c",
+  "版本来源": {
+    "工作区版本": "0.160.0-dev",
+    "官方参考标签": "rust-v0.160.0",
+    "官方参考提交": "a956835d020762cb2b570053af06f643a11c0ecc",
+    "上游源码提交": "a20fe6335f960a350483d0079db2ec281c68202c",
+    "共同祖先": "c248f6d48b97eb4a2aa56147a0b11b7d763278b9",
+    "版本类型": "主线开发快照的鸿蒙适配版，不等同于官方稳定版",
+    "核对日期": "2026-10-03"
+  },
+  "目标": "aarch64-unknown-linux-ohos",
+  "源码": {
+    "提交": "50046bef671cb6ca9312306f8c63aea4cfee172b",
+    "工作区状态": "",
+    "工作区补丁摘要": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "新增文件摘要": {},
+    "时间": "2026-10-04T08:37:18.226508+00:00"
+  },
+  "Rust": "1.95.0",
+  "SDK": {
+    "apiVersion": "26",
+    "displayName": "Native",
+    "meta": {
+      "metaVersion": "3.0.2"
+    },
+    "path": "native",
+    "platformVersion": "26.0.0",
+    "releaseType": "Release",
+    "version": "26.0.0.105"
+  },
+  "CLI签名": {
+    "方式": "官方 binary-sign-tool.jar 自签名",
+    "工具": "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/lib/binary-sign-tool.jar",
+    "输入": {
+      "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/distribution-50046bef6/已签名/codex-unsigned",
+      "字节数": 250702232,
+      "SHA-256": "89c3f69f28966dfff31818484cd5be2ab911f04c3bd4984cc95842ef805a53a1",
+      "架构": "AArch64",
+      "解释器": "/lib/ld-musl-aarch64.so.1",
+      "动态依赖": [
+        "libtime_service_ndk.so",
+        "libc.so"
+      ],
+      "OHOS标识": true,
+      "签名节存在": false,
+      "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+    },
+    "输出": {
+      "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/distribution-50046bef6/已签名/codex",
+      "字节数": 250709760,
+      "SHA-256": "028ec1056df0d9cc84b480f8bd87e37fd8f6c22f67b969a741f9b87212850a9d",
+      "架构": "AArch64",
+      "解释器": "/lib/ld-musl-aarch64.so.1",
+      "动态依赖": [
+        "libtime_service_ndk.so",
+        "libc.so"
+      ],
+      "OHOS标识": true,
+      "签名节存在": true,
+      "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+    },
+    "签名日志": "10-04 17:03:43.879  INFO - Start sign\n10-04 17:03:43.885  INFO - Using SelfSignSignProvider\n10-04 17:03:43.886  INFO - Start signing ELF file...\n10-04 17:03:43.889  INFO - Self-sign mode enabled, skip writing .profile and .permission sections\n10-04 17:03:43.889  INFO - Added .codesign section placeholder, offset: 250703872, size: 4096 bytes\n10-04 17:03:44.153  INFO - Start to sign elf code.\n10-04 17:03:44.153  INFO - Self-sign mode enabled, setting FLAG_SELF_SIGN\n10-04 17:03:44.252  INFO - Self-sign mode: using descriptor digest as signature, size: 32 bytes\n10-04 17:03:44.252  INFO - Sign elf successfully, code sign block size: 296 bytes\n10-04 17:03:44.252  INFO - Generate code sign block successfully, size: 296 bytes\n10-04 17:03:44.253  INFO - Replace code sign data at offset: 250703872, size: 296\n10-04 17:03:44.263  INFO - Self-sign elf success\n10-04 17:03:44.263  INFO - sign success\n10-04 17:03:44.152  WARN - Segment 7 properties changed (before .shstrtab)\n10-04 17:03:44.152  WARN - Original Segment[type=0x6474e552, flags=0x4, vaddr=0xe9e9c20, paddr=0xe9e9c20, offset=0xe9e7c20, filesz=0x4f0d78, memsz=0x4f13e0, align=0x1]\n10-04 17:03:44.152  WARN - Saved Segment[type=0x6474e552, flags=0x4, vaddr=0xe9e9c20, paddr=0xe9e9c20, offset=0xe9e7c20, filesz=0x4f0d78, memsz=0x4f13e0, align=0x20]\n",
+    "签名信息检查": "10-04 17:03:44.616  INFO - Start display-sign\n10-04 17:03:44.632  INFO - ELF verification started for file: /Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/distribution-50046bef6/已签名/codex\n10-04 17:03:44.698  INFO - permission is not found\n10-04 17:03:44.698  INFO - code signature is self-sign\n10-04 17:03:44.698  INFO - verify: Self-sign signature\n10-04 17:03:44.698  INFO - display-sign success\n",
+    "真机状态": "未验证；本机签名检查不代表商业鸿蒙 PC 接受加载"
+  },
+  "目录探针": {
+    "源码": "scripts/harmony_runtime_probe.c",
+    "源码摘要": "907ce069e0fc33e6e005d4fe9d7e135c33d11efe07831d43c5c1bd5038fc905e",
+    "编译时运行根": null,
+    "主程序运行目录策略": "platform",
+    "观察边界": "独立进程只读候选与 Context 观察，不批准运行根，不初始化 CLI 数据目录",
+    "旧编译根布局观察": false,
+    "通用目录观察": true,
+    "SDK接口类型检查": "三个目录 API 类型均与本次 SDK 声明一致；仅编译检查",
+    "相关源码摘要": {
+      "harmony_runtime_probe.c": "907ce069e0fc33e6e005d4fe9d7e135c33d11efe07831d43c5c1bd5038fc905e",
+      "harmony_runtime_probe_context.h": "b9117304bc7aa7547f9e05461f5d81e97fe7193e6bb3c0a786cd421ff2c5dce7",
+      "harmony_runtime_probe_sdk_check.cpp": "10fda23c756cbc7f3c89b09dc75d57dc35f170f5d5d435fb6273e88919529b29"
+    },
+    "签名": {
+      "方式": "官方 binary-sign-tool.jar 自签名",
+      "工具": "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/lib/binary-sign-tool.jar",
+      "输入": {
+        "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/distribution-50046bef6/已签名/harmony-runtime-probe-unsigned",
+        "字节数": 29896,
+        "SHA-256": "f4e1a50d40b5a4f724919b7c3658bf1b96af2c0c4cf0a9960acc8ae5c6b38a89",
+        "架构": "AArch64",
+        "解释器": "/lib/ld-musl-aarch64.so.1",
+        "动态依赖": [
+          "libc.so"
+        ],
+        "OHOS标识": true,
+        "签名节存在": false,
+        "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+      },
+      "输出": {
+        "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/distribution-50046bef6/已签名/harmony-runtime-probe",
+        "字节数": 34496,
+        "SHA-256": "f93b469670530e7e9f2b0509aa7dff4ff95e42dd5404de250d05e329f8171a39",
+        "架构": "AArch64",
+        "解释器": "/lib/ld-musl-aarch64.so.1",
+        "动态依赖": [
+          "libc.so"
+        ],
+        "OHOS标识": true,
+        "签名节存在": true,
+        "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+      },
+      "签名日志": "10-04 17:03:45.186  INFO - Start sign\n10-04 17:03:45.192  INFO - Using SelfSignSignProvider\n10-04 17:03:45.193  INFO - Start signing ELF file...\n10-04 17:03:45.194  INFO - Self-sign mode enabled, skip writing .profile and .permission sections\n10-04 17:03:45.195  INFO - Added .codesign section placeholder, offset: 28672, size: 4096 bytes\n10-04 17:03:45.200  INFO - Start to sign elf code.\n10-04 17:03:45.201  INFO - Self-sign mode enabled, setting FLAG_SELF_SIGN\n10-04 17:03:45.205  INFO - Self-sign mode: using descriptor digest as signature, size: 32 bytes\n10-04 17:03:45.205  INFO - Sign elf successfully, code sign block size: 296 bytes\n10-04 17:03:45.205  INFO - Generate code sign block successfully, size: 296 bytes\n10-04 17:03:45.206  INFO - Replace code sign data at offset: 28672, size: 296\n10-04 17:03:45.212  INFO - Self-sign elf success\n10-04 17:03:45.212  INFO - sign success\n10-04 17:03:45.200  WARN - Segment 7 properties changed (before .shstrtab)\n10-04 17:03:45.200  WARN - Original Segment[type=0x6474e552, flags=0x4, vaddr=0x8840, paddr=0x8840, offset=0x6840, filesz=0x4c0, memsz=0x7c0, align=0x1]\n10-04 17:03:45.200  WARN - Saved Segment[type=0x6474e552, flags=0x4, vaddr=0x8840, paddr=0x8840, offset=0x6840, filesz=0x4c0, memsz=0x7c0, align=0x8]\n",
+      "签名信息检查": "10-04 17:03:45.387  INFO - Start display-sign\n10-04 17:03:45.400  INFO - ELF verification started for file: /Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/distribution-50046bef6/已签名/harmony-runtime-probe\n10-04 17:03:45.402  INFO - permission is not found\n10-04 17:03:45.403  INFO - code signature is self-sign\n10-04 17:03:45.403  INFO - verify: Self-sign signature\n10-04 17:03:45.403  INFO - display-sign success\n",
+      "真机状态": "未验证；本机签名检查不代表商业鸿蒙 PC 接受加载"
+    }
+  },
+  "HNP工具入口": {
+    "源码": "scripts/harmony_hnp_alias.c",
+    "源码摘要": "45588f3479e5dbe47094a12e9b34785ffd5c7527d633c04efaf6d9f4118d4eea",
+    "SHA-256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+    "入口": [
+      "apply_patch",
+      "applypatch",
+      "codex-linux-sandbox",
+      "codex-execve-wrapper"
+    ],
+    "签名": {
+      "方式": "官方 binary-sign-tool.jar 自签名",
+      "工具": "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/lib/binary-sign-tool.jar",
+      "输入": {
+        "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/distribution-50046bef6/已签名/hnp-alias-unsigned",
+        "字节数": 8600,
+        "SHA-256": "c2f7982c9ccabd035ef105f1cd9ea6923da34bf2831f908257f9f836de385a3e",
+        "架构": "AArch64",
+        "解释器": "/lib/ld-musl-aarch64.so.1",
+        "动态依赖": [
+          "libc.so"
+        ],
+        "OHOS标识": true,
+        "签名节存在": false,
+        "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+      },
+      "输出": {
+        "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/distribution-50046bef6/已签名/hnp-alias",
+        "字节数": 13952,
+        "SHA-256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+        "架构": "AArch64",
+        "解释器": "/lib/ld-musl-aarch64.so.1",
+        "动态依赖": [
+          "libc.so"
+        ],
+        "OHOS标识": true,
+        "签名节存在": true,
+        "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+      },
+      "签名日志": "10-04 16:37:19.273  INFO - Start sign\n10-04 16:37:19.279  INFO - Using SelfSignSignProvider\n10-04 16:37:19.283  INFO - Start signing ELF file...\n10-04 16:37:19.285  INFO - Self-sign mode enabled, skip writing .profile and .permission sections\n10-04 16:37:19.285  INFO - Added .codesign section placeholder, offset: 8192, size: 4096 bytes\n10-04 16:37:19.289  INFO - Start to sign elf code.\n10-04 16:37:19.289  INFO - Self-sign mode enabled, setting FLAG_SELF_SIGN\n10-04 16:37:19.293  INFO - Self-sign mode: using descriptor digest as signature, size: 32 bytes\n10-04 16:37:19.293  INFO - Sign elf successfully, code sign block size: 296 bytes\n10-04 16:37:19.293  INFO - Generate code sign block successfully, size: 296 bytes\n10-04 16:37:19.294  INFO - Replace code sign data at offset: 8192, size: 296\n10-04 16:37:19.300  INFO - Self-sign elf success\n10-04 16:37:19.300  INFO - sign success\n10-04 16:37:19.288  WARN - Segment 7 properties changed (before .shstrtab)\n10-04 16:37:19.288  WARN - Original Segment[type=0x6474e552, flags=0x4, vaddr=0x3750, paddr=0x3750, offset=0x1750, filesz=0x2c8, memsz=0x8b0, align=0x1]\n10-04 16:37:19.288  WARN - Saved Segment[type=0x6474e552, flags=0x4, vaddr=0x3750, paddr=0x3750, offset=0x1750, filesz=0x2c8, memsz=0x8b0, align=0x8]\n",
+      "签名信息检查": "10-04 16:37:19.471  INFO - Start display-sign\n10-04 16:37:19.483  INFO - ELF verification started for file: /Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/distribution-50046bef6/已签名/hnp-alias\n10-04 16:37:19.485  INFO - permission is not found\n10-04 16:37:19.485  INFO - code signature is self-sign\n10-04 16:37:19.485  INFO - verify: Self-sign signature\n10-04 16:37:19.485  INFO - display-sign success\n",
+      "真机状态": "未验证；本机签名检查不代表商业鸿蒙 PC 接受加载"
+    }
+  },
+  "受保护运行根契约": {
+    "runtime_profile": "platform",
+    "runtime_base": null,
+    "identity_binding": "runtime-getuid-geteuid-getgid-getegid",
+    "environment_root_fallback": false,
+    "device_validation": "待验证真实平台来源、目录保护、HiShell 和内核隔离能力",
+    "platform_files_candidate": "/data/storage/el2/base/files",
+    "directory_source_order": [
+      "native-application-context",
+      "validated-platform-namespace"
+    ],
+    "data_layout": {
+      "root": "codex",
+      "state": "codex/state",
+      "runtime_aliases": "codex/r/a",
+      "runtime_sockets": "codex/r/s",
+      "tmp": "codex/tmp",
+      "logs": "codex/logs",
+      "host": "codex/host"
+    },
+    "directory_validation": "持有 FD；核验实际身份、0700、祖先保护、禁止链接与防替换；不修改已有父目录",
+    "initialization": "CLI 在配置、aliases、socket 和线程之前初始化；不依赖 GUI"
+  },
+  "辅助程序": {
+    "目标": "aarch64-unknown-linux-ohos",
+    "源码": {
+      "提交": "eebb6e99eb2b7021541ef3acb13666cd9521a43f",
+      "工作区状态": "",
+      "工作区补丁摘要": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "新增文件摘要": {},
+      "时间": "2026-10-02T19:01:12.418974+00:00"
+    },
+    "SDK": "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/native",
+    "上游辅助源码": {
+      "libcap": [
+        "2.78",
+        "https://cdn.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.78.tar.xz",
+        "0d621e562fd932ccf67b9660fb018e468a683d7b827541df27813228c996bb11"
+      ],
+      "ripgrep": [
+        "15.2.0",
+        "https://static.crates.io/crates/ripgrep/ripgrep-15.2.0.crate",
+        "a30750b6d0743bfdd2656ebbaf4555aa278c43144b84bc389bcbfa399485ec71"
+      ]
+    },
+    "程序": {
+      "rg": {
+        "方式": "官方 binary-sign-tool.jar 自签名",
+        "工具": "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/lib/binary-sign-tool.jar",
+        "输入": {
+          "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/七版发布/原生资源复测/已签名/rg-未签名",
+          "字节数": 4630552,
+          "SHA-256": "a6cd01735bff5715a52fddfb74f0ef508a9aab49159ec5003374559c63e5f4bb",
+          "架构": "AArch64",
+          "解释器": "/lib/ld-musl-aarch64.so.1",
+          "动态依赖": [
+            "libc.so"
+          ],
+          "OHOS标识": true,
+          "签名节存在": false,
+          "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+        },
+        "输出": {
+          "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/七版发布/原生资源复测/已签名/rg",
+          "字节数": 4638464,
+          "SHA-256": "7272d96c1c584807cc4f0cf99bf830f381be2d35bd1ffd93842f054514953b02",
+          "架构": "AArch64",
+          "解释器": "/lib/ld-musl-aarch64.so.1",
+          "动态依赖": [
+            "libc.so"
+          ],
+          "OHOS标识": true,
+          "签名节存在": true,
+          "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+        },
+        "签名日志": "10-03 03:01:46.437  INFO - Start sign\n10-03 03:01:46.443  INFO - Using SelfSignSignProvider\n10-03 03:01:46.443  INFO - Start signing ELF file...\n10-03 03:01:46.448  INFO - Self-sign mode enabled, skip writing .profile and .permission sections\n10-03 03:01:46.448  INFO - Added .codesign section placeholder, offset: 4632576, size: 4096 bytes\n10-03 03:01:46.456  INFO - Start to sign elf code.\n10-03 03:01:46.457  INFO - Self-sign mode enabled, setting FLAG_SELF_SIGN\n10-03 03:01:46.489  INFO - Self-sign mode: using descriptor digest as signature, size: 32 bytes\n10-03 03:01:46.489  INFO - Sign elf successfully, code sign block size: 296 bytes\n10-03 03:01:46.489  INFO - Generate code sign block successfully, size: 296 bytes\n10-03 03:01:46.489  INFO - Replace code sign data at offset: 4632576, size: 296\n10-03 03:01:46.489  INFO - Self-sign elf success\n10-03 03:01:46.489  INFO - sign success\n",
+        "签名信息检查": "10-03 03:01:46.698  INFO - Start display-sign\n10-03 03:01:46.717  INFO - ELF verification started for file: /Volumes/MacSSD/Repositories/codex/.harmony-build/七版发布/原生资源复测/已签名/rg\n10-03 03:01:46.721  INFO - permission is not found\n10-03 03:01:46.721  INFO - code signature is self-sign\n10-03 03:01:46.721  INFO - verify: Self-sign signature\n10-03 03:01:46.721  INFO - display-sign success\n",
+        "真机状态": "未验证；本机签名检查不代表商业鸿蒙 PC 接受加载"
+      },
+      "bwrap": {
+        "方式": "官方 binary-sign-tool.jar 自签名",
+        "工具": "/Volumes/MacSSD/Applications/DevEco-Studio.app/Contents/sdk/default/openharmony/toolchains/lib/binary-sign-tool.jar",
+        "输入": {
+          "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/七版发布/原生资源复测/已签名/bwrap-未签名",
+          "字节数": 415856,
+          "SHA-256": "eb2d999c6716060e20c1118f9986f71e708343efd5e5fd3c556e42338dd17836",
+          "架构": "AArch64",
+          "解释器": "/lib/ld-musl-aarch64.so.1",
+          "动态依赖": [
+            "libc.so"
+          ],
+          "OHOS标识": true,
+          "签名节存在": false,
+          "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+        },
+        "输出": {
+          "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/七版发布/原生资源复测/已签名/bwrap",
+          "字节数": 423680,
+          "SHA-256": "b4df52de80db80b47e0aa8fe28d69c5f63aa27bc7bb57e6f9eba603d28cf3314",
+          "架构": "AArch64",
+          "解释器": "/lib/ld-musl-aarch64.so.1",
+          "动态依赖": [
+            "libc.so"
+          ],
+          "OHOS标识": true,
+          "签名节存在": true,
+          "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+        },
+        "签名日志": "10-03 03:01:46.938  INFO - Start sign\n10-03 03:01:46.944  INFO - Using SelfSignSignProvider\n10-03 03:01:46.944  INFO - Start signing ELF file...\n10-03 03:01:46.948  INFO - Self-sign mode enabled, skip writing .profile and .permission sections\n10-03 03:01:46.948  INFO - Added .codesign section placeholder, offset: 417792, size: 4096 bytes\n10-03 03:01:46.951  INFO - Start to sign elf code.\n10-03 03:01:46.951  INFO - Self-sign mode enabled, setting FLAG_SELF_SIGN\n10-03 03:01:46.963  INFO - Self-sign mode: using descriptor digest as signature, size: 32 bytes\n10-03 03:01:46.963  INFO - Sign elf successfully, code sign block size: 296 bytes\n10-03 03:01:46.963  INFO - Generate code sign block successfully, size: 296 bytes\n10-03 03:01:46.963  INFO - Replace code sign data at offset: 417792, size: 296\n10-03 03:01:46.963  INFO - Self-sign elf success\n10-03 03:01:46.963  INFO - sign success\n",
+        "签名信息检查": "10-03 03:01:47.168  INFO - Start display-sign\n10-03 03:01:47.179  INFO - ELF verification started for file: /Volumes/MacSSD/Repositories/codex/.harmony-build/七版发布/原生资源复测/已签名/bwrap\n10-03 03:01:47.182  INFO - permission is not found\n10-03 03:01:47.182  INFO - code signature is self-sign\n10-03 03:01:47.183  INFO - verify: Self-sign signature\n10-03 03:01:47.183  INFO - display-sign success\n",
+        "真机状态": "未验证；本机签名检查不代表商业鸿蒙 PC 接受加载"
+      }
+    },
+    "许可摘要": {
+      "权限库许可.txt": "68467e731f4744bd6e0bb69e8df9c3a994e09cd6b203d0c41327ac6d079c581d",
+      "沙箱工具许可.txt": "b7993225104d90ddd8024fd838faf300bea5e83d91203eab98e29512acebd69c",
+      "搜索工具许可说明.txt": "01c266bced4a434da0051174d6bee16a4c82cf634e2679b6155d40d75012390f",
+      "搜索工具公共领域声明.txt": "7e12e5df4bae12cb21581ba157ced20e1986a0508dd10d0e8a4ab9a4cf94e85c",
+      "搜索工具许可.txt": "0f96a83840e146e43c0ec96a22ec1f392e0680e6c1226e6f3ba87e0740af850f"
+    }
+  },
+  "文件": {
+    "bin/codex": {
+      "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/distribution-50046bef6/鸿蒙Codex/bin/codex",
+      "字节数": 250709760,
+      "SHA-256": "028ec1056df0d9cc84b480f8bd87e37fd8f6c22f67b969a741f9b87212850a9d",
+      "架构": "AArch64",
+      "解释器": "/lib/ld-musl-aarch64.so.1",
+      "动态依赖": [
+        "libtime_service_ndk.so",
+        "libc.so"
+      ],
+      "OHOS标识": true,
+      "签名节存在": true,
+      "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+    },
+    "codex-path/rg": {
+      "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/distribution-50046bef6/鸿蒙Codex/codex-path/rg",
+      "字节数": 4638464,
+      "SHA-256": "7272d96c1c584807cc4f0cf99bf830f381be2d35bd1ffd93842f054514953b02",
+      "架构": "AArch64",
+      "解释器": "/lib/ld-musl-aarch64.so.1",
+      "动态依赖": [
+        "libc.so"
+      ],
+      "OHOS标识": true,
+      "签名节存在": true,
+      "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+    },
+    "codex-resources/bwrap": {
+      "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/distribution-50046bef6/鸿蒙Codex/codex-resources/bwrap",
+      "字节数": 423680,
+      "SHA-256": "b4df52de80db80b47e0aa8fe28d69c5f63aa27bc7bb57e6f9eba603d28cf3314",
+      "架构": "AArch64",
+      "解释器": "/lib/ld-musl-aarch64.so.1",
+      "动态依赖": [
+        "libc.so"
+      ],
+      "OHOS标识": true,
+      "签名节存在": true,
+      "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+    },
+    "codex-resources/harmony-runtime-probe": {
+      "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/distribution-50046bef6/鸿蒙Codex/codex-resources/harmony-runtime-probe",
+      "字节数": 34496,
+      "SHA-256": "f93b469670530e7e9f2b0509aa7dff4ff95e42dd5404de250d05e329f8171a39",
+      "架构": "AArch64",
+      "解释器": "/lib/ld-musl-aarch64.so.1",
+      "动态依赖": [
+        "libc.so"
+      ],
+      "OHOS标识": true,
+      "签名节存在": true,
+      "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+    },
+    "codex-path/apply_patch": {
+      "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/distribution-50046bef6/鸿蒙Codex/codex-path/apply_patch",
+      "字节数": 13952,
+      "SHA-256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+      "架构": "AArch64",
+      "解释器": "/lib/ld-musl-aarch64.so.1",
+      "动态依赖": [
+        "libc.so"
+      ],
+      "OHOS标识": true,
+      "签名节存在": true,
+      "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+    },
+    "codex-path/applypatch": {
+      "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/distribution-50046bef6/鸿蒙Codex/codex-path/applypatch",
+      "字节数": 13952,
+      "SHA-256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+      "架构": "AArch64",
+      "解释器": "/lib/ld-musl-aarch64.so.1",
+      "动态依赖": [
+        "libc.so"
+      ],
+      "OHOS标识": true,
+      "签名节存在": true,
+      "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+    },
+    "codex-path/codex-linux-sandbox": {
+      "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/distribution-50046bef6/鸿蒙Codex/codex-path/codex-linux-sandbox",
+      "字节数": 13952,
+      "SHA-256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+      "架构": "AArch64",
+      "解释器": "/lib/ld-musl-aarch64.so.1",
+      "动态依赖": [
+        "libc.so"
+      ],
+      "OHOS标识": true,
+      "签名节存在": true,
+      "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+    },
+    "codex-path/codex-execve-wrapper": {
+      "文件": "/Volumes/MacSSD/Repositories/codex/.harmony-build/测试批次/2026-10-02-212747-完整发布包集成-主会话/主程序编译/distribution-50046bef6/鸿蒙Codex/codex-path/codex-execve-wrapper",
+      "字节数": 13952,
+      "SHA-256": "a6074dcbca556881d552a6193398f363c29f9b03f78cc9260698fb918d1d4237",
+      "架构": "AArch64",
+      "解释器": "/lib/ld-musl-aarch64.so.1",
+      "动态依赖": [
+        "libc.so"
+      ],
+      "OHOS标识": true,
+      "签名节存在": true,
+      "验证边界": "静态属性；签名节存在不等于设备接受或程序运行通过"
+    }
+  },
+  "编入CLI的沙箱摘要": "b4df52de80db80b47e0aa8fe28d69c5f63aa27bc7bb57e6f9eba603d28cf3314",
+  "设备与认证验证": "未执行；候选包不代表商业 PC 适配已验收"
+}
